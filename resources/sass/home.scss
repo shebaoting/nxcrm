@@ -1,0 +1,65 @@
+.col-md-7 .card,
+.col-md-5 .card {
+    padding: 1.5rem;
+}
+
+.col-md-7 {
+    .card {
+        .text-center {
+            background-color: #f9f9fd;
+        }
+    }
+}
+
+body.dark-mode .col-md-7 .card .text-center {
+    background: #2c2c43!important;
+}
+.usertop {
+    th {
+        padding: .9rem .9rem .9rem 0 ;
+    }
+    td {
+        line-height: 70px;
+       
+    }
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f1f3fa;
+}
+body.dark-mode .table.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255,255,255,.05) !important;
+}
+
+.box-body {
+    padding: 20px;
+.LeadsRecent {
+    margin-bottom: 20px;
+    line-height: 40px;
+    .avatar img{max-width: 40px; max-height: 40px; border-radius: 50%;}
+}
+}
+
+.cta-box {
+    background-image: url(/static/img/bg-pattern.png);
+    height: 165px;
+    background-size: cover;
+    .align-items-center {
+        -webkit-box-align: center!important;
+        -ms-flex-align: center!important;
+        align-items: center!important;
+    }
+    .cta-box-title {
+        font-size: 16px;
+        line-height: 30px;
+    }
+    h3 {
+        color: #fff!important;
+    }
+}
+.col-md-4 {
+    .col-md-12 {
+        .card-header {padding: 0px;}
+    }
+    .icon-volume-1 {color: #fff!important;}
+    .cta-box {padding: 1.5rem;}
+}

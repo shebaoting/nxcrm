@@ -1,0 +1,77 @@
+.layout-fixed .main-sidebar {
+    top: 6rem;
+    left: 2.5rem;
+    text-align: center;
+    background: url(../img/waves.png) no-repeat;
+    background-color: #fff;
+}
+
+@media (min-width: 768px) {
+    body:not(.sidebar-mini-md) .content-wrapper {
+        margin-left: 280px;
+    }
+}
+
+.header-navbar.fixed-top {
+    left: 0px;
+}
+
+.sidebar-collapse .header-navbar.fixed-top {
+    left: 0rem;
+}
+
+@media (min-width: 992px) {
+    .sidebar-mini.sidebar-collapse .content-wrapper {
+        margin-left: 7rem !important;
+    }
+}
+.main-sidebar .nav-sidebar .nav-item>.nav-link {text-align: left;}
+
+[class*=sidebar-light-] .nav-treeview>.nav-item>.nav-link.active, [class*=sidebar-light-] .nav-treeview>.nav-item>.nav-link.active:hover {
+    color: #5c6bc6; background: none;box-shadow:0px 0px
+}
+
+.sidebar-light-primary .nav-item>.nav-link.active {
+    color: #5c6bc6 !important; background: none;box-shadow:0px 0px
+}
+.nav-treeview>.nav-item>.nav-link i {
+    display: none;
+}
+.nav-sidebar>.nav-item>.nav-treeview {
+    padding-left: 30px;
+}
+.sidebar .nav-link p {
+    font-size: 14px;
+}
+.main-menu .navbar-header .navbar-brand img {
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+    border-radius: 50%!important;
+    display: block;
+    margin: 30px auto 10px;
+}
+.logo-lg {
+    font-weight: 700;
+    color: #323a46 !important;
+    margin-top: 3px;
+    display: block;
+    padding: 0px;
+    text-align: center;
+}
+body.dark-mode .logo-lg {
+    color: #a8a9bb !important;
+}
+.logo-lg img {vertical-align: middle;}
+
+body.dark-mode [class*=sidebar-dark-] .navbar-header {
+    padding: .35rem 1rem 0;
+}
+
+[class*=sidebar-dark-] .navbar-header {height: auto;}
+body.dark-mode .main-menu .navbar-header .logo-lg {
+    font-weight: 700;
+}
+body.dark-mode [class*=sidebar-dark-] .navbar-header {
+    background: unset;
+}
+.leftbar-user-name {font-weight: 700; color: #323a46; margin-top: 8px; display: block; font-size: .9rem; padding: 0px;}
+body.dark-mode .leftbar-user-name {color: #a8a9bb;}

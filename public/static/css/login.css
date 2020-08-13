@@ -1,0 +1,86 @@
+.col-md-12,
+.col-md-3 {
+  padding: 0;
+}
+
+.row {
+  margin: 0;
+}
+
+.login_main {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: row;
+  align-items: stretch;
+  background: url(/static/img/bg-auth1.jpg) center;
+  background-size: cover;
+  margin: 0;
+}
+
+body.dark-mode .login_main {
+  background: url(/static/img/bg-auth.jpg) center;
+}
+.login_main .login-page {
+  background-color: #fff;
+}
+
+.login_main .card {
+  box-shadow: 0 0px;
+}
+
+.login_main .auth-brand {
+  position: absolute;
+  top: 3rem;
+  left: 6rem;
+  font-size: 26px;
+}
+
+.login_main .login-logo {
+  font-size: 2.1rem;
+  font-weight: 300;
+  margin-bottom: 0.9rem;
+  text-align: left;
+  margin-left: 20px;
+}
+
+.login_main .login-box-msg,
+.login_main .register-box-msg {
+  margin: 0;
+  padding: 0 0px 20px;
+  color: #98a6ad !important;
+  font-size: 0.9rem;
+  font-weight: 400;
+  text-align: left;
+}
+
+.login_main .btn {
+  width: 100%;
+}
+
+.auth-fluid-right {
+  padding: 6rem 3rem;
+  flex: 1;
+  position: relative;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.3);
+  text-align: center !important;
+  font-family: Nunito, sans-serif;
+}
+
+.auth-user-testimonial {
+  position: absolute;
+  margin: 0 auto;
+  padding: 0 1.75rem;
+  bottom: 3rem;
+  left: 0;
+  right: 0;
+}
+
+.auth-user-testimonial .mb-3 {
+  color: #fff;
+  font-weight: 700;
+  margin: 10px 0;
+  font-size: 5rem;
+}
