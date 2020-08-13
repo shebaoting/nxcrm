@@ -1,79 +1,106 @@
 <p align="center"><img src="https://wyz.xyz/assets/files/2020-08-13/1597295447-873997-nxcrm.png" width="400"></p>
 
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://img.shields.io/badge/version-1.0.0-green" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/badge/laravel-7.0-%23ef3b2d" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/badge/PHP-%E2%89%A57.2-green" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
+<a href="http://nx.tt"><img src="https://img.shields.io/badge/version-1.0.0-green" alt="Build Status"></a>
+<a href="http://nx.tt"><img src="https://img.shields.io/badge/laravel-7.0-%23ef3b2d" alt="Total Downloads"></a>
+<a href="http://www.dcatadmin.com/"><img src="https://img.shields.io/badge/dcatadmin-1.6.7-%234c5ec2" alt="Latest Stable Version"></a>
+<a href="http://nx.tt"><img src="https://img.shields.io/badge/MYSQL-8.0-%2300758f" alt="License"></a>
 </p>
 
-## About Laravel
+## 关于 Nxcrm
+ ---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Nxcrm 是宁夏南相开发的客户管理系统，包含了线索，商机，合同，收款，客户，附件，联系人，跟进动态等功能。囊括可客户管理所需的大多数功能。后期版本我们将增加小程序功能。敬请期待。  
+  
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 白色主题
+ ---
+ ![](https://wyz.xyz/assets/files/2020-08-13/1597299703-929541-15.jpeg)
+![](https://wyz.xyz/assets/files/2020-08-13/1597299702-1812-1.jpeg)
+![](https://wyz.xyz/assets/files/2020-08-13/1597299702-275937-3.jpeg)
+![](https://wyz.xyz/assets/files/2020-08-13/1597299702-547261-5.jpeg)
+![](https://wyz.xyz/assets/files/2020-08-13/1597299702-956460-8.jpeg)
+![](https://wyz.xyz/assets/files/2020-08-13/1597299703-90334-9.jpeg)
+![](https://wyz.xyz/assets/files/2020-08-13/1597299703-366323-11.jpeg)
+![](https://wyz.xyz/assets/files/2020-08-13/1597299703-765415-14.jpeg)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 深色主题
+ ---
+ ![](https://wyz.xyz/assets/files/2020-08-13/1597299704-84760-16.jpeg)
+![](https://wyz.xyz/assets/files/2020-08-13/1597299703-498686-12.jpeg)
+![](https://wyz.xyz/assets/files/2020-08-13/1597299702-144606-2.jpeg)
+![](https://wyz.xyz/assets/files/2020-08-13/1597299702-405472-4.jpeg)
+![](https://wyz.xyz/assets/files/2020-08-13/1597299702-686011-6.jpeg)
+![](https://wyz.xyz/assets/files/2020-08-13/1597299702-820414-7.jpeg)
+![](https://wyz.xyz/assets/files/2020-08-13/1597299703-227817-10.jpeg)
+![](https://wyz.xyz/assets/files/2020-08-13/1597299703-630113-13.jpeg)
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 功能特性
+ ---
+- [x] 线索
+- [x] 商机
+- [x] 客户
+- [x] 合同
+- [x] 联系人
+- [x] 跟进
+- [x] 收款
+- [x] 附件
+- [x] 合同电子档备份
+- [x] 主题切换
+- [x] 数据统计
+- [ ] 小程序版本
+- [ ] 对接宝塔API
+- [ ] 对接微擎客户数据
+  
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 特别感谢
+ ---
++ [Dact Admin](http://www.dcatadmin.com/)
+Nxcrm基于laravel开发，得益于优秀的后台框架`Dact Admin`，使得Nxcrm可以很快的上线与大家见面。感谢`Dact Admin`的作者[jqhph](https://github.com/jqhph) ，很热心的解答了我的很多问题，也很感激`Dact Admin`QQ群内大量热心的朋友的帮助和指点。  
+  
+  
++ [Learnku.com](https://learnku.com/laravel/)
+我自己学会编程不久，本来三月份在学习前端，用到api接口，所以想连后端一起学习了。直接上手laravel，完全不知道如何下手。然后放弃。5月份从php变量开始学起，仔细看了`Summer `老师的laravel的所有课程。讲得很详细。浅显易懂。对我一个新手来说帮助很大。也让我这么一个接触php三个月的新人做出这么一个小产品成为可能。很感激。
 
-## Laravel Sponsors
+## 环境
+ ---
+ - PHP >= 7.1.0
+ - Laravel 7.*
+ - Fileinfo PHP Extension
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## 鸣谢
+ ---
+`Nxcrm` 基于以下组件:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
++ [Laravel](https://laravel.com/)
++ [Dact Admin](http://www.dcatadmin.com/)
++ [Laravel Admin](https://www.laravel-admin.org/)
++ [AdminLTE3](https://github.com/ColorlibHQ/AdminLTE)
++ [bootstrap4](https://getbootstrap.com/)
++ [jQuery3](https://jquery.com/)
++ [Eonasdan Datetimepicker](https://github.com/Eonasdan/bootstrap-datetimepicker/)
++ [font-awesome](http://fontawesome.io)
++ [jquery-form](https://github.com/jquery-form/form)
++ [moment](http://momentjs.com/)
++ [webuploader](http://fex.baidu.com/webuploader/)
++ [bootstrap-fileinput](https://github.com/kartik-v/bootstrap-fileinput)
++ [jquery-pjax](https://github.com/defunkt/jquery-pjax)
++ [Nestable](http://dbushell.github.io/Nestable/)
++ [toastr](http://codeseven.github.io/toastr/)
++ [editor-md](https://github.com/pandao/editor.md)
++ [fontawesome-iconpicker](https://github.com/itsjavi/fontawesome-iconpicker)
++ [layer弹出层](http://layer.layui.com/)
++ [waves](https://github.com/fians/Waves)
++ [bootstrap-duallistbox](https://www.virtuosoft.eu/code/bootstrap-duallistbox/)
++ [char.js](https://www.chartjs.org)
++ [nprogress](https://ricostacruz.com/nprogress/)
++ [bootstrap-validator](https://github.com/1000hz/bootstrap-validator)
++ [Google map](https://www.google.com/maps)
++ [Tencent map](http://lbs.qq.com/)
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 最后
+ ---
+ 登录页面的两张图是我老家，我奶奶住过的院子和窑洞。作为一个五大三粗的码农，不知道如何表达想念。谨以我的第一个编程作品纪念。
+ 封面图可自行替换。
