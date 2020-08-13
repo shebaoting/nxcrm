@@ -68,6 +68,36 @@ Nxcrm基于laravel开发，得益于优秀的后台框架`Dact Admin`，使得Nx
  - PHP >= 7.1.0
  - Laravel 7.*
  - Fileinfo PHP Extension
+  
+ ## 安装
+ ---
+#### 方法一
+
+
+将网站跟目录指向在public目录，修改根目录``.env``文件中的数据库连接方式。然后运行以下命令：
+
+
+```
+php artisan admin:install
+```
+
+紧接着执行数据库迁移
+
+```
+php artisan migrate
+```
+
+启动服务后，在浏览器打开 `http://localhost/admin`，使用用户名 `admin` 和密码 `admin`登陆。
+
+
+#### 方法二
+
+
+将网站跟目录指向在public目录，修改根目录``.env``文件中的数据库连接方式。
+
+然后在数据库中导入根目录的 ``laravelcrm.sql``文件。此文件附带一些演示数据。
+
+在浏览器打开 `http://localhost/admin`，使用用户名 `admin` 和密码 `admin`登陆。
 
 ## 鸣谢
  ---
