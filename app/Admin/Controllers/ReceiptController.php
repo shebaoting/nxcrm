@@ -97,7 +97,7 @@ class ReceiptController extends AdminController
                 $this->authorize('update', $customer);
             }
             $form->display('id');
-            $form->text('receive');
+            $form->currency('receive')->symbol('￥');
 
             $form->select('paymethod', '收款方式')
                 ->options(
@@ -126,12 +126,16 @@ class ReceiptController extends AdminController
                 return Contract::find($v)->pluck('title', 'id');
             });
 
-
-
-
-
             $form->text('remark');
             $form->datetime('updated_at');
+
+            $form->saving(function (Form $form) {
+                if($form->receive){
+                    $form->receive = str_replace(',', '', $form->receive);
+                }
+                return $form->receive;
+            });
+
         });
     }
 }
