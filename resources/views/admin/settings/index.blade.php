@@ -1,0 +1,1 @@
+{{dd(app()->settings->all())}}

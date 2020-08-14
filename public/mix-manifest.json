@@ -1,0 +1,8 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/static/css/customer_show.css": "/static/css/customer_show.css",
+    "/static/css/contract_show.css": "/static/css/contract_show.css",
+    "/static/css/opportunity_show.css": "/static/css/opportunity_show.css",
+    "/static/css/home.css": "/static/css/home.css"
+}
