@@ -82,7 +82,7 @@ Nxcrm基于laravel开发，得益于优秀的后台框架`Dact Admin`，使得Nx
 将网站跟目录指向在public目录，修改根目录``.env``文件中的数据库连接方式。然后运行以下命令：
 
 ```
-composer update 
+composer update
 ```
 然后执行以下命令
 
