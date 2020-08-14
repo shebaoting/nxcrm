@@ -104,6 +104,10 @@ php artisan migrate
 
 将网站跟目录指向在public目录，修改根目录``.env``文件中的数据库连接方式。
 
+将根目录的```vendor.zip```解压在当前目录。解压完了以后，项目根目录会多了一个```vendor```文件夹
+
+删除掉```vendor.zip```，没用了。
+
 然后在数据库中导入根目录的 ``laravelcrm.sql``文件。此文件附带一些演示数据。
 
 在浏览器打开 `http://localhost/admin`，使用用户名 `admin` 和密码 `admin`登陆。
