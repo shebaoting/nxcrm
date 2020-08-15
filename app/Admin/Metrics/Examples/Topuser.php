@@ -4,7 +4,7 @@ namespace App\Admin\Metrics\Examples;
 
 use Dcat\Admin\Widgets\Metrics\Card;
 use Illuminate\Database\Eloquent\Builder;
-use Dcat\Admin\Models\Administrator as user;
+use App\Models\Admin_user as user;
 
 class TopUser extends Card
 {

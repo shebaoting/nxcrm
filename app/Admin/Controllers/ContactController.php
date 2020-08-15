@@ -10,7 +10,6 @@ use Dcat\Admin\Show;
 use Illuminate\Http\Request;
 use Dcat\Admin\Controllers\AdminController;
 use Dcat\Admin\Admin;
-use Dcat\Admin\Models\Administrator;
 
 class ContactController extends AdminController
 {

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Dcat\Admin\Traits\HasDateTimeFormatter;
-use Dcat\Admin\Models\Administrator;
 use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
@@ -17,6 +16,6 @@ class Event extends Model
 
     public function admin_users()
     {
-        return $this->belongsTo(Administrator::class);
+        return $this->belongsTo(Admin_user::class);
     }
 }
