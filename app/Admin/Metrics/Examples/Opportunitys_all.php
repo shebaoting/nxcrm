@@ -19,10 +19,6 @@ class Opportunitys_all extends Round
         $this->height(450);
         $this->chartHeight(350);
         $this->chartLabels(['被拒绝', '已成功', '跟进中']);
-
-
-
-
         $opportunitys = DB::table('opportunitys');
         $this->opportunitys_num = $opportunitys->count();
         $this->num = $opportunitys->selectRaw('state,COUNT(*) as value')->groupBy('state')->get();

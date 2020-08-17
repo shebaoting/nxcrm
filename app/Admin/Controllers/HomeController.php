@@ -12,7 +12,7 @@ use Dcat\Admin\Admin;
 
 class HomeController extends Controller
 {
-    
+
     public static $css = [
         '/static/css/home.css',
     ];
@@ -26,7 +26,7 @@ class HomeController extends Controller
             ->body(function (Row $row) {
                 $row->column(12, function (Column $column) {
                     $column->row(function (Row $row) {
-                        $row->column(3, new Examples\customers());
+                        $row->column(3, new Examples\Customers());
                         $row->column(3, new Examples\Leads());
                         $row->column(3, new Examples\Contracts());
                         $row->column(3, new Examples\Opportunitys());
@@ -42,9 +42,9 @@ class HomeController extends Controller
 
                 $row->column(12, function (Column $column) {
                     $column->row(function (Row $row) {
-                        $row->column(4, new Examples\topUser());
+                        $row->column(4, new Examples\Topuser());
                         $row->column(4, new Examples\LeadsRecent());
-                        
+
                         $row->column(4, function (Column $column) {
                             $column->row(function (Row $row) {
                                 $row->column(12, new Examples\Adver());

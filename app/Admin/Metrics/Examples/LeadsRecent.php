@@ -35,7 +35,7 @@ class LeadsRecent extends Card
         return $this->content(
             <<<HTML
             {$content}</h1>
-            HTML
+HTML
         );
     }
 }

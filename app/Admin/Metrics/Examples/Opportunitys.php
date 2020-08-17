@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class Opportunitys extends Bar
 {
-  
+
     /**
      * 初始化卡片内容
      */

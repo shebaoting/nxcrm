@@ -29,7 +29,7 @@ class Adver extends Card
         return $this->content(
             <<<HTML
             {$content}</h1>
-            HTML
+HTML
         );
     }
 }
