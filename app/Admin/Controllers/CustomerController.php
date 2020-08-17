@@ -68,7 +68,7 @@ class CustomerController extends AdminController
             $this->authorize('update', $customer);
         }
 
-        
+
         Admin::css(static::$css);
         $customer = Customer::query()->findorFail($id);
         $contacts = Customer::find($id)->contacts;
@@ -100,7 +100,7 @@ class CustomerController extends AdminController
      */
     protected function form()
     {
-        
+
         return Form::make(new Customer(), function (Form $form) {
             // 判断授权，无权限编辑他人的信息,以后可以优化一下
             // dd($form->model()->admin_users_id);
@@ -115,6 +115,7 @@ class CustomerController extends AdminController
             $form->url('url');
             $form->text('address');
             $form->hidden('admin_users_id')->value(Admin::user()->id);
+            $form->hidden('state')->value(3);
         });
     }
 
