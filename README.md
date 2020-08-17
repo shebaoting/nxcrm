@@ -96,6 +96,15 @@ php artisan admin:install
 php artisan migrate
 ```
 
+将伪静态规则修改为
+
+```
+    try_files $uri $uri/ @rewrite;
+    location @rewrite {
+        rewrite ^/(.*)$ /index.php?_url=/$1;
+    }
+```
+
 启动服务后，在浏览器打开 `http://localhost/admin`，使用用户名 `admin` 和密码 `admin`登陆。
 
 
