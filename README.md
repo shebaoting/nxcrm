@@ -110,6 +110,15 @@ php artisan migrate
 
 然后在数据库中导入根目录的 ``laravelcrm.sql``文件。此文件附带一些演示数据。
 
+将伪静态规则修改为
+
+```
+    try_files $uri $uri/ @rewrite;
+    location @rewrite {
+        rewrite ^/(.*)$ /index.php?_url=/$1;
+    }
+```
+
 在浏览器打开 `http://localhost/admin`，使用用户名 `admin` 和密码 `admin`登陆。
 
 ## 鸣谢
