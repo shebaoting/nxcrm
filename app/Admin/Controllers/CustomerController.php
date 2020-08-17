@@ -112,7 +112,7 @@ class CustomerController extends AdminController
             $form->display('id');
             $form->text('name');
             $form->email('email');
-            $form->url('url');
+            $form->url('url')->value('http://');
             $form->text('address');
             $form->hidden('admin_users_id')->value(Admin::user()->id);
             $form->hidden('state')->value(3);

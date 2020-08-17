@@ -32,7 +32,7 @@ class Opportunitys extends Bar
         // 设置下拉选项
         // 设置图表颜色
 
-        $opportunity = DB::table('Opportunitys');
+        $opportunity = DB::table('opportunitys');
         $this->opportunity_num = $opportunity->sum('expectincome');
         $this->num = $opportunity->selectRaw('DATE_FORMAT(created_at,"%Y-%m") as date,SUM(expectincome) as value')->groupBy('date')->get();
     }
@@ -110,12 +110,12 @@ HTML
      */
 
      public function grow (){
-        $origin = DB::table('Opportunitys')->selectRaw('DATE_FORMAT(created_at,"%Y-%m") as date,SUM(expectincome) as value')
+        $origin = DB::table('opportunitys')->selectRaw('DATE_FORMAT(created_at,"%Y-%m") as date,SUM(expectincome) as value')
         ->whereMonth('created_at', date('m'))
         ->groupBy('date')
         ->get();
 
-        $last_month = DB::table('Opportunitys')->selectRaw('DATE_FORMAT(created_at,"%Y-%m") as date,SUM(expectincome) as value')
+        $last_month = DB::table('opportunitys')->selectRaw('DATE_FORMAT(created_at,"%Y-%m") as date,SUM(expectincome) as value')
         ->whereMonth('created_at', date('m')-1)
         ->groupBy('date')
         ->get();
