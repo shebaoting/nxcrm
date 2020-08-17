@@ -5,7 +5,6 @@
 /storage/*.key
 /vendor
 /tests
-.env
 .editorconfig
 .env.example
 .gitattributes
@@ -21,3 +20,4 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 dcat_admin_ide_helper.php
+.env
