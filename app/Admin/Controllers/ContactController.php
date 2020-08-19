@@ -54,6 +54,7 @@ class ContactController extends AdminController
                 $filter->equal('id');
             });
             $grid->model()->orderBy('id', 'desc');
+            $grid->disableCreateButton();
             $grid->disableBatchActions();
             $grid->disableDeleteButton();
             $grid->disableEditButton();

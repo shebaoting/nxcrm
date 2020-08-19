@@ -72,7 +72,7 @@ class AttachmentController extends AdminController
             $form->display('id');
             if ($this->electronic) {
                 $form->hidden('electronic')->value($this->electronic);
-                $form->multipleImage('files', '电子档')
+                $form->multipleImage('files', '电子档')->limit(10)
                     ->accept('jpg,png,gif,jpeg')
                     ->withFormData(['customer_id' => request('customer_id')])->move($this->customerid . '/' . date('Ymd') . '/')
 

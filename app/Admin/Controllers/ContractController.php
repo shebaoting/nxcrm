@@ -29,7 +29,7 @@ class ContractController extends AdminController
             $contract = Contract::whereHas('customer', function ($query) {
                 $query->where('admin_users_id', Admin::user()->id);
             });
-        }else{
+        } else {
             $contract = new Contract();
         }
 
@@ -37,9 +37,9 @@ class ContractController extends AdminController
             $grid->status
                 ->using(
                     [
-                        1 => '未开始', 
-                        2 => '执行中', 
-                        3 => '正常结束', 
+                        1 => '未开始',
+                        2 => '执行中',
+                        3 => '正常结束',
                         4 => '意外终止'
                     ]
                 )->dot(
@@ -53,7 +53,7 @@ class ContractController extends AdminController
                 );
 
             $grid->title->link(function () {
-                return admin_url('contracts/'.$this->id);
+                return admin_url('contracts/' . $this->id);
             });
             $grid->customer_id('所属客户')->display(function ($id) {
                 return Customer::find($id)->name;
@@ -63,8 +63,8 @@ class ContractController extends AdminController
             $grid->signdate->sortable();
             $grid->expiretime->sortable();
             $grid->total->display(function ($total) {
-                    return "<span style='color:#EE8C0C; font-weight: 700;'>$total</span>";
-                });
+                return "<span style='color:#EE8C0C; font-weight: 700;'>$total</span>";
+            });
             // $grid->column('order','合同额')->display(function ($order) {
             //     $prods = json_decode($order);
             //     $executionprice_quantity = 0;
@@ -72,7 +72,7 @@ class ContractController extends AdminController
             //         $executionprice_quantity += $prod->executionprice * $prod->quantity;
             //     }
             //     return "<span style='color:#EE8C0C; font-weight: 700;'>$executionprice_quantity</span>";
-            
+
             // });
 
 
@@ -93,7 +93,7 @@ class ContractController extends AdminController
      */
 
     public function show($id, Content $content)
-    { 
+    {
 
         $detalling = Admin::user()->id != Contract::find($id)->customer->admin_users->id;
         $Role = !Admin::user()->isRole('administrator');
@@ -125,13 +125,13 @@ class ContractController extends AdminController
             'attachments' => $attachments,
         ];
         return $content
-        ->title('合同')
-        ->description('详情')
-        ->body($this->_detail($data));
+            ->title('合同')
+            ->description('详情')
+            ->body($this->_detail($data));
     }
-    private function _detail ($data)
+    private function _detail($data)
     {
-        return view('admin/contract/show',$data);
+        return view('admin/contract/show', $data);
     }
 
 
@@ -208,6 +208,20 @@ class ContractController extends AdminController
                 $form->textarea('remark', '备注');
             });
 
+
+            $form->saving(function (Form $form) {
+                if ($form->salesexpenses || $form->total) {
+                    $form->salesexpenses = str_replace(',', '', $form->salesexpenses);
+                    $form->total = str_replace(',', '', $form->total);
+                }
+                $order = $form->order;
+                foreach ($order as $key =>$value) {
+                    $order[$key]['executionprice'] = str_replace(',', '', $order[$key]['executionprice']);
+                    $order[$key]['prodprice'] = str_replace(',', '', $order[$key]['prodprice']);
+                }
+                $form->order = $order;
+                return $form;
+            });
         });
     }
 
@@ -217,7 +231,7 @@ class ContractController extends AdminController
             $contract = Contract::whereHas('customer', function ($query) {
                 $query->where('admin_users_id', Admin::user()->id);
             });
-        }else{
+        } else {
             $contract = new Contract();
         }
         $grid = new IFrameGrid($contract);
@@ -233,6 +247,4 @@ class ContractController extends AdminController
 
         return $grid;
     }
-
-
 }
