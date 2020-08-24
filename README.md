@@ -72,7 +72,7 @@ Nxcrm基于laravel开发，得益于优秀的后台框架`Dact Admin`，使得Nx
  ---
  - PHP >= 7.1.0
  - Laravel 7.*
- - Fileinfo PHP Extension
+ - Fileinfo PHP Extension  (一定安装这个扩展)
   
  ## 安装
  ---
@@ -111,15 +111,17 @@ php artisan migrate
 #### 方法二
 
 
-1，将网站跟目录指向在public目录，修改根目录``.env``文件中的数据库连接方式。
+1，将网站跟目录指向在public目录。
 
-2，将根目录的```vendor.zip```解压在当前目录。解压完了以后，项目根目录会多了一个```vendor```文件夹
+2，将根目录`.env.example`重命名为`.env`。修改`.env`文件中的数据库连接方式。
 
-3，删除掉```vendor.zip```，没用了。
+3，将根目录的```vendor.zip```解压在当前目录。解压完了以后，项目根目录会多了一个```vendor```文件夹
 
-4，然后在数据库中导入根目录的 ``laravelcrm.sql``文件。此文件附带一些演示数据。
+4，删除掉```vendor.zip```，没用了。
 
-5，将伪静态规则修改为
+5，然后在数据库中导入根目录的 ``laravelcrm.sql``文件。此文件附带一些演示数据。
+
+6，将伪静态规则修改为
 
 ```
     try_files $uri $uri/ @rewrite;
@@ -127,14 +129,14 @@ php artisan migrate
         rewrite ^/(.*)$ /index.php?_url=/$1;
     }
 ```
-6，将下面两个目录权限设置为777
+7，将下面两个目录权限设置为777
 
 ```
 bootstrap/cache
 storage
 ```
 
-7,在浏览器打开 `http://localhost/admin`，使用用户名 `admin` 和密码 `admin`登陆。
+8,在浏览器打开 `http://localhost/admin`，使用用户名 `admin` 和密码 `admin`登陆。
 
 ## 鸣谢
  ---
