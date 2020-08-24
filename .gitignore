@@ -5,10 +5,9 @@
 /storage/*.key
 /vendor
 /tests
+.env
 .editorconfig
-.env.example
 .gitattributes
-composer.lock
 package.json
 package-lock.json
 webpack.mix.js
@@ -20,4 +19,3 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 dcat_admin_ide_helper.php
-.env
