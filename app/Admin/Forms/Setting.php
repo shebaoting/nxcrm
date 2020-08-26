@@ -35,7 +35,7 @@ class Setting extends Form
     {
         $settings = app()->settings->all();
         // dd($settings);
-        // Since v1.6.5 弹出确认弹窗 
+        // Since v1.6.5 弹出确认弹窗
         $this->confirm('您确定要提交表单吗', 'content');
         foreach ($settings as $key => $value) {
             if ($key == 'crmname') {
@@ -43,7 +43,7 @@ class Setting extends Form
             } elseif ($key == 'crmurl') {
                 $this->url($key, '网站地址')->default($value);
             } elseif ($key == 'logo') {
-                $this->image($key, '网站LOGO');
+                $this->image($key, '网站LOGO')->accept('jpg,png,gif,jpeg')->maxSize(512)->help('大小不要超过512K');
             } elseif ($key == 'color') {
                 $this->radio($key, '网站配色')->options(['indigo' => 'indigo', 'blue' => 'blue', 'blue-light' => 'blue-light', 'green' => 'green', 'blue-dark' => 'blue-dark']);
             } elseif ($key == 'body_class') {

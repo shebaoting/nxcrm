@@ -56,7 +56,7 @@ class ContractController extends AdminController
                 return admin_url('contracts/' . $this->id);
             });
             $grid->customer_id('所属客户')->display(function ($id) {
-                return Customer::find($id)->name;
+                return optional(Customer::find($id))->name;
             })->link(function () {
                 return admin_url('customers/' . $this->customer_id);
             });
