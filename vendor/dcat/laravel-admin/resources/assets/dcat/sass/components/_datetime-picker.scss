@@ -1,0 +1,22 @@
+.bootstrap-datetimepicker-widget table td span, .bootstrap-datetimepicker-widget table td i {
+  height: 0!important;
+  line-height: 0!important;
+}
+
+.bootstrap-datetimepicker-widget table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
+  background-color: $light!important;
+  color: $primary-darker!important;
+  font-weight: bold;
+}
+
+.bootstrap-datetimepicker-widget table td {
+  width: 0 !important;
+
+  .btn {
+    padding: 0.5rem .5rem !important;
+  }
+}
+
+.bootstrap-datetimepicker-widget table td, .bootstrap-datetimepicker-widget table th {
+  padding: .5em .1em!important;
+}

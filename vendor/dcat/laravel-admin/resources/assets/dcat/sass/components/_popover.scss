@@ -1,0 +1,30 @@
+.popover {
+  font-family: $font-family-sans-serif;
+  border: 0;
+  box-shadow: $shadow-100;
+  max-width: 320px;
+
+  z-index: 10;
+  .popover-header {
+    color: $white;
+    border: none;
+    border-top-left-radius: 0.3rem;
+    border-top-right-radius: 0.3rem;
+  }
+}
+
+.bs-popover-right > .arrow::before, .bs-popover-auto[x-placement^=right] > .arrow::before {
+  border-right-color: #eee;
+}
+
+.popover.bs-popover-bottom .arrow:after {
+  border-bottom-color: #fff;
+}
+
+.bs-popover-bottom > .arrow::before, .bs-popover-auto[x-placement^=bottom] > .arrow::before {
+  border-bottom-color: #eee;
+}
+
+.bs-popover-top > .arrow::before, .bs-popover-auto[x-placement^=top] > .arrow::before {
+  border-top-color: #eee;
+}

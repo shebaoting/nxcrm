@@ -1,0 +1,116 @@
+// var for boxshadow of gradient buttons
+// Buttons
+.btn {
+  // to change cursor of disabled button
+  &:disabled{
+    cursor: default;
+  }
+  // for white button
+  &.btn-white{
+    background-color: white;
+    color: $body-color;
+    &:hover,&:focus,&:active{
+      color: $body-color !important;
+    }
+  }
+
+  &.btn-white.btn-primary {
+    background-color: $primary;
+  }
+
+  // box shadow for gradient colors
+  &[class*="bg-gradient-"]:hover{
+    box-shadow: $gradient-button-bs;
+  }
+
+  // For Boxshadow on hover of normal light, dark and secondary btn
+  &.btn-secondary {
+    color: $white;
+    &:hover {
+      box-shadow: 0 8px 25px -8px rgba($secondary, 1);
+    }
+  }
+  &.btn-dark {
+    &:hover {
+      box-shadow: 0 8px 25px -8px rgba($dark, 1);
+    }
+  }
+  &.btn-light {
+    &:hover {
+      box-shadow: 0 8px 25px -8px rgba($light, 1);
+    }
+  }
+
+  // For Light,dark and secondary outline btns
+  &.btn-outline-secondary,
+  &.btn-outline-dark,
+  &.btn-outline-light {
+    border: 1px solid;
+  }
+
+
+  // to remove extra spacing because of border in btn outline
+  &[class*="btn-outline-"]{
+    padding-top: calc(#{$btn-padding-y} - 1px);
+    padding-bottom: calc(#{$btn-padding-y} - 1px);
+    &.btn-sm{
+      padding-top: calc(0.5rem - 1px);
+      padding-bottom: calc(0.5rem - 1px);
+    }
+  }
+
+  // For btn-icon
+  &.btn-icon {
+    padding: .715rem .736rem;
+  }
+  &.btn-sm{
+    &.btn-icon{
+      padding: .5rem;
+    }
+  }
+  &.btn-lg{
+    &.btn-icon{
+      padding: 1rem;
+    }
+  }
+
+  &.btn-round {
+    @include button-round-variant(2rem);
+  }
+
+  &:focus,
+  &.focus,
+  &:active,
+  &.active {
+    outline: none;
+    box-shadow: none !important;
+  }
+  &.btn-icon {
+    i {
+      font-size: 1.1rem;
+    }
+
+  }
+}
+
+// For White Btn
+.btn.btn-outline-white,
+.btn-white{
+  &:hover{
+    color: $black !important;
+  }
+
+}
+
+// Added cursor pointer as in latest bootstrap do not have this
+button,
+html [type="button"],
+[type="reset"],
+[type="submit"] {
+  cursor: pointer;
+}
+
+// For Waves Padding
+.waves-button-input {
+  padding: unset;
+}

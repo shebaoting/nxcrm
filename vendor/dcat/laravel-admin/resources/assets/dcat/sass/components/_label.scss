@@ -1,0 +1,28 @@
+.label {
+  display: inline;
+  padding: .24em .6em .34em;
+  font-size: 87%;
+  font-weight: 600;
+  line-height: 1;
+  color: $white;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+  cursor: pointer;
+  margin-bottom: 4px;
+}
+
+.badge {
+  margin-bottom: 4px;
+  min-width: 10px;
+  padding: 5px 8px;
+  font-size: 87%;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 10px;
+}
+.bg-default.badge, .label.bg-default {
+  color: $font-color;
+  font-weight: 700;
+}

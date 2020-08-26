@@ -1,0 +1,47 @@
+{
+    "name": "barryvdh/laravel-debugbar",
+    "description": "PHP Debugbar integration for Laravel",
+    "keywords": ["laravel", "debugbar", "profiler", "debug", "webprofiler"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Barry vd. Heuvel",
+            "email": "barryvdh@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "maximebf/debugbar": "^1.15.1",
+        "illuminate/routing": "^5.5|^6|^7",
+        "illuminate/session": "^5.5|^6|^7",
+        "illuminate/support": "^5.5|^6|^7",
+        "symfony/debug": "^3|^4|^5",
+        "symfony/finder": "^3|^4|^5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Barryvdh\\Debugbar\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.2-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Barryvdh\\Debugbar\\ServiceProvider"
+            ],
+            "aliases": {
+                "Debugbar": "Barryvdh\\Debugbar\\Facade"
+            }
+        }
+    },
+    "require-dev": {
+        "laravel/framework": "5.5.x"
+    }
+}
