@@ -35,6 +35,7 @@ class Opportunitys extends Bar
         $opportunity = DB::table('opportunitys');
         $this->opportunity_num = $opportunity->sum('expectincome');
         $this->num = $opportunity->selectRaw('DATE_FORMAT(created_at,"%Y-%m") as date,SUM(expectincome) as value')->groupBy('date')->get();
+
     }
 
     /**
@@ -50,12 +51,17 @@ class Opportunitys extends Bar
         // 卡片内容
         $this->withContent(intval($this->opportunity_num), $this->grow());
         // 图表数据
-        $this->withChart([
-            [
-                'name' => '月增长',
-                'data' => array_column($this->num->toArray(), 'value'),
-            ],
-        ]);
+
+        if ($this->num->count()) {
+            $this->withChart([
+                [
+                    'name' => '月增长',
+                    'data' => array_column($this->num->toArray(), 'value'),
+                ],
+            ]);
+        } else {
+            $this->withChart([0]);
+        }
     }
 
     /**
@@ -109,21 +115,25 @@ HTML
      * 月环比.
      */
 
-     public function grow (){
+    public function grow()
+    {
         $origin = DB::table('opportunitys')->selectRaw('DATE_FORMAT(created_at,"%Y-%m") as date,SUM(expectincome) as value')
-        ->whereMonth('created_at', date('m'))
-        ->groupBy('date')
-        ->get();
+            ->whereMonth('created_at', date('m'))
+            ->groupBy('date')
+            ->get();
 
         $last_month = DB::table('opportunitys')->selectRaw('DATE_FORMAT(created_at,"%Y-%m") as date,SUM(expectincome) as value')
-        ->whereMonth('created_at', date('m')-1)
-        ->groupBy('date')
-        ->get();
+            ->whereMonth('created_at', date('m',strtotime("-1 month")))
+            ->groupBy('date')
+            ->get();
 
-        $grow = round(($origin[0]->value - $last_month[0]->value)/$last_month[0]->value * 100);
+
+        if ($origin || $last_month) {
+            $grow = 0;
+        } else {
+            $grow = round(($origin[0]->value - $last_month[0]->value) / $last_month[0]->value * 100);
+        }
 
         return $grow;
-     }
-
-
+    }
 }

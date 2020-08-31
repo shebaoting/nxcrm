@@ -20,7 +20,7 @@ class Receipts extends Line
         $this->chartHeight(230);
 
 
-        $this->num = DB::table('receipts')->selectRaw('DATE_FORMAT(updated_at,"%Y-%m") as date,SUM(receive) as value')->groupBy('date')->orderBy('date')->get();
+        $this->num = DB::table('receipts')->selectRaw('DATE_FORMAT(updated_at,"%Y-%m") as date,SUM(receive) as value')->groupBy('date')->orderBy('date')->limit(12)->get();
 
         $this->origin = DB::table('receipts')->selectRaw('DATE_FORMAT(updated_at,"%Y-%m") as date,SUM(receive) as value')
         ->whereMonth('updated_at', date('m'))
@@ -28,7 +28,7 @@ class Receipts extends Line
         ->get();
 
         $this->last_month = DB::table('receipts')->selectRaw('DATE_FORMAT(updated_at,"%Y-%m") as date,SUM(receive) as value')
-        ->whereMonth('updated_at', date('m')-1)
+        ->whereMonth('updated_at', date('m',strtotime("-1 month")))
         ->groupBy('date')
         ->get();
 

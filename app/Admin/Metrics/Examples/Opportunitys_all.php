@@ -22,7 +22,7 @@ class Opportunitys_all extends Round
         $opportunitys = DB::table('opportunitys');
         $this->opportunitys_num = $opportunitys->count();
         $this->num = $opportunitys->selectRaw('state,COUNT(*) as value')->groupBy('state')->get();
-        // dd($this->num);
+
     }
 
     /**
@@ -34,12 +34,17 @@ class Opportunitys_all extends Round
      */
     public function handle(Request $request)
     {
+        if ($this->num->count()) {
         $count = (array_column($this->num->toArray(), 'value'));
+        }else {
+        $count = [0, 0, 0];
+        }
         // 卡片内容
         $this->withContent($count);
 
         // 图表数据
         $this->withChart($count);
+
         // 总数
         $this->chartTotal('总数', $this->opportunitys_num);
         $this->contentWidth(1,10,1);

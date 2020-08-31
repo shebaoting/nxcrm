@@ -22,7 +22,7 @@ class Leads extends Line
         $leads = DB::table('customers')->where('state', '<>', 3);
         $this->leads_num = $leads->count();
         $this->num = $leads->selectRaw('DATE_FORMAT(created_at,"%Y-%m") as date,COUNT(*) as value')->groupBy('date')->get();
-
+        // dd($this->num->count());
     }
 
     /**
@@ -37,7 +37,12 @@ class Leads extends Line
                 // 卡片内容
                 $this->withContent($this->leads_num);
                 // 图表数据
-                $this->withChart(array_column($this->num->toArray(), 'value'));
+                if ($this->num->count()) {
+                    $this->withChart(array_column($this->num->toArray(), 'value'));
+                } else {
+                    $this->withChart([0]);
+                }
+
     }
 
     /**

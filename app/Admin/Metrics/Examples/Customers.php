@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class Customers extends Bar
 {
-  
+
     /**
      * 初始化卡片内容
      */
@@ -34,7 +34,7 @@ class Customers extends Bar
 
         $customer = DB::table('customers')->where('state', '=', 3);
         $this->customer_num = $customer->count();
-        $this->num = $customer->selectRaw('DATE_FORMAT(created_at,"%Y-%m") as date,COUNT(*) as value')->groupBy('date')->get();
+        $this->num = $customer->selectRaw('DATE_FORMAT(created_at,"%Y-%m") as date,COUNT(*) as value')->groupBy('date')->limit(12)->get();
     }
 
     /**
@@ -116,11 +116,15 @@ HTML
         ->get();
 
         $last_month = DB::table('customers')->selectRaw('DATE_FORMAT(created_at,"%Y-%m") as date,COUNT(*) as value')
-        ->whereMonth('created_at', date('m')-1)
+        ->whereMonth('created_at', date('m',strtotime("-1 month")))
         ->groupBy('date')
         ->get();
 
-        $grow = round(($origin[0]->value - $last_month[0]->value)/$last_month[0]->value * 100);
+        if ($origin || $last_month) {
+            $grow = 0;
+        } else {
+            $grow = round(($origin[0]->value - $last_month[0]->value) / $last_month[0]->value * 100);
+        }
 
         return $grow;
      }
