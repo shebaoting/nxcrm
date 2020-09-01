@@ -33,6 +33,7 @@
                 <i class="feather icon-arrow-up"></i>
             </button>
         </p>
+
     </footer>
 
     {!! admin_section(\AdminSection::BODY_INNER_AFTER) !!}

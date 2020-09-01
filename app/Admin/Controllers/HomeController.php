@@ -16,10 +16,30 @@ class HomeController extends Controller
     public static $css = [
         '/static/css/home.css',
     ];
-
+    public function script()
+    {
+        return <<<JS
+    (function(a, b, c, d, e, j, s) {
+        a[d] = a[d] || function() {
+            (a[d].a = a[d].a || []).push(arguments)
+        };
+        j = b.createElement(c),
+            s = b.getElementsByTagName(c)[0];
+        j.async = true;
+        j.charset = 'UTF-8';
+        j.src = 'https://static.meiqia.com/widget/loader.js';
+        s.parentNode.insertBefore(j, s);
+    })(window, document, 'script', '_MEIQIA');
+    _MEIQIA('entId', 152228);
+JS;
+    }
     public function index(Content $content)
     {
         Admin::css(static::$css);
+        if (Admin::user()->isAdministrator()){
+            Admin::script($this->script());
+        }
+
         return $content
             ->header('NXCRM')
             ->description('控制台...')
@@ -50,12 +70,8 @@ class HomeController extends Controller
                                 $row->column(12, new Examples\Adver());
                             });
                         });
-
-
                     });
                 });
-
-
             });
     }
 }
