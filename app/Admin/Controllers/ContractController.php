@@ -80,6 +80,7 @@ class ContractController extends AdminController
             $grid->disableBatchActions();
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
+                $filter->like('title', '合同名称');
             });
         });
     }

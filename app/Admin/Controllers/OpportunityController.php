@@ -70,6 +70,7 @@ class OpportunityController extends AdminController
             $grid->model()->orderBy('id', 'desc');
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
+                $filter->like('subject', '商机名称');
             });
         });
     }

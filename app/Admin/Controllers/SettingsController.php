@@ -9,6 +9,13 @@ use App\Http\Controllers\Controller;
 
 class SettingsController extends Controller
 {
+     /**
+     * 版本号.
+     *
+     * @var string
+     */
+    const VERSION = '1.1.0';
+
     public function index(Content $content)
     {
         return $content

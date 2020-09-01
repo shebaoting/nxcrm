@@ -47,6 +47,7 @@ class CustomerController extends AdminController
             $grid->model()->orderBy('id', 'desc');
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
+                $filter->like('name', '客户名称');
             });
         });
     }

@@ -46,6 +46,7 @@ class LeadController extends AdminController
             $grid->model()->where('state', '!=', '3');
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
+                $filter->like('name', '客户名称');
             });
         });
     }

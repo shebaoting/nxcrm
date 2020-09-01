@@ -52,6 +52,7 @@ class ContactController extends AdminController
             });
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
+                $filter->like('name', '联系人姓名');
             });
             $grid->model()->orderBy('id', 'desc');
             $grid->disableCreateButton();
