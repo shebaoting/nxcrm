@@ -66,7 +66,7 @@ Nxcrm基于laravel开发，得益于优秀的后台框架`Dact Admin`，使得Nx
   
   
 + [Learnku.com](https://learnku.com/laravel/)
-我自己学会编程不久，本来三月份在学习前端，用到api接口，所以想连后端一起学习了。直接上手laravel，完全不知道如何下手。然后放弃。5月份从php变量开始学起，仔细看了`Summer `老师的laravel的所有课程。讲得很详细。浅显易懂。对我一个新手来说帮助很大。也让我这么一个接触php三个月的新人做出这么一个小产品成为可能。很感激。
+感谢`Summer `老师，的laravel的所有课程。
 
 ## 环境
  ---
@@ -76,67 +76,8 @@ Nxcrm基于laravel开发，得益于优秀的后台框架`Dact Admin`，使得Nx
   
  ## 安装
  ---
-#### 方法一
 
-
-将网站跟目录指向在public目录，修改根目录``.env``文件中的数据库连接方式。然后运行以下命令：
-
-```
-composer update 
-```
-然后执行以下命令
-
-```
-php artisan admin:install
-```
-
-紧接着执行数据库迁移
-
-```
-php artisan migrate
-```
-
-将伪静态规则修改为
-
-```
-    try_files $uri $uri/ @rewrite;
-    location @rewrite {
-        rewrite ^/(.*)$ /index.php?_url=/$1;
-    }
-```
-
-启动服务后，在浏览器打开 `http://localhost/admin`，使用用户名 `admin` 和密码 `admin`登陆。
-
-
-#### 方法二
-
-
-1，将网站跟目录指向在public目录。
-
-2，将根目录`.env.example`重命名为`.env`。修改`.env`文件中的数据库连接方式。
-
-3，将根目录的```vendor.zip```解压在当前目录。解压完了以后，项目根目录会多了一个```vendor```文件夹
-
-4，删除掉```vendor.zip```，没用了。
-
-5，然后在数据库中导入根目录的 ``laravelcrm.sql``文件。此文件附带一些演示数据。
-
-6，将伪静态规则修改为
-
-```
-    try_files $uri $uri/ @rewrite;
-    location @rewrite {
-        rewrite ^/(.*)$ /index.php?_url=/$1;
-    }
-```
-7，将下面两个目录权限设置为777
-
-```
-bootstrap/cache
-storage
-```
-
-8,在浏览器打开 `http://localhost/admin`，使用用户名 `admin` 和密码 `admin`登陆。
+安装教程见 https://nx.tt
 
 ## 鸣谢
  ---
