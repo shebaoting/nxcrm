@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2020-09-02 00:41:27
+-- 生成日期： 2020-09-02 12:04:31
 -- 服务器版本： 8.0.12
 -- PHP 版本： 7.3.4
 
@@ -407,7 +407,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (29, '2020_09_01_231117_seed_admin_roles_data', 5),
 (30, '2020_09_01_231553_seed_admin_role_menu_data', 6),
 (31, '2020_09_01_232347_seed_admin_role_permissions_data', 7),
-(32, '2020_09_01_232632_seed_admin_role_users_data', 8);
+(32, '2020_09_01_232632_seed_admin_role_users_data', 8),
+(33, '2020_09_02_115124_seed_settings_data', 9);
 
 -- --------------------------------------------------------
 
@@ -455,9 +456,19 @@ CREATE TABLE `receipts` (
 CREATE TABLE `settings` (
   `key` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `value` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL
+  `id` int(10) UNSIGNED NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- 转存表中的数据 `settings`
+--
+
+INSERT INTO `settings` (`key`, `value`, `id`) VALUES
+('crmname', 'NXCRM', 1),
+('crmurl', 'http://crm.com', 2),
+('color', 'green', 3),
+('logo', 'images/cd72985037b83d82150b76d50b12cf53.png', 4),
+('body_class', '111', 5);
 
 -- --------------------------------------------------------
 
@@ -680,7 +691,7 @@ ALTER TABLE `failed_jobs`
 -- 使用表AUTO_INCREMENT `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- 使用表AUTO_INCREMENT `opportunitys`
@@ -698,7 +709,7 @@ ALTER TABLE `receipts`
 -- 使用表AUTO_INCREMENT `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- 使用表AUTO_INCREMENT `users`
