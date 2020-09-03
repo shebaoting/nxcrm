@@ -35,7 +35,7 @@ class Opportunitys extends Bar
         $opportunity = DB::table('opportunitys');
         $this->opportunity_num = $opportunity->sum('expectincome');
         $this->num = $opportunity->selectRaw('DATE_FORMAT(created_at,"%Y-%m") as date,SUM(expectincome) as value')->groupBy('date')->get();
-
+        $this->grow();
     }
 
     /**
@@ -120,20 +120,25 @@ HTML
         $origin = DB::table('opportunitys')->selectRaw('DATE_FORMAT(created_at,"%Y-%m") as date,SUM(expectincome) as value')
             ->whereMonth('created_at', date('m'))
             ->groupBy('date')
-            ->get();
+            ->get()
+            ->toArray();
 
         $last_month = DB::table('opportunitys')->selectRaw('DATE_FORMAT(created_at,"%Y-%m") as date,SUM(expectincome) as value')
             ->whereMonth('created_at', date('m',strtotime("-1 month")))
             ->groupBy('date')
-            ->get();
+            ->get()
+            ->toArray();
 
-
-        if ($origin || $last_month) {
-            $grow = 0;
-        } else {
+        if ($last_month && $origin) {
             $grow = round(($origin[0]->value - $last_month[0]->value) / $last_month[0]->value * 100);
+        } elseif (empty($last_month) && $origin) {
+            $grow = $origin[0]->value * 100;
+        }elseif  (empty($origin) && $last_month) {
+            $grow = round((0 - $last_month[0]->value) / $last_month[0]->value * 100);
+        } else {
+            $grow = 0;
         }
 
-        return $grow;
+        return  $grow;
     }
 }

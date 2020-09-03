@@ -23,14 +23,18 @@ class Receipts extends Line
         $this->num = DB::table('receipts')->selectRaw('DATE_FORMAT(updated_at,"%Y-%m") as date,SUM(receive) as value')->groupBy('date')->orderBy('date')->limit(12)->get();
 
         $this->origin = DB::table('receipts')->selectRaw('DATE_FORMAT(updated_at,"%Y-%m") as date,SUM(receive) as value')
-        ->whereMonth('updated_at', date('m'))
-        ->groupBy('date')
-        ->get();
+            ->whereMonth('updated_at', date('m'))
+            ->groupBy('date')
+            ->get()
+            ->toArray();
 
         $this->last_month = DB::table('receipts')->selectRaw('DATE_FORMAT(updated_at,"%Y-%m") as date,SUM(receive) as value')
-        ->whereMonth('updated_at', date('m',strtotime("-1 month")))
-        ->groupBy('date')
-        ->get();
+            ->whereMonth('updated_at', date('m', strtotime("-1 month")))
+            ->groupBy('date')
+            ->get()
+            ->toArray();
+
+
 
     }
 
@@ -43,12 +47,29 @@ class Receipts extends Line
      */
     public function handle(Request $request)
     {
+        if ($this->origin){
+          $origin= $this->origin[0]->value;
+        } else {
+          $origin= 0;
+        }
 
-                // 卡片内容
-                $this->withContent($this->origin[0]->value, $this->last_month[0]->value);
+        if ($this->last_month){
+            $last_month= $this->last_month[0]->value;
+          } else {
+            $last_month= 0;
+          }
 
-                // 图表数据
-                $this->withChart(array_column($this->num->toArray(), 'value'));
+        // 卡片内容
+        $this->withContent($origin, $last_month);
+
+        // 图表数据
+        if ($this->num->count()) {
+            $count = (array_column($this->num->toArray(), 'value'));
+        } else {
+            $count = [0,0];
+        }
+
+        $this->withChart(array_column($count, 'value'));
     }
 
     /**

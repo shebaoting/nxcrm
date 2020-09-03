@@ -113,17 +113,23 @@ HTML
         $origin = DB::table('contracts')->selectRaw('DATE_FORMAT(signdate,"%Y-%m") as date,COUNT(*) as value')
         ->whereMonth('signdate', date('m'))
         ->groupBy('date')
-        ->get();
+        ->get()
+        ->toArray();
 
         $last_month = DB::table('contracts')->selectRaw('DATE_FORMAT(signdate,"%Y-%m") as date,COUNT(*) as value')
         ->whereMonth('signdate', date('m',strtotime("-1 month")))
         ->groupBy('date')
-        ->get();
+        ->get()
+        ->toArray();
 
-        if ($origin || $last_month) {
-            $grow = 0;
-        } else {
+        if ($last_month && $origin) {
             $grow = round(($origin[0]->value - $last_month[0]->value) / $last_month[0]->value * 100);
+        } elseif (empty($last_month) && $origin) {
+            $grow = $origin[0]->value * 100;
+        }elseif  (empty($origin) && $last_month) {
+            $grow = round((0 - $last_month[0]->value) / $last_month[0]->value * 100);
+        } else {
+            $grow = 0;
         }
 
         return $grow;
