@@ -9,7 +9,7 @@ class SwitchGroup extends SwitchDisplay
 {
     protected $selector = 'grid-column-switch-group';
 
-    public function display($columns = [], string $color = '', $refresh = false)
+    public function display($columns = [], $color = '', $refresh = false)
     {
         if ($columns instanceof \Closure) {
             $columns = $columns->call($this->row, $this);
@@ -72,7 +72,6 @@ EOT;
             checked = that.is(':checked'), 
             name = that.attr('name'), 
             data = {
-                _token: Dcat.token,
                 _method: 'PUT'
             },
             value = checked ? 1 : 0;

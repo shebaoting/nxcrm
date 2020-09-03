@@ -15,7 +15,6 @@ class AddIdIntoSettings extends Migration
     {
         Schema::table('settings',function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
         });
     }
 
@@ -28,7 +27,6 @@ class AddIdIntoSettings extends Migration
     {
         Schema::table('settings', function (Blueprint $table) {
             $table->dropColumn('id');
-            $table->dropColumn('name');
         });
     }
 }

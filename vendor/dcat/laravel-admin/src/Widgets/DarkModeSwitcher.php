@@ -56,28 +56,28 @@ HTML;
             darkMode.display(true);
             return;
         }
-        
+
         darkMode.display(false);
         icon.removeClass('icon-sun').addClass('icon-moon');
     }
-    
+
     if (mode === 'dark') {
         switchMode(true);
     } else if (mode === 'def') {
         switchMode(false)
     }
-    
+
     $('.dark-mode-switcher').off('click').on('click', function () {
         icon.toggleClass('icon-sun icon-moon');
-        
+
         if (icon.hasClass('icon-moon')) {
             switchMode(false);
-            
+
             storage.setItem(key, 'def');
-            
+
         } else {
             storage.setItem(key, 'dark');
-            
+
             switchMode(true)
         }
     })

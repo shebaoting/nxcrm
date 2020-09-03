@@ -2,14 +2,12 @@
 
 namespace Dcat\Admin\Controllers;
 
-use Dcat\Admin\IFrameGrid;
+use Dcat\Admin\Grid;
 use Dcat\Admin\Layout\Content;
 use Illuminate\Routing\Controller;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class AdminController extends Controller
 {
-    use AuthorizesRequests;
     /**
      * Title for current resource.
      *
@@ -58,8 +56,8 @@ class AdminController extends Controller
      */
     public function index(Content $content)
     {
-        if (request(IFrameGrid::QUERY_NAME)) {
-            return $content->body($this->iFrameGrid());
+        if (request(Grid::IFRAME_QUERY_NAME)) {
+            return $content->full()->body($this->iFrameGrid());
         }
 
         return $content

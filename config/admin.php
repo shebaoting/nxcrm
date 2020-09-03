@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => 'Dcat Admin',
+    'name' => 'NXCRM',
 
     /*
     |--------------------------------------------------------------------------
@@ -316,7 +316,7 @@ return [
         // indigo, blue, blue-light, blue-dark, green
         'color' => 'indigo',
 
-        'body_class' => '',
+        'body_class' => 'sidebar-separate',
 
         'sidebar_collapsed' => false,
 

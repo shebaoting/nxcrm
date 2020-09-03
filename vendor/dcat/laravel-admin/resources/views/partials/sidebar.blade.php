@@ -1,14 +1,12 @@
 <div class="main-menu">
     <div class="main-menu-content">
-        <aside class="main-sidebar {{ $configData['sidebar_dark'] ? 'sidebar-dark-white' : 'sidebar-light-primary' }} shadow">
+        <aside class="main-sidebar {{ $configData['sidebar_style'] }} shadow">
             <div class="navbar-header">
                 <ul class="nav navbar-nav flex-row">
                     <li class="nav-item mr-auto">
                         <a href="{{ admin_url('/') }}" class="navbar-brand waves-effect waves-light">
-                            <span class="logo-lg">
-                                <img src="/uploads/{{Admin::user()->avatar}}" width="42">
-                                <span class="leftbar-user-name">{{Admin::user()->name}}</span>
-                            </span>
+                            <span class="logo-mini"><img src="/uploads/{!! config('settings.logo') !!}"></span>
+                            <span class="logo-lg"><img src="/uploads/{!! config('settings.logo') !!}"></span>
                         </a>
                     </li>
                 </ul>

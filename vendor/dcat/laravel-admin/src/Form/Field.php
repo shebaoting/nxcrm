@@ -63,6 +63,11 @@ class Field implements Renderable
     protected $default;
 
     /**
+     * @var bool
+     */
+    protected $allowDefaultValueInEditPage = false;
+
+    /**
      * Element label.
      *
      * @var string
@@ -493,17 +498,39 @@ class Field implements Renderable
      */
     public function options($options = [])
     {
-        if ($options instanceof Arrayable) {
-            $options = $options->toArray();
+        if ($options instanceof \Closure) {
+            $options = $options->call($this->data(), $this->value());
         }
 
-        if (is_array($this->options)) {
-            $this->options = array_merge($this->options, $options);
-        } else {
-            $this->options = $options;
-        }
+        $this->options = array_merge($this->options, Helper::array($options));
 
         return $this;
+    }
+
+    /**
+     * @param array $options
+     *
+     * @return $this
+     */
+    public function replaceOptions($options)
+    {
+        if ($options instanceof \Closure) {
+            $options = $options->call($this->data(), $this->value());
+        }
+
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * @param array|Arrayable $options
+     *
+     * @return $this
+     */
+    public function mergeOptions($options)
+    {
+        return $this->options($options);
     }
 
     /**
@@ -598,22 +625,26 @@ class Field implements Renderable
     /**
      * Get or set default value for field.
      *
-     * @param $default
+     * @param mixed $default
+     * @param bool  $edit
      *
      * @return $this|mixed
      */
-    public function default($default = null)
+    public function default($default = null, bool $edit = false)
     {
         if ($default === null) {
             if (
                 $this->form
                 && method_exists($this->form, 'isCreating')
                 && ! $this->form->isCreating()
+                && ! $this->allowDefaultValueInEditPage
             ) {
                 return;
             }
 
             if ($this->default instanceof \Closure) {
+                $this->default->bindTo($this->data());
+
                 return call_user_func($this->default, $this->form);
             }
 
@@ -621,6 +652,7 @@ class Field implements Renderable
         }
 
         $this->default = $default;
+        $this->allowDefaultValueInEditPage = $edit;
 
         return $this;
     }
@@ -1204,28 +1236,10 @@ class Field implements Renderable
         });
     }
 
-    public function saveAsJoin(string $glue = ',')
-    {
-        return $this->saving(function ($value) use ($glue) {
-            if (! $value || is_scalar($value)) {
-                return $value;
-            }
-
-            return implode($glue, (array) $value);
-        });
-    }
-
     public function saveAsString()
     {
         return $this->saving(function ($value) {
             return (string) $value;
-        });
-    }
-
-    public function saveAsInteger()
-    {
-        return $this->saving(function ($value) {
-            return (int) $value;
         });
     }
 

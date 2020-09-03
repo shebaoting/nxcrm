@@ -75,5 +75,4 @@ class Administrator extends Model implements AuthenticatableContract
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'user_id', 'role_id');
     }
-
 }

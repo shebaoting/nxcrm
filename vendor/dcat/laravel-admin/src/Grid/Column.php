@@ -5,6 +5,7 @@ namespace Dcat\Admin\Grid;
 use Closure;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Grid\Displayers\AbstractDisplayer;
+use Dcat\Admin\Support\Helper;
 use Dcat\Admin\Traits\HasBuilderEvents;
 use Dcat\Admin\Traits\HasDefinitions;
 use Illuminate\Contracts\Support\Arrayable;
@@ -63,6 +64,7 @@ class Column
         }
 
     const SELECT_COLUMN_NAME = '__row_selector__';
+    const ACTION_COLUMN_NAME = '__actions__';
 
     /**
      * Displayers for grid column.
@@ -186,11 +188,29 @@ class Column
      */
     public function __construct($name, $label)
     {
-        $this->name = $name;
+        $this->name = $this->formatName($name);
 
         $this->label = $this->formatLabel($label);
 
         $this->callResolving();
+    }
+
+    protected function formatName($name)
+    {
+        if (! Str::contains($name, '.')) {
+            return $name;
+        }
+
+        $names = explode('.', $name);
+        $count = count($names);
+
+        foreach ($names as $i => &$name) {
+            if ($i + 1 < $count) {
+                $name = Str::snake($name);
+            }
+        }
+
+        return implode('.', $names);
     }
 
     /**
@@ -616,15 +636,7 @@ class Column
      */
     protected function htmlEntityEncode($item)
     {
-        if (is_array($item)) {
-            array_walk_recursive($item, function (&$value) {
-                $value = htmlentities($value);
-            });
-        } else {
-            $item = htmlentities($item);
-        }
-
-        return $item;
+        return Helper::htmlEntityEncode($item);
     }
 
     /**

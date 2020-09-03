@@ -271,12 +271,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/jqhph/dcat-admin.git",
-            "reference": "83bb48c74c3d7e94613fbe4e3c9b608bee997e19"
+            "reference": "b2694de229a9fd52f9ab048870d4e93b8ee7a505"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/jqhph/dcat-admin/zipball/83bb48c74c3d7e94613fbe4e3c9b608bee997e19",
-            "reference": "83bb48c74c3d7e94613fbe4e3c9b608bee997e19",
+            "url": "https://api.github.com/repos/jqhph/dcat-admin/zipball/b2694de229a9fd52f9ab048870d4e93b8ee7a505",
+            "reference": "b2694de229a9fd52f9ab048870d4e93b8ee7a505",
             "shasum": "",
             "mirrors": [
                 {
@@ -299,7 +299,7 @@
             "phpstan/phpstan": "^0.12.0",
             "phpunit/phpunit": "^7.5"
         },
-        "time": "2020-08-07T03:23:02+00:00",
+        "time": "2020-09-02T13:19:24+00:00",
         "type": "library",
         "extra": {
             "laravel": {
@@ -3670,7 +3670,8 @@
         "homepage": "https://github.com/sebastianbergmann/php-token-stream/",
         "keywords": [
             "tokenizer"
-        ]
+        ],
+        "abandoned": true
     },
     {
         "name": "phpunit/phpunit",

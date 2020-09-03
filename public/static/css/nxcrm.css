@@ -1,22 +1,27 @@
-.layout-fixed .main-sidebar {
+.sidebar-separate .layout-fixed .main-sidebar {
     top: 6rem;
     left: 2.5rem;
     text-align: center;
     background: url(../img/waves.png) no-repeat;
     background-color: #fff;
 }
-
+.main-menu .navbar-header .navbar-brand img {
+    display: inline-block;
+    max-width: 60px;
+    max-height: 60px;
+    margin-top: -1px;
+}
 @media (min-width: 768px) {
     body:not(.sidebar-mini-md) .content-wrapper {
         margin-left: 280px;
     }
 }
 
-.header-navbar.fixed-top {
+.sidebar-separate .header-navbar.fixed-top {
     left: 0px;
 }
 
-.sidebar-collapse .header-navbar.fixed-top {
+.sidebar-collapse .sidebar-separate .header-navbar.fixed-top {
     left: 0rem;
 }
 
@@ -25,30 +30,88 @@
         margin-left: 7rem !important;
     }
 }
-.main-sidebar .nav-sidebar .nav-item>.nav-link {text-align: left;}
 
-[class*=sidebar-light-] .nav-treeview>.nav-item>.nav-link.active, [class*=sidebar-light-] .nav-treeview>.nav-item>.nav-link.active:hover {
-    color: #5c6bc6; background: none;box-shadow:0px 0px
+.main-sidebar .nav-sidebar .nav-item>.nav-link {
+    text-align: left;
+
+}
+
+.main-sidebar.sidebar-primary .sidebar a {
+    background: none !important;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.main-sidebar.sidebar-primary .sidebar a p {
+
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.sidebar-primary .nav-sidebar>.nav-item.menu-open>.nav-link,
+.sidebar-primary .nav-sidebar>.nav-item:hover>.nav-link,
+.sidebar-primary .nav-sidebar>.nav-item:hover>.nav-link a p {
+    /* background-color: none !important;*/
+    font-weight: 700;
+    color: #fff !important;
+}
+.sidebar-primary .leftbar-user-name {
+    color: #fff;
+}
+
+.main-sidebar.sidebar-primary .nav-treeview>.nav-item>.nav-link.active,
+.main-sidebar.sidebar-primary .nav-treeview>.nav-item>.nav-link.active p,
+.main-sidebar.sidebar-primary .nav-treeview>.nav-item>.nav-link:hover,
+.main-sidebar.sidebar-primary .nav.nav-pills .nav-item .nav-link.active,
+.main-sidebar.sidebar-primary .nav.nav-pills .nav-item .nav-link.active p {
+    color: #fff !important;
+    border-bottom: 0px;
+}
+
+.main-sidebar.sidebar-primary .nav-pills .nav-link:not(.active):hover,
+.main-sidebar.sidebar-primary .nav-pills .nav-link:not(.active):hover p,
+.main-sidebar.sidebar-primary .nav-treeview>.nav-item>.nav-link,
+.main-sidebar.sidebar-primary .navbar-header .logo-lg,
+.main-sidebar.sidebar-primary .navbar-header .logo-mini,
+.main-sidebar.sidebar-primary .sidebar a {
+    color: #fff;
+}
+
+[class*=sidebar-light-] .nav-treeview>.nav-item>.nav-link.active,
+[class*=sidebar-light-] .nav-treeview>.nav-item>.nav-link.active:hover {
+    color: #5c6bc6;
+    background: none;
+    box-shadow: 0px 0px
 }
 
 .sidebar-light-primary .nav-item>.nav-link.active {
-    color: #5c6bc6 !important; background: none;box-shadow:0px 0px
+    background: none;
+    box-shadow: 0px 0px
 }
+
 .nav-treeview>.nav-item>.nav-link i {
     display: none;
 }
+
 .nav-sidebar>.nav-item>.nav-treeview {
     padding-left: 30px;
 }
+
 .sidebar .nav-link p {
     font-size: 14px;
 }
+
 .main-menu .navbar-header .navbar-brand img {
-    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
-    border-radius: 50%!important;
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+    border-radius: 50% !important;
     display: block;
     margin: 30px auto 10px;
+    border: #fff;
+    background-color:#fff ;
+    width: 60px;
 }
+.sidebar-collapse .main-menu .navbar-header .navbar-brand img {
+    width: 40px;
+}
+
 .logo-lg {
     font-weight: 700;
     color: #323a46 !important;
@@ -57,21 +120,40 @@
     padding: 0px;
     text-align: center;
 }
+
 body.dark-mode .logo-lg {
     color: #a8a9bb !important;
 }
-.logo-lg img {vertical-align: middle;}
+
+.logo-lg img {
+    vertical-align: middle;
+}
 
 body.dark-mode [class*=sidebar-dark-] .navbar-header {
     padding: .35rem 1rem 0;
 }
 
-[class*=sidebar-dark-] .navbar-header {height: auto;}
+[class*=sidebar-dark-] .navbar-header {
+    height: auto;
+}
+
 body.dark-mode .main-menu .navbar-header .logo-lg {
     font-weight: 700;
 }
+
 body.dark-mode [class*=sidebar-dark-] .navbar-header {
     background: unset;
 }
-.leftbar-user-name {font-weight: 700; color: #323a46; margin-top: 8px; display: block; font-size: .9rem; padding: 0px;}
-body.dark-mode .leftbar-user-name {color: #a8a9bb;}
+
+.leftbar-user-name {
+    font-weight: 700;
+    color: #323a46;
+    margin-top: 8px;
+    display: block;
+    font-size: .9rem;
+    padding: 0px;
+}
+
+body.dark-mode .leftbar-user-name {
+    color: #a8a9bb;
+}

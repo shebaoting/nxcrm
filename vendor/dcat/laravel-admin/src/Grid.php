@@ -15,7 +15,6 @@ use Dcat\Admin\Traits\HasBuilderEvents;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 
 class Grid
@@ -38,6 +37,8 @@ class Grid
 
     const CREATE_MODE_DEFAULT = 'default';
     const CREATE_MODE_DIALOG = 'dialog';
+
+    const IFRAME_QUERY_NAME = '_grid_iframe_';
 
     /**
      * The grid data model instance.
@@ -253,12 +254,6 @@ class Grid
      */
     public function column($name, $label = '')
     {
-        if (mb_strpos($name, '.') !== false) {
-            [$relationName, $relationColumn] = explode('.', $name);
-
-            $name = Str::snake($relationName).'.'.$relationColumn;
-        }
-
         return $this->addColumn($name, $label);
     }
 
@@ -812,6 +807,8 @@ HTML;
      * @see https://github.com/nadangergeo/RWD-Table-Patterns
      *
      * @return Responsive
+     *
+     * @deprecated 即将在2.0版本中废弃
      */
     public function responsive()
     {
@@ -941,8 +938,6 @@ HTML;
      */
     public function render()
     {
-        $this->handleExportRequest();
-
         try {
             $this->callComposing();
 

@@ -226,6 +226,6 @@ return [
         'receipt'      => '收款',
         'leads'      => '线索',
         'opportunitys'      => '商机',
-        'settings'      => '系统设置',
+        'settings'      => '系统',
     ],
 ];
