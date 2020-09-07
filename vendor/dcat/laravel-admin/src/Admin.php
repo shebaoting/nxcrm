@@ -110,7 +110,7 @@ class Admin
     public static function title($title = null)
     {
         if ($title === null) {
-            return static::$metaTitle ?: config('admin.title');
+            return static::$metaTitle ?: config('settings.crmname');
         }
 
         static::$metaTitle = $title;
