@@ -26,10 +26,12 @@ class InvoiceController extends AdminController
             $grid->column('title');
             $grid->column('created_at');
             $grid->column('remark');
-
+            $grid->disableEditButton();
+            $grid->disableDeleteButton();
+            $grid->disableQuickEditButton();
+            $grid->disableCreateButton();
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
-
             });
         });
     }
@@ -61,6 +63,12 @@ class InvoiceController extends AdminController
             $show->field('contact_address');
             $show->field('created_at');
             $show->field('updated_at');
+            $show->panel()
+                ->tools(function ($tools) {
+                    $tools->disableEdit();
+                    $tools->disableList();
+                    $tools->disableDelete();
+                });
         });
     }
 
@@ -90,6 +98,21 @@ class InvoiceController extends AdminController
 
             $form->display('created_at');
             $form->display('updated_at');
+
+            $form->footer(function ($footer) {
+                // 去掉`查看`checkbox
+                $footer->disableViewCheck();
+                // 去掉`继续编辑`checkbox
+                $footer->disableEditingCheck();
+                // 去掉`继续创建`checkbox
+                $footer->disableCreatingCheck();
+            });
+            $form->tools(function (Form\Tools $tools) {
+                // 去掉跳转列表按钮
+                $tools->disableList();
+                // 去掉删除按钮
+                $tools->disableDelete();
+            });
         });
     }
 }
