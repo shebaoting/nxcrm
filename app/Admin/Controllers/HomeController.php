@@ -36,9 +36,9 @@ JS;
     public function index(Content $content)
     {
         Admin::css(static::$css);
-        if (Admin::user()->isAdministrator()){
-            Admin::script($this->script());
-        }
+        // if (Admin::user()->isAdministrator()){
+        //     Admin::script($this->script());
+        // }
 
         return $content
             ->header('NXCRM')
