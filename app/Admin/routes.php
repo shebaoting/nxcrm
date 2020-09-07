@@ -38,6 +38,9 @@ Route::group([
     //线索
     $router->resource('opportunitys', 'OpportunityController');
 
+    //发票
+    $router->resource('invoices', 'InvoiceController');
+
     // 网站配置;
     Route::get('/settings', 'SettingsController@index')->name('settings.index');
 });

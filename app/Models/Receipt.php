@@ -14,4 +14,9 @@ class Receipt extends Model
     {
         return $this->belongsTo(Contract::class);
     }
+
+    public function Invoice()
+    {
+        return $this->hasOne(Invoice::class);
+    }
 }

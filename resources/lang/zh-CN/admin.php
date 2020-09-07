@@ -227,5 +227,6 @@ return [
         'leads'      => '线索',
         'opportunitys'      => '商机',
         'settings'      => '系统',
+        'invoices'      => '发票',
     ],
 ];

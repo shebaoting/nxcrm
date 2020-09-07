@@ -25,16 +25,14 @@ class Receipts extends Line
         $this->origin = DB::table('receipts')->selectRaw('DATE_FORMAT(updated_at,"%Y-%m") as date,SUM(receive) as value')
             ->whereMonth('updated_at', date('m'))
             ->groupBy('date')
-            ->get()
-            ->toArray();
+            ->get();
+            // ->toArray();
 
         $this->last_month = DB::table('receipts')->selectRaw('DATE_FORMAT(updated_at,"%Y-%m") as date,SUM(receive) as value')
             ->whereMonth('updated_at', date('m', strtotime("-1 month")))
             ->groupBy('date')
-            ->get()
-            ->toArray();
-
-
+            ->get();
+            // ->toArray();
 
     }
 
@@ -47,13 +45,13 @@ class Receipts extends Line
      */
     public function handle(Request $request)
     {
-        if ($this->origin){
+        if ($this->origin->count()){
           $origin= $this->origin[0]->value;
         } else {
           $origin= 0;
         }
 
-        if ($this->last_month){
+        if ($this->last_month->count()){
             $last_month= $this->last_month[0]->value;
           } else {
             $last_month= 0;
@@ -69,7 +67,7 @@ class Receipts extends Line
             $count = [0,0];
         }
 
-        $this->withChart(array_column($count, 'value'));
+        $this->withChart($count);
     }
 
     /**
