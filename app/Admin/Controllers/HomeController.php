@@ -41,7 +41,7 @@ JS;
         // }
 
         return $content
-            ->header('NXCRM')
+            ->header('控制台')
             ->description('控制台...')
             ->body(function (Row $row) {
                 $row->column(12, function (Column $column) {
