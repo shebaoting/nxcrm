@@ -17,6 +17,7 @@ class EditInvoiceTable extends Migration
             $table->string('tin')->default('')->nullable()->change();
             $table->string('bank_name')->default('')->nullable()->change();
             $table->string('bank_account')->default('')->nullable()->change();
+            $table->string('address')->default('')->nullable()->change();
         });
     }
 
