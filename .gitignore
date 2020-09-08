@@ -18,4 +18,4 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 dcat_admin_ide_helper.php
-config/admin.php
+/config/admin.php
