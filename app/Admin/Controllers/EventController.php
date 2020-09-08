@@ -33,7 +33,7 @@ class EventController extends AdminController
             $grid->id->sortable();
             $grid->content->width('50%');
 
-            $grid->customer_id('所属客户1')->display(function ($id) {
+            $grid->customer_id('所属客户')->display(function ($id) {
                 return optional(Customer::find($id))->name;
             })->link(function () {
                 return admin_url('customers/' . $this->customer_id);
