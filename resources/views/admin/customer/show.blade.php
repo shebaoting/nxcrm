@@ -22,7 +22,7 @@
                             <li class="nav-item">
                                 <a href="#tab_events" class="nav-link active" data-toggle="tab">跟进</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item {{ active_class(if_route('customers.show'),'','hide') }}">
                                 <a href="#tab_contracts" class="nav-link" data-toggle="tab">合同</a>
                             </li>
                             <li class="nav-item">

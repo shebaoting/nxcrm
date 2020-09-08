@@ -5206,6 +5206,77 @@
         ]
     },
     {
+        "name": "summerblue/laravel-active",
+        "version": "7.0.0",
+        "version_normalized": "7.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/summerblue-ext-forks/active.git",
+            "reference": "ec286632ceeefacdc01d9d6b1adb3523bd2a1e29"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/summerblue-ext-forks/active/zipball/ec286632ceeefacdc01d9d6b1adb3523bd2a1e29",
+            "reference": "ec286632ceeefacdc01d9d6b1adb3523bd2a1e29",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
+        },
+        "require": {
+            "laravel/framework": "7.*",
+            "php": ">=7.0"
+        },
+        "require-dev": {
+            "codeclimate/php-test-reporter": "dev-master",
+            "orchestra/testbench": "^3.1",
+            "phpunit/phpunit": "~6.0"
+        },
+        "time": "2020-07-31T08:49:01+00:00",
+        "type": "library",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "HieuLe\\Active\\ActiveServiceProvider"
+                ],
+                "aliases": {
+                    "Active": "HieuLe\\Active\\Facades\\Active"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "HieuLe\\Active\\": "src/",
+                "HieuLe\\ActiveTest\\": "tests/"
+            },
+            "files": [
+                "src/helpers.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Hieu Le",
+                "email": "letrunghieu.cse09@gmail.com",
+                "homepage": "https://www.hieule.info"
+            }
+        ],
+        "description": "The helper class for Laravel (4/5) applications to get active class base on current route",
+        "homepage": "https://github.com/summerblue-ext-forks/active",
+        "keywords": [
+            "active",
+            "laravel",
+            "routing"
+        ]
+    },
+    {
         "name": "swiftmailer/swiftmailer",
         "version": "v6.2.3",
         "version_normalized": "6.2.3.0",

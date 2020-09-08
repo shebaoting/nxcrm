@@ -216,3 +216,7 @@ body.dark-mode #tab_events .content textarea {
   margin-top: 20px;
 }
 
+.hide {
+  display: none;
+}
+

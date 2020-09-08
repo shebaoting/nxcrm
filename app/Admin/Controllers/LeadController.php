@@ -6,14 +6,18 @@ use App\Models\Customer;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\IFrameGrid;
+use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Controllers\AdminController;
 use Dcat\Admin\Admin;
 
 class LeadController extends AdminController
 {
 
-    public static $css = [
+    public static $editcss = [
         '/static/css/lead_edit.css',
+    ];
+    public static $showcss = [
+        '/static/css/customer_show.css',
     ];
     /**
      * Make a grid builder.
@@ -29,7 +33,7 @@ class LeadController extends AdminController
             $grid->setDialogFormDimensions('700px', '420px');
             $grid->id->sortable();
             $grid->name('客户名称')->link(function () {
-                return admin_url('leads/'. $this->id.'/edit' );
+                return admin_url('leads/'. $this->id );
             });
             $grid->column('admin_users.name','所属销售');
             $grid->state('状态')->select([
@@ -51,6 +55,51 @@ class LeadController extends AdminController
         });
     }
 
+
+ /**
+     * Make a show builder.
+     *
+     * @param mixed $id
+     *
+     * @return Show
+     */
+    public function show($id, Content $content)
+    {
+        // 判断授权，无权限查看他人的信息,以后可以优化一下
+        $detalling = Admin::user()->id != Customer::find($id)->admin_users->id;
+        $Role = !Admin::user()->isRole('administrator');
+        if ($Role && $detalling) {
+            $customer = Customer::find($id);
+            $this->authorize('update', $customer);
+        }
+
+
+        Admin::css(static::$showcss);
+        $customer = Customer::query()->findorFail($id);
+        $contacts = Customer::find($id)->contacts;
+        $contracts = Customer::find($id)->contracts;
+        $admin_users = Customer::find($id)->admin_users;
+        $events = Customer::find($id)->events()->orderBy('updated_at', 'desc')->get();
+        $attachments = Customer::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
+        $data = [
+            'customer' => $customer,
+            'contacts' => $contacts,
+            'admin_users' => $admin_users,
+            'events' => $events,
+            'contracts' => $contracts,
+            'attachments' => $attachments,
+        ];
+        return $content
+        ->title('线索')
+        ->description('详情')
+        ->body($this->_detail($data));
+    }
+    private function _detail ($data)
+    {
+        return view('admin/customer/show',$data);
+    }
+
+
     /**
      * Make a form builder.
      *
@@ -58,7 +107,7 @@ class LeadController extends AdminController
      */
     protected function form()
     {
-        Admin::css(static::$css);
+        Admin::css(static::$editcss);
         $builder = Customer::with('contacts');
         return Form::make($builder, function (Form $form) {
             // 判断授权，无权限编辑他人的信息,以后可以优化一下
