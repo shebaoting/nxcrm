@@ -3,6 +3,7 @@
 /public/uploads
 /public/storage
 /storage/*.key
+/config/admin.php
 /tests
 .env
 .editorconfig
