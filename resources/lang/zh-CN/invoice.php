@@ -2,7 +2,7 @@
 return [
     'labels' => [
         'Invoice' => '发票',
-        'invoices' => '发票1',
+        'invoices' => '发票',
     ],
     'fields' => [
         'receipt_id' => '所属收款',
