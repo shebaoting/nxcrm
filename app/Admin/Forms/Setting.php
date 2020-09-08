@@ -41,7 +41,7 @@ class Setting extends Form
             } elseif ($key == 'crmurl') {
                 $this->url($key, '网站地址')->default($value);
             } elseif ($key == 'logo') {
-                $this->image($key, '网站LOGO')->accept('jpg,png,gif,jpeg')->maxSize(512)->required()->help('大小不要超过512K');
+                $this->image($key, '网站LOGO')->accept('jpg,png,gif,jpeg')->maxSize(512)->required()->autoUpload()->help('大小不要超过512K');
             } elseif ($key == 'color') {
                 $this->radio($key, '网站配色')->options(['indigo' => '靛青', 'blue' => '浅蓝', 'blue-light' => '天青', 'green' => '深绿', 'blue-dark' => '藏蓝']);
             } elseif ($key == 'body_class') {
