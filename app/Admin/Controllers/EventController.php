@@ -34,7 +34,7 @@ class EventController extends AdminController
             $grid->content->width('50%');
 
             $grid->customer_id('所属客户')->display(function ($id) {
-                return Customer::find($id)->name;
+                return optional(Customer::find($id))->name;
             })->link(function () {
                 return admin_url('customers/' . $this->customer_id);
             });
@@ -109,7 +109,7 @@ class EventController extends AdminController
                 }else {
                     return $form->redirect('customers/' . $form->customer_id, '保存成功');
                 }
-                
+
             });
 
             $form->deleted(function (Form $form, $result) {
