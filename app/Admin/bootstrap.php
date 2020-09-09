@@ -30,3 +30,5 @@ Grid::resolving(function (Grid $grid) {
 });
 
 Admin::css('static/css/nxcrm.css');
+Admin::asset()->alias('@nunito', null, '');
+Admin::asset()->alias('@montserrat', null, '');
