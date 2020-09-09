@@ -48,6 +48,9 @@ class EventController extends AdminController
             $grid->created_at->sortable();
             $grid->disableBatchActions();
             $grid->disableCreateButton();
+            $grid->disableEditButton();
+            $grid->disableDeleteButton();
+            $grid->disableViewButton();
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
             });
