@@ -40,7 +40,7 @@ return [
         '401' => '请登录！',
         '419' => '对不起，当前页面已失效，请刷新浏览器。',
     ],
-    'home'                  => '主页',
+    'home'                  => '工作台',
     'online'                => '在线',
     'login'                 => '登录',
     'logout'                => '登出',
@@ -206,7 +206,7 @@ return [
         'maxlength' => ':attribute 字符长度不能超出 :max。',
     ],
     'menu_titles' => [
-        'index'         => '主页',
+        'index'         => '工作台',
         'admin'         => '系统',
         'users'         => '管理员',
         'roles'         => '角色',
