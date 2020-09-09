@@ -14,11 +14,11 @@
                 </div>
                 <div class="card">
                     <div class="card-body login-card-body">
-            
+
                         <form id="login-form" method="POST" action="{{ admin_url('auth/login') }}">
-        
+
                             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-        
+
                             <fieldset class="form-label-group form-group position-relative has-icon-left">
                                 <input
                                         type="text"
@@ -29,13 +29,13 @@
                                         required
                                         autofocus
                                 >
-        
+
                                 <div class="form-control-position">
                                     <i class="feather icon-user"></i>
                                 </div>
-        
+
                                 <label for="email">{{ trans('admin.username') }}</label>
-        
+
                                 <div class="help-block with-errors"></div>
                                 @if($errors->has('username'))
                                     <span class="invalid-feedback text-danger" role="alert">
@@ -45,7 +45,7 @@
                                                 </span>
                                 @endif
                             </fieldset>
-        
+
                             <fieldset class="form-label-group form-group position-relative has-icon-left">
                                 <input
                                         minlength="5"
@@ -58,12 +58,12 @@
                                         required
                                         autocomplete="current-password"
                                 >
-        
+
                                 <div class="form-control-position">
                                     <i class="feather icon-lock"></i>
                                 </div>
                                 <label for="password">{{ trans('admin.password') }}</label>
-        
+
                                 <div class="help-block with-errors"></div>
                                 @if($errors->has('password'))
                                     <span class="invalid-feedback text-danger" role="alert">
@@ -72,7 +72,7 @@
                                         @endforeach
                                                     </span>
                                 @endif
-        
+
                             </fieldset>
                             <div class="form-group d-flex justify-content-between align-items-center">
                                 <div class="text-left">
@@ -90,22 +90,18 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary float-right login-btn">
-        
+
                                 {{ __('admin.login') }}
                                 &nbsp;
                                 <i class="feather icon-arrow-right"></i>
                             </button>
                         </form>
-        
                     </div>
                 </div>
             </div>
         </div>
-        
-
-
-
     </div>
+
     <div class="col-md-9 col-sm-9 col-12 auth-fluid-right">
             <div class="auth-user-testimonial">
                 <h2 class="mb-3">Stay Hungry, Stay Foolish!</h2>
