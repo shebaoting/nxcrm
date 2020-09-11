@@ -22,5 +22,5 @@
     <span class="sale"><i class="feather icon-credit-card"></i>所属合同：{{$contract['title']}}</span>
 
     <span class="time"><i class="feather icon-clipboard"></i>此合同已开票：{{$invoice_sum}}元</span>
-    <span class="time"><i class="feather icon-paperclip"></i>此合同已收款：{{$receipt_sum}}元</span>
+    <span class="time"><i class="feather icon-credit-card"></i>此合同已收款：{{$receipt_sum}}元</span>
 </div>
