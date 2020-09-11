@@ -39,8 +39,10 @@ Route::group([
     $router->resource('opportunitys', 'OpportunityController');
 
     //发票
+    $router->patch('/invoices/{invoice}/state', 'InvoiceController@state')->name('invoices.state')->where(['article' => '[0-9]+']);
     $router->resource('invoices', 'InvoiceController');
 
-    // 网站配置;
+
+    //网站配置
     Route::get('/settings', 'SettingsController@index')->name('settings.index');
 });

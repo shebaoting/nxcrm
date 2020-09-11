@@ -17,6 +17,7 @@ class AttachmentController extends AdminController
         $this->contractid = $request->contract_id;
         $this->electronic = $request->electronic;
         $this->opportunityid = $request->opportunity_id;
+        $this->invoiceid = $request->invoice_id;
         return $this;
     }
     /**
@@ -94,6 +95,7 @@ class AttachmentController extends AdminController
             }
             $form->hidden('customer_id')->value($this->customerid);
             $form->hidden('opportunity_id')->value($this->opportunityid);
+            $form->hidden('invoice_id')->value($this->invoiceid);
             $form->display('created_at');
             $form->display('updated_at');
 
@@ -102,6 +104,8 @@ class AttachmentController extends AdminController
                     return $form->redirect('contracts/' . $form->contract_id, '保存成功');
                 } elseif ($this->opportunityid) {
                     return $form->redirect('opportunitys/' . $form->opportunity_id, '保存成功');
+                } elseif ($this->invoiceid) {
+                    return $form->redirect('invoices/' . $form->invoice_id, '保存成功');
                 } else {
                     return $form->redirect('customers/' . $form->customer_id, '保存成功');
                 }

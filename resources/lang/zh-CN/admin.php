@@ -208,8 +208,8 @@ return [
     'menu_titles' => [
         'index'         => '工作台',
         'admin'         => '系统',
-        'users'         => '管理员',
-        'roles'         => '角色',
+        'users'         => '团队',
+        'roles'         => '部门',
         'permission'    => '权限',
         'menu'          => '菜单',
         'operation_log' => '操作日志',

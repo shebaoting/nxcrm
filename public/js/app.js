@@ -19410,6 +19410,17 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+/***/ "./resources/sass/invoice_show.scss":
+/*!******************************************!*\
+  !*** ./resources/sass/invoice_show.scss ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/sass/opportunity_show.scss":
 /*!**********************************************!*\
   !*** ./resources/sass/opportunity_show.scss ***!
@@ -19422,9 +19433,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /***/ }),
 
 /***/ 0:
-/*!*******************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/customer_show.scss ./resources/sass/contract_show.scss ./resources/sass/opportunity_show.scss ./resources/sass/home.scss ***!
-  \*******************************************************************************************************************************************************************************************************/
+/*!******************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/customer_show.scss ./resources/sass/contract_show.scss ./resources/sass/opportunity_show.scss ./resources/sass/invoice_show.scss ./resources/sass/home.scss ***!
+  \******************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19433,6 +19444,7 @@ __webpack_require__(/*! D:\WWW\Nxcrm_Professional\resources\sass\app.scss */"./r
 __webpack_require__(/*! D:\WWW\Nxcrm_Professional\resources\sass\customer_show.scss */"./resources/sass/customer_show.scss");
 __webpack_require__(/*! D:\WWW\Nxcrm_Professional\resources\sass\contract_show.scss */"./resources/sass/contract_show.scss");
 __webpack_require__(/*! D:\WWW\Nxcrm_Professional\resources\sass\opportunity_show.scss */"./resources/sass/opportunity_show.scss");
+__webpack_require__(/*! D:\WWW\Nxcrm_Professional\resources\sass\invoice_show.scss */"./resources/sass/invoice_show.scss");
 module.exports = __webpack_require__(/*! D:\WWW\Nxcrm_Professional\resources\sass\home.scss */"./resources/sass/home.scss");
 
 

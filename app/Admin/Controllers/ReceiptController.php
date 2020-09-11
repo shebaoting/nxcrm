@@ -133,7 +133,7 @@ class ReceiptController extends AdminController
                             4 => '地税通用机打发票',
                             5 => '收据'
                         ]);
-
+                    $form->hidden('state')->value(0);
                     $form->fieldset('发票信息', function (Form $form) {
                         $form->radio('invoice.title_type', '抬头类型')
                         ->when(1, function (Form $form) {
