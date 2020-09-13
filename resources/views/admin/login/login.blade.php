@@ -100,6 +100,18 @@
                     </div>
                 </div>
             </div>
+
+{{-- <style>
+    .qrcode_main {text-align: center; position: absolute; bottom: 100px}
+    .qrcode {width: 100px;}
+</style>
+
+<div class="qrcode_main">
+    <p>扫码获取用户名密码</p>
+    <img class="qrcode" src="/static/img/qrcode.jpg" alt="">
+</div> --}}
+
+
         </div>
     </div>
     <div class="col-md-9 col-sm-9 col-12 auth-fluid-right">
