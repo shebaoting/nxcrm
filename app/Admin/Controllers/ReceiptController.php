@@ -133,7 +133,7 @@ class ReceiptController extends AdminController
                             4 => '地税通用机打发票',
                             5 => '收据'
                         ]);
-                    $form->hidden('state')->value(0);
+                    $form->hidden('invoice.state')->value(0);
                     $form->fieldset('发票信息', function (Form $form) {
                         $form->radio('invoice.title_type', '抬头类型')
                         ->when(1, function (Form $form) {
@@ -166,6 +166,21 @@ class ReceiptController extends AdminController
                     ]
                 )->default('0');
             $form->saving(function (Form $form) {
+                if ($form->billtype == 0){
+                    $form->deleteInput('invoice.money');
+                    $form->deleteInput('invoice.type');
+                    $form->deleteInput('invoice.state');
+                    $form->deleteInput('invoice.title_type');
+                    $form->deleteInput('invoice.tin');
+                    $form->deleteInput('invoice.bank_name');
+                    $form->deleteInput('invoice.bank_account');
+                    $form->deleteInput('invoice.address');
+                    $form->deleteInput('invoice.title');
+                    $form->deleteInput('invoice.phone');
+                    $form->deleteInput('invoice.contact_name');
+                    $form->deleteInput('invoice.contact_phone');
+                    $form->deleteInput('invoice.contact_address');
+                }
                 if ($form->receive) {
                     $form->receive = str_replace(',', '', $form->receive);
                 }
