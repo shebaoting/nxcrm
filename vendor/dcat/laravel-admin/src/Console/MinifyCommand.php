@@ -33,10 +33,10 @@ class MinifyCommand extends Command
      */
     protected $themes = [
         self::DEFAULT => '',
-        'blue'        => '#5686d4',
-        'blue-light'  => '#4199de',
+        'blue'        => '#1890ff',
+        'blue-light'  => '#3370ff',
         'blue-dark'   => '#586cb1',
-        'green'       => '#4e9876',
+        'green'       => '#07c160',
     ];
 
     /**

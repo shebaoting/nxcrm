@@ -156,7 +156,7 @@ class ReceiptController extends AdminController
                         $form->mobile('invoice.contact_phone', '联系电话');
                         $form->text('invoice.contact_address', '邮寄地址');
                     });
-
+                    $form->hidden('invoice.contract_id');
 
                 })
                 ->options(
@@ -165,9 +165,18 @@ class ReceiptController extends AdminController
                         1 => '开票',
                     ]
                 )->default('0');
+            // $form->submitted(function (Form $form) {
+            //     dd($form->input('contract_id'));
+            //     $form->input('invoice.contract_id') = $form->input('contract_id');
+            //     return $form->input('invoice.contract_id');
+            // });
             $form->saving(function (Form $form) {
+                $invoice = $form->invoice;
+                $invoice['contract_id'] = $form->contract_id;
+                $form->invoice = $invoice;
                 if ($form->billtype == 0){
                     $form->deleteInput('invoice.money');
+                    $form->deleteInput('invoice.contract_id');
                     $form->deleteInput('invoice.type');
                     $form->deleteInput('invoice.state');
                     $form->deleteInput('invoice.title_type');
@@ -184,7 +193,7 @@ class ReceiptController extends AdminController
                 if ($form->receive) {
                     $form->receive = str_replace(',', '', $form->receive);
                 }
-                return $form->receive;
+                return $form;
             });
         });
     }

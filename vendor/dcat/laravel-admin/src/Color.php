@@ -78,7 +78,7 @@ class Color
         ],
         'blue-light' => [
             'colors' => [
-                'primary'        => '#4199de',
+                'primary'        => '#3370ff',
                 'primary-darker' => '#278bd9',
                 'link'           => '#278bd9',
             ],
@@ -92,16 +92,16 @@ class Color
         ],
         'blue' => [
             'colors' => [
-                'primary'        => '#5686d4',
-                'primary-darker' => '#4277cf',
-                'link'           => '#4277cf',
+                'primary'        => '#1890ff',
+                'primary-darker' => '#1890ff',
+                'link'           => '#1890ff',
             ],
         ],
         'green' => [
             'colors' => [
-                'primary'        => '#4e9876',
-                'primary-darker' => '#458769',
-                'link'           => '#458769',
+                'primary'        => '#07c160',
+                'primary-darker' => '#07c160',
+                'link'           => '#07c160',
             ],
         ],
     ];
@@ -116,7 +116,7 @@ class Color
         'success' => 'green',
         'danger'  => 'red',
         'warning' => 'orange',
-        'indigo'  => '#5c6bc6',
+        'indigo'  => '#fe2d54',
         'blue'    => '#3085d6',
         'red'     => '#ea5455',
         'orange'  => '#dda451',
@@ -140,7 +140,7 @@ class Color
         // 黄色
         'yellow' => '#edc30e',
 
-        'indigo-darker' => '#495abf',
+        'indigo-darker' => '#fe2d54',
         'red-darker'    => '#bd4147',
         'blue-darker'   => '#236bb0',
         'cyan-darker'   => '#6355ee',

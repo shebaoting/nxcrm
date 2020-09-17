@@ -81,7 +81,7 @@
 }
 
 .receipts .xco {
-  color: #495abf;
+  color: #fe2d54;
 }
 
 .receipts .fsh {
@@ -192,7 +192,6 @@ body.dark-mode #tab_electronics .img-thumbnail {
 }
 
 #tab_events .events .time_md i {
-  color: #99b8ff;
   margin-left: -20px;
   font-size: 12px;
 }

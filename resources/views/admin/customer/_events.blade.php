@@ -5,8 +5,8 @@
         <div class="row events">
             <div class="col-md-1 col-sm-1 col-12 time_y">
                 {{date("Y")}}</div>
-            <div class="col-md-1 col-sm-1 col-12 time_md">
-                <i class="fa fa-circle"></i>
+            <div class="col-md-1 col-sm-1 col-12 time_md" style="border-left: 1px solid {{Admin::color()->get('primary')}}">
+                <i class="fa fa-circle text-primary"></i>
                 <span>{{date("m-d")}}</span>
                 <span class="time_hi">{{date("H:i")}}</span>
             </div>
@@ -35,7 +35,7 @@
     <div class="row events contentlist">
         <div class="col-md-1 col-sm-1 col-12 time_y">
             {{$event['updated_at']->format('Y')}}</div>
-        <div class="col-md-1 col-sm-1 col-12 time_md"><i class="fa fa-circle"></i>
+        <div class="col-md-1 col-sm-1 col-12 time_md" style="border-left: 1px solid {{Admin::color()->get('primary')}}"><i class="fa fa-circle"></i>
             <span>{{$event['updated_at']->format('m-d')}}</span>
             <span class="time_hi">{{$event['updated_at']->format('H:i')}}</span></div>
         <div class="col-md-2 col-sm-2 col-12"><img class="avatar"

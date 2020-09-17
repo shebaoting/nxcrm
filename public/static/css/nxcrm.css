@@ -77,7 +77,7 @@
 
 [class*=sidebar-light-] .nav-treeview>.nav-item>.nav-link.active,
 [class*=sidebar-light-] .nav-treeview>.nav-item>.nav-link.active:hover {
-    color: #5c6bc6;
+    color: #fe2d54;
     background: none;
     box-shadow: 0px 0px
 }

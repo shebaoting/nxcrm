@@ -21,10 +21,10 @@
         <div class="row" style="padding: 20px 0">
             <div class="col-md-6 col-sm-6 col-12" style="border-right: 1px solid #e1e4e9">
 
-                <a href="{{ route('contacts.create',['id'=>$customer['id']]) }}"><span><i
+                <a href="{{ route('contacts.create',['id'=>$customer['id']]) }}"><span class="text-primary"><i
                             class="feather icon-plus"></i></span>添加</a>
             </div>
-            <div class="col-md-6 col-sm-6 col-12"><a href=""><span><i class="feather icon-link"></i></span>关联</a></div>
+            <div class="col-md-6 col-sm-6 col-12"><a href=""><span class="text-primary"><i class="feather icon-link"></i></span>关联</a></div>
         </div>
     </div>
 </div>

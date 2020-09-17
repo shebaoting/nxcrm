@@ -87,7 +87,7 @@ class Customers extends Bar
      *
      * @return $this
      */
-    public function withContent($title, $value, $style = 'success')
+    public function withContent($title, $value, $style = 'primary')
     {
         // 根据选项显示
         return $this->content(

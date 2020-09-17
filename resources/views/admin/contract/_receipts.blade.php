@@ -8,7 +8,7 @@
     <div class="row receipts">
         <div class="col-md-4 col-sm-4 col-12 receipts-left">
             <p class="mbm">
-                <span class="xco ffmy">￥</span><span class="xco fsh">{{$accepts}}</span>
+                <span class="xco ffmy text-primary">￥</span><span class="xco fsh text-primary">{{$accepts}}</span>
             </p>
             <span>已收款</span>
         </div>

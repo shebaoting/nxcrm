@@ -2,7 +2,7 @@
 @foreach ($leads as $lead)
 <div class="row LeadsRecent">
 <div class="col-md-2 avatar"><img src="uploads/{{$lead->admin_users->avatar}}" alt=""></div>
-<div class="col-md-8">{{$lead->name}}</div>
+<div class="col-md-6">{{$lead->name}}</div>
 <div class="col-md-2">
     @switch($lead->state)
     @case(0)
