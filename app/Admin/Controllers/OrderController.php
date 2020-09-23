@@ -25,13 +25,13 @@ class OrderController extends AdminController
         Admin::css(static::$css);
         return Grid::make(new Order(), function (Grid $grid) {
             $grid->column('prodname')->display(function($id) {
-                return Product::find($id)->name;
+                return optional(Product::find($id))->name;
             })->width('30%');
             $grid->column('quantity')->display(function ($quantity) {
-                return $quantity."<span class='unit'>".Product::find($this->prodname)->unit."<span>";
+                return $quantity."<span class='unit'>".optional(Product::find($this->prodname))->unit."<span>";
             });
             $grid->column('executionprice')->display(function ($executionprice) {
-                return $executionprice."<span class='executionprice'><s>(原价".Product::find($this->prodname)->price.")</s><span>";
+                return $executionprice."<span class='executionprice'><s>(原价".optional(Product::find($this->prodname))->price.")</s><span>";
             });
             $grid->column('contract_id')->display(function($id) {
                 return '<a href="contracts/'.Contract::find($id)->id.'">'.Contract::find($id)->title.'</a>';
