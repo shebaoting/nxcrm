@@ -228,5 +228,7 @@ return [
         'opportunitys'      => '商机',
         'settings'      => '系统',
         'invoices'      => '发票',
+        'products'      => '产品',
+        'order'      => '订单',
     ],
 ];

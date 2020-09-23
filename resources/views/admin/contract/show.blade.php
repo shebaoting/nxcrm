@@ -74,6 +74,10 @@
                 {{-- 预期收入 --}}
                 @include('admin.contract._total')
             </div>
+            <div class="card total">
+                {{-- 合同期限 --}}
+                @include('admin.contract._date')
+            </div>
         </div>
     </div>
 </div>

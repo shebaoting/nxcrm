@@ -16,35 +16,12 @@
         <tbody>
             @foreach (json_decode($contract['order']) as $order_content)
             <tr>
-                <td>{{$order_content->prodname}}</td>
+                <td>{{App\Models\Product::find($order_content->prodname)->name}}</td>
                 <td>{{$order_content->prodprice}}</td>
                 <td>{{$order_content->executionprice}}</td>
                 <td>{{$order_content->quantity}}</td>
                 <td>
-                    @switch($order_content->unit)
-                    @case(1)
-                    套
-                    @break
-
-                    @case(2)
-                    个
-                    @break
-
-                    @case(3)
-                    件
-                    @break
-
-                    @case(4)
-                    张
-                    @break
-
-                    @case(5)
-                    次
-                    @break
-
-                    @default
-                    条
-                    @endswitch
+                   {{App\Models\Product::find($order_content->prodname)->unit}}
                 </td>
                 <td>{{$order_content->quantity * $order_content->executionprice}} 元</td>
             </tr>

@@ -20,16 +20,16 @@
   max-width: 83.3333333333%;
 }
 
-.feather {
-  margin-right: 0.75rem;
-}
-
 .card-header {
   padding: 2rem 2rem 1.5em !important;
 }
 
 .card-header .metric-content {
   width: 100%;
+}
+
+.card-header .metric-content .feather {
+  margin-right: 0.75rem;
 }
 
 .card-header .metric-content h1 span {
@@ -65,6 +65,10 @@
   padding: 1rem 2rem 1.5em !important;
 }
 
+.total .box-body .feather {
+  margin-right: 0.75rem;
+}
+
 .total .box-body h2 {
   font-size: 36px;
   margin-bottom: 40px;
@@ -77,7 +81,7 @@
 
 .total .box-body .sale {
   display: block;
-  margin-bottom: 35px;
+  margin-bottom: 15px;
 }
 
 .receipts .xco {

@@ -6,11 +6,9 @@
 
 <div class="box-body">
 
-    <h2>{{$contract['total']}} <span style="font-size: 12px">元</span></h2>
-    <span class="sale"><i class="feather icon-credit-card"></i>销售费用：{{$contract['salesexpenses']}}
+    <h2>{{$contract['total'] - $contract['salesexpenses']}} <span style="font-size: 12px">元</span></h2>
+    <span class="sale"><i class="feather icon-credit-card"></i>合同金额：{{$contract['total']}}
         元</span>
-
-    <span class="time"><i class="feather icon-clipboard"></i>合同期限：{{$contract['signdate']}} ~
-        {{$contract['expiretime']}}</span>
-    <span class="time"><i class="feather icon-paperclip"></i>签署日期：{{$contract['signdate']}}</span>
+    <span class="sale"><i class="feather icon-credit-card"></i>商务支出：{{$contract['salesexpenses']}}
+        元</span>
 </div>

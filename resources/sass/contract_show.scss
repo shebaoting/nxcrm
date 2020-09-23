@@ -30,16 +30,15 @@
     }
 }
 
-.feather {
-    margin-right: 0.75rem;
-}
 
 .card-header {
     padding: 2rem 2rem 1.5em !important;
 
     .metric-content {
         width: 100%;
-
+        .feather {
+            margin-right: 0.75rem;
+        }
         h1 {
             span {
                 font-size: 14px;
@@ -58,13 +57,15 @@
         right: 10px;
         top: 10px;
         a {color: #fff;}
-    } 
+    }
 }
 
 .total {
     .box-body {
         padding: 1rem 2rem 1.5em !important;
-
+        .feather {
+            margin-right: 0.75rem;
+        }
         h2 {
             font-size: 36px;
             margin-bottom: 40px;
@@ -77,7 +78,7 @@
 
         .sale {
             display: block;
-            margin-bottom: 35px;
+            margin-bottom: 15px;
         }
     }
 }
@@ -129,7 +130,7 @@
         }
         img {max-width: 100%; max-height: 100%;vertical-align: initial;}
     }
-    
+
 }
 body.dark-mode #tab_electronics {
     .img-thumbnail {background-color: #2c2c43;

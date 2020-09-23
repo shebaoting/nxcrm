@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Contract;
+use App\Models\Product;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -177,11 +178,12 @@ class ContractController extends AdminController
 
             $form->column(12, function (Form $form) {
                 $form->table('order', '订单', function ($table) {
-                    $table->text('prodname', '产品');
-                    $table->currency('prodprice', '标准价');
-                    $table->currency('executionprice', '成交价');
+                    // $table->select('prodname', '产品')->options(Product::pluck('name', 'id'));
+                    $table->select('prodname', '产品')->options(Product::pluck('name', 'id'));
+                    $table->hidden('prodprice', '标准价');
+                    $table->currency('executionprice', '成交单价')->symbol('￥');
                     $table->number('quantity', '数量')->attribute('min', 1)->default(1);
-                    $table->select('unit', '单位')->options([1 => '套', 2 => '个', 3 => '件', 4 => '张', 5 => '次', 6 => '条']);
+                    // $table->text('unit', '单位')->disable();
                 })->saving(function ($v) {
                     return json_encode($v);
                 });
@@ -216,9 +218,10 @@ class ContractController extends AdminController
                     $form->total = str_replace(',', '', $form->total);
                 }
                 $order = $form->order;
-                foreach ($order as $key =>$value) {
+                foreach ($order as $key => $value) {
+                    $productid = $order[$key]['prodname'];
                     $order[$key]['executionprice'] = str_replace(',', '', $order[$key]['executionprice']);
-                    $order[$key]['prodprice'] = str_replace(',', '', $order[$key]['prodprice']);
+                    $order[$key]['prodprice'] = Product::find($productid)->price;
                 }
                 $form->order = $order;
                 return $form;

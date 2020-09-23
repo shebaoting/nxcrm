@@ -42,6 +42,12 @@ Route::group([
     $router->patch('/invoices/{invoice}/state', 'InvoiceController@state')->name('invoices.state')->where(['article' => '[0-9]+']);
     $router->resource('invoices', 'InvoiceController');
 
+    //产品
+    $router->resource('products', 'ProductController');
+    Route::get('/productslist', 'ProductController@list')->name('products.list');
+
+    //订单
+    Route::get('/orders', 'OrderController@index')->name('order.index');
 
     //网站配置
     Route::get('/settings', 'SettingsController@index')->name('settings.index');

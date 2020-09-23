@@ -20,6 +20,7 @@ return [
         'contact_name' => '联系人',
         'contact_phone' => '联系电话',
         'contact_address' => '邮寄地址',
+        'state' => '状态',
     ],
     'options' => [
     ],
