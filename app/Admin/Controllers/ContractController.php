@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Contract;
 use App\Models\Product;
+use App\Admin\Renderable\CustomerTable;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -25,6 +26,7 @@ class ContractController extends AdminController
      */
     protected function grid()
     {
+        // dd(date("Y-m-d", strtotime("-7 day")));
 
         if (!Admin::user()->isRole('administrator')) {
             $contract = Contract::whereHas('customer', function ($query) {
@@ -35,6 +37,41 @@ class ContractController extends AdminController
         }
 
         return Grid::make($contract, function (Grid $grid) {
+
+            $grid->selector(function (Grid\Tools\Selector $selector) {
+                $selector->select('status', '状态', [
+                    1 => '未开始',
+                    2 => '执行中',
+                    3 => '正常结束',
+                    4 => '意外终止',
+                ]);
+                $selector->select('signdate', '签订日期', ['3天内', '7天内', '15天内', '1月内', '2月内'], function ($query, $value) {
+                    $between = [
+                        [date("Y-m-d", strtotime("-3 day")), date("Y-m-d")],
+                        [date("Y-m-d", strtotime("-7 day")), date("Y-m-d")],
+                        [date("Y-m-d", strtotime("-15 day")), date("Y-m-d")],
+                        [date("Y-m-d", strtotime("-1 month")), date("Y-m-d")],
+                        [date("Y-m-d", strtotime("-2 month")), date("Y-m-d")],
+                    ];
+
+                    $value = current($value);
+                    $query->whereBetween('signdate', $between[$value]);
+                });
+                $selector->select('expiretime', '到期时间', ['3天内', '7天内', '15天内', '1月内', '2月内'], function ($query, $value) {
+                    $between = [
+                        [date("Y-m-d"), date("Y-m-d", strtotime("+3 day"))],
+                        [date("Y-m-d"), date("Y-m-d", strtotime("+7 day"))],
+                        [date("Y-m-d"), date("Y-m-d", strtotime("+15 day"))],
+                        [date("Y-m-d"), date("Y-m-d", strtotime("+1 month"))],
+                        [date("Y-m-d"), date("Y-m-d", strtotime("+2 month"))],
+                    ];
+
+                    $value = current($value);
+                    $query->whereBetween('expiretime', $between[$value]);
+                });
+            });
+
+
             $grid->status
                 ->using(
                     [
@@ -146,24 +183,22 @@ class ContractController extends AdminController
     protected function form()
     {
         return Form::make(new Contract(), function (Form $form) {
-            $Editing = $form->isEditing() && Admin::user()->id != Customer::find($form->model()->customer_id)->admin_users_id;
-            if ($Editing) {
-                $customer = Customer::find($form->model()->id);
-                $this->authorize('update', $customer);
-            }
+            // $Editing = $form->isEditing() && Admin::user()->id != Customer::find($form->model()->customer_id)->admin_users_id;
+            // if ($Editing) {
+            //     $customer = Customer::find($form->model()->id);
+            //     $this->authorize('update', $customer);
+            // }
 
             Admin::css(static::$css);
 
 
             $form->column(6, function (Form $form) {
                 $form->text('title')->required();
-                $form->selectResource('customer_id')
-                    ->path('customers') // 设置表格页面链接;
-                    ->multiple(1)
-                    ->options(function ($v) { // 显示已选中的数据
-                        if (!$v) return $v;
-                        return Customer::find($v)->pluck('name', 'id');
-                    });
+                $form->selectTable('customer_id')
+                ->title('弹窗标题')
+                ->dialogWidth('50%') // 弹窗宽度，默认 800px
+                ->from(CustomerTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
+                ->model(Customer::class, 'id', 'name'); // 设置编辑数据显示
                 $form->date('signdate', '签署时间')->required();
             });
 
@@ -229,26 +264,4 @@ class ContractController extends AdminController
         });
     }
 
-    protected function iFrameGrid()
-    {
-        if (!Admin::user()->isRole('administrator')) {
-            $contract = Contract::whereHas('customer', function ($query) {
-                $query->where('admin_users_id', Admin::user()->id);
-            });
-        } else {
-            $contract = new Contract();
-        }
-        $grid = new IFrameGrid($contract);
-        // 如果表格数据中带有 “name”、“title”或“username”字段，则可以不用设置
-        $grid->rowSelector()->titleColumn('title');
-        $grid->id->sortable();
-        $grid->title;
-        $grid->disableRefreshButton();
-        $grid->filter(function (Grid\Filter $filter) {
-            $filter->equal('id');
-            $filter->like('title');
-        });
-
-        return $grid;
-    }
 }

@@ -30,6 +30,13 @@ class LeadController extends AdminController
             if(!Admin::user()->isRole('administrator')){
                 $grid->model()->where('admin_users_id', '=', Admin::user()->id);
             }
+            $grid->selector(function (Grid\Tools\Selector $selector) {
+                $selector->select('state', '状态', [
+                    0 => '待处理',
+                    1 => '跟进中',
+                ]);
+            });
+
             $grid->setDialogFormDimensions('700px', '420px');
             $grid->id->sortable();
             $grid->name('客户名称')->link(function () {

@@ -29,6 +29,17 @@ class InvoiceController extends AdminController
     protected function grid()
     {
         return Grid::make(new Invoice(), function (Grid $grid) {
+
+            $grid->selector(function (Grid\Tools\Selector $selector) {
+                $selector->select('state', '状态', [
+                    0 => '未开票',
+                    1 => '已开票',
+                    2 => '已领取',
+                    3 => '已驳回',
+                    4 => '已作废',
+                ]);
+            });
+
             $grid->column('receipt.contract_id','所属合同编号')->display(function($id) {
                 return '<a href="contracts/'.Contract::find($id)->id.'">'.strtotime(Contract::find($id)->signdate).'</a>';
             });
@@ -171,7 +182,7 @@ class InvoiceController extends AdminController
                 $form->mobile('contact_phone', '联系电话');
                 $form->text('contact_address', '邮寄地址');
             });
-    
+
             $form->footer(function ($footer) {
                 // 去掉`查看`checkbox
                 $footer->disableViewCheck();

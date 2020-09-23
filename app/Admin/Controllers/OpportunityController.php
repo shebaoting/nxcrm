@@ -35,6 +35,22 @@ class OpportunityController extends AdminController
         }
 
         return Grid::make($opportunity, function (Grid $grid) {
+
+            $grid->selector(function (Grid\Tools\Selector $selector) {
+                $selector->select('tempo', '商机进度', [
+                    1 => '1-前期接触',
+                    2 => '2-机会评估',
+                    3 => '3-需求分析',
+                    4 => '4-方案提供',
+                    5 => '5-多方选择/评估',
+                ]);
+                $selector->select('state', '状态', [
+                    0 => '已失败',
+                    1 => '跟进中',
+                    2 => '成功',
+                ]);
+            });
+
             $grid->id->sortable();
             $grid->subject->link(function () {
                 return admin_url('opportunitys/' . $this->id);
