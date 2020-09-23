@@ -91,11 +91,11 @@ class ReceiptController extends AdminController
     protected function form()
     {
         return Form::make(Receipt::with('invoice'), function (Form $form) {
-            $Editing = $form->isEditing() && Admin::user()->id != Customer::find(Contract::find($form->model()->contract_id)->customer_id)->admin_users_id;
-            if ($Editing) {
-                $customer = Customer::find($form->model()->id);
-                $this->authorize('update', $customer);
-            }
+            // $Editing = $form->isEditing() && Admin::user()->id != Customer::find(Contract::find($form->model()->contract_id)->customer_id)->admin_users_id;
+            // if ($Editing) {
+            //     $customer = Customer::find($form->model()->id);
+            //     $this->authorize('update', $customer);
+            // }
             $form->display('id');
             $form->currency('receive')->symbol('￥');
 
