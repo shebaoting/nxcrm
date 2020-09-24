@@ -21,6 +21,7 @@
 
 body.dark-mode .login_main {
   background: url(/static/img/bg-auth.jpg) center;
+  background-size: cover;
 }
 .login_main .login-page {
   background-color: #fff;
