@@ -25,7 +25,7 @@ class ContractTable extends LazyRenderable
 
             $grid->quickSearch(['id', 'title', 'customer_id']);
 
-            $grid->paginate(10);
+            $grid->paginate(5);
             $grid->disableActions();
             $grid->model()->orderBy('id', 'desc');
             $grid->filter(function (Grid\Filter $filter) {
