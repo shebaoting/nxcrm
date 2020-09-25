@@ -9,6 +9,7 @@ use Dcat\Admin\Show;
 use App\Models\Contract;
 use Dcat\Admin\Admin;
 use App\Models\Customer;
+use App\Admin\Renderable\ContractTable;
 use Dcat\Admin\Controllers\AdminController;
 
 class ReceiptController extends AdminController
@@ -109,13 +110,11 @@ class ReceiptController extends AdminController
                     ]
                 );
 
-            $form->selectResource('contract_id')
-                ->path('contracts') // 设置表格页面链接;
-                ->multiple(1)
-                ->options(function ($v) { // 显示已选中的数据
-                    if (!$v) return $v;
-                    return Contract::find($v)->pluck('title', 'id');
-                });
+                $form->selectTable('contract_id')
+                ->title('选择当前收款所属合同')
+                ->dialogWidth('50%') // 弹窗宽度，默认 800px
+                ->from(ContractTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
+                ->model(Contract::class, 'id', 'title'); // 设置编辑数据显示
 
             $form->text('remark');
             $form->datetime('updated_at');
