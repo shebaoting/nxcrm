@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Admin\Controllers;
+
 use App\Models\Invoice;
 use App\Models\Contract;
 use App\Admin\Renderable\ContractTable;
@@ -16,8 +17,8 @@ class InvoiceController extends AdminController
 {
     public static $js = [
         // js脚本不能直接包含初始化操作，否则页面刷新后无效
-       'https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js',
-   ];
+        'https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js',
+    ];
     public static $css = [
         '/static/css/invoice_show.css',
     ];
@@ -40,36 +41,73 @@ class InvoiceController extends AdminController
                 ]);
             });
 
-            $grid->column('receipt.contract_id','所属合同编号')->display(function($id) {
-                return '<a href="contracts/'.Contract::find($id)->id.'">'.strtotime(Contract::find($id)->signdate).'</a>';
+            $grid->column('receipt.contract_id', '所属合同编号')->display(function ($id) {
+                return '<a href="contracts/' . Contract::find($id)->id . '">' . strtotime(Contract::find($id)->signdate) . '</a>';
             });
-            $grid->column('id','发票编号')->display(function($id) {
-                return '<a href="invoices/'.$id.'">'.strtotime($this->created_at).'</a>';
+            $grid->column('id', '发票编号')->display(function ($id) {
+                return '<a href="invoices/' . $id . '">' . strtotime($this->created_at) . '</a>';
             });
-            $grid->column('created_at','申请时间');
+            $grid->column('created_at', '申请时间');
             $grid->model()->with(['receipt']);
             $grid->state
-            ->using(
-                [
-                    0 => '未开票',
-                    1 => '已开票',
-                    2 => '已领取',
-                    3 => '已驳回',
-                    4 => '已作废',
-                ]
-            )->dot(
-                [
-                    0 => 'dark85',
-                    1 => 'blue',
-                    2 => 'green',
-                    3 => 'red-darker',
-                    4 => 'dark',
-                ],
-                'dark85' // 第二个参数为默认值
-            );
+                ->using(
+                    [
+                        0 => '未开票',
+                        1 => '已开票',
+                        2 => '已领取',
+                        3 => '已驳回',
+                        4 => '已作废',
+                    ]
+                )->dot(
+                    [
+                        0 => 'dark85',
+                        1 => 'blue',
+                        2 => 'green',
+                        3 => 'red-darker',
+                        4 => 'dark',
+                    ],
+                    'dark85' // 第二个参数为默认值
+                );
             $grid->column('money');
             $grid->column('title');
             $grid->column('remark');
+
+
+            if (Admin::user()->isRole('administrator')) {
+                $top_titles = [
+                    'id' => 'ID',
+                    'title' => '抬头名称',
+                    'money' => '开票金额',
+                    'tin' => '纳税人识别号',
+                    'bank_name' => '开户行',
+                    'bank_account' => '开户账号',
+                    'address' => '开票地址',
+                    'phone' => '电话',
+                    'state' => '发票状态',
+                ];
+                $grid->export($top_titles)->rows(function (array $rows) {
+                    foreach ($rows as $index => &$row) {
+                        switch ($row['state']) {
+                            case 0:
+                                $row['state'] = '未开票';
+                                break;
+                            case 1:
+                                $row['state'] = '已开票';
+                                break;
+                            case 2:
+                                $row['state'] = '已领取';
+                                break;
+                            case 3:
+                                $row['state'] = '已驳回';
+                                break;
+                            default:
+                                $row['state'] = '已作废';
+                        }
+                    }
+                    return $rows;
+                });
+            }
+
 
             $grid->disableEditButton();
             $grid->disableDeleteButton();
@@ -98,8 +136,8 @@ class InvoiceController extends AdminController
         $contract = Invoice::find($id)->Receipt->Contract;
         $receipt = Invoice::find($id)->Receipt;
         $customer = Invoice::find($id)->Receipt->Contract->Customer;
-        $attachments= Invoice::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
-        $contractid= Invoice::find($id)->Receipt->Contract->id;
+        $attachments = Invoice::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
+        $contractid = Invoice::find($id)->Receipt->Contract->id;
         $receipts = Contract::find($contractid)->Receipts;
         $invoices = Contract::find($contractid)->Invoices;
 
@@ -117,21 +155,21 @@ class InvoiceController extends AdminController
 
         $data = [
             'invoice' => $invoice,
-            'contract'=> $contract,
-            'receipt'=> $receipt,
-            'customer'=> $customer,
-            'attachments'=> $attachments,
-            'receipt_sum'=> $receipt_sum,
-            'invoice_sum'=> $invoice_sum,
+            'contract' => $contract,
+            'receipt' => $receipt,
+            'customer' => $customer,
+            'attachments' => $attachments,
+            'receipt_sum' => $receipt_sum,
+            'invoice_sum' => $invoice_sum,
         ];
         return $content
-        ->title('发票')
-        ->description('详情')
-        ->body($this->_detail($data));
+            ->title('发票')
+            ->description('详情')
+            ->body($this->_detail($data));
     }
-    private function _detail ($data)
+    private function _detail($data)
     {
-        return view('admin/invoice/show',$data);
+        return view('admin/invoice/show', $data);
     }
 
 
@@ -145,29 +183,29 @@ class InvoiceController extends AdminController
         return Form::make(new Invoice(), function (Form $form) {
             $form->display('id');
             $form->selectTable('contract_id')
-            ->title('选择当前发票所属合同')
-            ->dialogWidth('50%') // 弹窗宽度，默认 800px
-            ->from(ContractTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
-            ->model(Contract::class, 'id', 'title'); // 设置编辑数据显示
+                ->title('选择当前发票所属合同')
+                ->dialogWidth('50%') // 弹窗宽度，默认 800px
+                ->from(ContractTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
+                ->model(Contract::class, 'id', 'title'); // 设置编辑数据显示
             $form->hidden('receipt_id')->value(0);
             $form->currency('money')->symbol('￥');
             $form->select('type')
-            ->options([
-                1 => '增值税普通发票',
-                2 => '增值税专用发票',
-                3 => '国税通用机打发票',
-                4 => '地税通用机打发票',
-                5 => '收据'
-            ]);
+                ->options([
+                    1 => '增值税普通发票',
+                    2 => '增值税专用发票',
+                    3 => '国税通用机打发票',
+                    4 => '地税通用机打发票',
+                    5 => '收据'
+                ]);
             $form->text('remark');
             $form->fieldset('发票信息', function (Form $form) {
                 $form->radio('title_type', '抬头类型')
-                ->when(1, function (Form $form) {
-                    $form->text('tin', '纳税人识别号');
-                    $form->text('bank_name', '开户行');
-                    $form->text('bank_account', '开户账号');
-                    $form->text('address', '开票地址');
-                })
+                    ->when(1, function (Form $form) {
+                        $form->text('tin', '纳税人识别号');
+                        $form->text('bank_name', '开户行');
+                        $form->text('bank_account', '开户账号');
+                        $form->text('address', '开票地址');
+                    })
                     ->options([
                         1 => '单位',
                         2 => '个人',

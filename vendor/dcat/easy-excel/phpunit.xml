@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.5/phpunit.xsd"
+         colors="true"
+         convertErrorsToExceptions="false"
+         convertWarningsToExceptions="false"
+         defaultTestSuite="unit-tests"
+         verbose="false">
+
+    <testsuites>
+
+        <testsuite name="unit-tests">
+            <directory>tests/</directory>
+        </testsuite>
+
+        <testsuite name="Importers">
+            <directory suffix="Test.php">tests/Importers</directory>
+        </testsuite>
+
+        <testsuite name="Exporters">
+            <directory suffix="Test.php">tests/Exporters</directory>
+        </testsuite>
+
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/</directory>
+        </whitelist>
+    </filter>
+
+</phpunit>

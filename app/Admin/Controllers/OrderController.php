@@ -37,6 +37,22 @@ class OrderController extends AdminController
                 return '<a href="contracts/'.Contract::find($id)->id.'">'.Contract::find($id)->title.'</a>';
             });
             $grid->column('signdate');
+
+            // $top_titles = [
+            //     'prodname' => '产品名称',
+            //     'quantity' => '数量',
+            //     'executionprice' => '销售单价',
+            //     'contract_id' => '所属合同',
+            //     'signdate' => '销售时间',
+            // ];
+            // $grid->export($top_titles)->rows(function (array $rows) {
+            //     foreach ($rows as $index => &$row) {
+            //         $row['prodname'] = $row['prodname'];
+            //     }
+            //     return $rows;
+            // });
+
+
             $grid->disableCreateButton();
             $grid->disableActions();
             $grid->disableBatchActions();

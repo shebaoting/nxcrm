@@ -35,7 +35,7 @@ class ProductController extends AdminController
                 ],
                 'dark85' // 第二个参数为默认值
             );
-            $grid->column('desc');
+            $grid->column('desc')->width('30%')->limit(10);
 
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');

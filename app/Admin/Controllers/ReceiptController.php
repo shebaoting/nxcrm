@@ -49,6 +49,47 @@ class ReceiptController extends AdminController
 
 
             $grid->remark;
+            if (Admin::user()->isRole('administrator')) {
+                $top_titles = [
+                    'id' => 'ID',
+                    'updated_at' => '收款时间',
+                    'receive' => '收款金额',
+                    'paymethod' => '收款方式',
+                    'billtype' => '票据类型',
+                    'contract_id' => '所属合同',
+                    'remark' => '备注'
+                ];
+                $grid->export($top_titles)->rows(function (array $rows) {
+                    foreach ($rows as $index => &$row) {
+                        $row['contract_id'] = Contract::find($row['contract_id'])->title;
+                        switch ($row['paymethod']) {
+                            case 1:
+                                $row['paymethod'] = '银行转账';
+                                break;
+                            case 2:
+                                $row['paymethod'] = '微信';
+                                break;
+                            case 3:
+                                $row['paymethod'] = '支付宝';
+                                break;
+                            default:
+                                $row['paymethod'] = '现金';
+                        }
+                        switch ($row['billtype']) {
+                            case 1:
+                                $row['billtype'] = '收据';
+                                break;
+                            case 2:
+                                $row['billtype'] = '发票';
+                                break;
+                            default:
+                                $row['billtype'] = '其他';
+                        }
+                    }
+                    return $rows;
+                });
+            }
+
             $grid->disableDeleteButton();
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
@@ -110,7 +151,7 @@ class ReceiptController extends AdminController
                     ]
                 );
 
-                $form->selectTable('contract_id')
+            $form->selectTable('contract_id')
                 ->title('选择当前收款所属合同')
                 ->dialogWidth('50%') // 弹窗宽度，默认 800px
                 ->from(ContractTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
@@ -135,12 +176,12 @@ class ReceiptController extends AdminController
                     $form->hidden('invoice.state')->value(0);
                     $form->fieldset('发票信息', function (Form $form) {
                         $form->radio('invoice.title_type', '抬头类型')
-                        ->when(1, function (Form $form) {
-                            $form->text('invoice.tin', '纳税人识别号');
-                            $form->text('invoice.bank_name', '开户行');
-                            $form->text('invoice.bank_account', '开户账号');
-                            $form->text('invoice.address', '开票地址');
-                        })
+                            ->when(1, function (Form $form) {
+                                $form->text('invoice.tin', '纳税人识别号');
+                                $form->text('invoice.bank_name', '开户行');
+                                $form->text('invoice.bank_account', '开户账号');
+                                $form->text('invoice.address', '开票地址');
+                            })
                             ->options([
                                 1 => '单位',
                                 2 => '个人',
@@ -156,7 +197,6 @@ class ReceiptController extends AdminController
                         $form->text('invoice.contact_address', '邮寄地址');
                     });
                     $form->hidden('invoice.contract_id');
-
                 })
                 ->options(
                     [
@@ -173,7 +213,7 @@ class ReceiptController extends AdminController
                 $invoice = $form->invoice;
                 $invoice['contract_id'] = $form->contract_id;
                 $form->invoice = $invoice;
-                if ($form->billtype == 0){
+                if ($form->billtype == 0) {
                     $form->deleteInput('invoice.money');
                     $form->deleteInput('invoice.contract_id');
                     $form->deleteInput('invoice.type');

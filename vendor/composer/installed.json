@@ -205,6 +205,83 @@
         ]
     },
     {
+        "name": "box/spout",
+        "version": "v3.1.0",
+        "version_normalized": "3.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/box/spout.git",
+            "reference": "7964dadc2128f3a00ffa393395b618ea115c8032"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/box/spout/zipball/7964dadc2128f3a00ffa393395b618ea115c8032",
+            "reference": "7964dadc2128f3a00ffa393395b618ea115c8032",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
+        },
+        "require": {
+            "ext-xmlreader": "*",
+            "ext-zip": "*",
+            "php": ">=7.1.0"
+        },
+        "require-dev": {
+            "friendsofphp/php-cs-fixer": "^2",
+            "phpunit/phpunit": "^7"
+        },
+        "suggest": {
+            "ext-iconv": "To handle non UTF-8 CSV files (if \"php-intl\" is not already installed or is too limited)",
+            "ext-intl": "To handle non UTF-8 CSV files (if \"iconv\" is not already installed)"
+        },
+        "time": "2019-12-02T21:21:41+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Box\\Spout\\": "src/Spout"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Adrien Loison",
+                "email": "adrien@box.com"
+            }
+        ],
+        "description": "PHP Library to read and write spreadsheet files (CSV, XLSX and ODS), in a fast and scalable way",
+        "homepage": "https://www.github.com/box/spout",
+        "keywords": [
+            "OOXML",
+            "csv",
+            "excel",
+            "memory",
+            "odf",
+            "ods",
+            "office",
+            "open",
+            "php",
+            "read",
+            "scale",
+            "spreadsheet",
+            "stream",
+            "write",
+            "xlsx"
+        ]
+    },
+    {
         "name": "brick/math",
         "version": "0.8.15",
         "version_normalized": "0.8.15.0",
@@ -262,6 +339,69 @@
                 "url": "https://tidelift.com/funding/github/packagist/brick/math",
                 "type": "tidelift"
             }
+        ]
+    },
+    {
+        "name": "dcat/easy-excel",
+        "version": "1.0.3",
+        "version_normalized": "1.0.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/jqhph/easy-excel.git",
+            "reference": "badb6734420a77263f82e35ac218d2b4223fe833"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/jqhph/easy-excel/zipball/badb6734420a77263f82e35ac218d2b4223fe833",
+            "reference": "badb6734420a77263f82e35ac218d2b4223fe833",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
+        },
+        "require": {
+            "box/spout": "~3",
+            "league/flysystem": "~1",
+            "php": ">=7.1.0"
+        },
+        "require-dev": {
+            "friendsofphp/php-cs-fixer": "^2",
+            "phpunit/phpunit": "~7|~8.0"
+        },
+        "time": "2020-09-21T02:19:34+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Dcat\\EasyExcel\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "jqh",
+                "email": "841324345@qq.com"
+            }
+        ],
+        "description": "使用简单实用的语义化接口快速读写Excel文件",
+        "homepage": "https://github.com/jqhph/easy-excel",
+        "keywords": [
+            "box spout",
+            "csv",
+            "easy excel",
+            "excel",
+            "ods",
+            "office",
+            "read",
+            "spreadsheet",
+            "stream",
+            "xlsx"
         ]
     },
     {

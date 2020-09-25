@@ -30,7 +30,7 @@ class ContactController extends AdminController
             $contact = Contact::whereHas('customer', function ($query) {
                 $query->where('admin_users_id', Admin::user()->id);
             });
-        }else{
+        } else {
             $contact = new Contact();
         }
         return Grid::make($contact, function (Grid $grid) {
@@ -55,6 +55,18 @@ class ContactController extends AdminController
                 $filter->like('name', '联系人姓名');
             });
             $grid->model()->orderBy('id', 'desc');
+
+            if (Admin::user()->isRole('administrator')) {
+                $top_titles = ['id' => 'ID', 'name' => '姓名', 'gender' => '性别', 'position' => '职位', 'customer_id' => '公司名称', 'phone' => '电话', 'wechat' => '微信'];
+                $grid->export($top_titles)->rows(function (array $rows) {
+                    foreach ($rows as $index => &$row) {
+                        $row['customer_id'] = Customer::find($row['customer_id'])->name;
+                        $row['gender'] = $row['gender'] ? '女' : '男';
+                    }
+                    return $rows;
+                });
+            }
+
             $grid->disableCreateButton();
             $grid->disableBatchActions();
             $grid->disableDeleteButton();

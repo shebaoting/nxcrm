@@ -112,7 +112,36 @@ class ContractController extends AdminController
             //     return "<span style='color:#EE8C0C; font-weight: 700;'>$executionprice_quantity</span>";
 
             // });
-
+            if (Admin::user()->isRole('administrator')) {
+                $top_titles = [
+                    'id' => 'ID',
+                    'title' => '合同名称',
+                    'customer_id' => '所属客户',
+                    'signdate' => '签订日期',
+                    'expiretime' => '到期时间',
+                    'total' => '合同总额',
+                    'status' => '合同状态'
+                ];
+                $grid->export($top_titles)->rows(function (array $rows) {
+                    foreach ($rows as $index => &$row) {
+                        $row['customer_id'] = Customer::find($row['customer_id'])->name;
+                        switch ($row['status']) {
+                            case 1:
+                                $row['status'] = '未开始';
+                                break;
+                            case 2:
+                                $row['status'] = '执行中';
+                                break;
+                            case 3:
+                                $row['status'] = '正常结束';
+                                break;
+                            default:
+                                $row['status'] = '意外终止';
+                        }
+                    }
+                    return $rows;
+                });
+            }
 
             $grid->model()->orderBy('id', 'desc');
             $grid->disableBatchActions();
@@ -195,10 +224,10 @@ class ContractController extends AdminController
             $form->column(6, function (Form $form) {
                 $form->text('title')->required();
                 $form->selectTable('customer_id')
-                ->title('弹窗标题')
-                ->dialogWidth('50%') // 弹窗宽度，默认 800px
-                ->from(CustomerTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
-                ->model(Customer::class, 'id', 'name'); // 设置编辑数据显示
+                    ->title('弹窗标题')
+                    ->dialogWidth('50%') // 弹窗宽度，默认 800px
+                    ->from(CustomerTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
+                    ->model(Customer::class, 'id', 'name'); // 设置编辑数据显示
                 $form->date('signdate', '签署时间')->required();
             });
 
@@ -263,5 +292,4 @@ class ContractController extends AdminController
             });
         });
     }
-
 }

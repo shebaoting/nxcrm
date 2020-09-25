@@ -49,6 +49,13 @@ class CustomerController extends AdminController
                 $filter->equal('id');
                 $filter->like('name', '客户名称');
             });
+            $top_titles = ['id' => 'ID', 'name' => '名称', 'admin_users_id' => '所属销售', 'address' => '地址'];
+            $grid->export($top_titles)->rows(function (array $rows) {
+                foreach ($rows as $index => &$row) {
+                    $row['admin_users_id'] = Customer::find($row['admin_users_id'])->admin_users->name;
+                }
+                return $rows;
+            });
         });
     }
 
