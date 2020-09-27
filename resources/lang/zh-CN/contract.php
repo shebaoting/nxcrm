@@ -1,4 +1,4 @@
-<?php 
+<?php
 return [
     'labels' => [
         'Contract' => '合同',
@@ -12,6 +12,7 @@ return [
         'expiretime' => '合同期限',
         'status' => '合同状态',
         'total' => '合同额',
+        'receipts' => '待结款',
     ],
     'options' => [
     ],

@@ -63,8 +63,7 @@ class Setting extends Form
     }
 
 
-    public function
-    default()
+    public function default()
     {
         if (app()->config->get('settings.body_class')){
             $body_class = 0;

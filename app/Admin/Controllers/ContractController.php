@@ -31,9 +31,9 @@ class ContractController extends AdminController
         if (!Admin::user()->isRole('administrator')) {
             $contract = Contract::whereHas('customer', function ($query) {
                 $query->where('admin_users_id', Admin::user()->id);
-            });
+            })->with(['receipts']);
         } else {
-            $contract = new Contract();
+            $contract = Contract::with(['receipts']);
         }
 
         return Grid::make($contract, function (Grid $grid) {
@@ -100,18 +100,27 @@ class ContractController extends AdminController
             });
             $grid->signdate->sortable();
             $grid->expiretime->sortable();
-            $grid->total->display(function ($total) {
-                return "<span style='color:#EE8C0C; font-weight: 700;'>$total</span>";
-            });
-            // $grid->column('order','合同额')->display(function ($order) {
-            //     $prods = json_decode($order);
-            //     $executionprice_quantity = 0;
-            //     foreach ($prods as $prod) {
-            //         $executionprice_quantity += $prod->executionprice * $prod->quantity;
-            //     }
-            //     return "<span style='color:#EE8C0C; font-weight: 700;'>$executionprice_quantity</span>";
+            $grid->total;
+            $grid->receipts->display(function ($receipts) {
+                $count = count($receipts);
+                if ($count) {
+                    $accepts = 0;
+                    foreach ($receipts as $value) {
+                        $accepts += $value['receive'];
+                    }
+                } else {
+                    $accepts = 0;
+                }
 
-            // });
+                if ($this->total - $accepts) {
+                    $payback = $this->total - $accepts;
+                    $payback = "<span style='font-weight: 700;' class='text-danger'>$payback</span>";
+                } else {
+                    $payback = "<span style='font-weight: 700;' class='text-primary'>已结清</span>";
+                }
+                return $payback;
+            });
+
             if (Admin::user()->isRole('administrator')) {
                 $top_titles = [
                     'id' => 'ID',
