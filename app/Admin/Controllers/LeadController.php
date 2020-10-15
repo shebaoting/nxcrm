@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Customer;
+use App\Models\Customfield;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\IFrameGrid;
@@ -88,6 +89,7 @@ class LeadController extends AdminController
         $admin_users = Customer::find($id)->admin_users;
         $events = Customer::find($id)->events()->orderBy('updated_at', 'desc')->get();
         $attachments = Customer::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
+        $fields = Customfield::where([['model', '=', 'customer'],['show', '=', '1'],])->get();
         $data = [
             'customer' => $customer,
             'contacts' => $contacts,
@@ -95,6 +97,7 @@ class LeadController extends AdminController
             'events' => $events,
             'contracts' => $contracts,
             'attachments' => $attachments,
+            'fields' => $fields,
         ];
         return $content
         ->title('线索')

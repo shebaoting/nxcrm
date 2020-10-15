@@ -1,5 +1,6 @@
 <h1>{{$customer['name']}}<span>（#{{$customer['id']}}）</span></h1>
 <div class="row" style="margin-top: 20px; color:#666">
+    @if ($customer['fields'])
     @php
     $customer_fields = json_decode($customer['fields'],true);
     @endphp
@@ -29,4 +30,5 @@
 
     </div>
     @endforeach
+    @endif
 </div>
