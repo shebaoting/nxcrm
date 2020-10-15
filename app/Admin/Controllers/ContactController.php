@@ -83,6 +83,7 @@ class ContactController extends AdminController
      */
     protected function detail($id)
     {
+
         $model = Contact::with('customer');
         return Show::make($id, $model, function (Show $show) {
             // $show->id;

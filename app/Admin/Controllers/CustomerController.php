@@ -7,8 +7,7 @@ use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
 use Dcat\Admin\IFrameGrid;
-use App\Models\Event;
-use Dcat\Admin\Widgets\Card;
+use App\Models\Customfield;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Controllers\AdminController;
 use Dcat\Admin\Admin;
@@ -30,15 +29,12 @@ class CustomerController extends AdminController
             if(!Admin::user()->isRole('administrator')){
                 $grid->model()->where('admin_users_id', '=', Admin::user()->id);
             }
-            $grid->enableDialogCreate();
-            $grid->setDialogFormDimensions('700px', '420px');
+            // $grid->enableDialogCreate();
+            // $grid->setDialogFormDimensions('700px', '420px');
             $grid->id->sortable();
             $grid->name('客户名称')->link(function () {
                 return admin_url('customers/'.$this->id);
             });
-            $grid->email;
-            $grid->url;
-            $grid->address;
             // $grid->admin_users_id;
 
             $grid->column('admin_users.name','所属销售');
@@ -84,6 +80,7 @@ class CustomerController extends AdminController
         $admin_users = Customer::find($id)->admin_users;
         $events = Customer::find($id)->events()->orderBy('updated_at', 'desc')->get();
         $attachments = Customer::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
+        $fields = Customfield::where([['model', '=', 'customer'],['show', '=', '1'],])->get();
         $data = [
             'customer' => $customer,
             'contacts' => $contacts,
@@ -91,6 +88,7 @@ class CustomerController extends AdminController
             'events' => $events,
             'contracts' => $contracts,
             'attachments' => $attachments,
+            'fields' => $fields,
         ];
         return $content
         ->title('客户')
@@ -108,7 +106,6 @@ class CustomerController extends AdminController
      */
     protected function form()
     {
-
         return Form::make(new Customer(), function (Form $form) {
             // 判断授权，无权限编辑他人的信息,以后可以优化一下
             // dd($form->model()->admin_users_id);
@@ -119,11 +116,85 @@ class CustomerController extends AdminController
             }
             $form->display('id');
             $form->text('name');
-            $form->email('email');
-            $form->url('url')->value('http://');
-            $form->text('address');
+            $fields = Customfield::where([
+                    ['model', '=', 'customer'],
+                    ['show', '=', '1'],
+                ])->get();
+            // dd(gettype(json_decode($fields[7]['options'],true)));
+            foreach ($fields as $field){
+                // dd($field);
+                $field_type = $field['type'];
+                $field_field = $field['field'];
+                $field_name = $field['name'];
+                $form_field = $form->$field_type($field_field,$field_name)->help($field['help']);
+
+
+                // 如果是编辑状态，取出数据库的值
+                if ($form->isEditing()) {
+                    $form_fields = json_decode($form->model()->fields);
+                    if (isset($form->model()->fields) && isset($form_fields->$field_field)){
+                        $form_fields_default = $form_fields->$field_field;
+                    }else {
+                        $form_fields_default = '';
+                    }
+
+                }
+                if ($field['options']) {
+                    $field_options = json_decode($field['options'],true);
+                }
+
+                if ($field['required'] && $field['options']){
+
+                    if ($form->isCreating()) {
+                        $form_field->options($field_options)->required();
+                    } else {
+                        $form_field->options($field_options)->default($form_fields_default, true)->required();
+                    }
+                }elseif ($field['required']){
+
+                    if ($form->isCreating()) {
+                        $form_field->required();
+                    } else {
+                        $form_field->value($form_fields_default)->required();
+                    }
+
+                }elseif ($field['options']){
+
+
+                    if ($form->isCreating()) {
+                        $form_field->options($field_options);
+                    } else {
+                        $form_field->options($field_options)->default($form_fields_default, true);
+                    }
+
+                }else {
+
+                    if ($form->isCreating()) {
+                        $form_field;
+                    } else {
+                        $form_field->value($form_fields_default);
+                    }
+                }
+            }
             $form->hidden('admin_users_id')->value(Admin::user()->id);
             $form->hidden('state')->value(3);
+            $form->hidden('fields')->value(null);
+
+            $form->saving(function (Form $form) {
+                $fields = Customfield::where([
+                    ['model', '=', 'customer'],
+                    ['show', '=', '1'],
+                ])->get();
+                $form_field = array();
+                foreach ($fields as $field){
+                    $field_field = $field['field'];
+                    $form_field[$field_field] = $form->$field_field;
+                    $form->deleteInput($field['field']);
+                }
+                // dd(json_encode($form_field));
+                $form->fields = json_encode($form_field);
+            });
+
         });
     }
 

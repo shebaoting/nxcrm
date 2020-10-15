@@ -1,11 +1,32 @@
 <h1>{{$customer['name']}}<span>（#{{$customer['id']}}）</span></h1>
 <div class="row" style="margin-top: 20px; color:#666">
-    <div class="col-md-4 col-sm-3 col-12"><i
-            class="feather icon-map"></i>{{$customer['address']}}</div>
-    <div class="col-md-3 col-sm-3 col-12"><i
-            class="feather icon-link"></i>{{$customer['url']}}
+    @php
+    $customer_fields = json_decode($customer['fields'],true);
+    @endphp
+    @foreach ($fields as $field)
+    @php
+    $field_options = json_decode($field['options'],true);
+    @endphp
+    <div class="col-md-4 col-sm-4 col-12">
+        <i class="fa {{$field['icon']}}"></i>{{$field['name']}}:
+
+        @if (in_array($field['type'],['select','radio']))
+        {{$field_options[$customer_fields[$field['field']]]}}
+
+
+        @elseif (in_array($field['type'],['checkbox','multipleSelect']))
+        @foreach ($customer_fields[$field['field']] as $key => $value)
+        @if ($value)
+        {{$field_options[$value]}}
+        @endif
+        @endforeach
+        @else
+        @isset($customer_fields[$field['field']])
+           {{$customer_fields[$field['field']]}}
+        @endisset
+        @endif
+
+
     </div>
-    <div class="col-md-3 col-sm-3 col-12"><i
-            class="feather icon-mail"></i>{{$customer['email']}}
-    </div>
+    @endforeach
 </div>

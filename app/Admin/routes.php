@@ -46,6 +46,9 @@ Route::group([
     $router->resource('products', 'ProductController');
     Route::get('/productslist', 'ProductController@list')->name('products.list');
 
+    //字段
+    $router->resource('customfields', 'CustomfieldController');
+
     //订单
     Route::get('/orders', 'OrderController@index')->name('order.index');
 

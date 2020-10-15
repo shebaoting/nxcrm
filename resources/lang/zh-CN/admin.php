@@ -230,5 +230,6 @@ return [
         'invoices'      => '发票',
         'products'      => '产品',
         'order'      => '订单',
+        'customfield'      => '字段',
     ],
 ];
