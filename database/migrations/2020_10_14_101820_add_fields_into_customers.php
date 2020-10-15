@@ -14,7 +14,7 @@ class AddFieldsIntoCustomers extends Migration
     public function up()
     {
         Schema::table('customers',function (Blueprint $table) {
-            $table->json('fields')->after('address')->nullable();
+            $table->json('fields')->after('state')->nullable();
         });
     }
 

@@ -16,7 +16,7 @@ class SeedAdminMenuFieldData extends Migration
         $admin_menu = [
             [
                 'parent_id' => 2,
-                'order' => 20,
+                'order' => 17,
                 'title' => 'Customfield',
                 'icon' => '',
                 'uri' => '/customfields',
