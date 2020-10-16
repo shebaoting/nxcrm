@@ -48,8 +48,9 @@ class CustomfieldController extends AdminController
                 ]);
             $grid->column('show')->switch();
             $grid->column('required')->switch();
-            // $grid->column('iflist')->switch();
+            $grid->column('iflist')->switch();
             $grid->column('unique')->switch();
+            $grid->model()->orderBy('sort', 'desc');
             $grid->disableViewButton();
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
@@ -126,13 +127,12 @@ class CustomfieldController extends AdminController
                 })
                 ->help('如果字段类型为下拉，单选，多选，此处需要设置选项值');
             $form->switch('required');
-            $form->hidden('iflist')->value(1);
-            // $form->switch('iflist')->help('是否在列表页显示此字段');
+            // $form->hidden('iflist')->value(1);
+            $form->switch('iflist')->help('是否在列表页显示此字段');
             $form->switch('show')->default(1)->help('是否启用');
             $form->text('default');
             $form->text('help');
             $form->number('sort')->default(1)->attribute('min', 1)->help('数字越大越靠前');
-
             $form->saving(function (Form $form) {
                 if (!in_array($form->type,['select','radio','checkbox','multipleSelect'])) {
                     $form->deleteInput('options');
