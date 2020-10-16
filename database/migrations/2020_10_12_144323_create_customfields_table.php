@@ -23,7 +23,7 @@ class CreateCustomfieldsTable extends Migration
             $table->boolean('iflist');
             $table->char('default')->nullable();
             $table->string('help')->nullable();
-            $table->string('options')->nullable();
+            $table->json('options')->nullable();
             $table->boolean('unique')->nullable();
             $table->boolean('show')->nullable();
             $table->integer('sort')->default(1);

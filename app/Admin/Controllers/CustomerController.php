@@ -227,23 +227,29 @@ class CustomerController extends AdminController
 
                 if ($form->isCreating()) {
                     $form_field->required();
-                } else {
+                } elseif ($form->isEditing()) {
                     $form_field->value($form_fields_default)->required();
+                }else {
+
                 }
             } elseif ($field['options']) {
 
 
                 if ($form->isCreating()) {
                     $form_field->options($field_options);
-                } else {
+                } elseif ($form->isEditing()) {
                     $form_field->options($field_options)->default($form_fields_default, true);
+                }else {
+
                 }
             } else {
 
                 if ($form->isCreating()) {
                     $form_field;
-                } else {
+                } elseif ($form->isEditing()) {
                     $form_field->value($form_fields_default);
+                }else {
+
                 }
             }
         }
