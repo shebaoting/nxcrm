@@ -16,10 +16,12 @@ class CreateOpportunitysTable extends Migration
         Schema::create('opportunitys', function (Blueprint $table) {
             $table->increments('id');
             $table->string('subject')->default('');
+            $table->string('customer_id')->nullable();
             $table->integer('expectincome')->default('0');
             $table->date('expectendtime');
             $table->integer('dealchance')->default('0');
             $table->integer('tempo')->default('1');
+            $table->integer('state')->default('1');
             $table->string('remark')->nullable();
             $table->timestamps();
         });

@@ -18,6 +18,8 @@ class CreateEventsTable extends Migration
             $table->string('content');
             $table->char('customer_id');
             $table->char('contact_id')->nullable();
+            $table->string('contract_id')->nullable();
+            $table->integer('opportunity_id')->nullable();
             $table->timestamps();
         });
     }

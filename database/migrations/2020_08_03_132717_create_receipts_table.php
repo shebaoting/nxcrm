@@ -15,11 +15,12 @@ class CreateReceiptsTable extends Migration
     {
         Schema::create('receipts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('receive');
+            $table->decimal('receive',9,2)->nullable(false);
             $table->integer('paymethod');
             $table->integer('billtype');
             $table->integer('contract_id');
             $table->string('remark')->default('');
+
             $table->timestamps();
         });
     }

@@ -19,6 +19,8 @@ class CreateAttachmentsTable extends Migration
             $table->integer('customer_id');
             $table->integer('contract_id')->nullable();
             $table->boolean('electronic')->default('0');
+            $table->integer('opportunity_id')->nullable();
+            $table->integer('invoice_id')->nullable();
             $table->timestamps();
         });
     }

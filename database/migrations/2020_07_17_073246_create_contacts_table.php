@@ -17,8 +17,8 @@ class CreateContactsTable extends Migration
             $table->increments('id');
             $table->string('name')->default('');
             $table->char('phone');
-            $table->string('position')->nullable();
-            $table->integer('gender')->default('0');
+            $table->json('fields')->nullable();
+            $table->string('customer_id')->nullable();
             $table->timestamps();
         });
     }

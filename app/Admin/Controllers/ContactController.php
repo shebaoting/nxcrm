@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Contact;
 use App\Models\Customer;
+use App\Admin\Traits\Customfields;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -13,6 +14,7 @@ use Dcat\Admin\Admin;
 
 class ContactController extends AdminController
 {
+    use Customfields;
     public function __construct(Request $request)
     {
         $this->customerid = $request->id;
@@ -42,9 +44,9 @@ class ContactController extends AdminController
             });
 
             $grid->phone;
-            $grid->wechat;
-            $grid->position;
-            $grid->gender->using([0 => '男', 1 => '女']);
+
+            $this->gridfield($grid,'contact');
+
             $grid->customer_id('所属客户')->display(function ($id) {
                 return optional(Customer::find($id))->name;
             })->link(function () {
@@ -115,11 +117,21 @@ class ContactController extends AdminController
             }
             $form->text('name')->required();
             $form->mobile('phone')->required();
-            $form->text('position');
-            $form->text('wechat');
-            $form->radio('gender')->options(['0' => '男', '1' => '女'])->default('0');
+            $this->formfield($form,'contact');
             $form->ignore(['customer_false']);
             $form->hidden('customer_id')->value($customerid);
+            $form->hidden('fields')->value(null);
+            $form->saving(function (Form $form) {
+                $form_field = array();
+                foreach ($this->custommodel('contact') as $field) {
+                    $field_field = $field['field'];
+                    $form_field[$field_field] = $form->$field_field;
+                    $form->deleteInput($field['field']);
+                }
+                // dd(json_encode($form_field));
+                $form->fields = json_encode($form_field);
+            });
+
 
             $form->saved(function (Form $form) {
                 return $form->redirect('customers/' . $form->customer_id, '保存成功');

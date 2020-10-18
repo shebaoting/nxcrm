@@ -51,15 +51,41 @@
 
 
         <div class="row">
-            <div class="col-md-12 col-sm-12 col-12"><i class="feather icon-phone"></i>{{$contact['phone']}}
+            <div class="col-md-12 col-sm-12 col-12"><i class="feather icon-phone"></i> {{$contact['phone']}}
             </div>
-            <div class="col-md-12 col-sm-12 col-12"><i class="fa fa-wechat"></i>{{$contact['wechat']}}</div>
+            @if ($contact['fields'])
+            @php
+            $contact_fields = json_decode($contact['fields'],true);
+            @endphp
+            @foreach ($contactfields as $field)
+            @php
+            $field_options = json_decode($field['options'],true);
+            @endphp
+
+
+            <div class="col-md-12 col-sm-12 col-12"><i class="fa {{$field['icon']}}"></i>
+                {{-- {{$field['name']}}: --}}
+                @if (in_array($field['type'],['select','radio']))
+                {{$field_options[$contact_fields[$field['field']]]}}
+
+
+                @elseif (in_array($field['type'],['checkbox','multipleSelect']))
+                @foreach ($contact_fields[$field['field']] as $key => $value)
+                @if ($value)
+                {{$field_options[$value]}}
+                @endif
+                @endforeach
+                @else
+                @isset($contact_fields[$field['field']])
+                   {{$contact_fields[$field['field']]}}
+                @endisset
+                @endif
+            </div>
+            @endforeach
+            @endif
+
         </div>
-
-
-
     </div>
-
 </div>
 @endforeach
 @else

@@ -20,6 +20,10 @@ class CreateContractsTable extends Migration
             $table->date('signdate');
             $table->date('expiretime');
             $table->integer('status');
+            $table->string('order')->nullable();
+            $table->integer('total')->nullable();
+            $table->integer('salesexpenses')->nullable();
+            $table->string('remark')->nullable();
         });
     }
 

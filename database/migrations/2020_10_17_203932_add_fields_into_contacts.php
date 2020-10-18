@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCustomerIdIntoOpportunitys extends Migration
+class AddFieldsIntoContacts extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddCustomerIdIntoOpportunitys extends Migration
      */
     public function up()
     {
-        Schema::table('opportunitys',function (Blueprint $table) {
-            $table->string('customer_id')->after('subject')->nullable();
+        Schema::table('contacts',function (Blueprint $table) {
+            $table->json('fields')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddCustomerIdIntoOpportunitys extends Migration
      */
     public function down()
     {
-        Schema::table('opportunitys', function (Blueprint $table) {
-            $table->dropColumn('customer_id');
+        Schema::table('contacts', function (Blueprint $table) {
+            $table->dropColumn('fields');
         });
     }
 }

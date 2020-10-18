@@ -4,7 +4,7 @@
     @php
     $customer_fields = json_decode($customer['fields'],true);
     @endphp
-    @foreach ($fields as $field)
+    @foreach ($customerfields as $field)
     @php
     $field_options = json_decode($field['options'],true);
     @endphp
