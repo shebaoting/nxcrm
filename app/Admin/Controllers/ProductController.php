@@ -76,15 +76,24 @@ class ProductController extends AdminController
         return Form::make(new Product(), function (Form $form) {
             $form->display('id');
             $form->text('name')->required();
-            $form->currency('cost')->symbol('￥')->required();
-            $form->currency('price')->symbol('￥')->required();
+            $form->currency('cost')->symbol('￥');
+            $form->currency('price')->symbol('￥');
             $form->text('unit')->required();
             $form->switch('state','上线状态');
             $form->text('desc');
-
             $form->display('created_at');
             $form->display('updated_at');
+
+            $form->saving(function (Form $form) {
+                if ($form->cost == null){
+                    $form->cost = 0.00;
+                };
+                if ($form->price == null){
+                    $form->price = 0.00;
+                };
+            });
         });
+
     }
 
     protected function list(Request $request)

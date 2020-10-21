@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->decimal('price');
             $table->string('unit')->default('');
             $table->integer('state');
-            $table->string('desc')->default('');
+            $table->string('desc')->nullable()->default('');
             $table->timestamps();
         });
     }

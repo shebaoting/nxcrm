@@ -14,7 +14,7 @@ class SettingsController extends Controller
      *
      * @var string
      */
-    const VERSION = '1.10.21';
+    const VERSION = '1.10.22';
 
     public function index(Content $content)
     {

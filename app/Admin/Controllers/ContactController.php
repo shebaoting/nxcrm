@@ -116,7 +116,7 @@ class ContactController extends AdminController
                 $form->display('customer.name', '所属客户');
             }
             $form->text('name')->required();
-            $form->mobile('phone')->required();
+            $form->mobile('phone');
             $this->formfield($form,'contact');
             $form->ignore(['customer_false']);
             $form->hidden('customer_id')->value($customerid);

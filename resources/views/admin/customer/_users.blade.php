@@ -51,8 +51,10 @@
 
 
         <div class="row">
+            @if ($contact['phone'])
             <div class="col-md-12 col-sm-12 col-12"><i class="feather icon-phone"></i> {{$contact['phone']}}
             </div>
+            @endif
             @if ($contact['fields'])
             @php
             $contact_fields = json_decode($contact['fields'],true);
