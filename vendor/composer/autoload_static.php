@@ -588,6 +588,7 @@ class ComposerStaticInit74449af1101ecd6f157052626e751738
         'App\\Admin\\Renderable\\ContractTable' => __DIR__ . '/../..' . '/app/Admin/Renderable/ContractTable.php',
         'App\\Admin\\Renderable\\CustomerTable' => __DIR__ . '/../..' . '/app/Admin/Renderable/CustomerTable.php',
         'App\\Admin\\Repositories\\Order' => __DIR__ . '/../..' . '/app/Admin/Repositories/Order.php',
+        'App\\Admin\\Traits\\Customfields' => __DIR__ . '/../..' . '/app/Admin/Traits/Customfields.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',

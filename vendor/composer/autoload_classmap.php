@@ -37,6 +37,7 @@ return array(
     'App\\Admin\\Renderable\\ContractTable' => $baseDir . '/app/Admin/Renderable/ContractTable.php',
     'App\\Admin\\Renderable\\CustomerTable' => $baseDir . '/app/Admin/Renderable/CustomerTable.php',
     'App\\Admin\\Repositories\\Order' => $baseDir . '/app/Admin/Repositories/Order.php',
+    'App\\Admin\\Traits\\Customfields' => $baseDir . '/app/Admin/Traits/Customfields.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',

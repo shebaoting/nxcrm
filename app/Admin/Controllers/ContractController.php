@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Contract;
+use App\Admin\Traits\Customfields;
 use App\Models\Product;
 use App\Admin\Renderable\CustomerTable;
 use Dcat\Admin\Form;
@@ -16,6 +17,7 @@ use Dcat\Admin\IFrameGrid;
 
 class ContractController extends AdminController
 {
+    use Customfields;
     public static $css = [
         '/static/css/contract_show.css',
     ];
@@ -120,7 +122,7 @@ class ContractController extends AdminController
                 }
                 return $payback;
             });
-
+            $this->gridfield($grid,'contract');
             if (Admin::user()->isRole('administrator')) {
                 $top_titles = [
                     'id' => 'ID',
@@ -200,6 +202,7 @@ class ContractController extends AdminController
             'events' => $events,
             'admin_users' => $admin_users,
             'attachments' => $attachments,
+            'contractfields' => $this->custommodel('contract'),
         ];
         return $content
             ->title('合同')
@@ -282,6 +285,8 @@ class ContractController extends AdminController
 
             $form->column(12, function (Form $form) {
                 $form->textarea('remark', '备注');
+                $this->formfield($form,'contract');
+                $form->hidden('fields')->value(null);
             });
 
 
@@ -297,6 +302,16 @@ class ContractController extends AdminController
                     $order[$key]['prodprice'] = Product::find($productid)->price;
                 }
                 $form->order = $order;
+
+                $form_field = array();
+                foreach ($this->custommodel('contract') as $field) {
+                    $field_field = $field['field'];
+                    $form_field[$field_field] = $form->$field_field;
+                    $form->deleteInput($field['field']);
+                }
+                // dd(json_encode($form_field));
+                $form->fields = json_encode($form_field);
+
                 return $form;
             });
         });

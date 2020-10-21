@@ -90,8 +90,8 @@ class CustomfieldController extends AdminController
     {
         return Form::make(new Customfield(), function (Form $form) {
             $form->display('id');
-            $form->radio('model')->options(['customer' => '客户', 'contact'=> '联系人'])->required();
-            // $form->radio('model')->options(['customer' => '客户', 'contact'=> '联系人', 'contract'=> '合同'])->required();
+            // $form->radio('model')->options(['customer' => '客户', 'contact'=> '联系人'])->required();
+            $form->radio('model')->options(['customer' => '客户', 'contact'=> '联系人', 'contract'=> '合同'])->required();
             $form->text('name')->placeholder('当前字段的中文名称')->required();
             $form->text('field')->placeholder('当前字段的英文名称或者拼音')->required()->rules('regex:/^[a-zA-Z][a-zA-Z0-9_]*$/|min:3', [
                 'regex' => '标识只能以字母开头并且只能包含字母，数组或者_',

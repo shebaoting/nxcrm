@@ -37,6 +37,14 @@
   color: #999;
 }
 
+.card-header .metric-content .col-md-4 {
+  margin-bottom: 10px;
+}
+
+.card-header .metric-content .col-md-4 .fa {
+  width: 18.14px;
+}
+
 #tab_receipts,
 #tab_electronics,
 #tab_orders,
