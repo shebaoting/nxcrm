@@ -99,7 +99,7 @@ class AttachmentController extends AdminController
             $form->display('created_at');
             $form->display('updated_at');
             $form->saving(function (Form $form) {
-            dd($form->files);
+            // dd($form->files);
             });
 
             $form->saved(function (Form $form) {
