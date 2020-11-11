@@ -30,7 +30,8 @@ class ReceiptController extends AdminController
                         1 => '银行转账',
                         2 => '微信',
                         3 => '支付宝',
-                        4 => '现金'
+                        4 => '现金',
+                        5 => '卡券'
                     ]
                 );
             $grid->billtype
@@ -72,8 +73,11 @@ class ReceiptController extends AdminController
                             case 3:
                                 $row['paymethod'] = '支付宝';
                                 break;
+                            case 4:
+                                 $row['paymethod'] = '现金';
+                                break;
                             default:
-                                $row['paymethod'] = '现金';
+                                 $row['paymethod'] = '卡券';
                         }
                         switch ($row['billtype']) {
                             case 1:
@@ -147,7 +151,8 @@ class ReceiptController extends AdminController
                         1 => '银行转账',
                         2 => '微信',
                         3 => '支付宝',
-                        4 => '现金'
+                        4 => '现金',
+                        5 => '卡券'
                     ]
                 );
 

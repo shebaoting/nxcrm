@@ -41,7 +41,8 @@ class InvoiceController extends AdminController
                 ]);
             });
 
-            $grid->column('receipt.contract_id', '所属合同编号')->display(function ($id) {
+            $grid->column('contract_id', '所属合同编号')->display(function ($id) {
+                // dd($id);
                 return '<a href="contracts/' . Contract::find($id)->id . '">' . strtotime(Contract::find($id)->signdate) . '</a>';
             });
             $grid->column('id', '发票编号')->display(function ($id) {
@@ -133,11 +134,11 @@ class InvoiceController extends AdminController
         Admin::css(static::$css);
         Admin::js(static::$js);
         $invoice = Invoice::query()->findorFail($id);
-        $contract = Invoice::find($id)->Receipt->Contract;
+        $contractid = Invoice::find($id)->contract_id;
+        $contract = Contract::find($contractid);
         $receipt = Invoice::find($id)->Receipt;
-        $customer = Invoice::find($id)->Receipt->Contract->Customer;
+        $customer = $contract->Customer;
         $attachments = Invoice::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
-        $contractid = Invoice::find($id)->Receipt->Contract->id;
         $receipts = Contract::find($contractid)->Receipts;
         $invoices = Contract::find($contractid)->Invoices;
 
@@ -188,13 +189,14 @@ class InvoiceController extends AdminController
                 ->from(ContractTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
                 ->model(Contract::class, 'id', 'title'); // 设置编辑数据显示
             $form->hidden('receipt_id')->value(0);
+            $form->hidden('state')->default(0);
             $form->currency('money')->symbol('￥');
             $form->select('type')
                 ->options([
                     1 => '增值税普通发票',
                     2 => '增值税专用发票',
-                    3 => '国税通用机打发票',
-                    4 => '地税通用机打发票',
+                    // 3 => '国税通用机打发票',
+                    // 4 => '地税通用机打发票',
                     5 => '收据'
                 ]);
             $form->text('remark');

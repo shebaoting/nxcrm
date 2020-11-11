@@ -254,12 +254,11 @@ class ContractController extends AdminController
 
             $form->column(12, function (Form $form) {
                 $form->table('order', '订单', function ($table) {
-                    // $table->select('prodname', '产品')->options(Product::pluck('name', 'id'));
                     $table->select('prodname', '产品')->options(Product::pluck('name', 'id'));
-                    $table->hidden('prodprice', '标准价');
+                    $table->currency('prodprice', '标准价')->symbol('￥');
                     $table->currency('executionprice', '成交单价')->symbol('￥');
                     $table->number('quantity', '数量')->attribute('min', 1)->default(1);
-                    // $table->text('unit', '单位')->disable();
+                    $table->text('unit', '单位')->disable();
                 })->saving(function ($v) {
                     return json_encode($v);
                 });

@@ -98,6 +98,9 @@ class AttachmentController extends AdminController
             $form->hidden('invoice_id')->value($this->invoiceid);
             $form->display('created_at');
             $form->display('updated_at');
+            $form->saving(function (Form $form) {
+            dd($form->files);
+            });
 
             $form->saved(function (Form $form) {
                 if ($this->contractid) {

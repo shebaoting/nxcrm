@@ -20,28 +20,28 @@
   max-width: 83.3333333333%;
 }
 
-.card-header {
+.customer_content .card-header {
   padding: 2rem 2rem 1.5em !important;
 }
 
-.card-header .metric-content {
+.customer_content .card-header .metric-content {
   width: 100%;
 }
 
-.card-header .metric-content .feather {
+.customer_content .card-header .metric-content .feather {
   margin-right: 0.75rem;
 }
 
-.card-header .metric-content h1 span {
+.customer_content .card-header .metric-content h1 span {
   font-size: 14px;
   color: #999;
 }
 
-.card-header .metric-content .col-md-4 {
+.customer_content .card-header .metric-content .col-md-4 {
   margin-bottom: 10px;
 }
 
-.card-header .metric-content .col-md-4 .fa {
+.customer_content .card-header .metric-content .col-md-4 .fa {
   width: 18.14px;
 }
 
