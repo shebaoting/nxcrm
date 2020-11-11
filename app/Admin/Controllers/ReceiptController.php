@@ -162,20 +162,20 @@ class ReceiptController extends AdminController
                 ->from(ContractTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
                 ->model(Contract::class, 'id', 'title'); // 设置编辑数据显示
 
-            $form->text('remark');
+            $form->text('remark')->required();
             $form->datetime('updated_at');
             $form->radio('billtype', '是否开票')
                 ->when(1, function (Form $form) {
                     // 值为1和4时显示文本框
                     $form->divider();
 
-                    $form->currency('invoice.money', '开票金额');
+                    $form->currency('invoice.money', '开票金额')->attribute('min', 1);
                     $form->select('invoice.type', '开票类型')
                         ->options([
                             1 => '增值税普通发票',
                             2 => '增值税专用发票',
-                            3 => '国税通用机打发票',
-                            4 => '地税通用机打发票',
+                            // 3 => '国税通用机打发票',
+                            // 4 => '地税通用机打发票',
                             5 => '收据'
                         ]);
                     $form->hidden('invoice.state')->value(0);
