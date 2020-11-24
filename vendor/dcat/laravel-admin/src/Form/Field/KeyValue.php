@@ -2,7 +2,6 @@
 
 namespace Dcat\Admin\Form\Field;
 
-use Dcat\Admin\Admin;
 use Dcat\Admin\Form\Field;
 use Dcat\Admin\Support\Helper;
 use Illuminate\Support\Arr;
@@ -12,17 +11,13 @@ class KeyValue extends Field
     const DEFAULT_FLAG_NAME = '_def_';
 
     /**
-     * Fill data to the field.
-     *
-     * @param array $data
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function formatFieldData($data)
     {
         $this->data = $data;
 
-        return Helper::array(Arr::get($data, $this->column, $this->value));
+        return Helper::array(Arr::get($data, $this->normalizeColumn(), $this->value));
     }
 
     /**
@@ -65,46 +60,24 @@ class KeyValue extends Field
         return $input;
     }
 
-    protected function addScript()
-    {
-        $value = old($this->column, $this->value());
-
-        $number = $value ? count($value) : 0;
-        $class = $this->getElementClassString();
-
-        $this->script = <<<JS
-(function () {
-    var index = {$number};
-    $('.{$class}-add').on('click', function () {
-        var tpl = $('template.{$class}-tpl').html().replace('{key}', index).replace('{key}', index);
-        $('tbody.kv-{$class}-table').append(tpl);
-        
-        index++;
-    });
-    
-    $('tbody').on('click', '.{$class}-remove', function () {
-        $(this).closest('tr').remove();
-    });
-})();
-JS;
-    }
-
     protected function prepareInputValue($value)
     {
         unset($value[static::DEFAULT_FLAG_NAME]);
 
         if (empty($value)) {
-            return '[]';
+            return [];
         }
 
-        return json_encode(array_combine($value['keys'], $value['values']));
+        return array_combine($value['keys'], $value['values']);
     }
 
     public function render()
     {
-        $this->addScript();
+        $value = $this->value();
 
-        Admin::style('td .form-group {margin-bottom: 0 !important;}');
+        $this->addVariables([
+            'count' => $value ? count($value) : 0,
+        ]);
 
         return parent::render();
     }

@@ -1,6 +1,10 @@
-<div class="{{$viewClass['form-group']}} {!! !$errors->has($errorKey) ? '' : 'has-error' !!}">
+<style>
+    .number-group .input-group{flex-wrap: nowrap}
+</style>
 
-    <div for="{{ $id }}" class="{{$viewClass['label']}} control-label">
+<div class="{{$viewClass['form-group']}}">
+
+    <div  class="{{$viewClass['label']}} control-label">
         <span>{!! $label !!}</span>
     </div>
 
@@ -24,3 +28,7 @@
 
     </div>
 </div>
+
+<script require="@number-input" init="{!! $selector !!}">
+    $this.bootstrapNumber({!! admin_javascript_json($options) !!});
+</script>

@@ -10,7 +10,7 @@ use Dcat\Admin\Show;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Layout\Content;
-use Dcat\Admin\Controllers\AdminController;
+use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Admin;
 
 class InvoiceController extends AdminController
@@ -146,10 +146,10 @@ class InvoiceController extends AdminController
         foreach ($receipts as $value) {
             $receipt_sum += $value->receive;
         }
-
+        dd($invoices);
         $invoice_sum = 0;
         foreach ($invoices as $value) {
-            if ($value->state == 1) {
+            if (in_array($value->state,array(1,2))) {
                 $invoice_sum += $value->money;
             }
         }

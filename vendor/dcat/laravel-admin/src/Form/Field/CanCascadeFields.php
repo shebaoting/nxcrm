@@ -3,6 +3,7 @@
 namespace Dcat\Admin\Form\Field;
 
 use Dcat\Admin\Admin;
+use Dcat\Admin\Exception\RuntimeException;
 use Dcat\Admin\Form;
 use Illuminate\Support\Arr;
 
@@ -111,12 +112,27 @@ trait CanCascadeFields
         return sprintf('cascade-%s-%s-%s', $this->getElementClassString(), $value, $map[$operator]);
     }
 
+    protected function addCascadeScript()
+    {
+        if (! $script = $this->getCascadeScript()) {
+            return;
+        }
+
+        Admin::script(
+            <<<JS
+Dcat.init('{$this->getElementClassSelector()}', function (\$this) {
+    {$script}
+});
+JS
+        );
+    }
+
     /**
      * Add cascade scripts to contents.
      *
-     * @return void
+     * @return string
      */
-    protected function addCascadeScript()
+    protected function getCascadeScript()
     {
         if (empty($this->conditions)) {
             return;
@@ -130,7 +146,7 @@ trait CanCascadeFields
             ];
         })->toJson();
 
-        $script = <<<JS
+        return <<<JS
 (function () {
     var compare = function (a, b, o) {
         if (! $.isArray(b)) {
@@ -181,7 +197,7 @@ trait CanCascadeFields
     };
     var cascade_groups = {$cascadeGroups}, event = '{$this->cascadeEvent}';
 
-    $('{$this->getElementClassSelector()}').on(event, function (e) {
+    \$this.on(event, function (e) {
         {$this->getFormFrontValue()}
 
         cascade_groups.forEach(function (event) {
@@ -195,8 +211,6 @@ trait CanCascadeFields
     }).trigger(event);
 })();
 JS;
-
-        Admin::script($script);
     }
 
     /**
@@ -219,7 +233,7 @@ var checked = $('{$this->getElementClassSelector()}:checked').map(function(){
 }).get();
 JS;
             default:
-                throw new \InvalidArgumentException('Invalid form field type');
+                throw new RuntimeException('Invalid form field type');
         }
     }
 }

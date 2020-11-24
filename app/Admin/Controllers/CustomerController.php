@@ -9,7 +9,7 @@ use Dcat\Admin\Show;
 use Dcat\Admin\IFrameGrid;
 use App\Admin\Traits\Customfields;
 use Dcat\Admin\Layout\Content;
-use Dcat\Admin\Controllers\AdminController;
+use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Admin;
 
 class CustomerController extends AdminController

@@ -11,10 +11,6 @@ class SelectTable extends Field
 {
     use PlainInput;
 
-    protected static $js = [
-        '@select-table',
-    ];
-
     /**
      * @var DialogTable
      */
@@ -109,7 +105,7 @@ class SelectTable extends Field
 
     protected function formatOptions()
     {
-        $value = Helper::array(old($this->column, $this->value()));
+        $value = Helper::array($this->value());
 
         if ($this->options instanceof \Closure) {
             $this->options = $this->options->call($this->values(), $value, $this);
@@ -125,26 +121,12 @@ class SelectTable extends Field
             }
         }
 
-        $this->options = json_encode($values);
-    }
-
-    protected function addScript()
-    {
-        $this->script .= <<<JS
-Dcat.grid.SelectTable({
-    dialog: replaceNestedFormIndex('#{$this->dialog->id()}'),
-    container: replaceNestedFormIndex('#{$this->getAttribute('id')}'),
-    input: replaceNestedFormIndex('#hidden-{$this->id}'),
-    values: {$this->options},
-});
-JS;
+        $this->options = $values;
     }
 
     protected function setUpTable()
     {
         $this->dialog
-            ->id($this->getElementId())
-            ->runScript(false)
             ->footer($this->renderFooter())
             ->button($this->renderButton());
     }
@@ -154,25 +136,19 @@ JS;
         $this->setUpTable();
         $this->formatOptions();
 
-        $name = $this->getElementName();
-
         $this->prepend('<i class="feather icon-arrow-up"></i>')
             ->defaultAttribute('class', 'form-control '.$this->getElementClassString())
             ->defaultAttribute('type', 'text')
-            ->defaultAttribute('name', $name)
-            ->defaultAttribute('id', 'container-'.$this->getElementId());
+            ->defaultAttribute('name', $this->getElementName());
 
         $this->addVariables([
-            'prepend'     => $this->prepend,
-            'append'      => $this->append,
-            'style'       => $this->style,
-            'dialog'      => $this->dialog->render(),
-            'placeholder' => $this->placeholder(),
+            'prepend'        => $this->prepend,
+            'append'         => $this->append,
+            'style'          => $this->style,
+            'dialog'         => $this->dialog->render(),
+            'placeholder'    => $this->placeholder(),
+            'dialogSelector' => $this->dialog->getElementSelector(),
         ]);
-
-        $this->script = $this->dialog->getScript();
-
-        $this->addScript();
 
         return parent::render();
     }

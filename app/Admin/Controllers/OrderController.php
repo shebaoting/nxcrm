@@ -7,7 +7,7 @@ use App\Models\Product;
 use App\Models\Contract;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Admin;
-use Dcat\Admin\Controllers\AdminController;
+use Dcat\Admin\Http\Controllers\AdminController;
 
 
 class OrderController extends AdminController

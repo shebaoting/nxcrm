@@ -16,27 +16,27 @@ class SettingsService extends SettingsContract
 
     function all()
     {
-        return $this->setting->all(['key', 'value'])->pluck('value', 'key')->toArray();//https://learnku.com/docs/laravel/5.5/collections#method-pluck
+        return $this->setting->all(['slug', 'value'])->pluck('value', 'slug')->toArray();//https://learnku.com/docs/laravel/5.5/collections#method-pluck
     }
 
-    function set($key, $value) {
+    function set($slug, $value) {
         $this->isRefresh = true;
 
         if ($value === null) {
-            $this->setting->where('key', $key)->delete();
+            $this->setting->where('slug', $slug)->delete();
         } else {
-            $this->setting->updateOrCreate(compact('key'), compact('value'));
+            $this->setting->updateOrCreate(compact('slug'), compact('value'));
         }
 
-        parent::set( $key , $value );
+        parent::set( $slug , $value );
 
     }
 
-    function delete($key) {
+    function delete($slug) {
         $this->isRefresh = true;
 
-        $this->setting->where('key', $key)->delete();
-        parent::delete($key);
+        $this->setting->where('slug', $slug)->delete();
+        parent::delete($slug);
     }
 
 }

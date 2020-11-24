@@ -8,7 +8,7 @@ use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\IFrameGrid;
 use Dcat\Admin\Layout\Content;
-use Dcat\Admin\Controllers\AdminController;
+use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Admin;
 
 class LeadController extends AdminController
@@ -136,8 +136,6 @@ class LeadController extends AdminController
                 $form->hasMany('contacts','联系人', function (Form\NestedForm $form) {
                     $form->text('name','姓名');
                     $form->mobile('phone','手机号');
-                    $form->text('position','职位');
-                    $form->text('wechat','微信号');
                     // $form->hidden('customer_id')->value('id');
                 });
             });

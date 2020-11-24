@@ -2,6 +2,14 @@
 
 All notable changes to `eloquent-sortable` will be documented in this file
 
+## 3.9.0 - 2020-09-16
+
+- add config file
+
+## 3.8.3 - 2020-09-08
+
+- add support for Laravel 8
+
 ## 3.8.2 - 2020-07-08
 
 - reduce dependency tree (#89)

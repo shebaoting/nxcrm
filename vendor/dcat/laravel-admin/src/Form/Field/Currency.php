@@ -4,12 +4,6 @@ namespace Dcat\Admin\Form\Field;
 
 class Currency extends Text
 {
-    public static $js = '@jquery.inputmask';
-    public static $css = '@jquery.inputmask';
-
-    /**
-     * @var string
-     */
     protected $symbol = '$';
 
     /**
@@ -58,7 +52,7 @@ class Currency extends Text
      */
     protected function prepareInputValue($value)
     {
-        return str_replace(',', '', $value);
+        return is_string($value) ? str_replace(',', '', $value) : $value;
     }
 
     /**

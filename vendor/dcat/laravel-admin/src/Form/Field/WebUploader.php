@@ -37,13 +37,13 @@ trait WebUploader
     }
 
     /**
-     * @param bool $disable
+     * @param bool $value
      *
      * @return $this
      */
-    public function disableChunked(bool $disable = true)
+    public function chunked(bool $value = true)
     {
-        $this->options['chunked'] = ! $disable;
+        $this->options['chunked'] = $value;
 
         return $this;
     }
@@ -56,6 +56,8 @@ trait WebUploader
     public function chunkSize(int $size)
     {
         $this->options['chunkSize'] = $size * 1024;
+
+        $this->checked(true);
 
         return $this;
     }
@@ -108,29 +110,29 @@ trait WebUploader
      *
      * @return $this
      */
-    public function disableAutoSave(bool $value = true)
+    public function autoSave(bool $value = true)
     {
-        $this->options['autoUpdateColumn'] = ! $value;
+        $this->options['autoUpdateColumn'] = $value;
 
         return $this;
     }
 
     /**
-     * Disable remove file.
+     * 禁用前端删除功能.
      *
      * @param bool $value
      *
      * @return $this
      */
-    public function disableRemove(bool $value = true)
+    public function removeable(bool $value = true)
     {
-        $this->options['disableRemove'] = $value;
+        $this->options['disableRemove'] = ! $value;
 
         return $this;
     }
 
     /**
-     * Set upload server.
+     * 设置图片删除地址.
      *
      * @param string $server
      *
@@ -144,6 +146,8 @@ trait WebUploader
     }
 
     /**
+     * 设置上传表单数据.
+     *
      * @param array $data
      *
      * @return $this
@@ -170,7 +174,21 @@ trait WebUploader
     }
 
     /**
-     * Set default options form file field.
+     * 是否开启图片压缩.
+     *
+     * @param bool|array $compress
+     *
+     * @return $this
+     */
+    public function compress($compress = true)
+    {
+        $this->options['compress'] = $compress;
+
+        return $this;
+    }
+
+    /**
+     * 默认上传配置.
      *
      * @return void
      */
@@ -181,7 +199,7 @@ trait WebUploader
             'fileVal'             => WebUploaderHelper::FILE_NAME,
             'isImage'             => false,
             'disableRemove'       => false,
-            'chunked'             => true,
+            'chunked'             => false,
             'fileNumLimit'        => 10,
             // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
             'disableGlobalDnd'    => true,
@@ -189,10 +207,10 @@ trait WebUploader
             'fileSingleSizeLimit' => 10485760, // 10M
             'elementName'         => $this->getElementName(), // 字段name属性值
             'lang'                => trans('admin.uploader'),
+            'compress'            => false,
 
             'deleteData' => [
                 static::FILE_DELETE_FLAG => '',
-                '_token'                 => csrf_token(),
             ],
             'formData' => [
                 '_id'           => Str::random(),

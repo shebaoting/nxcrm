@@ -17,6 +17,8 @@ class ArrayField extends HasMany
         } elseif (count($arguments) == 2) {
             [$this->label, $this->builder] = $arguments;
         }
+
+        $this->columnClass = $this->formatClass($column);
     }
 
     protected function buildRelatedForms()
@@ -27,22 +29,12 @@ class ArrayField extends HasMany
 
         $forms = [];
 
-        if ($values = old($this->column)) {
-            foreach ($values as $key => $data) {
-                if ($data[NestedForm::REMOVE_FLAG_NAME] == 1) {
-                    continue;
-                }
-
-                $forms[$key] = $this->buildNestedForm($key)->fill($data);
+        foreach (Helper::array($this->value()) as $key => $data) {
+            if (isset($data['pivot'])) {
+                $data = array_merge($data, $data['pivot']);
             }
-        } else {
-            foreach ($this->value() as $key => $data) {
-                if (isset($data['pivot'])) {
-                    $data = array_merge($data, $data['pivot']);
-                }
 
-                $forms[$key] = $this->buildNestedForm($key)->fill($data);
-            }
+            $forms[$key] = $this->buildNestedForm($key)->fill($data);
         }
 
         return $forms;
@@ -61,15 +53,6 @@ class ArrayField extends HasMany
             })
             ->values()
             ->toArray();
-    }
-
-    public function value($value = null)
-    {
-        if ($value === null) {
-            return Helper::array(parent::value($value));
-        }
-
-        return parent::value($value);
     }
 
     public function buildNestedForm($key = null)

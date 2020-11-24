@@ -174,7 +174,7 @@ class Modal extends Widget
                 ->simple()
                 ->load(false);
 
-            $this->onShow($table->getLoadScript());
+            $this->onShow("target.find('{$table->getElementSelector()}').trigger('table:load')");
         }
 
         if ($content instanceof LazyRenderable) {
@@ -287,7 +287,7 @@ class Modal extends Widget
         return $this->on('hidden.bs.modal', $script);
     }
 
-    protected function addEventScript()
+    protected function addScript()
     {
         if (! $this->events) {
             return;
@@ -303,7 +303,7 @@ class Modal extends Widget
 
         $this->script = <<<JS
 (function () {
-    var target = $('{$this->getElementSelector()}'), body = target.find('.modal-body');
+    var target = $('#{$this->id()}'), body = target.find('.modal-body');
     {$this->getRenderableScript()}
     {$script}
 })();
@@ -332,7 +332,7 @@ JS
     public function render()
     {
         $this->addLoadRenderableScript();
-        $this->addEventScript();
+        $this->addScript();
 
         if ($this->join) {
             return $this->renderButton().parent::render();

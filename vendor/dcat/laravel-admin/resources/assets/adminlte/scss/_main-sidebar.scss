@@ -16,13 +16,13 @@
   }
 
   .nav .nav-item .nav-link {
-    padding: 10px 10px 10px 15px!important;
+    padding: $sidebar-item-padding!important;
     //margin-right: .5rem;
   }
 
   .nav-treeview.nav {
     .nav-item .nav-link {
-      padding: 5px 10px 7px 15px!important;
+      padding: $sidebar-tree-item-padding!important;
       //margin-right: 0;
     }
 
@@ -365,7 +365,8 @@
 
 [class*='sidebar-dark-'] {
   // Sidebar background color
-  background-color: $sidebar-dark-bg;
+  //background-color: $sidebar-dark-bg;#7b8b9f
+  background-image: linear-gradient(0deg, lighten($sidebar-dark-bg, 25%), $sidebar-dark-bg);
 
   //.nav .nav-item .nav-link {
   //
@@ -378,9 +379,9 @@
        margin-bottom: 0
     }
 
-    .nav-item .nav-link.active {
-      padding: 7px 10px 7px 15px!important;
-    }
+    //.nav-item .nav-link.active {
+    //  padding: $sidebar-tree-item-padding!important;
+    //}
   }
 
   .nav-sidebar .nav-link > p > .right {
@@ -422,7 +423,8 @@
       // border-left: 3px solid transparent;
       &:active {
         color: $sidebar-dark-active-color;
-        background: $sidebar-dark-active-bg;
+        //background: $sidebar-dark-active-bg;
+        font-weight: bold;
       }
       &:hover {
         color: $sidebar-dark-hover-color;
@@ -430,6 +432,7 @@
     }
     i {
       margin-right: .75rem;
+      color: $sidebar-dark-icon-color;
     }
 
     // Hover and active states
@@ -437,12 +440,13 @@
     &:hover > .nav-link,
     & > .nav-link:focus  {
       background-color: $sidebar-dark-hover-bg;
-      //color: $sidebar-dark-hover-color;
+      color: $sidebar-dark-hover-color;
     }
 
     > .nav-link.active {
       color: $sidebar-dark-active-color;
       background: $sidebar-dark-active-bg;
+      font-weight: bold;
 
       @if $enable-shadows {
         box-shadow: map-get($elevations, 1);
@@ -451,7 +455,7 @@
 
     // First Level Submenu
     > .nav-treeview {
-      background: $sidebar-dark-submenu-bg;
+      //background: $sidebar-dark-submenu-bg;
     }
   }
 
@@ -483,6 +487,7 @@
         &:focus {
           background-color: $sidebar-dark-submenu-hover-bg;
           color: $sidebar-dark-submenu-hover-color;
+          font-weight: bold;
         }
       }
 
@@ -490,6 +495,7 @@
         &,
         &:hover,
         &:focus {
+          font-weight: bold;
           background-color: $sidebar-dark-submenu-active-bg;
           color: $sidebar-dark-submenu-active-color;
         }

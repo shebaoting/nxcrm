@@ -574,7 +574,7 @@ body.dark-mode {
     color: $body-dark-font-color!important;
   }
 
-  .dataTables_filter .form-control {
+  .table-filter .form-control {
     background: $body-dark-table-bg;
     color: $body-dark-font-color;
   }
@@ -757,7 +757,7 @@ body.dark-mode {
   }
 
   // ----- selector
-  .custom-data-table .grid-selector {
+ .grid-selector {
     .wrap {
       background-color: $body-dark-color;
     }
@@ -848,6 +848,7 @@ body.dark-mode {
 
   // ------- sidebar
   [class*=sidebar-dark-] {
+    background-image: none;
     background-color: $body-dark-color!important;
 
     .navbar-header {

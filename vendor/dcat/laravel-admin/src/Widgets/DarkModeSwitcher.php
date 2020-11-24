@@ -2,7 +2,6 @@
 
 namespace Dcat\Admin\Widgets;
 
-use Dcat\Admin\Admin;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Str;
 
@@ -19,9 +18,6 @@ class DarkModeSwitcher implements Renderable
     {
         $icon = $this->defaultDarkMode ? 'icon-sun' : 'icon-moon';
 
-        $this->addScript();
-        $this->addStyle();
-
         return <<<HTML
 <ul class="nav navbar-nav float-right">
     <li class="dropdown dropdown-user nav-item">
@@ -32,58 +28,10 @@ class DarkModeSwitcher implements Renderable
         </a>
     </li>
 </ul>
+
+<script>
+Dcat.darkMode.initSwitcher('.dark-mode-switcher');
+</script>
 HTML;
-    }
-
-    protected function addStyle()
-    {
-        Admin::style('.dark-mode-switcher{margin:0 5px 0 0;font-size: 1.5rem;cursor: pointer}');
-    }
-
-    protected function addScript()
-    {
-        $script = <<<'JS'
-(function() {
-    var storage = localStorage || {setItem:function () {}, getItem: function () {}},
-        darkMode = Dcat.darkMode,
-        key = 'dcat-admin-theme-mode',
-        mode = storage.getItem(key),
-        icon = $('.dark-mode-switcher i');
-
-    function switchMode(dark) {
-        if (dark) {
-            icon.addClass('icon-sun').removeClass('icon-moon');
-            darkMode.display(true);
-            return;
-        }
-
-        darkMode.display(false);
-        icon.removeClass('icon-sun').addClass('icon-moon');
-    }
-
-    if (mode === 'dark') {
-        switchMode(true);
-    } else if (mode === 'def') {
-        switchMode(false)
-    }
-
-    $('.dark-mode-switcher').off('click').on('click', function () {
-        icon.toggleClass('icon-sun icon-moon');
-
-        if (icon.hasClass('icon-moon')) {
-            switchMode(false);
-
-            storage.setItem(key, 'def');
-
-        } else {
-            storage.setItem(key, 'dark');
-
-            switchMode(true)
-        }
-    })
-})()
-JS;
-
-        Admin::script($script, true);
     }
 }

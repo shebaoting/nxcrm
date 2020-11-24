@@ -2,9 +2,7 @@
 
 [![Latest Version](https://img.shields.io/github/release/spatie/eloquent-sortable.svg?style=flat-square)](https://github.com/spatie/eloquent-sortable/releases)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/spatie/eloquent-sortable/run-tests?label=tests)
-[![Quality Score](https://img.shields.io/scrutinizer/g/spatie/eloquent-sortable.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/eloquent-sortable)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![StyleCI](https://styleci.io/repos/21866232/shield?branch=master)](https://styleci.io/repos/21866232)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/eloquent-sortable.svg?style=flat-square)](https://packagist.org/packages/spatie/eloquent-sortable)
 
 This package provides a trait that adds sortable behaviour to an Eloquent model.
@@ -33,6 +31,38 @@ This package can be installed through Composer.
 composer require spatie/eloquent-sortable
 ```
 
+In Laravel 5.5 and above the service provider will automatically get registered. In older versions of the framework just add the service provider in `config/app.php` file:
+
+```php
+'providers' => [
+    ...
+    Spatie\EloquentSortable\EloquentSortableServiceProvider::class,
+];
+```
+
+Optionally you can publish the config file with:
+
+```bash
+php artisan vendor:publish --provider="Spatie\EloquentSortable\EloquentSortableServiceProvider" --tag="config"
+```
+
+This is the content of the file that will be published in `config/eloquent-sortable.php`
+
+```php
+return [
+  /*
+   * The name of the column that will be used to sort models.
+   */
+  'order_column_name' => 'order_column',
+
+  /*
+   * Define if the models should sort when creating. When true, the package
+   * will automatically assign the highest order number to a new model
+   */
+  'sort_when_creating' => true,
+];
+```
+
 ## Usage
 
 To add sortable behaviour to your model you must:
@@ -55,7 +85,7 @@ class MyModel extends Eloquent implements Sortable
         'order_column_name' => 'order_column',
         'sort_when_creating' => true,
     ];
-    
+
     ...
 }
 ```
@@ -78,7 +108,7 @@ $myModel->save(); // order_column for this record will be set to 3
 
 
 //the trait also provides the ordered query scope
-$orderedRecords = MyModel::ordered()->get(); 
+$orderedRecords = MyModel::ordered()->get();
 ```
 
 You can set a new order for all the records using the `setNewOrder`-method
@@ -135,21 +165,21 @@ MyModel::setNewOrderByCustomColumn('uuid', [
 
 You can also move a model up or down with these methods:
 
-```php 
+```php
 $myModel->moveOrderDown();
 $myModel->moveOrderUp();
 ```
 
 You can also move a model to the first or last position:
 
-```php 
+```php
 $myModel->moveToStart();
 $myModel->moveToEnd();
 ```
 
 You can swap the order of two models:
 
-```php 
+```php
 MyModel::swapOrder($myModel, $anotherModel);
 ```
 

@@ -3,9 +3,11 @@ import Helpers from './extensions/Helpers'
 import Translator from './extensions/Translator'
 
 let $ = jQuery,
+    $document = $(document),
     pjaxResponded = false,
     bootingCallbacks = [],
     actions = {},
+    initialized = {},
     defaultOptions = {
         pjax_container_selector: '#pjax-container',
     };
@@ -96,6 +98,45 @@ export default class Dcat {
     }
 
     /**
+     * 监听动态生成元素.
+     *
+     * @param selector
+     * @param callback
+     * @param options
+     */
+    init(selector, callback, options) {
+        let self = this,
+            clear = function () {
+                if (initialized[selector]) {
+                    initialized[selector].disconnect();
+                }
+            };
+
+        self.onPjaxComplete(clear, true);
+        $document.one('pjax:responded', clear);
+
+        clear();
+
+        initialized[selector] = $.initialize(selector, function () {
+            let $this = $(this),
+                id = $this.attr('id');
+
+            if ($this.attr('initialized')) {
+                return;
+            }
+            $this.attr('initialized', '1');
+
+            // 如果没有ID，则自动生成
+            if (! id) {
+                id = "_"+self.helpers.random();
+                $this.attr('id', id);
+            }
+
+            callback.call(this, $this, id)
+        }, options);
+    }
+
+    /**
      * 主动触发 ready 事件
      */
     triggerReady() {
@@ -104,7 +145,7 @@ export default class Dcat {
         }
 
         $(() => {
-            $(document).trigger('pjax:loaded');
+            $document.trigger('pjax:loaded');
         });
     }
 
@@ -115,6 +156,8 @@ export default class Dcat {
      */
     pjaxResponded(value) {
         pjaxResponded = value !== false;
+
+        $document.trigger('pjax:responded');
 
         return this
     }
@@ -155,10 +198,10 @@ export default class Dcat {
         once = once === undefined ? true : once;
 
         if (once) {
-            return $(document).one('pjax:loaded', callback);
+            return $document.one('pjax:loaded', callback);
         }
 
-        return $(document).on('pjax:loaded', callback);
+        return $document.on('pjax:loaded', callback);
     }
 
     /**
@@ -172,10 +215,10 @@ export default class Dcat {
         once = once === undefined ? true : once;
 
         if (once) {
-            return $(document).one('pjax:complete', callback);
+            return $document.one('pjax:complete', callback);
         }
 
-        return $(document).on('pjax:complete', callback);
+        return $document.on('pjax:complete', callback);
     }
 
     withConfig(config) {

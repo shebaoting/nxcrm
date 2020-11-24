@@ -17,6 +17,7 @@ class CreateContractsTable extends Migration
             $table->increments('id');
             $table->string('title')->default('');
             $table->integer('customer_id');
+            $table->json('fields')->nullable();
             $table->date('signdate');
             $table->date('expiretime');
             $table->integer('status');

@@ -7,11 +7,11 @@ use Dcat\Admin\Contracts\Repository;
 use Dcat\Admin\Grid\Column;
 use Dcat\Admin\Grid\Concerns;
 use Dcat\Admin\Grid\Model;
-use Dcat\Admin\Grid\Responsive;
 use Dcat\Admin\Grid\Row;
 use Dcat\Admin\Grid\Tools;
 use Dcat\Admin\Support\Helper;
 use Dcat\Admin\Traits\HasBuilderEvents;
+use Dcat\Admin\Traits\HasVariables;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -19,21 +19,24 @@ use Illuminate\Support\Traits\Macroable;
 
 class Grid
 {
-    use HasBuilderEvents,
-        Concerns\HasNames,
-        Concerns\HasFilter,
-        Concerns\HasTools,
-        Concerns\HasActions,
-        Concerns\HasPaginator,
-        Concerns\HasExporter,
-        Concerns\HasComplexHeaders,
-        Concerns\HasSelector,
-        Concerns\HasQuickCreate,
-        Concerns\HasQuickSearch,
-        Concerns\CanFixColumns,
-        Macroable {
-            __call as macroCall;
-        }
+    use HasBuilderEvents;
+    use HasVariables;
+    use Concerns\HasEvents;
+    use Concerns\HasNames;
+    use Concerns\HasFilter;
+    use Concerns\HasTools;
+    use Concerns\HasActions;
+    use Concerns\HasPaginator;
+    use Concerns\HasExporter;
+    use Concerns\HasComplexHeaders;
+    use Concerns\HasSelector;
+    use Concerns\HasQuickCreate;
+    use Concerns\HasQuickSearch;
+    use Concerns\CanFixColumns;
+    use Concerns\CanHidesColumns;
+    use Macroable {
+        __call as macroCall;
+    }
 
     const CREATE_MODE_DEFAULT = 'default';
     const CREATE_MODE_DIALOG = 'dialog';
@@ -69,11 +72,9 @@ class Grid
     protected $rows;
 
     /**
-     * Rows callable fucntion.
-     *
-     * @var \Closure[]
+     * @var array
      */
-    protected $rowsCallback = [];
+    protected $rowsCallbacks = [];
 
     /**
      * All column names of the grid.
@@ -97,13 +98,6 @@ class Grid
     protected $built = false;
 
     /**
-     * All variables in grid view.
-     *
-     * @var array
-     */
-    protected $variables = [];
-
-    /**
      * Resource path of the grid.
      *
      * @var
@@ -122,7 +116,7 @@ class Grid
      *
      * @var string
      */
-    protected $view = 'admin::grid.data-table';
+    protected $view = 'admin::grid.table';
 
     /**
      * @var Closure
@@ -138,11 +132,6 @@ class Grid
      * @var Closure
      */
     protected $wrapper;
-
-    /**
-     * @var Responsive
-     */
-    protected $responsive;
 
     /**
      * @var bool
@@ -179,8 +168,13 @@ class Grid
         'show_toolbar'           => true,
         'create_mode'            => self::CREATE_MODE_DEFAULT,
         'dialog_form_area'       => ['700px', '670px'],
-        'table_class'            => ['table', 'dt-checkboxes-select'],
+        'table_class'            => ['table', 'custom-data-table', 'data-table'],
     ];
+
+    /**
+     * @var \Illuminate\Http\Request
+     */
+    protected $request;
 
     /**
      * Create a new grid instance.
@@ -190,13 +184,15 @@ class Grid
      * @param Repository|\Illuminate\Database\Eloquent\Model|Builder|null $repository
      * @param null|\Closure                                       $builder
      */
-    public function __construct($repository = null, ?\Closure $builder = null)
+    public function __construct($repository = null, ?\Closure $builder = null, $request = null)
     {
         $this->model = new Model(request(), $repository);
         $this->columns = new Collection();
         $this->allColumns = new Collection();
         $this->rows = new Collection();
         $this->builder = $builder;
+        $this->request = $request ?: request();
+        $this->resourcePath = url($this->request->getPathInfo());
 
         if ($repository = $this->model->repository()) {
             $this->setKeyName($repository->getKeyName());
@@ -204,8 +200,8 @@ class Grid
 
         $this->model->setGrid($this);
 
-        $this->setupTools();
-        $this->setupFilter();
+        $this->setUpTools();
+        $this->setUpFilter();
 
         $this->callResolving();
     }
@@ -396,10 +392,7 @@ class Grid
     public function formatTableClass()
     {
         if ($this->options['show_bordered']) {
-            $this->addTableClass(['table-bordered', 'complex-headers', 'dataTable']);
-        }
-        if ($this->getComplexHeaders()) {
-            $this->addTableClass('table-text-center');
+            $this->addTableClass(['table-bordered', 'complex-headers', 'data-table']);
         }
 
         return implode(' ', array_unique((array) $this->options['table_class']));
@@ -433,10 +426,6 @@ class Grid
 
         $this->buildRows($data);
 
-        if ($data && $this->responsive) {
-            $this->responsive->build();
-        }
-
         $this->sortHeaders();
     }
 
@@ -465,27 +454,25 @@ class Grid
             return new Row($this, $model);
         });
 
-        if ($this->rowsCallback) {
-            foreach ($this->rowsCallback as $value) {
-                $value($this->rows);
-            }
+        foreach ($this->rowsCallbacks as $callback) {
+            $callback($this->rows);
         }
     }
 
     /**
      * Set grid row callback function.
      *
-     * @param Closure $callable
-     *
-     * @return Collection|void
+     * @return Collection|$this
      */
-    public function rows(Closure $callable = null)
+    public function rows(\Closure $callback = null)
     {
-        if (is_null($callable)) {
-            return $this->rows;
+        if ($callback) {
+            $this->rowsCallbacks[] = $callback;
+
+            return $this;
         }
 
-        $this->rowsCallback[] = $callable;
+        return $this->rows;
     }
 
     /**
@@ -533,9 +520,8 @@ class Grid
         $keyName = $this->getKeyName();
 
         $this->prependColumn(
-            Grid\Column::SELECT_COLUMN_NAME,
-            $rowSelector->renderHeader()
-        )->display(function () use ($rowSelector, $keyName) {
+            Grid\Column::SELECT_COLUMN_NAME
+        )->setLabel($rowSelector->renderHeader())->display(function () use ($rowSelector, $keyName) {
             return $rowSelector->renderColumn($this, $this->{$keyName});
         });
     }
@@ -674,8 +660,8 @@ HTML;
     /**
      * Get or set option for grid.
      *
-     * @param string $key
-     * @param mixed  $value
+     * @param string|array $key
+     * @param mixed        $value
      *
      * @return $this|mixed
      */
@@ -685,7 +671,11 @@ HTML;
             return $this->options[$key] ?? null;
         }
 
-        $this->options[$key] = $value;
+        if (is_array($key)) {
+            $this->options = array_merge($this->options, $key);
+        } else {
+            $this->options[$key] = $value;
+        }
 
         return $this;
     }
@@ -770,23 +760,11 @@ HTML;
     /**
      * Get or set resource path.
      *
-     * @param string $path
-     *
-     * @return $this|string
+     * @return string
      */
-    public function resource(string $path = null)
+    public function resource()
     {
-        if ($path === null) {
-            return $this->resourcePath ?: (
-            $this->resourcePath = url(app('request')->getPathInfo())
-            );
-        }
-
-        if (! empty($path)) {
-            $this->resourcePath = admin_url($path);
-        }
-
-        return $this;
+        return $this->resourcePath;
     }
 
     /**
@@ -799,32 +777,6 @@ HTML;
     public static function make(...$params)
     {
         return new static(...$params);
-    }
-
-    /**
-     * Enable responsive tables.
-     *
-     * @see https://github.com/nadangergeo/RWD-Table-Patterns
-     *
-     * @return Responsive
-     *
-     * @deprecated 即将在2.0版本中废弃
-     */
-    public function responsive()
-    {
-        if (! $this->responsive) {
-            $this->responsive = new Responsive($this);
-        }
-
-        return $this->responsive;
-    }
-
-    /**
-     * @return bool
-     */
-    public function allowResponsive()
-    {
-        return $this->responsive ? true : false;
     }
 
     /**
@@ -854,7 +806,7 @@ HTML;
      *
      * @return $this
      */
-    public function with($variables = [])
+    public function with(array $variables)
     {
         $this->variables = $variables;
 
@@ -866,27 +818,26 @@ HTML;
      *
      * @return array
      */
-    protected function variables()
+    protected function defaultVariables()
     {
-        $this->variables['grid'] = $this;
-        $this->variables['tableId'] = $this->getTableId();
-
-        return $this->variables;
+        return [
+            'grid'    => $this,
+            'tableId' => $this->getTableId(),
+        ];
     }
 
     /**
      * Set a view to render.
      *
      * @param string $view
-     * @param array  $variables
+     *
+     * @return $this
      */
-    public function view($view, $variables = [])
+    public function view($view)
     {
-        if (! empty($variables)) {
-            $this->with($variables);
-        }
-
         $this->view = $view;
+
+        return $this;
     }
 
     /**
@@ -926,7 +877,7 @@ HTML;
      */
     public function setResource($path)
     {
-        $this->resourcePath = $path;
+        $this->resourcePath = admin_url($path);
 
         return $this;
     }
@@ -938,17 +889,13 @@ HTML;
      */
     public function render()
     {
-        try {
-            $this->callComposing();
+        $this->callComposing();
 
-            $this->build();
+        $this->build();
 
-            $this->applyFixColumns();
+        $this->applyFixColumns();
 
-            $this->setUpOptions();
-        } catch (\Throwable $e) {
-            return Admin::makeExceptionHandler()->handle($e);
-        }
+        $this->setUpOptions();
 
         return $this->doWrap();
     }
@@ -964,7 +911,7 @@ HTML;
             return $view->render();
         }
 
-        return $wrapper($view);
+        return Helper::render($wrapper($view));
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Dcat\Admin\Layout;
 
 use Closure;
 use Dcat\Admin\Admin;
+use Dcat\Admin\Exception\RuntimeException;
 use Dcat\Admin\Traits\HasBuilderEvents;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Str;
@@ -152,14 +153,6 @@ class Content implements Renderable
     }
 
     /**
-     * @deprecated
-     */
-    public function perfectScrollbar()
-    {
-        return $this;
-    }
-
-    /**
      * @param array $breadcrumb
      *
      * @throws \Exception
@@ -169,21 +162,21 @@ class Content implements Renderable
     protected function formatBreadcrumb(array &$breadcrumb)
     {
         if (! $breadcrumb) {
-            throw new \Exception('Breadcrumb format error!');
+            throw new RuntimeException('Breadcrumb format error!');
         }
 
         $notArray = false;
         foreach ($breadcrumb as &$item) {
             $isArray = is_array($item);
             if ($isArray && ! isset($item['text'])) {
-                throw new \Exception('Breadcrumb format error!');
+                throw new RuntimeException('Breadcrumb format error!');
             }
             if (! $isArray && $item) {
                 $notArray = true;
             }
         }
         if (! $breadcrumb) {
-            throw new \Exception('Breadcrumb format error!');
+            throw new RuntimeException('Breadcrumb format error!');
         }
         if ($notArray) {
             $breadcrumb = [
@@ -268,13 +261,35 @@ class Content implements Renderable
      */
     public function build()
     {
-        $html = '';
+        try {
+            $html = '';
 
-        foreach ($this->rows as $row) {
-            $html .= $row->render();
+            foreach ($this->rows as $row) {
+                $html .= $row->render();
+            }
+
+            return $html;
+        } catch (\Throwable $e) {
+            return $this->handleException($e);
+        }
+    }
+
+    /**
+     * @param \Throwable $e
+     *
+     * @return mixed|string
+     */
+    protected function handleException(\Throwable $e)
+    {
+        $response = Admin::handleException($e);
+
+        if (is_string($response) || $response instanceof Renderable) {
+            $row = new Row($response);
+
+            return $row->render();
         }
 
-        return $html;
+        return $response;
     }
 
     /**
@@ -405,7 +420,7 @@ class Content implements Renderable
             'description'     => $this->description,
             'breadcrumb'      => $this->breadcrumb,
             'configData'      => $this->applyClasses(),
-            'pjaxContainerId' => Admin::$pjaxContainerId,
+            'pjaxContainerId' => Admin::getPjaxContainerId(),
         ], $this->variables);
     }
 

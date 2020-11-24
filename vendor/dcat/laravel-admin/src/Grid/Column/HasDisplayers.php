@@ -3,6 +3,7 @@
 namespace Dcat\Admin\Grid\Column;
 
 use Dcat\Admin\Admin;
+use Dcat\Admin\Exception\InvalidArgumentException;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Grid\Column;
 use Dcat\Admin\Grid\Displayers\AbstractDisplayer;
@@ -219,14 +220,6 @@ trait HasDisplayers
     }
 
     /**
-     * @return $this
-     */
-    public function emptyString()
-    {
-        return $this->display('');
-    }
-
-    /**
      * Show children of current node.
      *
      * @param bool $showAll
@@ -238,7 +231,7 @@ trait HasDisplayers
     {
         $this->grid->model()->enableTree($showAll, $sortable);
 
-        $this->grid->fetching(function () use ($showAll) {
+        $this->grid->listen(Grid\Events\Fetching::class, function () use ($showAll) {
             if ($this->grid->model()->getParentIdFromRequest()) {
                 $this->grid->disableFilter();
                 $this->grid->disableToolbar();
@@ -262,7 +255,7 @@ trait HasDisplayers
     public function action($action)
     {
         if (! is_subclass_of($action, RowAction::class)) {
-            throw new \InvalidArgumentException("Action class [$action] must be sub-class of [Dcat\Admin\Grid\RowAction]");
+            throw new InvalidArgumentException("Action class [$action] must be sub-class of [Dcat\Admin\Grid\RowAction]");
         }
 
         $grid = $this->grid;

@@ -3,6 +3,7 @@
 namespace Dcat\Admin\Grid\Concerns;
 
 use Dcat\Admin\Grid\Column;
+use Dcat\Admin\Grid\Events\ApplyQuickSearch;
 use Dcat\Admin\Grid\Model;
 use Dcat\Admin\Grid\Tools;
 use Dcat\Admin\Support\Helper;
@@ -47,22 +48,8 @@ trait HasQuickSearch
         return tap(new Tools\QuickSearch(), function ($search) {
             $this->quickSearch = $search;
 
-            $this->setQuickSearchQueryName();
-
             $search->setGrid($this);
         });
-    }
-
-    /**
-     * @param string $gridName
-     */
-    public function setQuickSearchQueryName()
-    {
-        if ($this->quickSearch) {
-            $this->quickSearch->setQueryName(
-                $this->getName().$this->quickSearch->getQueryName()
-            );
-        }
     }
 
     /**
@@ -96,11 +83,13 @@ trait HasQuickSearch
             return;
         }
 
-        $query = request()->get($this->quickSearch->getQueryName());
+        $query = request($this->quickSearch->getQueryName());
 
         if ($query === '' || $query === null) {
             return;
         }
+
+        $this->fireOnce(new ApplyQuickSearch($this, [$query]));
 
         // 树表格子节点忽略查询条件
         $this->model()

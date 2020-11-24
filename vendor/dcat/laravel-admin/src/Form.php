@@ -67,7 +67,6 @@ use Symfony\Component\HttpFoundation\Response;
  * @method Field\Embeds                 embeds($column, $label = '', Closure $callback = null)
  * @method Field\Captcha                captcha()
  * @method Field\Listbox                listbox($column, $label = '')
- * @method Field\SelectResource         selectResource($column, $label = '')
  * @method Field\File                   file($column, $label = '')
  * @method Field\Image                  image($column, $label = '')
  * @method Field\MultipleFile           multipleFile($column, $label = '')
@@ -89,15 +88,14 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Form implements Renderable
 {
-    use HasBuilderEvents,
-        HasFormResponse,
-        Concerns\HasEvents,
-        Concerns\HasFiles,
-        Concerns\HasSteps,
-        Concerns\HandleCascadeFields,
-        Concerns\HasRows,
-        Concerns\HasTabs,
-        Macroable {
+    use HasBuilderEvents;
+    use HasFormResponse;
+    use Concerns\HasEvents;
+    use Concerns\HasFiles;
+    use Concerns\HandleCascadeFields;
+    use Concerns\HasRows;
+    use Concerns\HasTabs;
+    use Macroable {
             __call as macroCall;
         }
 
@@ -152,7 +150,6 @@ class Form implements Renderable
         'icon'                => Field\Icon::class,
         'captcha'             => Field\Captcha::class,
         'listbox'             => Field\Listbox::class,
-        'selectResource'      => Field\SelectResource::class,
         'file'                => Field\File::class,
         'image'               => Field\Image::class,
         'multipleFile'        => Field\MultipleFile::class,
@@ -204,7 +201,7 @@ class Form implements Renderable
     /**
      * @var bool
      */
-    protected $useAjaxSubmit = true;
+    protected $ajax = true;
 
     /**
      * Model of the form.
@@ -267,6 +264,11 @@ class Form implements Renderable
     protected $conditions = [];
 
     /**
+     * @var array
+     */
+    public $context = [];
+
+    /**
      * Create a new form instance.
      *
      * @param Repository|Model|\Illuminate\Database\Eloquent\Builder|string $model
@@ -314,7 +316,7 @@ class Form implements Renderable
 
         $field->width($width['field'], $width['label']);
 
-        $field::collectAssets();
+        $field::requireAssets();
 
         return $this;
     }
@@ -336,13 +338,7 @@ class Form implements Renderable
      */
     public function fields()
     {
-        $fields = $this->builder->fields();
-
-        if ($steps = $this->builder->stepBuilder()) {
-            $fields = $fields->merge($steps->fields());
-        }
-
-        return $fields;
+        return $this->builder->fields();
     }
 
     /**
@@ -395,14 +391,18 @@ class Form implements Renderable
     }
 
     /**
-     * @param Fluent $model
+     * @param Fluent|array|\Illuminate\Database\Eloquent\Model $model
      *
-     * @return Fluent|void
+     * @return Fluent|\Illuminate\Database\Eloquent\Model|void
      */
-    public function model(Fluent $model = null)
+    public function model($model = null)
     {
         if ($model === null) {
             return $this->model;
+        }
+
+        if (is_array($model)) {
+            $model = new Fluent($model);
         }
 
         $this->model = $model;
@@ -419,15 +419,15 @@ class Form implements Renderable
     }
 
     /**
-     * Disable submit with ajax.
+     * 启用或禁用ajax表单提交.
      *
-     * @param bool $disable
+     * @param bool $value
      *
      * @return $this
      */
-    public function disableAjaxSubmit(bool $disable = true)
+    public function ajax(bool $value = true)
     {
-        $this->useAjaxSubmit = ! $disable;
+        $this->ajax = $value;
 
         return $this;
     }
@@ -437,7 +437,7 @@ class Form implements Renderable
      */
     public function allowAjaxSubmit()
     {
-        return $this->useAjaxSubmit === true;
+        return $this->ajax === true;
     }
 
     /**
@@ -469,6 +469,14 @@ class Form implements Renderable
     }
 
     /**
+     * @return \Dcat\Admin\Form\Layout
+     */
+    public function layout()
+    {
+        return $this->builder->layout();
+    }
+
+    /**
      * @return Repository
      */
     public function repository()
@@ -488,7 +496,7 @@ class Form implements Renderable
         $this->builder->mode(Builder::MODE_EDIT);
         $this->builder->setResourceId($id);
 
-        $this->model(new Fluent($this->repository->edit($this)));
+        $this->model($this->repository->edit($this));
 
         return $this;
     }
@@ -527,7 +535,7 @@ class Form implements Renderable
             $this->builder->setResourceId($id);
             $this->builder->mode(Builder::MODE_DELETE);
 
-            $data = $this->repository->getDataWhenDeleting($this);
+            $data = $this->repository->deleting($this);
 
             $this->model(new Fluent($data));
 
@@ -535,34 +543,46 @@ class Form implements Renderable
 
             $this->build();
 
-            if (($response = $this->callDeleting()) instanceof Response) {
-                return $response;
+            if ($response = $this->callDeleting()) {
+                return $this->sendResponse($response);
             }
 
-            $result = $this->repository->destroy($this, $data);
+            $result = $this->repository->delete($this, $data);
 
-            if (($response = $this->callDeleted($result)) instanceof Response) {
-                return $response;
+            if ($response = $this->callDeleted($result)) {
+                return $this->sendResponse($response);
             }
 
-            $response = [
-                'status'  => $result ? true : false,
-                'message' => $result ? trans('admin.delete_succeeded') : trans('admin.delete_failed'),
-            ];
+            $status = $result ? true : false;
+            $message = $result ? trans('admin.delete_succeeded') : trans('admin.delete_failed');
         } catch (\Throwable $exception) {
-            $response = Admin::makeExceptionHandler()->handle($exception);
+            $response = $this->handleException($exception);
 
             if ($response instanceof Response) {
                 return $response;
             }
 
-            $response = $response ?: [
-                'status'  => false,
-                'message' => $exception->getMessage() ?: trans('admin.delete_failed'),
-            ];
+            $status = false;
+            $message = $exception->getMessage() ?: trans('admin.delete_failed');
         }
 
-        return response()->json($response);
+        return $this->sendResponse(
+            $this->response()
+                ->alert()
+                ->status($status)
+                ->message($message)
+                ->refreshIf($status)
+        );
+    }
+
+    /**
+     * @param \Throwable $e
+     *
+     * @return mixed
+     */
+    protected function handleException(\Throwable $e)
+    {
+        return Admin::handleException($e);
     }
 
     /**
@@ -575,38 +595,52 @@ class Form implements Renderable
      */
     public function store(?array $data = null, $redirectTo = null)
     {
-        if ($data) {
-            $this->request->replace($data);
+        try {
+            if ($data) {
+                $this->request->replace($data);
+            }
+
+            $data = $data ?: $this->request->all();
+
+            if ($response = $this->beforeStore($data)) {
+                return $this->sendResponse($response);
+            }
+
+            $this->updates = $this->prepareInsert($this->updates);
+
+            $id = $this->repository->store($this);
+
+            $this->builder->setResourceId($id);
+
+            if (($response = $this->callSaved($id))) {
+                return $this->sendResponse($response);
+            }
+
+            if (! $id) {
+                return $this->sendResponse(
+                    $this->response()
+                        ->error(trans('admin.save_failed'))
+                );
+            }
+
+            return $this->sendResponse(
+                $this->response()
+                    ->redirect($this->getRedirectUrl($id, $redirectTo))
+                    ->success(trans('admin.save_succeeded'))
+            );
+        } catch (\Throwable $e) {
+            $response = $this->handleException($e);
+
+            if ($response instanceof Response) {
+                return $response;
+            }
+
+            return $this->sendResponse(
+                $this->response()
+                    ->error(trans('admin.save_failed'))
+                    ->withExceptionIf($e->getMessage(), $e)
+            );
         }
-
-        $data = $data ?: $this->request->all();
-
-        if ($response = $this->beforeStore($data)) {
-            return $response;
-        }
-
-        $this->updates = $this->prepareInsert($this->updates);
-
-        $id = $this->repository->store($this);
-
-        $this->builder->setResourceId($id);
-
-        if (($response = $this->callSaved($id))) {
-            return $response;
-        }
-
-        if ($response = $this->responseMultipleStepsDonePage()) {
-            return $response;
-        }
-
-        if (! $id) {
-            return $this->error(trans('admin.save_failed'));
-        }
-
-        return $this->redirect(
-            $this->redirectUrl($id, $redirectTo),
-            trans('admin.save_succeeded')
-        );
     }
 
     /**
@@ -622,30 +656,15 @@ class Form implements Renderable
 
         $this->build();
 
-        $this->prepareStepFormFields($this->inputs);
-
         if (($response = $this->callSubmitted())) {
             return $response;
-        }
-
-        // Validate step form.
-        if ($this->isStepFormValidationRequest()) {
-            return $this->validateStepForm($this->inputs);
         }
 
         if ($response = $this->handleUploadFile($this->inputs)) {
             return $response;
         }
 
-        if ($response = $this->handleFileDeleteBeforeCreate($this->inputs)) {
-            $this->deleteFileInStepFormStashData($this->inputs);
-
-            return $response;
-        }
-
-        if ($response = $this->handleFileDeleteWhenCreating($this->inputs)) {
-            $this->deleteFileInStepFormStashData($this->inputs);
-
+        if ($response = $this->deleteFileWhenCreating($this->inputs)) {
             return $response;
         }
 
@@ -655,8 +674,6 @@ class Form implements Renderable
         }
 
         if (($response = $this->prepare($this->inputs))) {
-            $this->deleteFilesWhenCreating($this->inputs);
-
             return $response;
         }
     }
@@ -672,7 +689,7 @@ class Form implements Renderable
     {
         $this->inputs = $this->removeIgnoredFields($data);
 
-        if (($response = $this->callSaving()) instanceof Response) {
+        if ($response = $this->callSaving()) {
             return $response;
         }
 
@@ -726,9 +743,15 @@ class Form implements Renderable
                 ? $this->repository->moveOrderUp()
                 : $this->repository->moveOrderDown();
 
-            return $updated
-                ? $this->ajaxResponse(__('admin.update_succeeded'))
-                : $this->error(__('admin.nothing_updated'));
+            $message = $updated
+                ? __('admin.update_succeeded')
+                : __('admin.nothing_updated');
+
+            return $this->sendResponse(
+                $this->response()
+                    ->status((bool) $updated)
+                    ->message($message)
+            );
         }
     }
 
@@ -746,32 +769,50 @@ class Form implements Renderable
         ?array $data = null,
         $redirectTo = null
     ) {
-        if ($data) {
-            $this->request->replace($data);
+        try {
+            if ($data) {
+                $this->request->replace($data);
+            }
+
+            $data = $data ?: $this->request->all();
+
+            if ($response = $this->beforeUpdate($id, $data)) {
+                return $this->sendResponse($response);
+            }
+
+            $this->updates = $this->prepareUpdate($this->updates);
+
+            $updated = $this->repository->update($this);
+
+            if ($response = $this->callSaved($updated)) {
+                return $this->sendResponse($response);
+            }
+
+            if (! $updated) {
+                return $this->sendResponse(
+                    $this->response()
+                        ->error(trans('admin.update_failed'))
+                );
+            }
+
+            return $this->sendResponse(
+                $this->response()
+                    ->success(trans('admin.update_succeeded'))
+                    ->redirect($this->getRedirectUrl($id, $redirectTo))
+            );
+        } catch (\Throwable $e) {
+            $response = $this->handleException($e);
+
+            if ($response instanceof Response) {
+                return $response;
+            }
+
+            return $this->sendResponse(
+                $this->response()
+                    ->error(trans('admin.update_failed'))
+                    ->withExceptionIf($e->getMessage(), $e)
+            );
         }
-
-        $data = $data ?: $this->request->all();
-
-        if ($response = $this->beforeUpdate($id, $data)) {
-            return $response;
-        }
-
-        $this->updates = $this->prepareUpdate($this->updates);
-
-        $updated = $this->repository->update($this);
-
-        if (($response = $this->callSaved($updated))) {
-            return $response;
-        }
-
-        if (! $updated) {
-            return $this->error(trans('admin.update_succeeded'));
-        }
-
-        return $this->redirect(
-            $this->redirectUrl($id, $redirectTo),
-            trans('admin.update_succeeded')
-        );
     }
 
     /**
@@ -788,7 +829,7 @@ class Form implements Renderable
 
         $this->inputs = $data;
 
-        $this->model(new Fluent($this->repository->getDataWhenUpdating($this)));
+        $this->model($this->repository->updating($this));
 
         $this->build();
 
@@ -860,18 +901,18 @@ class Form implements Renderable
      *
      * @return string|null
      */
-    public function redirectUrl($key, $redirectTo = null)
+    public function getRedirectUrl($key, $redirectTo = null)
     {
         if ($redirectTo) {
             return $redirectTo;
         }
 
         $resourcesPath = $this->builder->isCreating() ?
-            $this->getResource(0) : $this->getResource(-1);
+            $this->resource(0) : $this->resource(-1);
 
         if ($this->request->get('after-save') == 1) {
             // continue editing
-            if ($this->builder->isEditing() && $this->isAjaxRequest()) {
+            if ($this->builder->isEditing()) {
                 return;
             }
 
@@ -888,7 +929,7 @@ class Form implements Renderable
             return rtrim($resourcesPath, '/')."/{$key}";
         }
 
-        return $this->request->get(Builder::PREVIOUS_URL_KEY) ?: $resourcesPath;
+        return $this->request->get(Builder::PREVIOUS_URL_KEY) ?: ($this->getCurrentUrl() ?: $resourcesPath);
     }
 
     /**
@@ -997,7 +1038,9 @@ class Form implements Renderable
      */
     public function ignore($fields)
     {
-        $this->ignored = array_merge($this->ignored, (array) $fields);
+        $this->ignored = Arr::flatten(
+            array_merge($this->ignored, (array) $fields)
+        );
 
         return $this;
     }
@@ -1190,7 +1233,7 @@ class Form implements Renderable
         $message = $this->mergeValidationMessages($failedValidators);
 
         if ($message->any() && $this->builder->isCreating()) {
-            $this->deleteFilesWhenCreating($input);
+            $this->deleteFiles($input, true);
         }
 
         return $message->any() ? $message : false;
@@ -1485,7 +1528,7 @@ class Form implements Renderable
      *
      * @return string
      */
-    public function getResource($slice = -2)
+    public function resource($slice = -2)
     {
         $path = $this->resource ?: $this->request->getUri();
 
@@ -1505,7 +1548,7 @@ class Form implements Renderable
      *
      * @return $this
      */
-    public function resource(string $resource)
+    public function setResource(string $resource)
     {
         if ($resource) {
             $this->resource = admin_url($resource);
@@ -1521,15 +1564,11 @@ class Form implements Renderable
      */
     public function render()
     {
-        try {
-            $this->rendering();
+        $this->rendering();
 
-            $this->callComposing();
+        $this->callComposing();
 
-            return $this->builder->render();
-        } catch (\Throwable $e) {
-            return Admin::makeExceptionHandler()->handle($e);
-        }
+        return $this->builder->render();
     }
 
     /**
@@ -1540,8 +1579,12 @@ class Form implements Renderable
      *
      * @return array|mixed
      */
-    public function input($key, $value = null)
+    public function input($key = null, $value = null)
     {
+        if (is_null($key)) {
+            return $this->inputs;
+        }
+
         if (is_null($value)) {
             return Arr::get($this->inputs, $key);
         }
@@ -1567,11 +1610,10 @@ class Form implements Renderable
      */
     public function block(int $width, \Closure $callback)
     {
-        $layout = $this->builder->layout();
-
-        $callback($form = $layout->form());
-
-        $layout->column($width, $form);
+        $this
+            ->builder
+            ->layout()
+            ->block($width, $callback);
 
         return $this;
     }
@@ -1587,18 +1629,6 @@ class Form implements Renderable
         $this->builder->layout()->onlyColumn($width, function () use ($callback) {
             $callback($this);
         });
-
-        return $this;
-    }
-
-    /**
-     * @param int $width
-     *
-     * @return $this
-     */
-    public function setDefaultBlockWidth(int $width)
-    {
-        $this->builder->setDefaultBlockWidth($width);
 
         return $this;
     }

@@ -10,7 +10,7 @@ use App\Models\Contract;
 use Dcat\Admin\Admin;
 use App\Models\Customer;
 use App\Admin\Renderable\ContractTable;
-use Dcat\Admin\Controllers\AdminController;
+use Dcat\Admin\Http\Controllers\AdminController;
 
 class ReceiptController extends AdminController
 {

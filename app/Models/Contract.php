@@ -33,6 +33,6 @@ class Contract extends Model
 
     public function Invoices()
     {
-        return $this->hasManyThrough('App\Models\Invoice', 'App\Models\Receipt');
+        return $this->hasMany(Invoice::class);
     }
 }

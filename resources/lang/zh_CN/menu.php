@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'titles' => [
+        'index'         => '工作台',
+        'admin'         => '系统',
+        'users'         => '团队',
+        'roles'         => '部门',
+        'permission'    => '权限',
+        'menu'          => '菜单',
+        'operation_log' => '操作日志',
+        'helpers'       => '开发工具',
+        'extensions'    => '扩展',
+        'scaffold'      => '代码生成器',
+        'icons'         => '图标',
+        'sale'          => '销售',
+        'customers'     => '客户',
+        'contacts'      => '联系人',
+        'events'        => '跟进',
+        'contract'      => '合同',
+        'contracts'      => '合同',
+        'receipt'      => '收款',
+        'leads'      => '线索',
+        'opportunitys'      => '商机',
+        'settings'      => '系统',
+        'invoices'      => '发票',
+        'products'      => '产品',
+        'order'      => '订单',
+        'customfield'      => '字段',
+    ],
+];

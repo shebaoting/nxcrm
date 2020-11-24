@@ -1,8 +1,8 @@
-<div class="{{$viewClass['form-group']}} {!! !$errors->has($column) ?: 'has-error' !!}" >
+<div class="{{$viewClass['form-group']}}" >
 
-    <label for="{{$id}}" class="{{$viewClass['label']}} control-label pt-0">{!! $label !!}</label>
+    <label class="{{$viewClass['label']}} control-label pt-0">{!! $label !!}</label>
 
-    <div class="{{$viewClass['field']}}" id="{{ $id }}">
+    <div class="{{$viewClass['field']}}">
 
         @if($checkAll)
             {!! $checkAll !!}
@@ -19,3 +19,11 @@
 
     </div>
 </div>
+
+@if(! empty($canCheckAll))
+<script init="[name='_check_all_']" once>
+    $this.on('change', function () {
+        $(this).parents('.form-field').find('input[type="checkbox"]:not(:first)').prop('checked', this.checked).trigger('change');
+    });
+</script>
+@endif

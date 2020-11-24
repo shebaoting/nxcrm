@@ -8,6 +8,7 @@ use Dcat\Admin\Grid\LazyRenderable as LazyGrid;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Support\Helper;
 use Dcat\Admin\Traits\HasHtmlAttributes;
+use Dcat\Admin\Traits\HasVariables;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Arr;
@@ -20,6 +21,7 @@ use Illuminate\Support\Arr;
 abstract class Widget implements Renderable
 {
     use HasHtmlAttributes;
+    use HasVariables;
 
     /**
      * @var array
@@ -44,12 +46,12 @@ abstract class Widget implements Renderable
     /**
      * @var array
      */
-    protected $variables = [];
+    protected $options = [];
 
     /**
-     * @var array
+     * @var string
      */
-    protected $options = [];
+    protected $elementClass;
 
     /**
      * @var bool
@@ -96,9 +98,9 @@ abstract class Widget implements Renderable
     {
         if ($value === null) {
             return Arr::get($this->options, $key);
-        } else {
-            Arr::set($this->options, $key, $value);
         }
+
+        Arr::set($this->options, $key, $value);
 
         return $this;
     }
@@ -118,37 +120,20 @@ abstract class Widget implements Renderable
      *
      * @return array
      */
-    public function variables()
+    public function defaultVariables()
     {
-        return array_merge($this->variables, [
+        return [
             'attributes' => $this->formatHtmlAttributes(),
             'options'    => $this->options,
-        ]);
-    }
-
-    /**
-     * 设置视图变量.
-     *
-     * @param string|array $key
-     * @param mixed        $value
-     *
-     * @return $this
-     */
-    public function with($key, $value = null)
-    {
-        if (is_array($key)) {
-            $this->variables = array_merge($this->variables, $key);
-        } else {
-            $this->variables[$key] = $value;
-        }
-
-        return $this;
+            'class'      => $this->getElementClass(),
+            'selector'   => $this->getElementSelector(),
+        ];
     }
 
     /**
      * 收集静态资源.
      */
-    public static function collectAssets()
+    public static function requireAssets()
     {
         static::$js && Admin::js(static::$js);
         static::$css && Admin::css(static::$css);
@@ -179,7 +164,7 @@ abstract class Widget implements Renderable
      */
     public function render()
     {
-        static::collectAssets();
+        static::requireAssets();
 
         $html = $this->html();
 
@@ -195,7 +180,15 @@ abstract class Widget implements Renderable
      */
     public function getElementSelector()
     {
-        return '#'.$this->id();
+        return '.'.$this->getElementClass();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getElementClass()
+    {
+        return $this->elementClass ?: str_replace('\\', '_', static::class);
     }
 
     /**
@@ -209,7 +202,11 @@ abstract class Widget implements Renderable
             return;
         }
 
-        return view($this->view, $this->variables())->render();
+        $result = Admin::resolveHtml(view($this->view, $this->variables()), ['runScript' => $this->runScript]);
+
+        $this->script .= $result['script'];
+
+        return $result['html'];
     }
 
     /**
@@ -263,7 +260,7 @@ abstract class Widget implements Renderable
      *
      * @return Lazy|LazyTable|mixed
      */
-    protected function lazyRenderable($content)
+    protected function formatRenderable($content)
     {
         if ($content instanceof LazyGrid) {
             return LazyTable::make($content);

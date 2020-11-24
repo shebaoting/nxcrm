@@ -19,7 +19,7 @@ class Map extends Field
      *
      * @return void
      */
-    public static function collectAssets()
+    public static function requireAssets()
     {
         $keys = config('admin.map.keys');
 
@@ -51,7 +51,6 @@ class Map extends Field
         array_shift($arguments);
 
         $this->label = $this->formatLabel($arguments);
-        $this->id = $this->formatId($this->column);
 
         /*
          * Google map is blocked in mainland China

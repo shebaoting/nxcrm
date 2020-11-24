@@ -2,6 +2,7 @@
 
 namespace Dcat\Admin\Support;
 
+use Dcat\Admin\Admin;
 use Dcat\Admin\Grid;
 use Dcat\Laravel\Database\WhereHasInServiceProvider;
 use Illuminate\Contracts\Support\Arrayable;
@@ -33,27 +34,6 @@ class Helper
         'audio'      => 'mp3|wav|flac|3pg|aa|aac|ape|au|m4a|mpc|ogg',
         'video'      => 'mkv|rmvb|flv|mp4|avi|wmv|rm|asf|mpeg',
     ];
-
-    /**
-     * 更新扩展配置.
-     *
-     * @param array $config
-     *
-     * @return bool
-     */
-    public static function updateExtensionConfig(array $config)
-    {
-        $files = app('files');
-        $result = (bool) $files->put(config_path('admin-extensions.php'), self::exportArrayPhp($config));
-
-        if ($result && is_file(base_path('bootstrap/cache/config.php'))) {
-            Artisan::call('config:cache');
-        }
-
-        config(['admin-extensions' => $config]);
-
-        return $result;
-    }
 
     /**
      * 把给定的值转化为数组.
@@ -318,13 +298,13 @@ class Helper
         $parentId = is_numeric($parentId) ? (int) $parentId : $parentId;
 
         foreach ($nodes as $node) {
-            $pk = Arr::get($node, $parentKeyName);
+            $pk = $node[$parentKeyName];
             $pk = is_numeric($pk) ? (int) $pk : $pk;
 
             if ($pk === $parentId) {
                 $children = static::buildNestedArray(
                     $nodes,
-                    Arr::get($node, $primaryKeyName),
+                    $node[$primaryKeyName],
                     $primaryKeyName,
                     $parentKeyName,
                     $childrenKeyName
@@ -645,6 +625,27 @@ class Helper
     }
 
     /**
+     * 判断给定的数组是是否包含给定元素.
+     *
+     * @param mixed $value
+     * @param array $array
+     *
+     * @return bool
+     */
+    public static function inArray($value, array $array)
+    {
+        $array = array_map(function ($v) {
+            if (is_scalar($v) || $v === null) {
+                $v = (string) $v;
+            }
+
+            return $v;
+        }, $array);
+
+        return in_array((string) $value, $array, true);
+    }
+
+    /**
      * Limit the number of characters in a string.
      *
      * @param string $value
@@ -745,7 +746,7 @@ class Helper
         foreach ($relations as $first => $v) {
             if (isset($input[$first])) {
                 foreach ($input[$first] as $key => $value) {
-                    if (is_array($value) && ! Arr::isAssoc($value)) {
+                    if (is_array($value)) {
                         $input["$first.$key"] = $value;
                     }
                 }
@@ -773,7 +774,12 @@ class Helper
             return;
         }
 
-        static::withRelationQuery($model, $column, $query, $params);
+        $method = $query === 'orWhere' ? 'orWhere' : 'where';
+        $subQuery = $query === 'orWhere' ? 'where' : $query;
+
+        $model->$method(function ($q) use ($column, $subQuery, $params) {
+            static::withRelationQuery($q, $column, $subQuery, $params);
+        });
     }
 
     /**
@@ -818,5 +824,40 @@ class Helper
         }
 
         return $item;
+    }
+
+    /**
+     * 格式化表单元素 name 属性.
+     *
+     * @param string|array $name
+     *
+     * @return mixed|string
+     */
+    public static function formatElementName($name)
+    {
+        if (! $name) {
+            return $name;
+        }
+
+        if (is_array($name)) {
+            foreach ($name as &$v) {
+                $v = static::formatElementName($v);
+            }
+
+            return $name;
+        }
+
+        $name = explode('.', $name);
+
+        if (count($name) == 1) {
+            return $name[0];
+        }
+
+        $html = array_shift($name);
+        foreach ($name as $piece) {
+            $html .= "[$piece]";
+        }
+
+        return $html;
     }
 }

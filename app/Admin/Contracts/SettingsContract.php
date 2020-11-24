@@ -11,12 +11,12 @@ abstract class SettingsContract
     abstract function all();
 
 
-    function set( $key , $value ) {
+    function set( $slug , $value ) {
         $this->isRefresh = true;
         //TODO broadcast the event .
     }
 
-    function delete( $key ) {
+    function delete( $slug ) {
         $this->isRefresh = true;
         //TODO broadcast the event .
     }

@@ -2,6 +2,8 @@
 
 namespace Dcat\Admin\Grid\Filter;
 
+use Dcat\Admin\Admin;
+use Dcat\Admin\Exception\RuntimeException;
 use Dcat\Admin\Grid\Filter;
 use Dcat\Admin\Grid\Filter\Presenter\Checkbox;
 use Dcat\Admin\Grid\Filter\Presenter\DateTime;
@@ -11,6 +13,7 @@ use Dcat\Admin\Grid\Filter\Presenter\Radio;
 use Dcat\Admin\Grid\Filter\Presenter\Select;
 use Dcat\Admin\Grid\Filter\Presenter\Text;
 use Dcat\Admin\Grid\LazyRenderable;
+use Dcat\Admin\Traits\HasVariables;
 use Dcat\Laravel\Database\WhereHasInServiceProvider;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -32,6 +35,8 @@ use Illuminate\Support\Collection;
  */
 abstract class AbstractFilter
 {
+    use HasVariables;
+
     /**
      * Element id.
      *
@@ -136,9 +141,13 @@ abstract class AbstractFilter
      */
     protected function formatLabel($label)
     {
-        $label = $label ?: admin_trans_field($this->column);
+        if ($label) {
+            return $label;
+        }
 
-        return str_replace(['.', '_'], ' ', $label);
+        $label = admin_trans_field($this->column);
+
+        return str_replace('_', ' ', $label);
     }
 
     /**
@@ -180,9 +189,7 @@ abstract class AbstractFilter
             }
         }
 
-        $parenName = $this->parent->getName();
-
-        return $parenName ? "{$parenName}_{$name}" : $name;
+        return $this->parent->grid()->makeName($name);
     }
 
     /**
@@ -194,7 +201,7 @@ abstract class AbstractFilter
      */
     protected function formatId($columns)
     {
-        return 'filter_column_'.$this->parent->grid()->getName().'_'.str_replace('.', '_', $columns);
+        return $this->parent->grid()->makeName('filter-column-'.str_replace('.', '-', $columns));
     }
 
     /**
@@ -210,7 +217,7 @@ abstract class AbstractFilter
     /**
      * @return Filter
      */
-    public function getParent()
+    public function parent()
     {
         return $this->parent;
     }
@@ -268,10 +275,6 @@ abstract class AbstractFilter
      */
     public function condition($inputs)
     {
-        if ($this->ignore) {
-            return;
-        }
-
         $value = Arr::get($inputs, $this->column);
 
         if ($value === null) {
@@ -315,18 +318,6 @@ abstract class AbstractFilter
     public function multipleSelect($options = [])
     {
         return $this->setPresenter(new MultipleSelect($options));
-    }
-
-    /**
-     * @param mixed $source
-     *
-     * @return Filter\Presenter\SelectResource
-     *
-     * @deprecated 即将在2.0版本中废弃，请使用 selectTable 和 multipleSelectTable 代替
-     */
-    public function selectResource($source = null)
-    {
-        return $this->setPresenter(new Filter\Presenter\SelectResource($source));
     }
 
     /**
@@ -442,7 +433,7 @@ abstract class AbstractFilter
     {
         $presenter->setParent($this);
 
-        $presenter::collectAssets();
+        $presenter::requireAssets();
 
         return $this->presenter = $presenter;
     }
@@ -513,9 +504,22 @@ abstract class AbstractFilter
      */
     public function column()
     {
-        $parenName = $this->parent->getName();
+        return $this->formatColumnClass($this->column);
+    }
 
-        return $parenName ? "{$parenName}_{$this->column}" : $this->column;
+    public function originalColumn()
+    {
+        return $this->column;
+    }
+
+    /**
+     * @param string $column
+     *
+     * @return string
+     */
+    public function formatColumnClass($column)
+    {
+        return $this->parent->grid()->makeName(str_replace('.', '-', $column));
     }
 
     /**
@@ -555,6 +559,10 @@ abstract class AbstractFilter
      */
     protected function buildCondition(...$params)
     {
+        if ($this->ignore) {
+            return;
+        }
+
         $column = explode('.', $this->column);
 
         if (count($column) == 1) {
@@ -588,31 +596,51 @@ abstract class AbstractFilter
      *
      * @return array
      */
-    protected function variables()
+    protected function defaultVariables()
     {
-        $variables = $this->presenter()->variables();
-
-        $value = $this->value ?: Arr::get($this->parent->inputs(), $this->column);
-
         return array_merge([
             'id'        => $this->id,
             'name'      => $this->formatName($this->column),
             'label'     => $this->label,
-            'value'     => $value ?: $this->defaultValue,
-            'presenter' => $this->presenter(),
+            'value'     => $this->normalizeValue(),
             'width'     => $this->width,
             'style'     => $this->style,
-        ], $variables);
+        ], $this->presenter()->variables());
+    }
+
+    protected function normalizeValue()
+    {
+        if ($this->value === '' || $this->value === null) {
+            $this->value = Arr::get($this->parent->inputs(), $this->column);
+        }
+
+        return $this->value === '' || $this->value === null ? $this->defaultValue : $this->value;
     }
 
     /**
      * Render this filter.
      *
-     * @return \Illuminate\View\View|string
+     * @return string
      */
     public function render()
     {
-        return view($this->view, $this->variables());
+        $variables = $this->variables();
+
+        $variables['presenter'] = $this->renderPresenter();
+
+        return Admin::view($this->view, $variables);
+    }
+
+    /**
+     * @return string
+     *
+     * @throws \Throwable
+     */
+    protected function renderPresenter()
+    {
+        return function () {
+            return Admin::view($this->presenter->view(), $this->variables());
+        };
     }
 
     /**
@@ -639,7 +667,7 @@ abstract class AbstractFilter
             return $this->presenter()->{$method}(...$params);
         }
 
-        throw new \BadMethodCallException(sprintf(
+        throw new RuntimeException(sprintf(
             'Call to undefined method %s::%s()', static::class, $method
         ));
     }
