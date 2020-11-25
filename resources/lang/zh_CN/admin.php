@@ -47,6 +47,7 @@ return [
     'login'                 => '登录',
     'logout'                => '登出',
     'setting'               => '设置',
+    'admin_setting'         => '后台',
     'name'                  => '名称',
     'username'              => '用户名',
     'old_password'          => '旧密码',

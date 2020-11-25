@@ -4,7 +4,7 @@
         <div class="login-page">
 
             <div class="auth-brand text-center text-lg-left">
-                <img src="/uploads/{!! config('settings.logo') !!}" width="35"> &nbsp;{!! config('settings.crmname') !!}
+                <img src="/uploads/{!! admin_setting('logo', public_path().'/static/img/logo.png') !!}" width="35"> &nbsp;{!! admin_setting('crmname', 'NXCRM客户管理系统') !!}
             </div>
 
             <div class="login-box">

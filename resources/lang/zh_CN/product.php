@@ -1,7 +1,8 @@
-<?php 
+<?php
 return [
     'labels' => [
         'Product' => '产品',
+        'products' => '产品',
     ],
     'fields' => [
         'name' => '产品名称',

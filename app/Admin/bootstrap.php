@@ -2,9 +2,7 @@
 
 use Dcat\Admin\Admin;
 use Dcat\Admin\Grid;
-use Dcat\Admin\Form;
-use Dcat\Admin\Grid\Filter;
-use Dcat\Admin\Show;
+use Dcat\Admin\Support\Helper;
 
 /**
  * Dcat-admin - admin builder based on Laravel.
@@ -32,3 +30,52 @@ Grid::resolving(function (Grid $grid) {
 Admin::css('static/css/nxcrm.css');
 Admin::asset()->alias('@nunito', null, '');
 Admin::asset()->alias('@montserrat', null, '');
+
+Dcat\Admin\Color::extend('douyin', [
+    'primary'        => '#fe2d54',
+    'primary-darker' => '#ff5770',
+    'link'           => '#fe2d54',
+]);
+
+
+
+admin_inject_section('isadmin', function () {
+    $setting_menu = [
+        'admin/settings',
+        'admin/auth/users',
+        'admin/auth/roles',
+        'admin/products',
+        'admin/customfields'
+    ];
+    $route = request()->path();
+    $isadmin = in_array($route, $setting_menu);
+    return $isadmin;
+}, false, 1);
+
+
+admin_inject_section(Admin::SECTION['LEFT_SIDEBAR_MENU'], function () {
+    $menuModel = config('admin.database.menu_model');
+    $builder = Admin::menu();
+    $html = '';
+    $menu_date = Helper::buildNestedArray((new $menuModel())->allNodes());
+
+    // dd(admin_section('isadmin', false));
+    foreach ($menu_date as $item) {
+
+        if (admin_section('isadmin', false)) {
+            if ($item['title'] == 'Admin') {
+                $html .= view('admin.partials.menu', ['item' => $item, 'builder' => $builder])->render();
+            }
+        }else {
+            if ($item['title'] != 'Admin') {
+                $html .= view('admin.partials.menu', ['item' => $item, 'builder' => $builder])->render();
+            }
+        }
+    }
+
+    return $html;
+});
+
+admin_inject_section(Admin::SECTION['NAVBAR_USER_PANEL'], function () {
+    return view('admin.partials.navbar-user-panel', ['user' => Admin::user()]);
+});

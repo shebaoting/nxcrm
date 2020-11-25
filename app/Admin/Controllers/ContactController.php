@@ -121,9 +121,10 @@ class ContactController extends AdminController
             $form->ignore(['customer_false']);
             $form->hidden('customer_id')->value($customerid);
             $form->hidden('fields')->value(null);
-            $form->saving(function (Form $form) {
+            $class = $this;
+            $form->saving(function (Form $form) use ($class) {
                 $form_field = array();
-                foreach ($this->custommodel('contact') as $field) {
+                foreach ($class->custommodel('contact') as $field) {
                     $field_field = $field['field'];
                     $form_field[$field_field] = $form->$field_field;
                     $form->deleteInput($field['field']);

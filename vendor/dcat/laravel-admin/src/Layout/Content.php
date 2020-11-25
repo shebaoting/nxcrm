@@ -442,7 +442,7 @@ class Content implements Renderable
         ];
 
         $data = array_merge(
-            config('settings') ?: [],
+            config('admin.layout') ?: [],
             $this->config
         );
 
@@ -499,7 +499,7 @@ class Content implements Renderable
             'navbar_class'      => $allOptions['navbar_class'][$data['navbar_class']],
             'sidebar_class'     => $data['sidebar_collapsed'] ? 'sidebar-collapse' : '',
             'body_class'        => $data['body_class'],
-            'menu_layout'        => $data['menu_layout'],
+            'menu_layout'        => admin_setting('menu_layout', 'sidebar-separate'),
             'sidebar_style'     => $data['sidebar_style'],
         ];
     }

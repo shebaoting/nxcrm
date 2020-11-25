@@ -288,8 +288,8 @@ class ContractController extends AdminController
                 $form->hidden('fields')->value(null);
             });
 
-
-            $form->saving(function (Form $form) {
+            $class = $this;
+            $form->saving(function (Form $form) use ($class) {
                 if ($form->salesexpenses || $form->total) {
                     $form->salesexpenses = str_replace(',', '', $form->salesexpenses);
                     $form->total = str_replace(',', '', $form->total);
@@ -303,7 +303,7 @@ class ContractController extends AdminController
                 $form->order = $order;
 
                 $form_field = array();
-                foreach ($this->custommodel('contract') as $field) {
+                foreach ($class->custommodel('contract') as $field) {
                     $field_field = $field['field'];
                     $form_field[$field_field] = $form->$field_field;
                     $form->deleteInput($field['field']);

@@ -122,15 +122,15 @@ class CustomerController extends AdminController
             $form->hidden('admin_users_id')->value(Admin::user()->id);
             $form->hidden('state')->value(3);
             $form->hidden('fields')->value(null);
-
-            $form->saving(function (Form $form) {
+            $class = $this;
+            $form->saving(function (Form $form) use ($class) {
                 $form_field = array();
-                foreach ($this->custommodel('customer') as $field) {
+                foreach ($class->custommodel('Customer') as $field) {
+                    // dd($field);
                     $field_field = $field['field'];
                     $form_field[$field_field] = $form->$field_field;
                     $form->deleteInput($field['field']);
                 }
-                // dd(json_encode($form_field));
                 $form->fields = json_encode($form_field);
             });
         });

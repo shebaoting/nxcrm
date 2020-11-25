@@ -211,7 +211,7 @@ class Color
      */
     public function __construct(?string $name = null)
     {
-        $this->name = ($name ?: config('settings.color')) ?: static::DEFAULT_COLOR;
+        $this->name = ($name ?: admin_setting('color', 'green')) ?: static::DEFAULT_COLOR;
 
         $this->currentColors = array_merge(
             static::$colors,

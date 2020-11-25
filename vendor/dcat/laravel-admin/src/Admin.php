@@ -100,7 +100,7 @@ class Admin
     public static function title($title = null)
     {
         if ($title === null) {
-            return static::context()->metaTitle ?: config('admin.title');
+            return static::context()->metaTitle ?: admin_setting('crmname', 'NXCRM客户管理系统');
         }
 
         static::context()->metaTitle = $title;
@@ -419,13 +419,13 @@ class Admin
             return;
         }
 
-        $sidebarStyle = config('settings.sidebar_style') ?: 'light';
+        $sidebarStyle = admin_setting('sidebar_style', 'light') ?: 'light';
 
         $jsVariables['pjax_container_selector'] = '#'.static::getPjaxContainerId();
         $jsVariables['token'] = csrf_token();
         $jsVariables['lang'] = __('admin.client') ?: [];
         $jsVariables['colors'] = static::color()->all();
-        $jsVariables['dark_mode'] = Str::contains(config('settings.body_class'), 'dark-mode');
+        $jsVariables['dark_mode'] = Str::contains(admin_setting('body_class', ''), 'dark-mode');
         $jsVariables['sidebar_dark'] = config('admin.layout.sidebar_dark') || ($sidebarStyle === 'dark');
         $jsVariables['sidebar_light_style'] = in_array($sidebarStyle, ['dark', 'light'], true) ? 'sidebar-light-primary' : 'sidebar-primary';
 

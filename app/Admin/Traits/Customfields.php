@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Admin\Traits;
+
 use Dcat\Admin\Grid;
 use App\Models\Customfield;
 use Dcat\Admin\Form;
@@ -11,11 +12,11 @@ trait Customfields
     protected function custommodel($modelname)
     {
         $fields = Customfield::where([['model', '=', $modelname], ['show', '=', '1']])->orderBy('sort', 'desc')->get();
+        // return dd($fields);
         return $fields;
     }
 
-
-    protected function gridfield(Grid $grid,$modelname)
+    protected function gridfield(Grid $grid, $modelname)
     {
         $fields = Customfield::where([['model', '=', $modelname], ['show', '=', '1'], ['iflist', '=', '1']])->orderBy('sort', 'desc')->get();
         foreach ($fields as $field) {
@@ -49,7 +50,7 @@ trait Customfields
         return;
     }
 
-    protected function formfield(Form $form,$modelname)
+    protected function formfield(Form $form, $modelname)
     {
         foreach ($this->custommodel($modelname) as $field) {
             $field_type = $field['type'];
@@ -75,8 +76,9 @@ trait Customfields
 
                 if ($form->isCreating()) {
                     $form_field->options($field_options)->required();
-                } else {
+                } elseif ($form->isEditing()) {
                     $form_field->options($field_options)->default($form_fields_default, true)->required();
+                } else {
                 }
             } elseif ($field['required']) {
 
@@ -84,8 +86,7 @@ trait Customfields
                     $form_field->required();
                 } elseif ($form->isEditing()) {
                     $form_field->value($form_fields_default)->required();
-                }else {
-
+                } else {
                 }
             } elseif ($field['options']) {
 
@@ -94,8 +95,7 @@ trait Customfields
                     $form_field->options($field_options);
                 } elseif ($form->isEditing()) {
                     $form_field->options($field_options)->default($form_fields_default, true);
-                }else {
-
+                } else {
                 }
             } else {
 
@@ -103,8 +103,7 @@ trait Customfields
                     $form_field;
                 } elseif ($form->isEditing()) {
                     $form_field->value($form_fields_default);
-                }else {
-
+                } else {
                 }
             }
         }
