@@ -28,7 +28,7 @@ class Admin
     use HasAssets;
     use HasHtml;
 
-    const VERSION = '2.0.9-beta';
+    const VERSION = '2.0.10-beta';
 
     const SECTION = [
         // 往 <head> 标签内输入内容
@@ -419,13 +419,13 @@ class Admin
             return;
         }
 
-        $sidebarStyle = admin_setting('sidebar_style', 'light') ?: 'light';
+        $sidebarStyle = config('admin.layout.sidebar_style') ?: 'light';
 
         $jsVariables['pjax_container_selector'] = '#'.static::getPjaxContainerId();
         $jsVariables['token'] = csrf_token();
         $jsVariables['lang'] = __('admin.client') ?: [];
         $jsVariables['colors'] = static::color()->all();
-        $jsVariables['dark_mode'] = Str::contains(admin_setting('body_class', ''), 'dark-mode');
+        $jsVariables['dark_mode'] = Str::contains(config('admin.layout.body_class'), 'dark-mode');
         $jsVariables['sidebar_dark'] = config('admin.layout.sidebar_dark') || ($sidebarStyle === 'dark');
         $jsVariables['sidebar_light_style'] = in_array($sidebarStyle, ['dark', 'light'], true) ? 'sidebar-light-primary' : 'sidebar-primary';
 

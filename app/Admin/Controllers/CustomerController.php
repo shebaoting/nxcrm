@@ -11,6 +11,7 @@ use App\Admin\Traits\Customfields;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Admin;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class CustomerController extends AdminController
 {
@@ -111,11 +112,10 @@ class CustomerController extends AdminController
         return Form::make(new Customer(), function (Form $form) {
             // 判断授权，无权限编辑他人的信息,以后可以优化一下
             // dd($form->model()->admin_users_id);
-            $Editing = $form->isEditing() && Admin::user()->id != $form->model()->admin_users_id;
-            if ($Editing) {
-                $customer = Customer::find($form->model()->id);
-                $this->authorize('update', $customer);
-            }
+            // $Editing = $form->isEditing() && Admin::user()->id != $form->model()->admin_users_id;
+            // if (!$form->isCreating()) {
+            //         $this->authorize('update',  [Admin::user(), $form->model()->id]);
+            // }
             $form->display('id');
             $form->text('name');
             $this->formfield($form,'customer');
@@ -135,26 +135,5 @@ class CustomerController extends AdminController
             });
         });
     }
-
-    protected function iFrameGrid()
-    {
-        $grid = new IFrameGrid(new Customer());
-        // 如果表格数据中带有 “name”、“title”或“username”字段，则可以不用设置
-        if (!Admin::user()->isRole('administrator')) {
-            $grid->model()->where('admin_users_id', '=', Admin::user()->id);
-        }
-        $grid->rowSelector()->titleColumn('name');
-        $grid->id->sortable();
-        $grid->name;
-        $grid->disableRefreshButton();
-        $grid->filter(function (Grid\Filter $filter) {
-            $filter->equal('id');
-            $filter->like('name');
-        });
-
-        return $grid;
-    }
-
-
 
 }

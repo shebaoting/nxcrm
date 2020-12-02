@@ -18,7 +18,9 @@
   background-size: cover;
   margin: 0;
 }
-
+.login-box, .register-box {
+    width: 80%;
+}
 body.dark-mode .login_main {
   background: url(/static/img/bg-auth.jpg) center;
   background-size: cover;

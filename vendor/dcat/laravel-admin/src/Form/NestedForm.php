@@ -276,6 +276,7 @@ class NestedForm extends WidgetForm
         $this->fields->push($field);
 
         $field->setForm($this->form);
+        $field->setParent($this);
 
         if ($this->layout()->hasColumns()) {
             $this->layout()->addField($field);
@@ -283,11 +284,10 @@ class NestedForm extends WidgetForm
 
         if (method_exists($this->form, 'builder')) {
             $this->form->builder()->fields()->push($field);
-            $this->form->ignore($field->column());
             $field->attribute(Field::BUILD_IGNORE, true);
         }
 
-        $field->setNestedFormRelation([
+        $field->setRelation([
             'relation' => $this->relationName,
             'key'      => $this->key,
         ]);

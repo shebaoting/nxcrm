@@ -138,7 +138,12 @@ class Field implements Renderable
      *
      * @var Form|WidgetForm
      */
-    protected $form = null;
+    protected $form;
+
+    /**
+     * @var WidgetForm
+     */
+    protected $parent;
 
     /**
      * View for field to render.
@@ -236,7 +241,7 @@ class Field implements Renderable
      *
      * @return $this
      */
-    public function setNestedFormRelation(array $options = [])
+    public function setRelation(array $options = [])
     {
         return $this;
     }
@@ -397,6 +402,18 @@ class Field implements Renderable
     public function setForm($form = null)
     {
         $this->form = $form;
+
+        return $this;
+    }
+
+    /**
+     * @param WidgetForm $form
+     *
+     * @return $this
+     */
+    public function setParent($form = null)
+    {
+        $this->parent = $form;
 
         return $this;
     }
@@ -747,31 +764,37 @@ class Field implements Renderable
     /**
      * Set the field automatically get focus.
      *
+     * @param bool $value
+     *
      * @return $this
      */
-    public function autofocus()
+    public function autofocus(bool $value = true)
     {
-        return $this->attribute('autofocus', true);
+        return $this->attribute('autofocus', $value);
     }
 
     /**
      * Set the field as readonly mode.
      *
+     * @param bool $value
+     *
      * @return $this
      */
-    public function readOnly()
+    public function readOnly(bool $value = true)
     {
-        return $this->attribute('readonly', true);
+        return $this->attribute('readonly', $value);
     }
 
     /**
      * Set field as disabled.
      *
+     * @param bool $value
+     *
      * @return $this
      */
-    public function disable()
+    public function disable(bool $value = true)
     {
-        return $this->attribute('disabled', true);
+        return $this->attribute('disabled', $value);
     }
 
     /**

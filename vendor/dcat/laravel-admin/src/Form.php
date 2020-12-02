@@ -269,6 +269,11 @@ class Form implements Renderable
     public $context = [];
 
     /**
+     * @var bool
+     */
+    public $validationErrorToastr = true;
+
+    /**
      * Create a new form instance.
      *
      * @param Repository|Model|\Illuminate\Database\Eloquent\Builder|string $model
@@ -279,7 +284,7 @@ class Form implements Renderable
     {
         $this->repository = $repository ? Admin::repository($repository) : null;
         $this->callback = $callback;
-        $this->request = $request ?: request();
+        $this->request = clone ($request ?: request());
         $this->builder = new Builder($this);
         $this->isSoftDeletes = $repository ? $this->repository->isSoftDeletes() : false;
 
@@ -441,6 +446,20 @@ class Form implements Renderable
     }
 
     /**
+     * 设置使用 Toastr 展示字段验证信息.
+     *
+     * @param bool $value
+     *
+     * @return $this
+     */
+    public function validationErrorToastr(bool $value = true)
+    {
+        $this->validationErrorToastr = $value;
+
+        return $this;
+    }
+
+    /**
      * @param \Closure $closure
      *
      * @return $this;
@@ -571,7 +590,7 @@ class Form implements Renderable
                 ->alert()
                 ->status($status)
                 ->message($message)
-                ->refreshIf($status)
+                ->redirectIf($status, $this->resource(-1))
         );
     }
 
@@ -623,9 +642,11 @@ class Form implements Renderable
                 );
             }
 
+            $url = $this->getRedirectUrl($id, $redirectTo);
+
             return $this->sendResponse(
                 $this->response()
-                    ->redirect($this->getRedirectUrl($id, $redirectTo))
+                    ->redirectIf($url !== false, $url)
                     ->success(trans('admin.save_succeeded'))
             );
         } catch (\Throwable $e) {
@@ -795,10 +816,12 @@ class Form implements Renderable
                 );
             }
 
+            $url = $this->getRedirectUrl($id, $redirectTo);
+
             return $this->sendResponse(
                 $this->response()
                     ->success(trans('admin.update_succeeded'))
-                    ->redirect($this->getRedirectUrl($id, $redirectTo))
+                    ->redirectIf($url !== false, $url)
             );
         } catch (\Throwable $e) {
             $response = $this->handleException($e);
@@ -913,7 +936,7 @@ class Form implements Renderable
         if ($this->request->get('after-save') == 1) {
             // continue editing
             if ($this->builder->isEditing()) {
-                return;
+                return false;
             }
 
             return rtrim($resourcesPath, '/')."/{$key}/edit";

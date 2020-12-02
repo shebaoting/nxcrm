@@ -11,7 +11,7 @@ class DarkModeSwitcher implements Renderable
 
     public function __construct(?bool $defaultDarkMode = null)
     {
-        $this->defaultDarkMode = is_null($defaultDarkMode) ? Str::contains(config('settings.body_class'), 'dark-mode') : $defaultDarkMode;
+        $this->defaultDarkMode = is_null($defaultDarkMode) ? Str::contains(config('admin.layout.body_class'), 'dark-mode') : $defaultDarkMode;
     }
 
     public function render()

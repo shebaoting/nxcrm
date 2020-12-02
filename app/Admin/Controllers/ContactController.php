@@ -135,7 +135,7 @@ class ContactController extends AdminController
 
 
             $form->saved(function (Form $form) {
-                return $form->redirect('customers/' . $form->customer_id, '保存成功');
+                return $form->response()->success('保存成功')->redirect('customers/' . $form->customer_id);
             });
 
             $form->deleted(function (Form $form) {

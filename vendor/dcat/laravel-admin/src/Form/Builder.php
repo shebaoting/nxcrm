@@ -578,10 +578,7 @@ class Builder
     public function hasFile()
     {
         foreach ($this->fields() as $field) {
-            if (
-                $field instanceof UploadField
-                || $field instanceof Form\Field\BootstrapFile
-            ) {
+            if ($field instanceof UploadField) {
                 return true;
             }
         }
@@ -830,12 +827,14 @@ EOF;
     protected function addSubmitScript()
     {
         $confirm = admin_javascript_json($this->confirm);
+        $toastr = $this->form->validationErrorToastr ? 'true' : 'false';
 
         Admin::script(
             <<<JS
 $('#{$this->getElementId()}').form({
     validate: true,
     confirm: {$confirm},
+    validationErrorToastr: $toastr,
 });
 JS
         );

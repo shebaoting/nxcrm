@@ -557,7 +557,6 @@ class ComposerStaticInit74449af1101ecd6f157052626e751738
     );
 
     public static $classMap = array (
-        'App\\Admin\\Contracts\\SettingsContract' => __DIR__ . '/../..' . '/app/Admin/Contracts/SettingsContract.php',
         'App\\Admin\\Controllers\\AttachmentController' => __DIR__ . '/../..' . '/app/Admin/Controllers/AttachmentController.php',
         'App\\Admin\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Admin/Controllers/AuthController.php',
         'App\\Admin\\Controllers\\ContactController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ContactController.php',
@@ -619,7 +618,6 @@ class ComposerStaticInit74449af1101ecd6f157052626e751738
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
-        'App\\Services\\SettingsService' => __DIR__ . '/../..' . '/app/Services/SettingsService.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Asm89/Stack/Cors.php',

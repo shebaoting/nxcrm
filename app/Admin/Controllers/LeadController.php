@@ -140,7 +140,6 @@ class LeadController extends AdminController
                 });
             });
 
-
         });
     }
 

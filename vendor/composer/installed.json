@@ -406,17 +406,17 @@
     },
     {
         "name": "dcat/laravel-admin",
-        "version": "2.0.9-beta",
-        "version_normalized": "2.0.9.0-beta",
+        "version": "2.0.10-beta",
+        "version_normalized": "2.0.10.0-beta",
         "source": {
             "type": "git",
             "url": "https://github.com/jqhph/dcat-admin.git",
-            "reference": "cd8f98326dd7eae148542627737dcc6660817815"
+            "reference": "67f411fa7b04688e78aa007f0cc98fa718a07684"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/jqhph/dcat-admin/zipball/cd8f98326dd7eae148542627737dcc6660817815",
-            "reference": "cd8f98326dd7eae148542627737dcc6660817815",
+            "url": "https://api.github.com/repos/jqhph/dcat-admin/zipball/67f411fa7b04688e78aa007f0cc98fa718a07684",
+            "reference": "67f411fa7b04688e78aa007f0cc98fa718a07684",
             "shasum": "",
             "mirrors": [
                 {
@@ -439,7 +439,7 @@
             "phpstan/phpstan": "^0.12.0",
             "phpunit/phpunit": "^7.5"
         },
-        "time": "2020-11-18T15:52:47+00:00",
+        "time": "2020-11-29T14:47:02+00:00",
         "type": "library",
         "extra": {
             "laravel": {
@@ -5282,17 +5282,17 @@
     },
     {
         "name": "spatie/eloquent-sortable",
-        "version": "3.9.0",
-        "version_normalized": "3.9.0.0",
+        "version": "3.10.0",
+        "version_normalized": "3.10.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/spatie/eloquent-sortable.git",
-            "reference": "51bca09f0c49ac2da8cd480e1e667ddcfce5a3f2"
+            "reference": "efc786971d5308ff75d5af8e04f7f759dd8450c2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/spatie/eloquent-sortable/zipball/51bca09f0c49ac2da8cd480e1e667ddcfce5a3f2",
-            "reference": "51bca09f0c49ac2da8cd480e1e667ddcfce5a3f2",
+            "url": "https://api.github.com/repos/spatie/eloquent-sortable/zipball/efc786971d5308ff75d5af8e04f7f759dd8450c2",
+            "reference": "efc786971d5308ff75d5af8e04f7f759dd8450c2",
             "shasum": "",
             "mirrors": [
                 {
@@ -5302,16 +5302,15 @@
             ]
         },
         "require": {
-            "illuminate/database": "~5.8.0|^6.0|^7.0|^8.0",
-            "illuminate/support": "~5.8.0|^6.0|^7.0|^8.0",
-            "php": "^7.3"
+            "illuminate/database": "^6.0|^7.0|^8.0",
+            "illuminate/support": "^6.0|^7.0|^8.0",
+            "php": "^7.3|^8.0"
         },
         "require-dev": {
-            "friendsofphp/php-cs-fixer": "^2.16",
-            "orchestra/testbench": "~3.8.0|^4.0|^5.0|^6.0",
+            "orchestra/testbench": "^4.0|^5.0|^6.0",
             "phpunit/phpunit": "^8.0|^9.0"
         },
-        "time": "2020-09-15T06:48:07+00:00",
+        "time": "2020-11-25T12:55:36+00:00",
         "type": "library",
         "extra": {
             "laravel": {
@@ -5823,8 +5822,8 @@
     },
     {
         "name": "symfony/dom-crawler",
-        "version": "v5.1.8",
-        "version_normalized": "5.1.8.0",
+        "version": "v5.2.0",
+        "version_normalized": "5.2.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/dom-crawler.git",

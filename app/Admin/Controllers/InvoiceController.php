@@ -146,7 +146,7 @@ class InvoiceController extends AdminController
         foreach ($receipts as $value) {
             $receipt_sum += $value->receive;
         }
-        dd($invoices);
+        // dd($invoices);
         $invoice_sum = 0;
         foreach ($invoices as $value) {
             if (in_array($value->state,array(1,2))) {

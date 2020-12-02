@@ -6,6 +6,7 @@ use App\Models\Opportunity;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
+use App\Admin\Renderable\CustomerTable;
 use Dcat\Admin\Http\Controllers\AdminController;
 use App\Models\Customer;
 use Dcat\Admin\Layout\Content;
@@ -154,13 +155,14 @@ class OpportunityController extends AdminController
 
             $form->display('id');
             $form->text('subject');
-            $form->selectResource('customer_id')
-                ->path('customers') // 设置表格页面链接;
-                ->multiple(1)
-                ->options(function ($v) { // 显示已选中的数据
-                    if (!$v) return $v;
-                    return Customer::find($v)->pluck('name', 'id');
-                });
+
+            $form->selectTable('customer_id')
+            ->title('请选择所属客户')
+            ->dialogWidth('50%') // 弹窗宽度，默认 800px
+            ->from(CustomerTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
+            ->model(Customer::class, 'id', 'name'); // 设置编辑数据显示
+
+
             $form->currency('expectincome')->symbol('￥');
             $form->date('expectendtime');
             $form->slider('dealchance')->options(['max' => 100, 'min' => 1, 'step' => 10, 'postfix' => '%']);

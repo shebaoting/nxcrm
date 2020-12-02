@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use Dcat\Admin\Models\Administrator as admin;
+use Dcat\Admin\Models\Administrator;
 use App\models\Customer;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -21,10 +21,11 @@ class CustomerPolicy
         //
     }
 
-    public function update(Admin $admin, Customer $customer)
+    public function update(Administrator $currentUser, Customer $Customer)
     {
-        return $admin->id === $customer->admin_users_id
-            ? Response::allow()
-            : Response::deny('You do not own this post.');
+        // return $currentUser->id === $Customer->admin_users_id
+        //     ? Response::allow()
+        //     : Response::deny('You do not own this post.');
+        return true;
     }
 }
