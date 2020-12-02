@@ -107,18 +107,18 @@ class EventController extends AdminController
 
             $form->saved(function (Form $form) {
                 if ($form->opportunity_id) {
-                    return $form->redirect('opportunitys/' . $form->opportunity_id, '保存成功');
+                    return $form->response()->success('发布成功')->redirect('opportunitys/' . $form->opportunity_id);
                 } elseif ($form->contract_id) {
-                    return $form->redirect('contracts/' . $form->contract_id, '保存成功');
+                    return $form->response()->success('发布成功')->redirect('contracts/' . $form->contract_id);
                 }else {
-                    return $form->redirect('customers/' . $form->customer_id, '保存成功');
+                    return $form->response()->success('发布成功')->redirect('customers/' . $form->customer_id);
                 }
 
             });
 
             $form->deleted(function (Form $form, $result) {
                 // 通过 $result 可以判断数据是否删除成功
-                return $form->redirect('customers/' . $form->customer_id, '删除成功');
+                return $form->response()->success('删除成功')->redirect('customers/' . $form->customer_id);
             });
         });
     }

@@ -142,23 +142,4 @@ class LeadController extends AdminController
 
         });
     }
-
-    protected function iFrameGrid()
-    {
-        $grid = new IFrameGrid(new Customer());
-        // 如果表格数据中带有 “name”、“title”或“username”字段，则可以不用设置
-        if(!Admin::user()->isRole('administrator')){
-            $grid->model()->where('admin_users_id', '=', Admin::user()->id);
-        }
-        $grid->rowSelector()->titleColumn('name');
-        $grid->id->sortable();
-        $grid->name;
-        $grid->disableRefreshButton();
-        $grid->filter(function (Grid\Filter $filter) {
-            $filter->equal('id');
-            $filter->like('name');
-        });
-
-        return $grid;
-    }
 }

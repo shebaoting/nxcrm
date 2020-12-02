@@ -120,7 +120,9 @@ class CustomfieldController extends AdminController
                 'color' => '颜色',
                 ])->required()
                 ->when(['select', 'radio', 'checkbox', 'multipleSelect'], function (Form $form) {
-                    $form->keyValue('options');
+                    $form->keyValue('options')->saving(function ($v) {
+                        return json_encode($v);
+                    });
                 })
                 ->when(['text', 'email', 'url', 'mobile', 'ip'], function (Form $form) {
                     $form->switch('unique')->help('开启后，该字段的值将不能重复，如身份证号');
@@ -134,6 +136,7 @@ class CustomfieldController extends AdminController
             $form->text('help');
             $form->number('sort')->default(1)->attribute('min', 1)->help('数字越大越靠前');
             $form->saving(function (Form $form) {
+                // dd($form->options);
                 if (!in_array($form->type,['select','radio','checkbox','multipleSelect'])) {
                     $form->deleteInput('options');
                 }

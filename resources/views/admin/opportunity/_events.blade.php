@@ -1,6 +1,6 @@
 <div class="markdown-body editormd-html-preview">
 
-    <form action="{{ route('events.store') }}" method="POST">
+    <form id="add-events" action="{{ route('events.store') }}" method="POST">
         {{ csrf_field() }}
         <div class="row events">
             <div class="col-md-1 col-sm-1 col-12 time_y">
@@ -46,7 +46,7 @@
                     {{$event['content']}}
                 </div>
                 <div class="col-md-1 col-sm-1 col-12 tools">
-                    <form action="{{ route('events.destroy', $event->id) }}" method="post" class="float-right">
+                    <form id="del-events" action="{{ route('events.destroy', $event->id) }}" method="post" class="float-right">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
                         <button type="submit" class="btn btn-sm btn-danger delete-btn"><i
@@ -64,3 +64,16 @@
     @endforeach
 
 </div>
+
+
+<script>
+    Dcat.ready(function () {
+        // ajax表单提交
+        $('#add-events').form({
+            validate: true,
+        });
+        $('#del-events').form({
+            validate: true,
+        });
+    });
+</script>

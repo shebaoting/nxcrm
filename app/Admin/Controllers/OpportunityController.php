@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Opportunity;
+use App\Models\Event;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -116,7 +117,7 @@ class OpportunityController extends AdminController
         $opportunity = Opportunity::query()->findorFail($id);
         $customer = Opportunity::find($id)->customer;
         $contacts = Customer::find(Opportunity::find($id)->customer_id)->contacts;
-        $events = Customer::find($id)->events()->orderBy('updated_at', 'desc')->get();
+        $events = Event::where([['customer_id', '=', $customer->id], ['opportunity_id', '=', $id]])->orderBy('updated_at', 'desc')->get();
         $attachments = Opportunity::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
         $admin_users = Opportunity::find($id)->customer->admin_users;
         $data = [
