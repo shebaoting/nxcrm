@@ -1,31 +1,33 @@
 .feather {
     margin-right: 0.75rem;
 }
+
 .customer_content {
-.card-header {
-    padding: 2rem 2rem 1.5em !important;
+    .card-header {
+        padding: 2rem 2rem 1.5em !important;
 
-    .metric-content {
-        width: 100%;
+        .metric-content {
+            width: 100%;
 
-        h1 {
-            span {
-                font-size: 14px;
-                color: #999;
+            h1 {
+                span {
+                    font-size: 14px;
+                    color: #999;
+                }
+            }
+
+            .col-md-4 {
+                margin-bottom: 10px;
+
+                .fa {
+                    width: 18.14px;
+                }
             }
         }
 
-        .col-md-4 {
-            margin-bottom: 10px;
-
-            .fa {
-                width: 18.14px;
-            }
-        }
     }
+}
 
-}
-}
 .customer_content {
     .fa {
         margin-right: 0.75rem;
@@ -80,6 +82,26 @@
                     color: #999;
                 }
             }
+
+            .share {
+                text-align: left;
+                span {
+                    width: 40px;
+                    height: 40px;
+                    text-align: center;
+                    line-height: 40px;
+                    display: inline-block;
+                    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .1);
+                    border-radius: 50%;
+                    margin-right: 10px;
+                    color: #fe2d54;
+
+                    .feather {
+                        margin-right: 0px;
+                    }
+                }
+            }
+            .col-md-12 {margin: 0 !important;}
         }
     }
 }

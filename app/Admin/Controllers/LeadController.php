@@ -6,14 +6,16 @@ use App\Models\Customer;
 use App\Models\Customfield;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
-use Dcat\Admin\IFrameGrid;
+use App\Models\Event;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Admin;
+use App\Admin\Traits\Selector;
+use App\Admin\RowAction\ChangeState;
 
 class LeadController extends AdminController
 {
-
+    use Selector;
     public static $editcss = [
         '/static/css/lead_edit.css',
     ];
@@ -28,28 +30,61 @@ class LeadController extends AdminController
     protected function grid()
     {
         return Grid::make(Customer::with(['admin_users']), function (Grid $grid) {
-            if(!Admin::user()->isRole('administrator')){
+            if (!Admin::user()->isRole('administrator')) {
                 $grid->model()->where('admin_users_id', '=', Admin::user()->id);
             }
             $grid->selector(function (Grid\Tools\Selector $selector) {
-                $selector->select('state', '状态', [
-                    0 => '待处理',
-                    1 => '跟进中',
+                $selector->selectOne('state', '状态', [
+                    0 => '废弃',
+                    1 => '正常',
                 ]);
+                $selector->select('id', '未跟进', ['3天未跟进', '1周未跟进', '半月未跟进', '1月未跟进', '2月未跟进', '半年未跟进'], function ($query, $value) {
+                    $between = [
+                        $this->queryCustomer(3),
+                        $this->queryCustomer(7),
+                        $this->queryCustomer(15),
+                        $this->queryCustomer(30),
+                        $this->queryCustomer(60),
+                        $this->queryCustomer(180),
+                    ];
+                    $value = current($value);
+                    $query->whereIn('id', $between[$value]);
+                });
             });
-
             $grid->setDialogFormDimensions('700px', '420px');
             $grid->id->sortable();
-            $grid->name('客户名称')->link(function () {
-                return admin_url('leads/'. $this->id );
+            $grid->column('state', '状态')->using([
+                0 => '废弃',
+                1 => '正常',
+            ])->label([
+                '0' => 'gray',
+                '1' => 'success',
+            ]);
+            $grid->column('events', '跟进')->display(function () {
+                $Event = Event::where([['customer_id', '=', $this->id]])->orderBy('updated_at', 'desc')->limit(1)->get();
+                if (count($Event)) {
+                    return $Event[0]['created_at']->diffForHumans();
+                } else {
+                    return '<span style="color:#ea5455">无跟进</span>';
+                }
             });
-            $grid->column('admin_users.name','所属销售');
-            $grid->state('状态')->select([
-                0 => '待处理',
-                1 => '跟进中',
-                3 => '转为客户',
-            ],true);
+            $grid->name('客户名称')->link(function () {
+                return admin_url('leads/' . $this->id);
+            });
+            $grid->column('admin_users.name', '所属销售');
             $grid->created_at;
+
+            $grid->actions(function (Grid\Displayers\Actions $actions) {
+                if ($actions->row->state == 1) {
+                    $actions->append(new ChangeState(['Customer','转为客户', '您确定要将此线索转化为正式客户吗', 3]));
+                    $actions->append(new ChangeState(['Customer','废弃', '确定废弃此线索吗？', 0]));
+                } else {
+                    $actions->append(new ChangeState(['Customer','恢复', '您确定要恢复此线索吗？', 1]));
+                }
+            });
+
+            $grid->setActionClass(Grid\Displayers\Actions::class);
+            $grid->disableDeleteButton();
             $grid->enableDialogCreate();
             $grid->disableBatchActions();
             $grid->disableViewButton();
@@ -64,7 +99,7 @@ class LeadController extends AdminController
     }
 
 
- /**
+    /**
      * Make a show builder.
      *
      * @param mixed $id
@@ -89,7 +124,7 @@ class LeadController extends AdminController
         $admin_users = Customer::find($id)->admin_users;
         $events = Customer::find($id)->events()->orderBy('updated_at', 'desc')->get();
         $attachments = Customer::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
-        $fields = Customfield::where([['model', '=', 'customer'],['show', '=', '1'],])->get();
+        $fields = Customfield::where([['model', '=', 'customer'], ['show', '=', '1'],])->get();
         $data = [
             'customer' => $customer,
             'contacts' => $contacts,
@@ -100,13 +135,13 @@ class LeadController extends AdminController
             'fields' => $fields,
         ];
         return $content
-        ->title('线索')
-        ->description('详情')
-        ->body($this->_detail($data));
+            ->title('线索')
+            ->description('详情')
+            ->body($this->_detail($data));
     }
-    private function _detail ($data)
+    private function _detail($data)
     {
-        return view('admin/customer/show',$data);
+        return view('admin/customer/show', $data);
     }
 
 
@@ -133,13 +168,12 @@ class LeadController extends AdminController
             $form->hidden('state')->value(0);
 
             $form->fieldset('联系人', function (Form $form) {
-                $form->hasMany('contacts','联系人', function (Form\NestedForm $form) {
-                    $form->text('name','姓名');
-                    $form->mobile('phone','手机号');
+                $form->hasMany('contacts', '联系人', function (Form\NestedForm $form) {
+                    $form->text('name', '姓名');
+                    $form->mobile('phone', '手机号');
                     // $form->hidden('customer_id')->value('id');
                 });
             });
-
         });
     }
 }

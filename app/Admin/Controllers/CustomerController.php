@@ -6,16 +6,17 @@ use App\Models\Customer;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
-use Dcat\Admin\IFrameGrid;
 use App\Admin\Traits\Customfields;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Admin;
-use Illuminate\Auth\Access\AuthorizationException;
+use App\Models\Event;
+use App\Admin\Traits\Selector;
+use App\Admin\Traits\ShareCustomers;
 
 class CustomerController extends AdminController
 {
-    use Customfields;
+    use Customfields,Selector,ShareCustomers;
 
     public static $css = [
         '/static/css/customer_show.css',
@@ -32,13 +33,34 @@ class CustomerController extends AdminController
             if (!Admin::user()->isRole('administrator')) {
                 $grid->model()->where('admin_users_id', '=', Admin::user()->id);
             }
-            // $grid->enableDialogCreate();
-            // $grid->setDialogFormDimensions('700px', '420px');
+            $grid->selector(function (Grid\Tools\Selector $selector) {
+                $selector->select('id', '未跟进', ['3天未跟进', '1周未跟进', '半月未跟进', '1月未跟进', '2月未跟进', '半年未跟进'], function ($query, $value) {
+                    $between = [
+                        $this->queryCustomer(3),
+                        $this->queryCustomer(7),
+                        $this->queryCustomer(15),
+                        $this->queryCustomer(30),
+                        $this->queryCustomer(60),
+                        $this->queryCustomer(180),
+                    ];
+                    $value = current($value);
+                    $query->whereIn('id', $between[$value]);
+                });
+            });
             $grid->id->sortable();
             $grid->name('客户名称')->link(function () {
                 return admin_url('customers/' . $this->id);
             });
             // $grid->admin_users_id;
+            $grid->column('events', '跟进')->display(function () {
+                // 取出当前客户在跟进表内的所有跟进的最新一条
+                $Event = Event::where([['customer_id', '=', $this->id]])->orderBy('updated_at', 'desc')->limit(1)->get();
+                if (count($Event)) {
+                    return $Event[0]['created_at']->diffForHumans();
+                } else {
+                    return '<span style="color:#ea5455">无跟进</span>';
+                }
+            });
             $this->gridfield($grid,'customer');
             $grid->column('admin_users.name', '所属销售');
             $grid->model()->where('state', '=', '3');
@@ -92,6 +114,7 @@ class CustomerController extends AdminController
             'attachments' => $attachments,
             'customerfields' => $this->custommodel('customer'),
             'contactfields' => $this->custommodel('contact'),
+            'Share' => $this->Share($id),
         ];
         return $content
             ->title('客户')

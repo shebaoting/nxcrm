@@ -8,6 +8,7 @@
                 <h5> {{$admin_users['name']}}</h5>
                 <span>添加于{{$customer['created_at']}}</span>
             </div>
+            {{-- <div class="col-md-12 share">{!! $Share !!}</div> --}}
         </div>
     </div>
 </div>

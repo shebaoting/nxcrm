@@ -139,7 +139,7 @@ class ContactController extends AdminController
             });
 
             $form->deleted(function (Form $form) {
-                return $form->redirect(back(), '删除成功');
+                return $form->response()->success('删除成功')->redirect('contacts/');
             });
         });
     }

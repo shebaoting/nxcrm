@@ -63,6 +63,30 @@
   color: #999;
 }
 
+.admin_users .box-body .row .share {
+  text-align: left;
+}
+
+.admin_users .box-body .row .share span {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  display: inline-block;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  margin-right: 10px;
+  color: #fe2d54;
+}
+
+.admin_users .box-body .row .share span .feather {
+  margin-right: 0px;
+}
+
+.admin_users .box-body .row .col-md-12 {
+  margin: 0 !important;
+}
+
 .add_contacts .box-body .row a {
   color: #999;
 }

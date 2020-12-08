@@ -157,3 +157,4 @@ body.dark-mode [class*=sidebar-dark-] .navbar-header {
 body.dark-mode .leftbar-user-name {
     color: #a8a9bb;
 }
+.grid__actions__ a {margin-left: 10px;}
