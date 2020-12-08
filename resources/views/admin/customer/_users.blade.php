@@ -1,7 +1,7 @@
 {{-- 客户归属开始 --}}
 <div class="card admin_users">
     <div class="box-body" style="text-align: center">
-        <div class="row" style="padding: 20px 0">
+        <div class="row" style="padding: 20px 0 10px">
             <div class="col-md-4 col-sm-4 col-12"><img src="/uploads/{{$admin_users['avatar']}}" alt="">
             </div>
             <div class="col-md-8 col-sm-8 col-12">
