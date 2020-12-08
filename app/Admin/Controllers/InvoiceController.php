@@ -43,7 +43,7 @@ class InvoiceController extends AdminController
 
             $grid->column('contract_id', '所属合同编号')->display(function ($id) {
                 // dd($id);
-                return '<a href="contracts/' . Contract::find($id)->id . '">' . strtotime(Contract::find($id)->signdate) . '</a>';
+                return '<a href="contracts/' . optional(Contract::find($id))->id . '">' . strtotime(optional(Contract::find($id))->signdate) . '</a>';
             });
             $grid->column('id', '发票编号')->display(function ($id) {
                 return '<a href="invoices/' . $id . '">' . strtotime($this->created_at) . '</a>';
