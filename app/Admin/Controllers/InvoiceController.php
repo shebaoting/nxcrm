@@ -108,9 +108,6 @@ class InvoiceController extends AdminController
                     return $rows;
                 });
             }
-
-
-            $grid->disableEditButton();
             $grid->disableDeleteButton();
             $grid->disableQuickEditButton();
             $grid->model()->orderBy('id', 'desc');
