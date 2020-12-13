@@ -7,6 +7,7 @@ use App\Models\Customfield;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use App\Models\Event;
+use App\Admin\Traits\Customfields;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Admin;
@@ -15,7 +16,7 @@ use App\Admin\RowAction\ChangeState;
 
 class LeadController extends AdminController
 {
-    use Selector;
+    use Customfields,Selector;
     public static $editcss = [
         '/static/css/lead_edit.css',
     ];
@@ -132,6 +133,8 @@ class LeadController extends AdminController
             'events' => $events,
             'contracts' => $contracts,
             'attachments' => $attachments,
+            'customerfields' => $this->custommodel('customer'),
+            'contactfields' => $this->custommodel('contact'),
             'fields' => $fields,
         ];
         return $content

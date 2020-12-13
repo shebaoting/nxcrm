@@ -17,7 +17,8 @@
             @foreach (json_decode($contract['order']) as $order_content)
             <tr>
                 <td>{{App\Models\Product::find($order_content->prodname)->name}}</td>
-                <td>{{$order_content->prodprice}}</td>
+                {{-- 标准价，在合同添加页面获取到标准价以后，这里的判断就可以删除了 --}}
+                <td>{{(!empty($order_content->prodprice))?($order_content->prodprice):0}}</td>
                 <td>{{$order_content->executionprice}}</td>
                 <td>{{$order_content->quantity}}</td>
                 <td>

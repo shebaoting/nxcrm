@@ -104,13 +104,13 @@ class AttachmentController extends AdminController
 
             $form->saved(function (Form $form) {
                 if ($this->contractid) {
-                    return $form->redirect('contracts/' . $form->contract_id, '保存成功');
+                    return $form->response()->success('保存成功')->redirect('contracts/' . $form->contract_id);
                 } elseif ($this->opportunityid) {
-                    return $form->redirect('opportunitys/' . $form->opportunity_id, '保存成功');
+                    return $form->response()->success('保存成功')->redirect('opportunitys/' . $form->opportunity_id);
                 } elseif ($this->invoiceid) {
-                    return $form->redirect('invoices/' . $form->invoice_id, '保存成功');
+                    return $form->response()->success('保存成功')->redirect('invoices/' . $form->invoice_id);
                 } else {
-                    return $form->redirect('customers/' . $form->customer_id, '保存成功');
+                    return $form->response()->success('保存成功')->redirect('customers/' . $form->customer_id);
                 }
             });
 
