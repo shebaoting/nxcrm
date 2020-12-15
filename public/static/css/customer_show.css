@@ -79,10 +79,20 @@
   color: #fe2d54;
   margin-top: 10px;
   margin-left: 10px;
+  background-color: #fff;
 }
 
 .admin_users .box-body .row .share .text-primary .feather {
   margin-right: 0px;
+}
+
+.admin_users .box-body .row .share img {
+  width: 100%;
+  height: auto;
+}
+
+.admin_users .box-body .row .share .text-primary {
+  margin-right: -25px;
 }
 
 .admin_users .box-body .row .col-md-12 {

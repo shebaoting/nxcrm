@@ -43,7 +43,7 @@ class Setting extends Form
             ->saving(function ($v) {
                 return $v ? 'dark-mode' : '';
             })->help('更改后需清空浏览器缓存');
-        $this->radio('sidebar_style', '侧栏颜色')->options(['light' => '白色', 'primary' => '彩色']);
+        $this->radio('sidebar_style', '侧栏颜色')->options(['sidebar-light-primary' => '白色', 'sidebar-primary' => '彩色']);
         $this->radio('menu_layout', '侧栏布局')->options(['default' => '默认', 'sidebar-separate' => '分离']);
     }
 

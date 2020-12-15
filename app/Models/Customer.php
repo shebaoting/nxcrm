@@ -37,4 +37,9 @@ class Customer extends Model
     {
         return $this->hasMany(Opportunity::class);
     }
+
+    public function shares_user()
+    {
+        return $this->belongsToMany(Admin_user::class, 'shares', 'customer_id', 'user_id');
+    }
 }

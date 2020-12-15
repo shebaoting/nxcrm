@@ -438,7 +438,6 @@ class Content implements Renderable
             'navbar_class'      => 'sticky',
             'footer_type'       => '',
             'body_class'        => '',
-            'menu_layout'       => '',
         ];
 
         $data = array_merge(
@@ -500,7 +499,7 @@ class Content implements Renderable
             'sidebar_class'     => $data['sidebar_collapsed'] ? 'sidebar-collapse' : '',
             'body_class'        => $data['body_class'],
             'menu_layout'        => admin_setting('menu_layout', 'sidebar-separate'),
-            'sidebar_style'     => $data['sidebar_style'],
+            'sidebar_style'     => admin_setting('sidebar_style', 'light'),
         ];
     }
 

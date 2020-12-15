@@ -11,12 +11,13 @@ use App\Admin\Traits\Customfields;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Admin;
+use App\Admin\Traits\ShareCustomers;
 use App\Admin\Traits\Selector;
 use App\Admin\RowAction\ChangeState;
 
 class LeadController extends AdminController
 {
-    use Customfields,Selector;
+    use Customfields,Selector,ShareCustomers;
     public static $editcss = [
         '/static/css/lead_edit.css',
     ];
@@ -119,23 +120,20 @@ class LeadController extends AdminController
 
 
         Admin::css(static::$showcss);
-        $customer = Customer::query()->findorFail($id);
-        $contacts = Customer::find($id)->contacts;
-        $contracts = Customer::find($id)->contracts;
-        $admin_users = Customer::find($id)->admin_users;
-        $events = Customer::find($id)->events()->orderBy('updated_at', 'desc')->get();
-        $attachments = Customer::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
-        $fields = Customfield::where([['model', '=', 'customer'], ['show', '=', '1'],])->get();
+        $customer = Customer::with('contacts','contracts','admin_users','events','attachments','shares_user')->findorFail($id);
+        // $fields = Customfield::where([['model', '=', 'customer'], ['show', '=', '1'],])->get();
         $data = [
             'customer' => $customer,
-            'contacts' => $contacts,
-            'admin_users' => $admin_users,
-            'events' => $events,
-            'contracts' => $contracts,
-            'attachments' => $attachments,
+            'contacts' => $customer->contacts,
+            'admin_users' => $customer->admin_users,
+            'events' => $customer->events()->orderBy('updated_at', 'desc')->get(),
+            'contracts' => $customer->contracts,
+            'attachments' => $customer->attachments()->orderBy('updated_at', 'desc')->get(),
             'customerfields' => $this->custommodel('customer'),
             'contactfields' => $this->custommodel('contact'),
-            'fields' => $fields,
+            // 'fields' => $fields,
+            'Share' => $this->Share($id),
+            'shares_user' => $customer->shares_user()->select(['name','avatar'])->get(),
         ];
         return $content
             ->title('线索')

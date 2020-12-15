@@ -97,10 +97,13 @@
                     color: #fe2d54;
                     margin-top: 10px;
                     margin-left: 10px;
+                    background-color: #fff;
                     .feather {
                         margin-right: 0px;
                     }
                 }
+                img {width: 100%; height: auto;}
+                .text-primary {margin-right: -25px;}
             }
             .col-md-12 {margin: 0 !important;}
         }

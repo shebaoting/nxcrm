@@ -1,3 +1,6 @@
+@php
+    $ifrole  =  Admin::user()->isRole('administrator') || (Admin::user()->id == $admin_users['id']);
+@endphp
 <div class="content-body" id="app">
     <div class="row customer_content">
         <div class="col-md-9">

@@ -112,28 +112,34 @@ export default class Dcat {
                 }
             };
 
-        self.onPjaxComplete(clear, true);
-        $document.one('pjax:responded', clear);
+        $document.one('pjax:complete', clear);
+        $document.one('init:off', clear);
 
         clear();
 
-        initialized[selector] = $.initialize(selector, function () {
-            let $this = $(this),
-                id = $this.attr('id');
+        setTimeout(function () {
+            initialized[selector] = $.initialize(selector, function () {
+                let $this = $(this),
+                    id = $this.attr('id');
 
-            if ($this.attr('initialized')) {
-                return;
-            }
-            $this.attr('initialized', '1');
+                if ($this.attr('initialized')) {
+                    return;
+                }
+                $this.attr('initialized', '1');
 
-            // 如果没有ID，则自动生成
-            if (! id) {
-                id = "_"+self.helpers.random();
-                $this.attr('id', id);
-            }
+                // 如果没有ID，则自动生成
+                if (! id) {
+                    id = "_"+self.helpers.random();
+                    $this.attr('id', id);
+                }
 
-            callback.call(this, $this, id)
-        }, options);
+                callback.call(this, $this, id)
+            }, options);
+        });
+    }
+
+    offInit() {
+        $(document).trigger('init:off')
     }
 
     /**

@@ -26,8 +26,7 @@ use Dcat\Admin\Support\Helper;
 Grid::resolving(function (Grid $grid) {
     $grid->tableCollapse(false);
 });
-
-Admin::css('static/css/nxcrm.css');
+Admin::baseCss(['static/css/nxcrm.css'], true);
 Admin::asset()->alias('@nunito', null, '');
 Admin::asset()->alias('@montserrat', null, '');
 

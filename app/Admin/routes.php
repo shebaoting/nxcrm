@@ -52,6 +52,9 @@ Route::group([
     //订单
     Route::get('/orders', 'OrderController@index')->name('order.index');
 
+    //分享
+    Route::post('/shares/store', 'ShareController@shareStore')->name('shares.store');
+
     //网站配置
     Route::get('/settings', 'SettingsController@index')->name('settings.index');
 });

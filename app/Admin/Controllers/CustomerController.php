@@ -11,12 +11,22 @@ use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Admin;
 use App\Models\Event;
+use App\Models\Admin_user;
 use App\Admin\Traits\Selector;
 use App\Admin\Traits\ShareCustomers;
+use Dcat\Admin\Widgets\Tab;
+use Illuminate\Http\Request;
 
 class CustomerController extends AdminController
 {
     use Customfields,Selector,ShareCustomers;
+
+    public function __construct(Request $request)
+    {
+        $this->source_id = $request->source_id;
+        return $this;
+    }
+
 
     public static $css = [
         '/static/css/customer_show.css',
@@ -30,9 +40,42 @@ class CustomerController extends AdminController
     protected function grid()
     {
         return Grid::make(Customer::with(['admin_users']), function (Grid $grid) {
-            if (!Admin::user()->isRole('administrator')) {
+
+            Admin::style(
+                <<<CSS
+        .nav-tabs {
+            background-color: #fff;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,.05);
+            border-radius: .25rem;
+        }
+CSS
+            );
+
+            if ((!$this->source_id || $this->source_id == 0) && Admin::user()->isRole('administrator')) {
+                $grid->model();
+            } elseif ($this->source_id == 2) {
+                $shares_Customer = array_column(Admin_user::find(Admin::user()->id)->shares_Customer()->get()->toArray(), 'id');
+                $grid->model()->whereIn('id', $shares_Customer);
+            } else {
                 $grid->model()->where('admin_users_id', '=', Admin::user()->id);
             }
+
+            // if (!Admin::user()->isRole('administrator')) {
+            //     $grid->model()->where('admin_users_id', '=', Admin::user()->id);
+            // }
+// dd($this->source_id);
+            $grid->header(function () {
+                $tab = Tab::make();
+                if (Admin::user()->isRole('administrator')) {
+                    $tab->addLink('所有客户', '?source_id=0',true);
+                }
+                $tab->addLink('我的客户', '?source_id=1',$this->source_id==1 ? true : false);
+                $tab->addLink('分享给我', '?source_id=2',$this->source_id==2 ? true : false);
+                // $tab->addLink('公海客户', '?source_id=3',$this->source_id==3 ? true : false);
+                return $tab;
+            });
+
             $grid->selector(function (Grid\Tools\Selector $selector) {
                 $selector->select('id', '未跟进', ['3天未跟进', '1周未跟进', '半月未跟进', '1月未跟进', '2月未跟进', '半年未跟进'], function ($query, $value) {
                     $between = [
@@ -90,31 +133,27 @@ class CustomerController extends AdminController
     public function show($id, Content $content)
     {
         // 判断授权，无权限查看他人的信息,以后可以优化一下
-        $detalling = Admin::user()->id != Customer::find($id)->admin_users->id;
-        $Role = !Admin::user()->isRole('administrator');
-        if ($Role && $detalling) {
-            $customer = Customer::find($id);
-            $this->authorize('update', $customer);
-        }
+        // $detalling = Admin::user()->id != Customer::find($id)->admin_users->id;
+        // $Role = !Admin::user()->isRole('administrator');
+        // if ($Role && $detalling) {
+        //     $customer = Customer::find($id);
+        //     $this->authorize('update', $customer);
+        // }
 
 
         Admin::css(static::$css);
-        $customer = Customer::query()->findorFail($id);
-        $contacts = Customer::find($id)->contacts;
-        $contracts = Customer::find($id)->contracts;
-        $admin_users = Customer::find($id)->admin_users;
-        $events = Customer::find($id)->events()->orderBy('updated_at', 'desc')->get();
-        $attachments = Customer::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
+        $customer = Customer::with('contacts','contracts','admin_users','events','attachments','shares_user')->findorFail($id);
         $data = [
             'customer' => $customer,
-            'contacts' => $contacts,
-            'admin_users' => $admin_users,
-            'events' => $events,
-            'contracts' => $contracts,
-            'attachments' => $attachments,
+            'contacts' => $customer->contacts,
+            'admin_users' => $customer->admin_users,
+            'events' => $customer->events()->orderBy('updated_at', 'desc')->get(),
+            'contracts' => $customer->contracts,
+            'attachments' => $customer->attachments()->orderBy('updated_at', 'desc')->get(),
             'customerfields' => $this->custommodel('customer'),
             'contactfields' => $this->custommodel('contact'),
             'Share' => $this->Share($id),
+            'shares_user' => $customer->shares_user()->select(['name','avatar'])->get(),
         ];
         return $content
             ->title('客户')

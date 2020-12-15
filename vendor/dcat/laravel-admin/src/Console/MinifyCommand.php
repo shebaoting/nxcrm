@@ -35,7 +35,7 @@ class MinifyCommand extends Command
         self::DEFAULT => '',
         'blue'        => '#6d8be6',
         'blue-light'  => '#62a8ea',
-        'green'       => '#0cc263',
+        'green'       => '#07c160',
     ];
 
     /**

@@ -78,27 +78,74 @@
         top: -2px;
         right: -2px;
     }
-
+    .bncard-list li.active {
+    border-color: {{Admin::color()->primary()}};
+    cursor: default;
+    }
+    .bncard-list li.active .o-checked {
+    display: block;
+    }
+    .bncard-list li .o-checked {
+    display: none;
+    position: absolute;
+    top: -3px;
+    right: -1px;
+    font-size: 22px;
+    font-weight: 700;
+    color: {{Admin::color()->primary()}};
+    }
 </style>
 <div class="share_list">
     <ul class="bncard-list clearfix">
-        @foreach (Dcat\Admin\Models\Administrator::with(['roles'])->get() as $item_user)
-        <li class="">
+        @php
+          $Customer = App\Models\Customer::find($id);
+          $shares = array_column($Customer->shares_user()->get()->toArray(), 'id');
+        @endphp
+        @foreach (App\Models\Admin_user::with(['roles'])->where('id', '!=', $Customer->admin_users->id)->get() as $item_user)
+        <li userid="{{$item_user->id}}" class="{{in_array($item_user->id,$shares) ? 'active' : '' }}">
             <div class="media mbm">
                 <div class="pull-left">
-                    @if ($item_user->avatar)
-                    <img class="img" src="/uploads/{{$item_user->avatar}}" alt="">
-                    @else
-                    <img class="img" src="https://cdn.learnku.com/uploads/images/201710/30/1/TrJS40Ey5k.png" alt="">
-                    @endif
+                    <img class="img" src="
+                    {{$item_user->avatar ? '/uploads/'.$item_user->avatar : '/static/img/logo.png' }}" alt="">
                 </div>
                 <div class="media-body">
                     <div class="media-heading bncard-title">{{$item_user->name}}</div>
                     <div class="fss">手机 · 13455667787</div>
-                    <div class="fss ellipsis" title="三蛇肥,阿里巴巴">{{($item_user->roles)[0]['name']}}</div>
+                    <div class="fss ellipsis" title="{{$item_user->name}}">{{($item_user->roles)[0]['name']}}</div>
                 </div>
-            </div> <i class="o-checked"></i>
+            </div> <i class="o-checked fa fa-check-square"></i>
         </li>
         @endforeach
     </ul>
 </div>
+<div class="box-footer row" style="display: flex">
+    <div class="col-md-12">
+
+        <form action="{{ route('shares.store') }}" method="post">
+            {{ csrf_field() }}
+            <input name="customer" type="hidden" value="{{$id}}">
+            <input name="user" class="userarray" type="hidden" value="">
+            <button type="submit" class="btn btn-primary pull-right"><i class="feather icon-save"></i> 提交</button>
+          </form>
+    </div>
+</div>
+
+
+<script>
+    Dcat.ready(function () {
+        var $liebiao = $(".bncard-list > li");
+        var $user = $(".userarray");
+        for (var i = 0; i < $liebiao.length; i++) {
+            $liebiao[i].onclick = function () {
+                $(this).toggleClass("active");
+                var $active = $(".bncard-list > .active");
+                var $userarray = [];
+                $active.map(function (key, value) {
+                    $userarray[key] = Number($(value).attr("userid"));
+                })
+                console.log($userarray);
+                $user.attr("value", $userarray);
+            }
+        }
+    });
+</script>
