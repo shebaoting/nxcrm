@@ -18,6 +18,7 @@ class CreateCustomersTable extends Migration
             $table->string('name')->default('');
             $table->integer('admin_users_id')->nullable();
             $table->integer('state')->default('0');
+            $table->json('fields')->nullable();
             $table->timestamps();
         });
     }

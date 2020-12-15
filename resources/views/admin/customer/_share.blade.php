@@ -110,7 +110,7 @@
                 </div>
                 <div class="media-body">
                     <div class="media-heading bncard-title">{{$item_user->name}}</div>
-                    <div class="fss">手机 · 13455667787</div>
+                    <div class="fss">手机 · {{$item_user->mobile}}</div>
                     <div class="fss ellipsis" title="{{$item_user->name}}">{{($item_user->roles)[0]['name']}}</div>
                 </div>
             </div> <i class="o-checked fa fa-check-square"></i>
