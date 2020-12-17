@@ -12,7 +12,9 @@
         <i class="fa {{$field['icon']}}"></i>{{$field['name']}}:
 
         @if (in_array($field['type'],['select','radio']))
-        {{$field_options[$customer_fields[$field['field']]]}}
+
+
+        {{$customer_fields[$field['field']] ? $field_options[$customer_fields[$field['field']]]:''}}
 
 
         @elseif (in_array($field['type'],['checkbox','multipleSelect']))
