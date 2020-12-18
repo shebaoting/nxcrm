@@ -90,6 +90,7 @@ CSS
                     $query->whereIn('id', $between[$value]);
                 });
             });
+            $grid->showColumnSelector();
             $grid->id->sortable();
             $grid->name('客户名称')->link(function () {
                 return admin_url('customers/' . $this->id);

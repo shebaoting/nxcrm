@@ -38,7 +38,7 @@ class ContractController extends AdminController
         }
 
         return Grid::make($contract, function (Grid $grid) {
-
+            $grid->showColumnSelector();
             $grid->selector(function (Grid\Tools\Selector $selector) {
                 $selector->select('status', '状态', [
                     1 => '未开始',

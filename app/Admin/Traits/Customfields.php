@@ -21,13 +21,11 @@ trait Customfields
         $fields = Customfield::where([['model', '=', $modelname], ['show', '=', '1'], ['iflist', '=', '1']])->orderBy('sort', 'desc')->get();
         foreach ($fields as $field) {
             $grid->column($field['field'], $field['name'])->display(function () use ($field) {
-                // dd($this->fields);
                 $form_fields = json_decode($this->fields);
                 $field_options = json_decode($field['options'], true);
                 $field_field = $field['field'];
                 if (isset($this->fields) && isset($form_fields->$field_field)) {
                     if (in_array($field['type'], ['select', 'radio'])) {
-                        // dd($field_options);
                         $value = $field_options[$form_fields->$field_field];
                     } elseif (in_array($field['type'], ['checkbox', 'multipleSelect'])) {
 

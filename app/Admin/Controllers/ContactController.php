@@ -36,7 +36,7 @@ class ContactController extends AdminController
             $contact = new Contact();
         }
         return Grid::make($contact, function (Grid $grid) {
-
+            $grid->showColumnSelector();
             $grid->enableDialogCreate();
             $grid->setDialogFormDimensions('700px', '420px');
             $grid->name('联系人名称')->link(function () {
