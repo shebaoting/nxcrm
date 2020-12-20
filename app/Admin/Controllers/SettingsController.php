@@ -18,10 +18,10 @@ class SettingsController extends Controller
     public function index(Content $content, $classinfo)
     {
         switch ($classinfo){
-            case 'Setting':
+            case 'setting':
             $title = '网站设置';
             break;
-            case 'HighSeas':
+            case 'highseas':
             $title = '公海设置';
             break;
             default:

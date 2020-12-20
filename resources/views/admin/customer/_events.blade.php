@@ -61,7 +61,7 @@
                     </div>
                     <div class="row eventsviewinfo">
 
-                        <span>联系人：{{$event['contact_id']!=null ? $event->contact->name : '未知'}}</span>
+                        <span>联系人：{{$event['contact_id']!=null ? optional($event->contact)->name : '未知'}}</span>
                     </div>
                 </div>
 
