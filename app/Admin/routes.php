@@ -56,5 +56,5 @@ Route::group([
     Route::post('/shares/store', 'ShareController@shareStore')->name('shares.store');
 
     //网站配置
-    Route::get('/settings', 'SettingsController@index')->name('settings.index');
+    Route::get('/settings/{classinfo}', 'SettingsController@index')->name('settings.index');
 });

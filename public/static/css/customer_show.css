@@ -128,7 +128,7 @@
   background-color: #f6f7f9;
   border-radius: 5px;
   color: #506888;
-  padding: 20px;
+  padding: 30px;
   margin-left: -30px;
   line-height: 20px;
   margin-bottom: 50px;
@@ -137,19 +137,12 @@
 #tab_events .events .content .btn {
   height: 88px;
   width: 100%;
-  display: none;
-}
-
-#tab_events .events .content:hover .btn {
   display: block;
-}
-
-#tab_events .events .content:hover textarea {
-  max-height: 87px;
 }
 
 #tab_events .events .content textarea {
   max-height: 45px;
+  max-height: 87px;
 }
 
 #tab_events .events .time_md {
@@ -182,6 +175,20 @@
 
 #tab_events .events .users {
   margin-left: 15px;
+}
+
+#tab_events .events .eventsforminfo {
+  margin-top: 10px;
+}
+
+#tab_events .events .eventsviewinfo {
+  margin-top: 20px;
+  color: #999;
+}
+
+#tab_events .events #selectcontact {
+  width: 30%;
+  color: #999;
 }
 
 #tab_events .contentlist .content .tools {

@@ -40,7 +40,8 @@ Dcat\Admin\Color::extend('douyin', [
 
 admin_inject_section('isadmin', function () {
     $setting_menu = [
-        'admin/settings',
+        'admin/settings/setting',
+        'admin/settings/highseas',
         'admin/auth/users',
         'admin/auth/roles',
         'admin/products',
@@ -62,11 +63,11 @@ admin_inject_section(Admin::SECTION['LEFT_SIDEBAR_MENU'], function () {
     foreach ($menu_date as $item) {
 
         if (admin_section('isadmin', false)) {
-            if ($item['title'] == 'Admin') {
+            if (in_array($item['title'], ['Admin','operations'])) {
                 $html .= view('admin.partials.menu', ['item' => $item, 'builder' => $builder])->render();
             }
         }else {
-            if ($item['title'] != 'Admin') {
+            if (!in_array($item['title'], ['Admin','operations'])) {
                 $html .= view('admin.partials.menu', ['item' => $item, 'builder' => $builder])->render();
             }
         }

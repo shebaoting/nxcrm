@@ -10,14 +10,6 @@ trait Selector
 
     protected function queryCustomer($day)
     {
-        // N天未跟进的客户
-        $noEventsCustomer = DB::table('events')
-            ->whereDate('created_at', '<=', date('Y-m-d', strtotime("-" . $day . " day")))
-            ->groupBy('customer_id')
-            ->get()
-            ->toArray();
-        $noEventsCustomerid = array_column($noEventsCustomer, 'customer_id');
-
         // 跟进表中所有的客户
         $EventsCustomer = array_column(DB::table('events')->select('customer_id')->groupBy('customer_id')->get()->toArray(), 'customer_id');
         //EventsCustomer2 = Event::all()->groupBy('customer_id')->toArray();
@@ -30,6 +22,17 @@ trait Selector
             $Info = array_column(DB::table('customers')->select('id')->where('state', '!=', 3)->get()->toArray(), 'id');
         } else {
         }
+
+        // N天未跟进的客户 （所有客户减去N天内跟进过的客户）
+        $noEventsCustomer = DB::table('events')
+            ->whereDate('created_at', '>=', date('Y-m-d', strtotime("-" . $day . " day")))
+            ->groupBy('customer_id')
+            ->get()
+            ->toArray();
+        $EventsCustomerid = array_column($noEventsCustomer, 'customer_id');
+        $noEventsCustomerid = array_diff($Info, $EventsCustomerid);
+
+
         // 完全没有发布跟进的客户
         $noevent = array_diff($Info, $EventsCustomer);
 

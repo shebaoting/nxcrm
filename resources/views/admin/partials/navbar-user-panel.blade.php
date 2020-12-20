@@ -14,7 +14,6 @@
             onclick="javascript:window.location.href='/admin/auth/setting'">
             <i class="feather icon-user"></i> {{ trans('admin.setting') }}
         </a>
-
         <div class="dropdown-divider"></div>
         @if (Admin::user()->isAdministrator())
         @if (admin_section('isadmin', false))
@@ -23,7 +22,7 @@
         </a>
         <div class="dropdown-divider"></div>
         @else
-        <a href="javascript:void(0)" class="dropdown-item" onclick="javascript:window.location.href='/admin/settings'">
+        <a href="javascript:void(0)" class="dropdown-item" onclick="javascript:window.location.href='/admin/settings/setting'">
             <i class="feather icon-layers"></i> {{ trans('admin.admin_setting') }}
         </a>
         <div class="dropdown-divider"></div>

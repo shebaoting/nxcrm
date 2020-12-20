@@ -9,6 +9,11 @@ class Admin_user extends Administrator
         return $this->hasMany('App\Models\Customer','admin_users_id');
     }
 
+    public function Events()
+    {
+        return $this->hasMany('App\Models\Event','admin_users_id');
+    }
+
     public function Contracts()
     {
         return $this->hasManyThrough('App\Models\Contract','App\Models\Customer','admin_users_id','customer_id');

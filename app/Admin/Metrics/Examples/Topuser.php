@@ -24,7 +24,7 @@ class TopUser extends Card
             $query->where('state', '=', '3');
         },'customers as Leads_count' => function (Builder $query) {
             $query->where('state', '<>', '3');
-        },'contracts'])->get();
+        },'contracts'])->orderBy('contracts_count', 'desc')->limit(4)->get();
         $this->withContent(view('admin.metrics.examples.topuser',compact('users')));
     }
 

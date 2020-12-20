@@ -14,8 +14,13 @@ class Event extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function admin_users()
+    public function admin_user()
     {
         return $this->belongsTo(Admin_user::class);
+    }
+
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class);
     }
 }

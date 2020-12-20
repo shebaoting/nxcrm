@@ -5,7 +5,7 @@ namespace App\Admin\Forms;
 use Dcat\Admin\Widgets\Form;
 use Symfony\Component\HttpFoundation\Response;
 
-class Setting extends Form
+class setting extends Form
 {
     /**
      * Handle the form request.
@@ -31,7 +31,7 @@ class Setting extends Form
     {
         // dd();
         // Since v1.6.5 弹出确认弹窗
-        $this->confirm('您确定要提交表单吗', 'content');
+        $this->confirm('您确定要提交设置吗', 'content');
         $this->text('crmname', '网站名称')->default(admin_setting('crmname', 'NXCRM客户管理系统'));
         $this->url('crmurl', '网站地址')->default(admin_setting('crmurl', 'https://nx.tt'));
         $this->image('logo', '网站LOGO')->accept('jpg,png,gif,jpeg')->maxSize(512)->required()->autoUpload()->help('大小不要超过512K');

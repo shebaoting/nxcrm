@@ -12,14 +12,28 @@
                 <span class="time_hi">{{date("H:i")}}</span>
             </div>
             <div class="col-md-2 col-sm-2 col-12"><img class="avatar" src="/uploads/{{Admin::user()->avatar}}"
-                    alt=""><span class="users">{{Admin::user()->name}}</span></div>
+                    alt="{{Admin::user()->name}}"></div>
             <div class="col-md-8 col-sm-8 col-12 content">
                 <div class="row">
                     <div class="col-md-10 col-sm-19 col-12">
-                        <textarea class="form-control" rows="3" placeholder="发布跟进记录..."
-                            name="content">{{ old('content') }}</textarea>
-                        <input type="hidden" name="customer_id" value="{{$customer['id']}}">
-                        <input type="hidden" name="contact_id" value="{{Admin::user()->id}}"></div>
+                        <div class="row">
+                            <textarea class="form-control" rows="3" placeholder="发布跟进记录..."
+                                name="content">{{ old('content') }}</textarea>
+                            <input type="hidden" name="customer_id" value="{{$customer['id']}}">
+                            <input type="hidden" name="admin_user_id" value="{{Admin::user()->id}}">
+                        </div>
+                        <div class="row eventsforminfo">
+                            <select class="form-control " name="contact_id" id="selectcontact">
+                                <option value="" selected>选择联系人</option>
+                                @if ($contacts->count() > 0)
+                                @foreach ($contacts as $contact)
+                                <option value="{{$contact['id']}}">{{$contact['name']}}</option>
+                                @endforeach
+                                @endif
+
+                            </select>
+                        </div>
+                    </div>
                     <div class="col-md-2 col-sm-2 col-12"><button type="submit" class="btn btn-primary">发布</button>
                     </div>
                 </div>
@@ -29,7 +43,6 @@
 
 
     @foreach ($events as $event)
-
     <div class="row events contentlist">
         <div class="col-md-1 col-sm-1 col-12 time_y">
             {{$event['updated_at']->format('Y')}}</div>
@@ -37,13 +50,23 @@
             <i class="fa fa-circle"></i>
             <span>{{$event['updated_at']->format('m-d')}}</span>
             <span class="time_hi">{{$event['updated_at']->format('H:i')}}</span></div>
-        <div class="col-md-2 col-sm-2 col-12"><img class="avatar" src="/uploads/{{$admin_users['avatar']}}" alt=""><span
-                class="users">{{$admin_users['name']}}</span></div>
+        <div class="col-md-2 col-sm-2 col-12"><img class="avatar" src="{{$event['admin_user_id']!=null ? '/uploads/'.$event->admin_user->avatar : '/static/img/logo.png'}}"
+                alt="{{$event['admin_users_id']}}"></div>
         <div class="col-md-8 col-sm-8 col-12 content">
             <div class="row">
+
                 <div class="col-md-11 col-sm-11 col-12">
-                    {{$event['content']}}
+                    <div class="row">
+                        {{$event['content']}}
+                    </div>
+                    <div class="row eventsviewinfo">
+
+                        <span>联系人：{{$event['contact_id']!=null ? $event->contact->name : '未知'}}</span>
+                    </div>
                 </div>
+
+
+
                 @if ($ifrole )
                 <div class="col-md-1 col-sm-1 col-12 tools">
                     <form id="del-events" action="{{ route('events.destroy', $event->id) }}" method="post"

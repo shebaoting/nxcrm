@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Dcat\Admin\Traits\HasDateTimeFormatter;
 use Illuminate\Database\Eloquent\Model;
+use App\Admin\Traits\HighSeas;
 
 class Customer extends Model
 {
-	use HasDateTimeFormatter;
+	use HasDateTimeFormatter,HighSeas;
 
 	public function contacts()
     {

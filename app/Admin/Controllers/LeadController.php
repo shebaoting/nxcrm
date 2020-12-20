@@ -14,12 +14,13 @@ use Dcat\Admin\Admin;
 use App\Admin\Traits\ShareCustomers;
 use App\Admin\Traits\Selector;
 use App\Admin\RowAction\ChangeState;
+use App\Admin\RowAction\ReceiveHighSeas;
 use Dcat\Admin\Widgets\Tab;
 use Illuminate\Http\Request;
 
 class LeadController extends AdminController
 {
-    use Customfields,Selector,ShareCustomers;
+    use Customfields, Selector, ShareCustomers;
 
     public function __construct(Request $request)
     {
@@ -59,6 +60,8 @@ CSS
             } elseif ($this->source_id == 2) {
                 $shares_Customer = array_column(Admin_user::find(Admin::user()->id)->shares_Customer()->get()->toArray(), 'id');
                 $grid->model()->whereIn('id', $shares_Customer);
+            } elseif ($this->source_id == 3) {
+                $grid->model()->where('admin_users_id', '=', 0);
             } else {
                 $grid->model()->where('admin_users_id', '=', Admin::user()->id);
             }
@@ -66,11 +69,11 @@ CSS
             $grid->header(function () {
                 $tab = Tab::make();
                 if (Admin::user()->isRole('administrator')) {
-                    $tab->addLink('所有线索', '?source_id=0',true);
+                    $tab->addLink('所有线索', '?source_id=0', true);
                 }
-                $tab->addLink('我的线索', '?source_id=1',$this->source_id==1 ? true : false);
-                $tab->addLink('分享给我', '?source_id=2',$this->source_id==2 ? true : false);
-                // $tab->addLink('公海客户', '?source_id=3',$this->source_id==3 ? true : false);
+                $tab->addLink('我的线索', '?source_id=1', $this->source_id == 1 ? true : false);
+                $tab->addLink('分享给我', '?source_id=2', $this->source_id == 2 ? true : false);
+                $tab->addLink('公海线索', '?source_id=3', $this->source_id == 3 ? true : false);
                 return $tab;
             });
 
@@ -112,16 +115,25 @@ CSS
             $grid->name('客户名称')->link(function () {
                 return admin_url('leads/' . $this->id);
             });
-            $grid->column('admin_users.name', '所属销售');
+            if (!in_array($this->source_id,[1,3])) {
+                $grid->column('admin_users.name', '所属销售');
+            }
+
+
             $grid->created_at;
 
             $grid->actions(function (Grid\Displayers\Actions $actions) {
-                if ($actions->row->state == 1) {
-                    $actions->append(new ChangeState(['Customer','转为客户', '您确定要将此线索转化为正式客户吗', 3]));
-                    $actions->append(new ChangeState(['Customer','废弃', '确定废弃此线索吗？', 0]));
-                } else {
-                    $actions->append(new ChangeState(['Customer','恢复', '您确定要恢复此线索吗？', 1]));
+                if ($actions->row->admin_users_id != 0){
+                    if ($actions->row->state == 1) {
+                        $actions->append(new ChangeState(['Customer', '转为客户', '您确定要将此线索转化为正式客户吗', 3]));
+                        $actions->append(new ChangeState(['Customer', '废弃', '确定废弃此线索吗？', 0]));
+                    } else {
+                        $actions->append(new ChangeState(['Customer', '恢复', '您确定要恢复此线索吗？', 1]));
+                    }
+                }else{
+                    $actions->append(new ReceiveHighSeas(['领取线索', '您确定要领取此线索吗？']));
                 }
+
             });
 
             $grid->setActionClass(Grid\Displayers\Actions::class);
@@ -149,30 +161,31 @@ CSS
      */
     public function show($id, Content $content)
     {
-        // 判断授权，无权限查看他人的信息,以后可以优化一下
-        $detalling = Admin::user()->id != Customer::find($id)->admin_users->id;
-        $Role = !Admin::user()->isRole('administrator');
-        if ($Role && $detalling) {
-            $customer = Customer::find($id);
-            $this->authorize('update', $customer);
-        }
-
 
         Admin::css(static::$showcss);
-        $customer = Customer::with('contacts','contracts','admin_users','events','attachments','shares_user')->findorFail($id);
+        $customer = Customer::with(['contacts', 'contracts', 'admin_users', 'events' => function ($q) {
+            $q->orderBy('updated_at', 'desc');
+        }, 'events.contact', 'events.admin_user', 'attachments', 'shares_user'])->findorFail($id);
         // $fields = Customfield::where([['model', '=', 'customer'], ['show', '=', '1'],])->get();
+        // 判断授权，无权限查看他人的信息,以后可以优化一下
+        $detalling = ($customer->admin_users) ? (Admin::user()->id != $customer->id) : true;
+        $Role = !Admin::user()->isRole('administrator');
+        if ($Role && $detalling) {
+            $this->authorize('update', $customer);
+        }
         $data = [
             'customer' => $customer,
             'contacts' => $customer->contacts,
-            'admin_users' => $customer->admin_users,
-            'events' => $customer->events()->orderBy('updated_at', 'desc')->get(),
+            'admin_users' => ($customer->admin_users) ?: '',
+            'events' => $customer->events,
             'contracts' => $customer->contracts,
-            'attachments' => $customer->attachments()->orderBy('updated_at', 'desc')->get(),
+            'attachments' => $customer->attachments,
             'customerfields' => $this->custommodel('customer'),
             'contactfields' => $this->custommodel('contact'),
             // 'fields' => $fields,
-            'Share' => $this->Share($id),
-            'shares_user' => $customer->shares_user()->select(['name','avatar'])->get(),
+            'Share' => ($customer->admin_users) ? ($this->Share($id)) : '',
+            'shares_user' => $customer->shares_user()->select(['name', 'avatar'])->get(),
+            'events_contacts' => Customer::find($id)->with('events.contact'),
         ];
         return $content
             ->title('线索')
@@ -204,7 +217,7 @@ CSS
             }
             $form->display('id');
             $form->text('name');
-            $form->hidden('admin_users_id')->value(Admin::user()->id);
+            $form->hidden('admin_user_id')->value(Admin::user()->id);
             $form->hidden('state')->value(0);
 
             $form->fieldset('联系人', function (Form $form) {

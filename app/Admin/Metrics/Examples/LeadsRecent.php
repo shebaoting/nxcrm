@@ -21,7 +21,7 @@ class LeadsRecent extends Card
         $this->height(450);
         // 设置标题
         $this->title('最近的线索');
-        $leads = Customer::with('admin_users')->where('state', '<>', 3)->get();
+        $leads = Customer::with('admin_users')->where([['state', '!=', 3], ['admin_users_id', '!=', 0]])->limit(6)->get();
         $this->withContent(view('admin.metrics.examples.leads_recent',compact('leads')));
     }
 

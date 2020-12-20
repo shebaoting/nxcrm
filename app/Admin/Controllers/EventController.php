@@ -90,7 +90,7 @@ class EventController extends AdminController
      */
     protected function form()
     {
-        return Form::make(new Event(), function (Form $form) {
+        return Form::make(Event::with(['contact','admin_user']), function (Form $form) {
             $Editing = $form->isEditing() && Admin::user()->id != Customer::find($form->model()->customer_id)->admin_users_id;
             if ($Editing) {
                 $customer = Customer::find($form->model()->id);
@@ -98,10 +98,11 @@ class EventController extends AdminController
             }
             $form->display('id');
             $form->text('content');
-            $form->text('customer_id');
-            $form->text('contact_id');
-            $form->text('contract_id');
-            $form->text('opportunity_id');
+            $form->text('customer_id')->type('number');
+            $form->text('contact_id')->type('number');
+            $form->text('contract_id')->type('number');
+            $form->text('opportunity_id')->type('number');
+            $form->text('admin_user_id')->type('number');
             $form->display('created_at');
             $form->display('updated_at');
 

@@ -1,4 +1,5 @@
-{{-- 客户归属开始 --}}
+@if ($admin_users)
+   {{-- 客户归属开始 --}}
 <div class="card admin_users">
     <div class="box-body" style="text-align: center">
         <div class="row" style="padding: 20px 0 10px">
@@ -25,6 +26,8 @@
 
 
 
+
+
 {{-- 添加联系人开始 --}}
 @if ($ifrole)
 <div class="card add_contacts">
@@ -43,7 +46,7 @@
 @endif
 
 {{-- 添加联系人结束 --}}
-
+@endif
 
 @if ($contacts->count() > 0)
 @foreach ($contacts as $contact)
@@ -56,7 +59,7 @@
             <span class="badge badge-primary align-middle">{{$contact['position']}}</span>
         </div>
 
-        @if ($ifrole)
+        @if ($ifrole && $customer['admin_users_id'])
         <div class="pull-right">
             <a href="/admin/contacts/{{$contact['id']}}/edit"><i class="feather icon-edit-1"></i></a>
         </div>

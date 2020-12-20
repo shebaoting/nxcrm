@@ -13,13 +13,14 @@ use Dcat\Admin\Admin;
 use App\Models\Event;
 use App\Models\Admin_user;
 use App\Admin\Traits\Selector;
+use App\Admin\RowAction\ReceiveHighSeas;
 use App\Admin\Traits\ShareCustomers;
 use Dcat\Admin\Widgets\Tab;
 use Illuminate\Http\Request;
 
 class CustomerController extends AdminController
 {
-    use Customfields,Selector,ShareCustomers;
+    use Customfields, Selector, ShareCustomers;
 
     public function __construct(Request $request)
     {
@@ -57,22 +58,21 @@ CSS
             } elseif ($this->source_id == 2) {
                 $shares_Customer = array_column(Admin_user::find(Admin::user()->id)->shares_Customer()->get()->toArray(), 'id');
                 $grid->model()->whereIn('id', $shares_Customer);
+            } elseif ($this->source_id == 3) {
+                $grid->model()->where('admin_users_id', '=', 0);
             } else {
                 $grid->model()->where('admin_users_id', '=', Admin::user()->id);
             }
 
-            // if (!Admin::user()->isRole('administrator')) {
-            //     $grid->model()->where('admin_users_id', '=', Admin::user()->id);
-            // }
-// dd($this->source_id);
+
             $grid->header(function () {
                 $tab = Tab::make();
                 if (Admin::user()->isRole('administrator')) {
-                    $tab->addLink('所有客户', '?source_id=0',true);
+                    $tab->addLink('所有客户', '?source_id=0', true);
                 }
-                $tab->addLink('我的客户', '?source_id=1',$this->source_id==1 ? true : false);
-                $tab->addLink('分享给我', '?source_id=2',$this->source_id==2 ? true : false);
-                // $tab->addLink('公海客户', '?source_id=3',$this->source_id==3 ? true : false);
+                $tab->addLink('我的客户', '?source_id=1', $this->source_id == 1 ? true : false);
+                $tab->addLink('分享给我', '?source_id=2', $this->source_id == 2 ? true : false);
+                $tab->addLink('公海客户', '?source_id=3', $this->source_id == 3 ? true : false);
                 return $tab;
             });
 
@@ -105,9 +105,21 @@ CSS
                     return '<span style="color:#ea5455">无跟进</span>';
                 }
             });
-            $this->gridfield($grid,'customer');
+            $this->gridfield($grid, 'customer');
             $grid->column('admin_users.name', '所属销售');
             $grid->model()->where('state', '=', '3');
+
+            if ($this->source_id == 3) {
+                $grid->setActionClass(Grid\Displayers\Actions::class);
+                $grid->disableDeleteButton();
+                $grid->disableEditButton();
+                $grid->disableViewButton();
+                $grid->actions(function (Grid\Displayers\Actions $actions) {
+                    $actions->append(new ReceiveHighSeas(['领取客户', '您确定要领取此客户吗？']));
+                });
+            }
+
+
             $grid->disableBatchActions();
             $grid->model()->orderBy('id', 'desc');
             $grid->filter(function (Grid\Filter $filter) {
@@ -143,18 +155,21 @@ CSS
 
 
         Admin::css(static::$css);
-        $customer = Customer::with('contacts','contracts','admin_users','events','attachments','shares_user')->findorFail($id);
+        $customer = Customer::with(['contacts', 'contracts', 'admin_users', 'events' => function ($q) {
+            $q->orderBy('updated_at', 'desc');
+        }, 'events.contact', 'events.admin_user', 'attachments', 'shares_user'])->findorFail($id);
+
         $data = [
             'customer' => $customer,
             'contacts' => $customer->contacts,
             'admin_users' => $customer->admin_users,
-            'events' => $customer->events()->orderBy('updated_at', 'desc')->get(),
+            'events' => $customer->events,
             'contracts' => $customer->contracts,
-            'attachments' => $customer->attachments()->orderBy('updated_at', 'desc')->get(),
+            'attachments' => $customer->attachments,
             'customerfields' => $this->custommodel('customer'),
             'contactfields' => $this->custommodel('contact'),
             'Share' => $this->Share($id),
-            'shares_user' => $customer->shares_user()->select(['name','avatar'])->get(),
+            'shares_user' => $customer->shares_user()->select(['name', 'avatar'])->get(),
         ];
         return $content
             ->title('客户')
@@ -181,7 +196,7 @@ CSS
             // }
             $form->display('id');
             $form->text('name');
-            $this->formfield($form,'customer');
+            $this->formfield($form, 'customer');
             $form->hidden('admin_users_id')->value(Admin::user()->id);
             $form->hidden('state')->value(3);
             $form->hidden('fields')->value(null);
@@ -198,5 +213,4 @@ CSS
             });
         });
     }
-
 }

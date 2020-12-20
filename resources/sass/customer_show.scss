@@ -145,7 +145,7 @@
             background-color: #f6f7f9;
             border-radius: 5px;
             color: #506888;
-            padding: 20px;
+            padding: 30px;
             margin-left: -30px;
             line-height: 20px;
             margin-bottom: 50px;
@@ -153,21 +153,11 @@
             .btn {
                 height: 88px;
                 width: 100%;
-                display: none;
+                display: block;
             }
-
-            &:hover {
-                .btn {
-                    display: block;
-                }
-
-                textarea {
-                    max-height: 87px;
-                }
-            }
-
             textarea {
                 max-height: 45px;
+                max-height: 87px;
             }
         }
 
@@ -202,6 +192,10 @@
         .users {
             margin-left: 15px;
         }
+
+        .eventsforminfo {margin-top: 10px;}
+        .eventsviewinfo {margin-top: 20px;color:#999 ;}
+        #selectcontact {width: 30%;color:#999 ;}
     }
 
     .contentlist {

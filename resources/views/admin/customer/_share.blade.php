@@ -101,6 +101,8 @@
           $Customer = App\Models\Customer::find($id);
           $shares = array_column($Customer->shares_user()->get()->toArray(), 'id');
         @endphp
+
+        @if ($Customer->admin_users)
         @foreach (App\Models\Admin_user::with(['roles'])->where('id', '!=', $Customer->admin_users->id)->get() as $item_user)
         <li userid="{{$item_user->id}}" class="{{in_array($item_user->id,$shares) ? 'active' : '' }}">
             <div class="media mbm">
@@ -120,6 +122,8 @@
             </div> <i class="o-checked fa fa-check-square"></i>
         </li>
         @endforeach
+        @endif
+
     </ul>
 </div>
 <div class="box-footer row" style="display: flex">
