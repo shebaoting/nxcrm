@@ -21,7 +21,7 @@ class setting extends Form
 
         // return $this->error('Your error message.');
 
-        return $this->response()->success('设置成功')->location('settings');
+        return $this->response()->success('设置成功')->refresh();
     }
 
     /**
