@@ -13,11 +13,6 @@ use Illuminate\Support\Str;
 trait WebUploader
 {
     /**
-     * @var array
-     */
-    protected $options = [];
-
-    /**
      * @param string      $extensions exp. gif,jpg,jpeg,bmp,png
      * @param string|null $mimeTypes  exp. image/*
      *
@@ -124,7 +119,7 @@ trait WebUploader
      *
      * @return $this
      */
-    public function removeable(bool $value = true)
+    public function removable(bool $value = true)
     {
         $this->options['disableRemove'] = ! $value;
 

@@ -314,7 +314,7 @@ class Form implements Renderable
     {
         $field->setForm($this);
 
-        $this->builder->fields()->push($field);
+        $this->builder->pushField($field);
         $this->builder->layout()->addField($field);
 
         $width = $this->builder->getWidth();
@@ -931,7 +931,7 @@ class Form implements Renderable
             return $redirectTo;
         }
 
-        $resourcesPath = $this->resource(-1);
+        $resourcesPath = $this->isCreating() ? $this->resource(0) : $this->resource(-1);
 
         if ($this->request->get('after-save') == 1) {
             // continue editing

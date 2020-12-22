@@ -650,7 +650,7 @@ return array(
     'Dcat\\Admin\\Http\\Actions\\Extensions\\Uninstall' => $vendorDir . '/dcat/laravel-admin/src/Http/Actions/Extensions/Uninstall.php',
     'Dcat\\Admin\\Http\\Actions\\Extensions\\Update' => $vendorDir . '/dcat/laravel-admin/src/Http/Actions/Extensions/Update.php',
     'Dcat\\Admin\\Http\\Actions\\ImportButton' => $vendorDir . '/dcat/laravel-admin/src/Http/Actions/ImportButton.php',
-    'Dcat\\Admin\\Http\\Actions\\Menu\\Visiable' => $vendorDir . '/dcat/laravel-admin/src/Http/Actions/Menu/Visiable.php',
+    'Dcat\\Admin\\Http\\Actions\\Menu\\Show' => $vendorDir . '/dcat/laravel-admin/src/Http/Actions/Menu/Show.php',
     'Dcat\\Admin\\Http\\Auth\\Permission' => $vendorDir . '/dcat/laravel-admin/src/Http/Auth/Permission.php',
     'Dcat\\Admin\\Http\\Controllers\\AdminController' => $vendorDir . '/dcat/laravel-admin/src/Http/Controllers/AdminController.php',
     'Dcat\\Admin\\Http\\Controllers\\AuthController' => $vendorDir . '/dcat/laravel-admin/src/Http/Controllers/AuthController.php',

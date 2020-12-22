@@ -1201,7 +1201,7 @@ class ComposerStaticInit74449af1101ecd6f157052626e751738
         'Dcat\\Admin\\Http\\Actions\\Extensions\\Uninstall' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Http/Actions/Extensions/Uninstall.php',
         'Dcat\\Admin\\Http\\Actions\\Extensions\\Update' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Http/Actions/Extensions/Update.php',
         'Dcat\\Admin\\Http\\Actions\\ImportButton' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Http/Actions/ImportButton.php',
-        'Dcat\\Admin\\Http\\Actions\\Menu\\Visiable' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Http/Actions/Menu/Visiable.php',
+        'Dcat\\Admin\\Http\\Actions\\Menu\\Show' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Http/Actions/Menu/Show.php',
         'Dcat\\Admin\\Http\\Auth\\Permission' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Http/Auth/Permission.php',
         'Dcat\\Admin\\Http\\Controllers\\AdminController' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Http/Controllers/AdminController.php',
         'Dcat\\Admin\\Http\\Controllers\\AuthController' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Http/Controllers/AuthController.php',

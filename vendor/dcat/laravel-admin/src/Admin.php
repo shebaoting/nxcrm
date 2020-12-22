@@ -7,6 +7,7 @@ use Dcat\Admin\Contracts\ExceptionHandler;
 use Dcat\Admin\Contracts\Repository;
 use Dcat\Admin\Exception\InvalidArgumentException;
 use Dcat\Admin\Http\Controllers\AuthController;
+use Dcat\Admin\Http\JsonResponse;
 use Dcat\Admin\Layout\Menu;
 use Dcat\Admin\Layout\Navbar;
 use Dcat\Admin\Layout\SectionManager;
@@ -28,7 +29,7 @@ class Admin
     use HasAssets;
     use HasHtml;
 
-    const VERSION = '2.0.11-beta';
+    const VERSION = '2.0.12-beta';
 
     const SECTION = [
         // 往 <head> 标签内输入内容
@@ -336,6 +337,18 @@ class Admin
     }
 
     /**
+     * 响应json数据.
+     *
+     * @param array $data
+     *
+     * @return JsonResponse
+     */
+    public static function json(array $data = [])
+    {
+        return JsonResponse::make($data);
+    }
+
+    /**
      * 插件管理.
      *
      * @param string $name
@@ -526,8 +539,6 @@ class Admin
             $router->post('helpers/scaffold', 'Dcat\Admin\Http\Controllers\ScaffoldController@store');
             $router->post('helpers/scaffold/table', 'Dcat\Admin\Http\Controllers\ScaffoldController@table');
             $router->get('helpers/icons', 'Dcat\Admin\Http\Controllers\IconController@index');
-            $router->resource('helpers/extensions', 'Dcat\Admin\Http\Controllers\ExtensionController', ['only' => ['index', 'store', 'update']]);
-            $router->post('helpers/extensions/import', 'Dcat\Admin\Http\Controllers\ExtensionController@import');
         });
     }
 }

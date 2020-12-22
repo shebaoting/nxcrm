@@ -406,17 +406,17 @@
     },
     {
         "name": "dcat/laravel-admin",
-        "version": "2.0.11-beta",
-        "version_normalized": "2.0.11.0-beta",
+        "version": "2.0.12-beta",
+        "version_normalized": "2.0.12.0-beta",
         "source": {
             "type": "git",
             "url": "https://github.com/jqhph/dcat-admin.git",
-            "reference": "13a2fba081a4123d2a396fec2fa6b65a0cfd875d"
+            "reference": "d554c3cab9c55d7a5e46bfb05c2e76f7c85d5408"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/jqhph/dcat-admin/zipball/13a2fba081a4123d2a396fec2fa6b65a0cfd875d",
-            "reference": "13a2fba081a4123d2a396fec2fa6b65a0cfd875d",
+            "url": "https://api.github.com/repos/jqhph/dcat-admin/zipball/d554c3cab9c55d7a5e46bfb05c2e76f7c85d5408",
+            "reference": "d554c3cab9c55d7a5e46bfb05c2e76f7c85d5408",
             "shasum": "",
             "mirrors": [
                 {
@@ -439,7 +439,7 @@
             "phpstan/phpstan": "^0.12.0",
             "phpunit/phpunit": "^7.5"
         },
-        "time": "2020-12-06T16:18:46+00:00",
+        "time": "2020-12-22T09:48:45+00:00",
         "type": "library",
         "extra": {
             "laravel": {
@@ -5822,17 +5822,17 @@
     },
     {
         "name": "symfony/dom-crawler",
-        "version": "v5.2.0",
-        "version_normalized": "5.2.0.0",
+        "version": "v5.2.1",
+        "version_normalized": "5.2.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/dom-crawler.git",
-            "reference": "0969122fe144dd8ab2e8c98c7e03eedc621b368c"
+            "reference": "ee7cf316fb0de786cfe5ae32ee79502b290c81ea"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/0969122fe144dd8ab2e8c98c7e03eedc621b368c",
-            "reference": "0969122fe144dd8ab2e8c98c7e03eedc621b368c",
+            "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/ee7cf316fb0de786cfe5ae32ee79502b290c81ea",
+            "reference": "ee7cf316fb0de786cfe5ae32ee79502b290c81ea",
             "shasum": "",
             "mirrors": [
                 {
@@ -5857,7 +5857,7 @@
         "suggest": {
             "symfony/css-selector": ""
         },
-        "time": "2020-10-24T12:01:57+00:00",
+        "time": "2020-12-18T08:02:46+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

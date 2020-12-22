@@ -204,7 +204,7 @@ class Model
     /**
      * Get primary key name of model.
      *
-     * @return string
+     * @return string|array
      */
     public function getKeyName()
     {
@@ -350,17 +350,15 @@ class Model
     /**
      * Build.
      *
-     * @param bool $toArray
-     *
-     * @return array|Collection|mixed
+     * @return Collection
      */
-    public function buildData(bool $toArray = false)
+    public function buildData()
     {
         if (is_null($this->data)) {
             $this->setData($this->fetch());
         }
 
-        return $toArray ? $this->data->toArray() : $this->data;
+        return $this->data;
     }
 
     /**
