@@ -1,7 +1,15 @@
 <link rel="stylesheet" href="/static/css/login.css">
 <style>
 .login_main {
-  background: url({{admin_setting('logobg', '/static/img/bg-auth1.jpg')}}) center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: row;
+  align-items: stretch;
+  background: url(/uploads/{{admin_setting('logobg', '/static/img/bg-auth1.jpg')}}) center;
+  background-size: cover;
+  margin: 0;
 }
 </style>
 <div class="row login_main">
