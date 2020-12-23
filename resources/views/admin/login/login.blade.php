@@ -1,4 +1,9 @@
 <link rel="stylesheet" href="/static/css/login.css">
+<style>
+.login_main {
+  background: url({{admin_setting('logobg', '/static/img/bg-auth1.jpg')}}) center;
+}
+</style>
 <div class="row login_main">
     <div class="col-md-3 col-sm-3 col-12 ">
         <div class="login-page">

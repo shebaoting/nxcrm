@@ -40,7 +40,7 @@ class CustomerController extends AdminController
      */
     protected function grid()
     {
-        return Grid::make(Customer::with(['admin_users']), function (Grid $grid) {
+        return Grid::make(Customer::with(['admin_users','events']), function (Grid $grid) {
 
             Admin::style(
                 <<<CSS

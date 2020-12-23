@@ -41,7 +41,7 @@ class LeadController extends AdminController
      */
     protected function grid()
     {
-        return Grid::make(Customer::with(['admin_users']), function (Grid $grid) {
+        return Grid::make(Customer::with(['admin_users','events']), function (Grid $grid) {
 
 
             Admin::style(
@@ -217,7 +217,7 @@ CSS
             }
             $form->display('id');
             $form->text('name');
-            $form->hidden('admin_user_id')->value(Admin::user()->id);
+            $form->hidden('admin_users_id')->value(Admin::user()->id);
             $form->hidden('state')->value(0);
 
             $form->fieldset('联系人', function (Form $form) {

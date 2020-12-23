@@ -45,6 +45,8 @@ class setting extends Form
             })->help('更改后需清空浏览器缓存');
         $this->radio('sidebar_style', '侧栏颜色')->options(['sidebar-light-primary' => '白色', 'sidebar-primary' => '彩色']);
         $this->radio('menu_layout', '侧栏布局')->options(['default' => '默认', 'sidebar-separate' => '分离']);
+        $this->radio('logintheme', '登录页样式')->options(['bigpicture' => '大图', 'simple' => '简单']);
+        $this->image('logobg', '登陆页背景图')->accept('jpg,png,gif,jpeg')->maxSize(512)->required()->autoUpload()->help('大小不要超过512K，仅在登录页为大图模式下生效');
     }
 
 
@@ -57,13 +59,14 @@ class setting extends Form
             $body_class = 1;
         }
 
-
         return [
-            'logo' => admin_setting('logo', public_path().'/static/img/logo.png'),
+            'logo' => admin_setting('logo', '../static/img/logo.png'),
             'color' => admin_setting('color', 'green'),
             'body_class' => $body_class,
             'sidebar_style' => admin_setting('sidebar_style', 'light'),
             'menu_layout' => admin_setting('menu_layout', 'sidebar-separate'),
+            'logintheme' => admin_setting('logintheme', 'bigpicture'),
+            'logobg' => admin_setting('logobg', '../static/img/bg-auth1.jpg'),
         ];
     }
 }

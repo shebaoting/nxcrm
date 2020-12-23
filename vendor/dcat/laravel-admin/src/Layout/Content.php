@@ -441,7 +441,8 @@ class Content implements Renderable
         ];
 
         $data = array_merge(
-            config('admin.layout') ?: [],
+            admin_setting()->toarray() ?: [],
+
             $this->config
         );
 
@@ -497,9 +498,9 @@ class Content implements Renderable
             'navbar_color'      => $data['navbar_color'],
             'navbar_class'      => $allOptions['navbar_class'][$data['navbar_class']],
             'sidebar_class'     => $data['sidebar_collapsed'] ? 'sidebar-collapse' : '',
-            'body_class'        => $data['body_class'],
+            'body_class'        => admin_setting('body_class', ''),
             'menu_layout'        => admin_setting('menu_layout', 'sidebar-separate'),
-            'sidebar_style'     => admin_setting('sidebar_style', 'light'),
+            'sidebar_style'     => $data['sidebar_style'],
         ];
     }
 

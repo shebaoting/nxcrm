@@ -438,7 +438,7 @@ class Admin
         $jsVariables['token'] = csrf_token();
         $jsVariables['lang'] = __('admin.client') ?: [];
         $jsVariables['colors'] = static::color()->all();
-        $jsVariables['dark_mode'] = Str::contains(config('admin.layout.body_class'), 'dark-mode');
+        $jsVariables['dark_mode'] = Str::contains(admin_setting('body_class', ''), 'dark-mode');
         $jsVariables['sidebar_dark'] = config('admin.layout.sidebar_dark') || ($sidebarStyle === 'dark');
         $jsVariables['sidebar_light_style'] = in_array($sidebarStyle, ['dark', 'light'], true) ? 'sidebar-light-primary' : 'sidebar-primary';
 
