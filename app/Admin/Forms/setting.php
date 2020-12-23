@@ -66,7 +66,7 @@ class setting extends Form
             'sidebar_style' => admin_setting('sidebar_style', 'light'),
             'menu_layout' => admin_setting('menu_layout', 'sidebar-separate'),
             'logintheme' => admin_setting('logintheme', 'bigpicture'),
-            'logobg' => admin_setting('logobg', public_path().'/static/img/bg-auth1.jpg'),
+            'logobg' => admin_setting('logobg'),
         ];
     }
 }
