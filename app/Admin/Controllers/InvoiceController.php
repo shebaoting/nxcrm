@@ -45,8 +45,8 @@ class InvoiceController extends AdminController
                 // dd($id);
                 return '<a href="contracts/' . optional(Contract::find($id))->id . '">' . strtotime(optional(Contract::find($id))->signdate) . '</a>';
             });
-            $grid->column('id', '发票编号')->display(function ($id) {
-                return '<a href="invoices/' . $id . '">' . strtotime($this->created_at) . '</a>';
+            $grid->column('id', '发票编号')->display(function ($id1) {
+                return '<a href="invoices/' . $id1 . '">' . strtotime($this->created_at) . '</a>';
             });
             $grid->column('created_at', '申请时间');
             $grid->model()->with(['receipt']);
