@@ -96,9 +96,9 @@ class Color
         ],
         'green' => [
             'colors' => [
-                'primary'        => '#07c160',
-                'primary-darker' => '#07c160',
-                'link'           => '#07c160',
+                'primary'        => '#4e9876',
+                'primary-darker' => '#458769',
+                'link'           => '#458769',
             ],
         ],
     ];
@@ -211,7 +211,7 @@ class Color
      */
     public function __construct(?string $name = null)
     {
-        $this->name = ($name ?: admin_setting('color', 'green')) ?: static::DEFAULT_COLOR;
+        $this->name = ($name ?: admin_setting('color')) ?: static::DEFAULT_COLOR;
 
         $this->currentColors = array_merge(
             static::$colors,

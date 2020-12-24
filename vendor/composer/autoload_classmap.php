@@ -406,6 +406,7 @@ return array(
     'Dcat\\Admin\\Exception\\Handler' => $vendorDir . '/dcat/laravel-admin/src/Exception/Handler.php',
     'Dcat\\Admin\\Exception\\InvalidArgumentException' => $vendorDir . '/dcat/laravel-admin/src/Exception/InvalidArgumentException.php',
     'Dcat\\Admin\\Exception\\RuntimeException' => $vendorDir . '/dcat/laravel-admin/src/Exception/RuntimeException.php',
+    'Dcat\\Admin\\Exception\\UploadException' => $vendorDir . '/dcat/laravel-admin/src/Exception/UploadException.php',
     'Dcat\\Admin\\Extend\\CanImportMenu' => $vendorDir . '/dcat/laravel-admin/src/Extend/CanImportMenu.php',
     'Dcat\\Admin\\Extend\\HasExtension' => $vendorDir . '/dcat/laravel-admin/src/Extend/HasExtension.php',
     'Dcat\\Admin\\Extend\\Manager' => $vendorDir . '/dcat/laravel-admin/src/Extend/Manager.php',

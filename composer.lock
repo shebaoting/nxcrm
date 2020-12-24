@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2adf7e3c051a7ee9c21eac403b712da7",
+    "content-hash": "9b39306b5611031c078458363e362a89",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -260,16 +260,16 @@
         },
         {
             "name": "dcat/laravel-admin",
-            "version": "2.0.12-beta",
+            "version": "2.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jqhph/dcat-admin.git",
-                "reference": "d554c3cab9c55d7a5e46bfb05c2e76f7c85d5408"
+                "reference": "ac11226f04da7f6018f50a4f873b20604f449fd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jqhph/dcat-admin/zipball/d554c3cab9c55d7a5e46bfb05c2e76f7c85d5408",
-                "reference": "d554c3cab9c55d7a5e46bfb05c2e76f7c85d5408",
+                "url": "https://api.github.com/repos/jqhph/dcat-admin/zipball/ac11226f04da7f6018f50a4f873b20604f449fd4",
+                "reference": "ac11226f04da7f6018f50a4f873b20604f449fd4",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -328,7 +328,7 @@
                 "laravel",
                 "laravel admin"
             ],
-            "time": "2020-12-22T09:48:45+00:00"
+            "time": "2020-12-24T09:27:19+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -8118,7 +8118,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "dcat/laravel-admin": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

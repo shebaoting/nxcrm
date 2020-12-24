@@ -29,7 +29,7 @@ class Admin
     use HasAssets;
     use HasHtml;
 
-    const VERSION = '2.0.12-beta';
+    const VERSION = '2.0.14-beta';
 
     const SECTION = [
         // 往 <head> 标签内输入内容
@@ -101,7 +101,7 @@ class Admin
     public static function title($title = null)
     {
         if ($title === null) {
-            return static::context()->metaTitle ?: admin_setting('crmname', 'NXCRM客户管理系统');
+            return static::context()->metaTitle ?: config('admin.title');
         }
 
         static::context()->metaTitle = $title;
@@ -438,7 +438,7 @@ class Admin
         $jsVariables['token'] = csrf_token();
         $jsVariables['lang'] = __('admin.client') ?: [];
         $jsVariables['colors'] = static::color()->all();
-        $jsVariables['dark_mode'] = Str::contains(admin_setting('body_class', ''), 'dark-mode');
+        $jsVariables['dark_mode'] = Str::contains(config('admin.layout.body_class'), 'dark-mode');
         $jsVariables['sidebar_dark'] = config('admin.layout.sidebar_dark') || ($sidebarStyle === 'dark');
         $jsVariables['sidebar_light_style'] = in_array($sidebarStyle, ['dark', 'light'], true) ? 'sidebar-light-primary' : 'sidebar-primary';
 

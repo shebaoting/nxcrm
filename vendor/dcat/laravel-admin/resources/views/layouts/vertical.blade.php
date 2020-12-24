@@ -1,5 +1,5 @@
 <body
-    class="dcat-admin-body sidebar-mini layout-fixed {{ $configData['body_class']}} {{ $configData['menu_layout']}} {{ $configData['sidebar_class'] }}
+    class="dcat-admin-body sidebar-mini layout-fixed {{ $configData['body_class']}} {{ $configData['sidebar_class'] }}
     {{ $configData['navbar_class'] === 'fixed-top' ? 'navbar-fixed-top' : '' }} " >
 
     <script>

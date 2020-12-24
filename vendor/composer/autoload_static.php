@@ -957,6 +957,7 @@ class ComposerStaticInit74449af1101ecd6f157052626e751738
         'Dcat\\Admin\\Exception\\Handler' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Exception/Handler.php',
         'Dcat\\Admin\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Exception/InvalidArgumentException.php',
         'Dcat\\Admin\\Exception\\RuntimeException' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Exception/RuntimeException.php',
+        'Dcat\\Admin\\Exception\\UploadException' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Exception/UploadException.php',
         'Dcat\\Admin\\Extend\\CanImportMenu' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Extend/CanImportMenu.php',
         'Dcat\\Admin\\Extend\\HasExtension' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Extend/HasExtension.php',
         'Dcat\\Admin\\Extend\\Manager' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Extend/Manager.php',
