@@ -13,7 +13,7 @@ class SettingsController extends Controller
      *
      * @var string
      */
-    const VERSION = '1.12.24';
+    const VERSION = '1.12.24.2';
 
     public function index(Content $content, $classinfo)
     {
@@ -32,7 +32,7 @@ class SettingsController extends Controller
         return $content
             ->title($title)
             ->description('详情')
-            ->body(new Card(new $classinfo()));
+            ->body(Card::make('设置', new $classinfo())->withHeaderBorder());
     }
 
 }

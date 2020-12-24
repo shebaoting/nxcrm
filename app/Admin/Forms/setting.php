@@ -80,7 +80,7 @@ CSS
         $this->radio('sidebar_style', '侧栏颜色')->options(['light' => '白色', 'primary' => '彩色']);
         $this->radio('body_class', '侧栏布局')->options(['default' => '默认', 'sidebar-separate' => '分离']);
         $this->radio('logintheme', '登录页样式')->options(['bigpicture' => '大图', 'simple' => '简单']);
-        $this->image('logobg', '登陆页背景图')->accept('jpg,png,gif,jpeg')->maxSize(1024)->required()->autoUpload()->help('大小不要超过512K，仅在登录页为大图模式下生效');
+        $this->image('logobg', '登陆页背景图')->accept('jpg,png,gif,jpeg')->maxSize(1024)->autoUpload()->help('大小不要超过512K，仅在登录页为大图模式下生效');
         // $this->switch('debug', '开发者模式')
         // ->customFormat(function ($v) {
         //     return $v == '打开' ? 1 : 0;
