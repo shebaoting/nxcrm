@@ -2,9 +2,9 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Event;
-use App\Models\Contact;
-use App\Models\Customer;
+use App\Models\CrmEvent;
+use App\Models\CrmContact;
+use App\Models\CrmCustomer;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -22,27 +22,27 @@ class EventController extends AdminController
     {
 
         if (!Admin::user()->isRole('administrator')) {
-            $event = Event::whereHas('customer', function ($query) {
-                $query->where('admin_users_id', Admin::user()->id);
+            $event = CrmEvent::whereHas('customer', function ($query) {
+                $query->where('admin_user_id', Admin::user()->id);
             });
         } else {
-            $event = new Event();
+            $event = new CrmEvent();
         }
 
         return Grid::make($event, function (Grid $grid) {
             $grid->id->sortable();
             $grid->content->width('50%');
 
-            $grid->customer_id('所属客户')->display(function ($id) {
-                return optional(Customer::find($id))->name;
+            $grid->crm_customer_id('所属客户')->display(function ($id) {
+                return optional(CrmCustomer::find($id))->name;
             })->link(function () {
-                return admin_url('customers/' . $this->customer_id);
+                return admin_url('customers/' . $this->crm_customer_id);
             });
 
-            $grid->contact_id('联系人')->display(function ($id) {
-                return optional(Contact::find($id))->name;
+            $grid->crm_contact_id('联系人')->display(function ($id) {
+                return optional(CrmContact::find($id))->name;
             })->link(function () {
-                return admin_url('contacts/' . $this->contact_id);
+                return admin_url('contacts/' . $this->crm_contact_id);
             });
 
             $grid->created_at->sortable();
@@ -67,17 +67,17 @@ class EventController extends AdminController
      */
     protected function detail($id)
     {
-        $detalling = Admin::user()->id != Customer::find(Event::find($id)->customer->id)->admin_users->id;;
+        $detalling = Admin::user()->id != CrmCustomer::find(CrmEvent::find($id)->customer->id)->Admin_user->id;;
         $Role = !Admin::user()->isRole('administrator');
         if ($Role && $detalling) {
-            $customer = Customer::find($id);
+            $customer = CrmCustomer::find($id);
             $this->authorize('update', $customer);
         }
-        return Show::make($id, new Event(), function (Show $show) {
+        return Show::make($id, new CrmEvent(), function (Show $show) {
             $show->id;
             $show->content;
-            $show->customer_id;
-            $show->contact_id;
+            $show->crm_customer_id;
+            $show->crm_contact_id;
             $show->created_at;
             $show->updated_at;
         });
@@ -90,36 +90,36 @@ class EventController extends AdminController
      */
     protected function form()
     {
-        return Form::make(Event::with(['contact','admin_user']), function (Form $form) {
-            $Editing = $form->isEditing() && Admin::user()->id != Customer::find($form->model()->customer_id)->admin_users_id;
+        return Form::make(CrmEvent::with(['CrmContact','Admin_user']), function (Form $form) {
+            $Editing = $form->isEditing() && Admin::user()->id != CrmCustomer::find($form->model()->crm_customer_id)->admin_user_id;
             if ($Editing) {
-                $customer = Customer::find($form->model()->id);
+                $customer = CrmCustomer::find($form->model()->id);
                 $this->authorize('update', $customer);
             }
             $form->display('id');
             $form->text('content');
-            $form->text('customer_id')->type('number');
-            $form->text('contact_id')->type('number');
-            $form->text('contract_id')->type('number');
-            $form->text('opportunity_id')->type('number');
+            $form->text('crm_customer_id')->type('number');
+            $form->text('crm_contact_id')->type('number');
+            $form->text('crm_contract_id')->type('number');
+            $form->text('crm_opportunity_id')->type('number');
             $form->text('admin_user_id')->type('number');
             $form->display('created_at');
             $form->display('updated_at');
 
             $form->saved(function (Form $form) {
-                if ($form->opportunity_id) {
-                    return $form->response()->success('发布成功')->redirect('opportunitys/' . $form->opportunity_id);
-                } elseif ($form->contract_id) {
-                    return $form->response()->success('发布成功')->redirect('contracts/' . $form->contract_id);
+                if ($form->crm_opportunity_id) {
+                    return $form->response()->success('发布成功')->redirect('opportunitys/' . $form->crm_opportunity_id);
+                } elseif ($form->crm_contract_id) {
+                    return $form->response()->success('发布成功')->redirect('contracts/' . $form->crm_contract_id);
                 }else {
-                    return $form->response()->success('发布成功')->redirect('customers/' . $form->customer_id);
+                    return $form->response()->success('发布成功')->redirect('customers/' . $form->crm_customer_id);
                 }
 
             });
 
             $form->deleted(function (Form $form, $result) {
                 // 通过 $result 可以判断数据是否删除成功
-                return $form->response()->success('删除成功')->redirect('customers/' . $form->customer_id);
+                return $form->response()->success('删除成功')->redirect('customers/' . $form->crm_customer_id);
             });
         });
     }

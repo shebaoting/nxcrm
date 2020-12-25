@@ -3,7 +3,7 @@
 namespace App\Admin\Traits;
 
 use Dcat\Admin\Grid;
-use App\Models\Customfield;
+use App\Models\CrmCustomfield;
 use Dcat\Admin\Form;
 
 trait Customfields
@@ -11,14 +11,14 @@ trait Customfields
 
     protected function custommodel($modelname)
     {
-        $fields = Customfield::where([['model', '=', $modelname], ['show', '=', '1']])->orderBy('sort', 'desc')->get();
+        $fields = CrmCustomfield::where([['model', '=', $modelname], ['show', '=', '1']])->orderBy('sort', 'desc')->get();
         // return dd($fields);
         return $fields;
     }
 
     protected function gridfield(Grid $grid, $modelname)
     {
-        $fields = Customfield::where([['model', '=', $modelname], ['show', '=', '1'], ['iflist', '=', '1']])->orderBy('sort', 'desc')->get();
+        $fields = CrmCustomfield::where([['model', '=', $modelname], ['show', '=', '1'], ['iflist', '=', '1']])->orderBy('sort', 'desc')->get();
         foreach ($fields as $field) {
             $grid->column($field['field'], $field['name'])->display(function () use ($field) {
                 $form_fields = json_decode($this->fields);

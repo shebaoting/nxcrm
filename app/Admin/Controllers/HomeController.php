@@ -46,28 +46,28 @@ JS;
             ->body(function (Row $row) {
                 $row->column(12, function (Column $column) {
                     $column->row(function (Row $row) {
-                        $row->column(3, new Examples\Customers());
-                        $row->column(3, new Examples\Leads());
-                        $row->column(3, new Examples\Contracts());
-                        $row->column(3, new Examples\Opportunitys());
+                        $row->column(3, new Examples\CrmCustomers());
+                        $row->column(3, new Examples\CrmLeads());
+                        $row->column(3, new Examples\CrmContracts());
+                        $row->column(3, new Examples\CrmOpportunitys());
                     });
                 });
                 $row->column(5, function (Column $column) {
-                    $column->row(new Examples\Opportunitys_all());
+                    $column->row(new Examples\CrmOpportunitysAll());
                 });
 
                 $row->column(7, function (Column $column) {
-                    $column->row(new Examples\Receipts());
+                    $column->row(new Examples\CrmReceipts());
                 });
 
                 $row->column(12, function (Column $column) {
                     $column->row(function (Row $row) {
-                        $row->column(4, new Examples\Topuser());
-                        $row->column(4, new Examples\LeadsRecent());
+                        $row->column(4, new Examples\CrmTopuser());
+                        $row->column(4, new Examples\CrmLeadsRecent());
 
                         $row->column(4, function (Column $column) {
                             $column->row(function (Row $row) {
-                                $row->column(12, new Examples\Adver());
+                                $row->column(12, new Examples\CrmAdver());
                             });
                         });
                     });

@@ -1,12 +1,12 @@
-@if ($admin_users)
+@if ($admin_user)
    {{-- 客户归属开始 --}}
 <div class="card admin_users">
     <div class="box-body" style="text-align: center">
         <div class="row" style="padding: 20px 0 10px">
-            <div class="col-md-4 col-sm-4 col-12"><img src="/uploads/{{$admin_users['avatar']}}" alt="">
+            <div class="col-md-4 col-sm-4 col-12"><img src="/uploads/{{$admin_user['avatar']}}" alt="">
             </div>
             <div class="col-md-8 col-sm-8 col-12">
-                <h5> {{$admin_users['name']}}</h5>
+                <h5> {{$admin_user['name']}}</h5>
                 <span>添加于{{$customer['created_at']}}</span>
             </div>
             <div class="col-md-12 share">
@@ -59,7 +59,7 @@
             <span class="badge badge-primary align-middle">{{$contact['position']}}</span>
         </div>
 
-        @if ($ifrole && $customer['admin_users_id'])
+        @if ($ifrole && $customer['admin_user_id'])
         <div class="pull-right">
             <a href="/admin/contacts/{{$contact['id']}}/edit"><i class="feather icon-edit-1"></i></a>
         </div>

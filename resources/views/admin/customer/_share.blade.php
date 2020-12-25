@@ -98,12 +98,12 @@
 <div class="share_list">
     <ul class="bncard-list clearfix">
         @php
-          $Customer = App\Models\Customer::find($id);
-          $shares = array_column($Customer->shares_user()->get()->toArray(), 'id');
+          $Customer = App\Models\CrmCustomer::find($id);
+          $shares = array_column($Customer->SharesUser()->get()->toArray(), 'id');
         @endphp
 
-        @if ($Customer->admin_users)
-        @foreach (App\Models\Admin_user::with(['roles'])->where('id', '!=', $Customer->admin_users->id)->get() as $item_user)
+        @if ($Customer->Admin_user)
+        @foreach (App\Models\Admin_user::with(['roles'])->where('id', '!=', $Customer->Admin_user->id)->get() as $item_user)
         <li userid="{{$item_user->id}}" class="{{in_array($item_user->id,$shares) ? 'active' : '' }}">
             <div class="media mbm">
                 <div class="pull-left">

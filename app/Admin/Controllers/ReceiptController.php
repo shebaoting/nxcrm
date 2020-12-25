@@ -2,13 +2,13 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Receipt;
+use App\Models\CrmReceipt;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
-use App\Models\Contract;
+use App\Models\CrmContract;
 use Dcat\Admin\Admin;
-use App\Models\Customer;
+use App\Models\CrmCustomer;
 use App\Admin\Renderable\ContractTable;
 use Dcat\Admin\Http\Controllers\AdminController;
 
@@ -21,7 +21,7 @@ class ReceiptController extends AdminController
      */
     protected function grid()
     {
-        return Grid::make(new Receipt(), function (Grid $grid) {
+        return Grid::make(new CrmReceipt(), function (Grid $grid) {
             $grid->updated_at->sortable();
             $grid->receive;
             $grid->paymethod
@@ -37,15 +37,15 @@ class ReceiptController extends AdminController
             $grid->billtype
                 ->using(
                     [
-                        1 => '收据',
-                        2 => '发票',
-                        3 => '其他',
+                        0 => '收据',
+                        1 => '发票',
+                        2 => '其他',
                     ]
                 );
-            $grid->contract_id('所属合同')->display(function ($id) {
-                return optional(Contract::find($id))->title;
+            $grid->crm_contract_id('所属合同')->display(function ($id) {
+                return optional(CrmContract::find($id))->title;
             })->link(function () {
-                return admin_url('contracts/' . $this->contract_id);
+                return admin_url('contracts/' . $this->crm_contract_id);
             });
 
 
@@ -62,7 +62,7 @@ class ReceiptController extends AdminController
                 ];
                 $grid->export($top_titles)->rows(function (array $rows) {
                     foreach ($rows as $index => &$row) {
-                        $row['contract_id'] = Contract::find($row['contract_id'])->title;
+                        $row['crm_contract_id'] = CrmContract::find($row['crm_contract_id'])->title;
                         switch ($row['paymethod']) {
                             case 1:
                                 $row['paymethod'] = '银行转账';
@@ -80,10 +80,10 @@ class ReceiptController extends AdminController
                                  $row['paymethod'] = '卡券';
                         }
                         switch ($row['billtype']) {
-                            case 1:
+                            case 0:
                                 $row['billtype'] = '收据';
                                 break;
-                            case 2:
+                            case 1:
                                 $row['billtype'] = '发票';
                                 break;
                             default:
@@ -110,10 +110,10 @@ class ReceiptController extends AdminController
      */
     protected function detail($id)
     {
-        $detalling = Admin::user()->id != Customer::find(Receipt::find($id)->contract->customer_id)->admin_users->id;
+        $detalling = Admin::user()->id != CrmCustomer::find(CrmReceipt::find($id)->contract->customer_id)->Admin_user->id;
         $Role = !Admin::user()->isRole('administrator');
         if ($Role && $detalling) {
-            $customer = Customer::find($id);
+            $customer = CrmCustomer::find($id);
             $this->authorize('update', $customer);
         }
 
@@ -136,10 +136,10 @@ class ReceiptController extends AdminController
      */
     protected function form()
     {
-        return Form::make(Receipt::with('invoice'), function (Form $form) {
-            // $Editing = $form->isEditing() && Admin::user()->id != Customer::find(Contract::find($form->model()->contract_id)->customer_id)->admin_users_id;
+        return Form::make(CrmReceipt::with('CrmInvoice'), function (Form $form) {
+            // $Editing = $form->isEditing() && Admin::user()->id != CrmCustomer::find(Contract::find($form->model()->contract_id)->customer_id)->admin_user_id;
             // if ($Editing) {
-            //     $customer = Customer::find($form->model()->id);
+            //     $customer = CrmCustomer::find($form->model()->id);
             //     $this->authorize('update', $customer);
             // }
             $form->display('id');
@@ -156,11 +156,11 @@ class ReceiptController extends AdminController
                     ]
                 );
 
-            $form->selectTable('contract_id')
+            $form->selectTable('crm_contract_id')
                 ->title('选择当前收款所属合同')
                 ->dialogWidth('50%') // 弹窗宽度，默认 800px
                 ->from(ContractTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
-                ->model(Contract::class, 'id', 'title'); // 设置编辑数据显示
+                ->model(CrmContract::class, 'id', 'title'); // 设置编辑数据显示
 
             $form->text('remark')->required();
             $form->datetime('updated_at');
@@ -205,8 +205,9 @@ class ReceiptController extends AdminController
                 })
                 ->options(
                     [
-                        0 => '不开票',
-                        1 => '开票',
+                        0 => '收据',
+                        1 => '发票',
+                        2 => '其他',
                     ]
                 )->default('0');
             // $form->submitted(function (Form $form) {

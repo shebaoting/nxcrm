@@ -2,8 +2,8 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Invoice;
-use App\Models\Contract;
+use App\Models\CrmInvoice;
+use App\Models\CrmContract;
 use App\Admin\Renderable\ContractTable;
 use Illuminate\Http\Request;
 use Dcat\Admin\Show;
@@ -29,7 +29,7 @@ class InvoiceController extends AdminController
      */
     protected function grid()
     {
-        return Grid::make(new Invoice(), function (Grid $grid) {
+        return Grid::make(new CrmInvoice(), function (Grid $grid) {
 
             $grid->selector(function (Grid\Tools\Selector $selector) {
                 $selector->select('state', '状态', [
@@ -41,15 +41,15 @@ class InvoiceController extends AdminController
                 ]);
             });
 
-            $grid->column('contract_id', '所属合同编号')->display(function ($id) {
+            $grid->column('crm_contract_id', '所属合同编号')->display(function ($id) {
                 // dd($id);
-                return '<a href="contracts/' . optional(Contract::find($id))->id . '">' . strtotime(optional(Contract::find($id))->signdate) . '</a>';
+                return '<a href="contracts/' . optional(CrmContract::find($id))->id . '">' . strtotime(optional(CrmContract::find($id))->signdate) . '</a>';
             });
             $grid->column('id', '发票编号')->display(function ($id) {
-                return '<a>1111</a>';
+                return '<a href="invoices/' . $id . '">' . strtotime($this->created_at) . '</a>';
             });
             $grid->column('created_at', '申请时间');
-            $grid->model()->with(['receipt']);
+            $grid->model()->with(['CrmReceipt']);
             $grid->state
                 ->using(
                     [
@@ -130,18 +130,18 @@ class InvoiceController extends AdminController
 
         Admin::css(static::$css);
         Admin::js(static::$js);
-        $invoice = Invoice::query()->findorFail($id);
-        $contractid = Invoice::find($id)->contract_id;
-        $contract = Contract::find($contractid);
-        $receipt = Invoice::find($id)->Receipt;
-        $customer = $contract->Customer;
-        $attachments = Invoice::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
-        $receipts = Contract::find($contractid)->Receipts;
-        $invoices = Contract::find($contractid)->Invoices;
+        $invoice = CrmInvoice::query()->findorFail($id);
+        $contractid = CrmInvoice::find($id)->crm_contract_id;
+        $contract = CrmContract::find($contractid);
+        $receipt = CrmInvoice::find($id)->CrmReceipt;
+        $customer = $contract->CrmCustomer;
+        $attachments = CrmInvoice::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
+        $receipts = CrmContract::find($contractid)->CrmReceipts;
+        $invoices = CrmContract::find($contractid)->CrmInvoices;
 
         $receipt_sum = 0;
         foreach ($receipts as $value) {
-            $receipt_sum += $value->receive;
+            $receipt_sum += $value->CrmReceipt;
         }
         // dd($invoices);
         $invoice_sum = 0;
@@ -178,14 +178,14 @@ class InvoiceController extends AdminController
      */
     protected function form()
     {
-        return Form::make(new Invoice(), function (Form $form) {
+        return Form::make(new CrmInvoice(), function (Form $form) {
             $form->display('id');
-            $form->selectTable('contract_id')
+            $form->selectTable('crm_contract_id')
                 ->title('选择当前发票所属合同')
                 ->dialogWidth('50%') // 弹窗宽度，默认 800px
                 ->from(ContractTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
-                ->model(Contract::class, 'id', 'title'); // 设置编辑数据显示
-            $form->hidden('receipt_id')->value(0);
+                ->model(CrmContract::class, 'id', 'title'); // 设置编辑数据显示
+            $form->hidden('crm_receipt_id')->value(0);
             $form->hidden('state')->default(0);
             $form->currency('money')->symbol('￥');
             $form->select('type')
@@ -237,7 +237,7 @@ class InvoiceController extends AdminController
         });
     }
 
-    protected function state(Invoice $invoice, Request $request)
+    protected function state(CrmInvoice $invoice, Request $request)
     {
         $request->validate([
             'state' => 'required|max:1)'

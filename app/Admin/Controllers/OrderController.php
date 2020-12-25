@@ -2,9 +2,9 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Repositories\Order;
-use App\Models\Product;
-use App\Models\Contract;
+use App\Admin\Repositories\CrmOrder;
+use App\Models\CrmProduct;
+use App\Models\CrmContract;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Admin;
 use Dcat\Admin\Http\Controllers\AdminController;
@@ -23,18 +23,18 @@ class OrderController extends AdminController
     protected function grid()
     {
         Admin::css(static::$css);
-        return Grid::make(new Order(), function (Grid $grid) {
+        return Grid::make(new CrmOrder(), function (Grid $grid) {
             $grid->column('prodname')->display(function($id) {
-                return optional(Product::find($id))->name;
+                return optional(CrmProduct::find($id))->name;
             })->width('30%');
             $grid->column('quantity')->display(function ($quantity) {
-                return $quantity."<span class='unit'>".optional(Product::find($this->prodname))->unit."<span>";
+                return $quantity."<span class='unit'>".optional(CrmProduct::find($this->prodname))->unit."<span>";
             });
             $grid->column('executionprice')->display(function ($executionprice) {
-                return $executionprice."<span class='executionprice'><s>(原价".optional(Product::find($this->prodname))->price.")</s><span>";
+                return $executionprice."<span class='executionprice'><s>(原价".optional(CrmProduct::find($this->prodname))->price.")</s><span>";
             });
             $grid->column('contract_id')->display(function($id) {
-                return '<a href="contracts/'.Contract::find($id)->id.'">'.Contract::find($id)->title.'</a>';
+                return '<a href="contracts/'.CrmContract::find($id)->id.'">'.CrmContract::find($id)->title.'</a>';
             });
             $grid->column('signdate');
 

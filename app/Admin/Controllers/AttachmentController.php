@@ -30,8 +30,8 @@ class AttachmentController extends AdminController
         return Grid::make(new Attachment(), function (Grid $grid) {
             $grid->id->sortable();
             $grid->files;
-            $grid->customer_id;
-            $grid->contract_id;
+            $grid->crm_customer_id;
+            $grid->crm_contract_id;
             $grid->electronic;
             $grid->created_at;
             $grid->updated_at->sortable();
@@ -75,7 +75,7 @@ class AttachmentController extends AdminController
                 $form->hidden('electronic')->value($this->electronic);
                 $form->multipleImage('files', '电子档')->limit(10)
                     ->accept('jpg,png,gif,jpeg')
-                    ->withFormData(['customer_id' => request('customer_id')])->move($this->customerid . '/' . date('Ymd') . '/')
+                    ->withFormData(['crm_customer_id' => request('crm_customer_id')])->move($this->customerid . '/' . date('Ymd') . '/')
 
                     ->saving(function ($files) {
                         return json_encode($files);
@@ -84,18 +84,18 @@ class AttachmentController extends AdminController
                 $form->hidden('electronic')->value('0');
                 $form->multipleFile('files', '附件')
                     ->accept('jpg,png,gif,jpeg,zip,doc,docx,pptx,xls,xlsx,txt,psd')
-                    ->withFormData(['customer_id' => request('customer_id')])->move($this->customerid . '/' . date('Ymd') . '/')
+                    ->withFormData(['crm_customer_id' => request('crm_customer_id')])->move($this->customerid . '/' . date('Ymd') . '/')
 
                     ->saving(function ($files) {
                         return json_encode($files);
                     });
             }
             if ($this->contractid) {
-                $form->hidden('contract_id')->value($this->contractid);
+                $form->hidden('crm_contract_id')->value($this->contractid);
             }
-            $form->hidden('customer_id')->value($this->customerid);
-            $form->hidden('opportunity_id')->value($this->opportunityid);
-            $form->hidden('invoice_id')->value($this->invoiceid);
+            $form->hidden('crm_customer_id')->value($this->customerid);
+            $form->hidden('crm_opportunity_id')->value($this->opportunityid);
+            $form->hidden('crm_invoice_id')->value($this->invoiceid);
             $form->display('created_at');
             $form->display('updated_at');
             $form->saving(function (Form $form) {
@@ -103,14 +103,14 @@ class AttachmentController extends AdminController
             });
 
             $form->saved(function (Form $form) {
-                if ($this->contractid) {
-                    return $form->response()->success('保存成功')->redirect('contracts/' . $form->contract_id);
-                } elseif ($this->opportunityid) {
-                    return $form->response()->success('保存成功')->redirect('opportunitys/' . $form->opportunity_id);
-                } elseif ($this->invoiceid) {
-                    return $form->response()->success('保存成功')->redirect('invoices/' . $form->invoice_id);
+                if ($form->crm_contract_id) {
+                    return $form->response()->success('保存成功')->redirect('contracts/' . $form->crm_contract_id);
+                } elseif ($form->crm_opportunity_id) {
+                    return $form->response()->success('保存成功')->redirect('opportunitys/' . $form->crm_opportunity_id);
+                } elseif ($form->crm_invoice_id) {
+                    return $form->response()->success('保存成功')->redirect('invoices/' . $form->crm_invoice_id);
                 } else {
-                    return $form->response()->success('保存成功')->redirect('customers/' . $form->customer_id);
+                    return $form->response()->success('保存成功')->redirect('customers/' . $form->crm_customer_id);
                 }
             });
 

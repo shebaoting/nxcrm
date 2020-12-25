@@ -4,7 +4,7 @@ namespace App\Admin\RowAction;
 
 use Dcat\Admin\Grid\RowAction;
 use Illuminate\Http\Request;
-use App\Models\Customer;
+use App\Models\CrmCustomer;
 use Dcat\Admin\Admin;
 
 class ReceiveHighSeas extends RowAction
@@ -57,8 +57,8 @@ class ReceiveHighSeas extends RowAction
         $id = $this->getKey();
 
         // 改变状态
-        $modelFind = Customer::find($id);
-        $modelFind->admin_users_id = Admin::user()->id;
+        $modelFind = CrmCustomer::find($id);
+        $modelFind->admin_user_id = Admin::user()->id;
         $modelFind->save();
         // dd($logistic->state);
 

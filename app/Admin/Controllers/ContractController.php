@@ -2,17 +2,17 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Contract;
+use App\Models\CrmContract;
 use App\Admin\Traits\Customfields;
-use App\Models\Product;
-use App\Admin\Renderable\CustomerTable;
+use App\Models\CrmProduct;
+use App\Admin\Renderable\CrmCustomerTable;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Admin;
-use App\Models\Customer;
+use App\Models\CrmCustomer;
 
 class ContractController extends AdminController
 {
@@ -30,11 +30,11 @@ class ContractController extends AdminController
         // dd(date("Y-m-d", strtotime("-7 day")));
 
         if (!Admin::user()->isRole('administrator')) {
-            $contract = Contract::whereHas('customer', function ($query) {
-                $query->where('admin_users_id', Admin::user()->id);
-            })->with(['receipts']);
+            $contract = CrmContract::whereHas('crm_customers', function ($query) {
+                $query->where('admin_user_id', Admin::user()->id);
+            })->with(['CrmReceipts']);
         } else {
-            $contract = Contract::with(['receipts']);
+            $contract = CrmContract::with(['CrmReceipts']);
         }
 
         return Grid::make($contract, function (Grid $grid) {
@@ -94,15 +94,15 @@ class ContractController extends AdminController
             $grid->title->link(function () {
                 return admin_url('contracts/' . $this->id);
             });
-            $grid->customer_id('所属客户')->display(function ($id) {
-                return optional(Customer::find($id))->name;
+            $grid->crm_customer_id('所属客户')->display(function ($id) {
+                return optional(CrmCustomer::find($id))->name;
             })->link(function () {
-                return admin_url('customers/' . $this->customer_id);
+                return admin_url('customers/' . $this->crm_customer_id);
             });
             $grid->signdate->sortable();
             $grid->expiretime->sortable();
             $grid->total;
-            $grid->receipts->display(function ($receipts) {
+            $grid->CrmReceipts->display(function ($receipts) {
                 $count = count($receipts);
                 if ($count) {
                     $accepts = 0;
@@ -126,7 +126,7 @@ class ContractController extends AdminController
                 $top_titles = [
                     'id' => 'ID',
                     'title' => '合同名称',
-                    'customer_id' => '所属客户',
+                    'crm_customer_id' => '所属客户',
                     'signdate' => '签订日期',
                     'expiretime' => '到期时间',
                     'total' => '合同总额',
@@ -134,7 +134,7 @@ class ContractController extends AdminController
                 ];
                 $grid->export($top_titles)->rows(function (array $rows) {
                     foreach ($rows as $index => &$row) {
-                        $row['customer_id'] = Customer::find($row['customer_id'])->name;
+                        $row['crm_customer_id'] = CrmCustomer::find($row['crm_customer_id'])->name;
                         switch ($row['status']) {
                             case 1:
                                 $row['status'] = '未开始';
@@ -173,20 +173,20 @@ class ContractController extends AdminController
     public function show($id, Content $content)
     {
 
-        $detalling = Admin::user()->id != Contract::find($id)->customer->admin_users->id;
+        $detalling = Admin::user()->id != CrmContract::find($id)->CrmCustomer->Admin_user->id;
         $Role = !Admin::user()->isRole('administrator');
         if ($Role && $detalling) {
-            $Contract = Contract::find($id);
+            $Contract = CrmContract::find($id);
             $this->authorize('update', $Contract);
         }
 
         Admin::css(static::$css);
-        $contract = Contract::query()->findorFail($id);
-        $customer = Contract::find($id)->customer;
-        $receipts = Contract::find($id)->receipts;
-        $events = Contract::find($id)->events;
-        $attachments = Contract::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
-        $admin_users = Contract::find($id)->customer->admin_users;
+        $contract = CrmContract::query()->findorFail($id);
+        $customer = CrmContract::find($id)->CrmCustomer;
+        $receipts = CrmContract::find($id)->CrmReceipts;
+        $events = CrmContract::find($id)->CrmEvents;
+        $attachments = CrmContract::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
+        $admin_user = CrmContract::find($id)->CrmCustomer->Admin_user;
         $accept = json_decode($receipts);
         $accepts = 0;
         foreach ($accept as $value) {
@@ -199,7 +199,7 @@ class ContractController extends AdminController
             'receipts' => $receipts,
             'accepts' => $accepts,
             'events' => $events,
-            'admin_users' => $admin_users,
+            'admin_user' => $admin_user,
             'attachments' => $attachments,
             'contractfields' => $this->custommodel('contract'),
         ];
@@ -222,10 +222,10 @@ class ContractController extends AdminController
      */
     protected function form()
     {
-        return Form::make(new Contract(), function (Form $form) {
-            // $Editing = $form->isEditing() && Admin::user()->id != Customer::find($form->model()->customer_id)->admin_users_id;
+        return Form::make(new CrmContract(), function (Form $form) {
+            // $Editing = $form->isEditing() && Admin::user()->id != CrmCustomer::find($form->model()->customer_id)->admin_user_id;
             // if ($Editing) {
-            //     $customer = Customer::find($form->model()->id);
+            //     $customer = CrmCustomer::find($form->model()->id);
             //     $this->authorize('update', $customer);
             // }
 
@@ -234,11 +234,11 @@ class ContractController extends AdminController
 
             $form->column(6, function (Form $form) {
                 $form->text('title')->required();
-                $form->selectTable('customer_id')
+                $form->selectTable('crm_customer_id')
                     ->title('弹窗标题')
                     ->dialogWidth('50%') // 弹窗宽度，默认 800px
-                    ->from(CustomerTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
-                    ->model(Customer::class, 'id', 'name'); // 设置编辑数据显示
+                    ->from(CrmCustomerTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
+                    ->model(CrmCustomer::class, 'id', 'name'); // 设置编辑数据显示
                 $form->date('signdate', '签署时间')->required();
             });
 
@@ -253,7 +253,7 @@ class ContractController extends AdminController
 
             $form->column(12, function (Form $form) {
                 $form->table('order', '订单', function ($table) {
-                    $table->select('prodname', '产品')->options(Product::pluck('name', 'id'));
+                    $table->select('prodname', '产品')->options(CrmProduct::pluck('name', 'id'));
                     // $table->currency('prodprice', '标准价')->symbol('￥');
                     $table->currency('executionprice', '成交单价')->symbol('￥');
                     $table->number('quantity', '数量')->attribute('min', 1)->default(1);
@@ -297,12 +297,12 @@ class ContractController extends AdminController
                 foreach ($order as $key => $value) {
                     $productid = $order[$key]['prodname'];
                     $order[$key]['executionprice'] = str_replace(',', '', $order[$key]['executionprice']);
-                    $order[$key]['prodprice'] = Product::find($productid)->price;
+                    $order[$key]['prodprice'] = CrmProduct::find($productid)->price;
                 }
                 $form->order = $order;
 
                 $form_field = array();
-                foreach ($class->custommodel('contract') as $field) {
+                foreach ($class->custommodel('CrmContract') as $field) {
                     $field_field = $field['field'];
                     $form_field[$field_field] = $form->$field_field;
                     $form->deleteInput($field['field']);

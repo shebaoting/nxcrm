@@ -1,4 +1,4 @@
-<?php 
+<?php
 return [
     'labels' => [
         'Opportunity' => '商机',
@@ -10,7 +10,7 @@ return [
         'dealchance' => '成交几率',
         'tempo' => '机会进度',
         'remark' => '备注',
-        'customer_id' => '客户',
+        'crm_customer_id' => '客户',
     ],
     'options' => [
     ],

@@ -4,24 +4,24 @@ use Dcat\Admin\Models\Administrator;
 
 class Admin_user extends Administrator
 {
-    public function Customers()
+    public function CrmCustomers()
     {
-        return $this->hasMany('App\Models\Customer','admin_users_id');
+        return $this->hasMany(CrmCustomer::class,'admin_user_id');
     }
 
-    public function Events()
+    public function CrmEvents()
     {
-        return $this->hasMany('App\Models\Event','admin_users_id');
+        return $this->hasMany(CrmEvent::class,'admin_user_id');
     }
 
-    public function Contracts()
+    public function CrmContracts()
     {
-        return $this->hasManyThrough('App\Models\Contract','App\Models\Customer','admin_users_id','customer_id');
+        return $this->hasManyThrough(CrmContract::class,'App\Models\CrmCustomer','admin_user_id','crm_customer_id');
     }
 
-    public function shares_Customer()
+    public function SharesCustomer()
     {
-        return $this->belongsToMany('App\Models\Customer', 'shares', 'user_id', 'customer_id');
+        return $this->belongsToMany(CrmCustomer::class, 'crm_shares', 'user_id', 'crm_customer_id');
     }
 
 }

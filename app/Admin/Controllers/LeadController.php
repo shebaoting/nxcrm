@@ -2,11 +2,11 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Customer;
+use App\Models\CrmCustomer;
 use App\Models\Admin_user;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
-use App\Models\Event;
+use App\Models\CrmEvent;
 use App\Admin\Traits\Customfields;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Http\Controllers\AdminController;
@@ -41,7 +41,7 @@ class LeadController extends AdminController
      */
     protected function grid()
     {
-        return Grid::make(Customer::with(['admin_users','events']), function (Grid $grid) {
+        return Grid::make(CrmCustomer::with(['admin_user','CrmEvents']), function (Grid $grid) {
 
 
             Admin::style(
@@ -58,12 +58,12 @@ CSS
             if ((!$this->source_id || $this->source_id == 0) && Admin::user()->isRole('administrator')) {
                 $grid->model();
             } elseif ($this->source_id == 2) {
-                $shares_Customer = array_column(Admin_user::find(Admin::user()->id)->shares_Customer()->get()->toArray(), 'id');
+                $shares_Customer = array_column(Admin_user::find(Admin::user()->id)->SharesCustomer()->get()->toArray(), 'id');
                 $grid->model()->whereIn('id', $shares_Customer);
             } elseif ($this->source_id == 3) {
-                $grid->model()->where('admin_users_id', '=', 0);
+                $grid->model()->where('admin_user_id', '=', 0);
             } else {
-                $grid->model()->where('admin_users_id', '=', Admin::user()->id);
+                $grid->model()->where('admin_user_id', '=', Admin::user()->id);
             }
 
             $grid->header(function () {
@@ -105,7 +105,7 @@ CSS
                 '1' => 'success',
             ]);
             $grid->column('events', '跟进')->display(function () {
-                $Event = Event::where([['customer_id', '=', $this->id]])->orderBy('updated_at', 'desc')->limit(1)->get();
+                $Event = CrmEvent::where([['crm_customer_id', '=', $this->id]])->orderBy('updated_at', 'desc')->limit(1)->get();
                 if (count($Event)) {
                     return $Event[0]['created_at']->diffForHumans();
                 } else {
@@ -116,14 +116,14 @@ CSS
                 return admin_url('leads/' . $this->id);
             });
             if (!in_array($this->source_id,[1,3])) {
-                $grid->column('admin_users.name', '所属销售');
+                $grid->column('admin_user.name', '所属销售');
             }
 
 
             $grid->created_at;
 
             $grid->actions(function (Grid\Displayers\Actions $actions) {
-                if ($actions->row->admin_users_id != 0){
+                if ($actions->row->admin_user_id != 0){
                     if ($actions->row->state == 1) {
                         $actions->append(new ChangeState(['Customer', '转为客户', '您确定要将此线索转化为正式客户吗', 3]));
                         $actions->append(new ChangeState(['Customer', '废弃', '确定废弃此线索吗？', 0]));
@@ -163,30 +163,31 @@ CSS
     {
 
         Admin::css(static::$showcss);
-        $customer = Customer::with(['contacts', 'contracts', 'admin_users', 'events' => function ($q) {
+        $customer = CrmCustomer::with(['CrmContacts', 'CrmContracts', 'Admin_user', 'CrmEvents' => function ($q) {
             $q->orderBy('updated_at', 'desc');
-        }, 'events.contact', 'events.admin_user', 'attachments', 'shares_user'])->findorFail($id);
+        }, 'CrmEvents.CrmContact', 'CrmEvents.Admin_user', 'Attachments', 'SharesUser'])->findorFail($id);
         // $fields = Customfield::where([['model', '=', 'customer'], ['show', '=', '1'],])->get();
         // 判断授权，无权限查看他人的信息,以后可以优化一下
-        $detalling = ($customer->admin_users) ? (Admin::user()->id != $customer->id) : true;
+        $detalling = ($customer->Admin_user) ? (Admin::user()->id != $customer->id) : true;
         $Role = !Admin::user()->isRole('administrator');
         if ($Role && $detalling) {
             $this->authorize('update', $customer);
         }
         $data = [
             'customer' => $customer,
-            'contacts' => $customer->contacts,
-            'admin_users' => ($customer->admin_users) ?: '',
-            'events' => $customer->events,
-            'contracts' => $customer->contracts,
-            'attachments' => $customer->attachments,
+            'contacts' => $customer->CrmContacts,
+            'admin_user' => ($customer->Admin_user) ?: '',
+            'events' => $customer->CrmEvents,
+            'contracts' => $customer->CrmContracts,
+            'attachments' => $customer->Attachments,
             'customerfields' => $this->custommodel('customer'),
             'contactfields' => $this->custommodel('contact'),
             // 'fields' => $fields,
-            'Share' => ($customer->admin_users) ? ($this->Share($id)) : '',
-            'shares_user' => $customer->shares_user()->select(['name', 'avatar'])->get(),
-            'events_contacts' => Customer::find($id)->with('events.contact'),
+            'Share' => ($customer->Admin_user) ? ($this->Share($id)) : '',
+            'shares_user' => $customer->SharesUser()->select(['name', 'avatar'])->get(),
+            'events_contacts' => CrmCustomer::find($id)->with('CrmEvents.CrmContact'),
         ];
+//        dd($this->Share($id));
         return $content
             ->title('线索')
             ->description('详情')
@@ -206,22 +207,22 @@ CSS
     protected function form()
     {
         Admin::css(static::$editcss);
-        $builder = Customer::with('contacts');
+        $builder = CrmCustomer::with('crm_contacts');
         return Form::make($builder, function (Form $form) {
             // 判断授权，无权限编辑他人的信息,以后可以优化一下
-            // dd($form->model()->admin_users_id);
-            $Editing = $form->isEditing() && Admin::user()->id != $form->model()->admin_users_id;
+            // dd($form->model()->admin_user_id);
+            $Editing = $form->isEditing() && Admin::user()->id != $form->model()->admin_user_id;
             if ($Editing) {
-                $customer = Customer::find($form->model()->id);
+                $customer = CrmCustomer::find($form->model()->id);
                 $this->authorize('update', $customer);
             }
             $form->display('id');
             $form->text('name');
-            $form->hidden('admin_users_id')->value(Admin::user()->id);
+            $form->hidden('admin_user_id')->value(Admin::user()->id);
             $form->hidden('state')->value(0);
 
             $form->fieldset('联系人', function (Form $form) {
-                $form->hasMany('contacts', '联系人', function (Form\NestedForm $form) {
+                $form->hasMany('crm_contacts', '联系人', function (Form\NestedForm $form) {
                     $form->text('name', '姓名');
                     $form->mobile('phone', '手机号');
                     // $form->hidden('customer_id')->value('id');

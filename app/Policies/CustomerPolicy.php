@@ -23,7 +23,7 @@ class CustomerPolicy
 
     public function update(Administrator $currentUser, Customer $Customer)
     {
-        // return $currentUser->id === $Customer->admin_users_id
+        // return $currentUser->id === $Customer->admin_user_id
         //     ? Response::allow()
         //     : Response::deny('You do not own this post.');
         return true;

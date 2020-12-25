@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Product;
+use App\Models\CrmProduct;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -20,7 +20,7 @@ class ProductController extends AdminController
      */
     protected function grid()
     {
-        return Grid::make(new Product(), function (Grid $grid) {
+        return Grid::make(new CrmProduct(), function (Grid $grid) {
             $grid->column('id')->sortable();
             $grid->column('name');
             $grid->column('cost');
@@ -53,7 +53,7 @@ class ProductController extends AdminController
      */
     protected function detail($id)
     {
-        return Show::make($id, new Product(), function (Show $show) {
+        return Show::make($id, new CrmProduct(), function (Show $show) {
             $show->field('id');
             $show->field('name');
             $show->field('cost');
@@ -73,7 +73,7 @@ class ProductController extends AdminController
      */
     protected function form()
     {
-        return Form::make(new Product(), function (Form $form) {
+        return Form::make(new CrmProduct(), function (Form $form) {
             $form->display('id');
             $form->text('name')->required();
             $form->currency('cost')->symbol('￥');
@@ -100,6 +100,6 @@ class ProductController extends AdminController
     {
         $provinceId = $request->get('q');
 
-        return Product::find($provinceId)->where('id', $provinceId)->get(['id', DB::raw('price as text')]);
+        return CrmProduct::find($provinceId)->where('id', $provinceId)->get(['id', DB::raw('price as text')]);
     }
 }

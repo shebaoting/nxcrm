@@ -62,6 +62,7 @@ return array(
     'App\\Models\\Attachment' => $baseDir . '/app/Models/Attachment.php',
     'App\\Models\\Contact' => $baseDir . '/app/Models/Contact.php',
     'App\\Models\\Contract' => $baseDir . '/app/Models/Contract.php',
+    'App\\Models\\CrmOpportunity' => $baseDir . '/app/Models/CrmOpportunity.php',
     'App\\Models\\Customer' => $baseDir . '/app/Models/Customer.php',
     'App\\Models\\Customfield' => $baseDir . '/app/Models/Customfield.php',
     'App\\Models\\Event' => $baseDir . '/app/Models/Event.php',

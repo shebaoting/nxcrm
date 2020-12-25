@@ -4,8 +4,8 @@ namespace App\Admin\RowAction;
 
 use Dcat\Admin\Grid\RowAction;
 use Illuminate\Http\Request;
-use App\Models\Customer;
-use App\Models\Opportunity;
+use App\Models\CrmCustomer;
+use App\Models\CrmOpportunity;
 
 class ChangeState extends RowAction
 {
@@ -63,9 +63,9 @@ class ChangeState extends RowAction
         $state = $request->get('state');
         // 改变状态
         if ($request->get('model_name') == 'Customer'){
-            $modelFind = Customer::find($id);
+            $modelFind = CrmCustomer::find($id);
         }elseif ($request->get('model_name') == 'Opportunity') {
-            $modelFind = Opportunity::find($id);
+            $modelFind = CrmOpportunity::find($id);
         }else {
 
         }

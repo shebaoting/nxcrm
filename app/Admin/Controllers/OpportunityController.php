@@ -2,14 +2,14 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Opportunity;
-use App\Models\Event;
+use App\Models\CrmOpportunity;
+use App\Models\CrmEvent;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
-use App\Admin\Renderable\CustomerTable;
+use App\Admin\Renderable\CrmCustomerTable;
 use Dcat\Admin\Http\Controllers\AdminController;
-use App\Models\Customer;
+use App\Models\CrmCustomer;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Admin;
 use App\Admin\Traits\Selector;
@@ -32,10 +32,10 @@ class OpportunityController extends AdminController
 
         if (!Admin::user()->isRole('administrator')) {
             $opportunity = Opportunity::whereHas('customer', function ($query) {
-                $query->where('admin_users_id', Admin::user()->id);
+                $query->where('admin_user_id', Admin::user()->id);
             });
         }else{
-            $opportunity = new Opportunity();
+            $opportunity = new CrmOpportunity();
         }
 
         return Grid::make($opportunity, function (Grid $grid) {
@@ -75,13 +75,13 @@ class OpportunityController extends AdminController
                 return admin_url('opportunitys/' . $this->id);
             });
 
-            $grid->customer_id('所属客户')->display(function ($id) {
-                return optional(Customer::find($id))->name;
+            $grid->crm_customer_id('所属客户')->display(function ($id) {
+                return optional(CrmCustomer::find($id))->name;
             })->link(function () {
-                return admin_url('customers/' . $this->customer_id);
+                return admin_url('customers/' . $this->crm_customer_id);
             });
             $grid->column('events', '跟进')->display(function () {
-                $Event = Event::where([['opportunity_id', '=', $this->id]])->orderBy('updated_at', 'desc')->limit(1)->get();
+                $Event = CrmEvent::where([['crm_opportunity_id', '=', $this->id]])->orderBy('updated_at', 'desc')->limit(1)->get();
                 if (count($Event)) {
                     return $Event[0]['created_at']->diffForHumans();
                 } else {
@@ -152,28 +152,28 @@ class OpportunityController extends AdminController
     public function show($id, Content $content)
     {
         // 判断授权，无权限查看他人的信息,以后可以优化一下
-        $detalling = Admin::user()->id != Opportunity::find($id)->customer->admin_users->id;
+        $detalling = Admin::user()->id != CrmOpportunity::find($id)->CrmCustomer->Admin_user->id;
         $Role = !Admin::user()->isRole('administrator');
         if ($Role && $detalling) {
-            $customer = Opportunity::find($id);
+            $customer = CrmOpportunity::find($id);
             $this->authorize('update', $customer);
         }
 
 
         Admin::css(static::$css);
-        $opportunity = Opportunity::query()->findorFail($id);
-        $customer = Opportunity::find($id)->customer;
-        $contacts = Customer::find(Opportunity::find($id)->customer_id)->contacts;
-        $events = Event::where([['customer_id', '=', $customer->id], ['opportunity_id', '=', $id]])->orderBy('updated_at', 'desc')->get();
-        $attachments = Opportunity::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
-        $admin_users = Opportunity::find($id)->customer->admin_users;
+        $opportunity = CrmOpportunity::query()->findorFail($id);
+        $customer = CrmOpportunity::find($id)->CrmCustomer;
+        $contacts = CrmCustomer::find(CrmOpportunity::find($id)->crm_customer_id)->CrmContacts;
+        $events = CrmEvent::where([['crm_customer_id', '=', $customer->id], ['crm_opportunity_id', '=', $id]])->orderBy('updated_at', 'desc')->get();
+        $attachments = CrmOpportunity::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
+        $admin_user = CrmOpportunity::find($id)->CrmCustomer->Admin_user;
         $data = [
             'opportunity' => $opportunity,
             'customer' => $customer,
             'contacts' => $contacts,
             'events' => $events,
             'attachments' => $attachments,
-            'admin_users' => $admin_users,
+            'admin_user' => $admin_user,
         ];
         return $content
             ->title('商机')
@@ -192,23 +192,23 @@ class OpportunityController extends AdminController
      */
     protected function form()
     {
-        return Form::make(new Opportunity(), function (Form $form) {
+        return Form::make(new CrmOpportunity(), function (Form $form) {
 
 
-            $Editing = $form->isEditing() && Admin::user()->id != Customer::find($form->model()->customer_id)->admin_users_id;
+            $Editing = $form->isEditing() && Admin::user()->id != CrmCustomer::find($form->model()->crm_customer_id)->admin_user_id;
             if ($Editing) {
-                $customer = Customer::find($form->model()->id);
+                $customer = CrmCustomer::find($form->model()->id);
                 $this->authorize('update', $customer);
             }
 
             $form->display('id');
             $form->text('subject');
 
-            $form->selectTable('customer_id')
+            $form->selectTable('crm_customer_id')
             ->title('请选择所属客户')
             ->dialogWidth('50%') // 弹窗宽度，默认 800px
-            ->from(CustomerTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
-            ->model(Customer::class, 'id', 'name'); // 设置编辑数据显示
+            ->from(CrmCustomerTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
+            ->model(CrmCustomer::class, 'id', 'name'); // 设置编辑数据显示
 
 
             $form->currency('expectincome')->symbol('￥');

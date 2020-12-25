@@ -613,6 +613,7 @@ class ComposerStaticInit74449af1101ecd6f157052626e751738
         'App\\Models\\Attachment' => __DIR__ . '/../..' . '/app/Models/Attachment.php',
         'App\\Models\\Contact' => __DIR__ . '/../..' . '/app/Models/Contact.php',
         'App\\Models\\Contract' => __DIR__ . '/../..' . '/app/Models/Contract.php',
+        'App\\Models\\CrmOpportunity' => __DIR__ . '/../..' . '/app/Models/CrmOpportunity.php',
         'App\\Models\\Customer' => __DIR__ . '/../..' . '/app/Models/Customer.php',
         'App\\Models\\Customfield' => __DIR__ . '/../..' . '/app/Models/Customfield.php',
         'App\\Models\\Event' => __DIR__ . '/../..' . '/app/Models/Event.php',

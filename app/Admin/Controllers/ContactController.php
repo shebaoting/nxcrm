@@ -2,8 +2,8 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Contact;
-use App\Models\Customer;
+use App\Models\CrmContact;
+use App\Models\CrmCustomer;
 use App\Admin\Traits\Customfields;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
@@ -29,11 +29,11 @@ class ContactController extends AdminController
     {
 
         if (!Admin::user()->isRole('administrator')) {
-            $contact = Contact::whereHas('customer', function ($query) {
-                $query->where('admin_users_id', Admin::user()->id);
+            $contact = CrmContact::whereHas('crm_customers', function ($query) {
+                $query->where('admin_user_id', Admin::user()->id);
             });
         } else {
-            $contact = new Contact();
+            $contact = new CrmContact();
         }
         return Grid::make($contact, function (Grid $grid) {
             $grid->showColumnSelector();
@@ -47,8 +47,8 @@ class ContactController extends AdminController
 
             $this->gridfield($grid,'contact');
 
-            $grid->customer_id('所属客户')->display(function ($id) {
-                return optional(Customer::find($id))->name;
+            $grid->crm_customer_id('所属客户')->display(function ($id) {
+                return optional(CrmCustomer::find($id))->name;
             })->link(function () {
                 return admin_url('customers/' . $this->customer_id);
             });
@@ -59,11 +59,10 @@ class ContactController extends AdminController
             $grid->model()->orderBy('id', 'desc');
 
             if (Admin::user()->isRole('administrator')) {
-                $top_titles = ['id' => 'ID', 'name' => '姓名', 'gender' => '性别', 'position' => '职位', 'customer_id' => '公司名称', 'phone' => '电话', 'wechat' => '微信'];
+                $top_titles = ['id' => 'ID', 'name' => '姓名', 'crm_customer_id' => '公司名称', 'phone' => '电话', 'wechat' => '微信'];
                 $grid->export($top_titles)->rows(function (array $rows) {
                     foreach ($rows as $index => &$row) {
-                        $row['customer_id'] = Customer::find($row['customer_id'])->name;
-                        $row['gender'] = $row['gender'] ? '女' : '男';
+                        $row['crm_customer_id'] = CrmCustomer::find($row['crm_customer_id'])->name;
                     }
                     return $rows;
                 });
@@ -86,14 +85,12 @@ class ContactController extends AdminController
     protected function detail($id)
     {
 
-        $model = Contact::with('customer');
+        $model = CrmContact::with('CrmCustomer');
         return Show::make($id, $model, function (Show $show) {
             // $show->id;
-            $show->field('customer.name', '客户名称');
+            $show->field('crm_customer.name', '客户名称');
             $show->name;
             $show->phone;
-            $show->position;
-            $show->gender()->using(['0' => '男', '1' => '女']);
         });
     }
 
@@ -104,27 +101,27 @@ class ContactController extends AdminController
      */
     protected function form()
     {
-        return Form::make(Contact::with('customer'), function (Form $form) {
+        return Form::make(CrmContact::with('CrmCustomer'), function (Form $form) {
             // 如果是新增状态
             if ($form->isCreating()) {
                 $customerid = $this->customerid;
-                $customername = optional(Customer::find($customerid))->name;
+                $customername = optional(CrmCustomer::find($customerid))->name;
                 $form->display('customer_false', '所属客户')->default($customername);
             } else {
                 $customerid = $form->model()->customer_id;
-                $customername = optional(Customer::find($customerid))->name;
-                $form->display('customer.name', '所属客户');
+                $customername = optional(CrmCustomer::find($customerid))->name;
+                $form->display('CrmCustomer.name', '所属客户');
             }
             $form->text('name')->required();
             $form->mobile('phone');
             $this->formfield($form,'contact');
             $form->ignore(['customer_false']);
-            $form->hidden('customer_id')->value($customerid);
+            $form->hidden('crm_customer_id')->value($customerid);
             $form->hidden('fields')->value(null);
             $class = $this;
             $form->saving(function (Form $form) use ($class) {
                 $form_field = array();
-                foreach ($class->custommodel('contact') as $field) {
+                foreach ($class->custommodel('CrmContact') as $field) {
                     $field_field = $field['field'];
                     $form_field[$field_field] = $form->$field_field;
                     $form->deleteInput($field['field']);
