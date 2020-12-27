@@ -90,9 +90,9 @@ admin_inject_section(Admin::SECTION['NAVBAR_USER_PANEL'], function () {
 
 //  复写站点配置
 $site_url = admin_setting('crmurl');
-$logo = '<img src="'.$site_url.admin_setting('logo').'" width="35"> &nbsp;'.admin_setting('crmname');
+$logo = '<img src="'.$site_url.'storage/'.admin_setting('logo').'" width="35"> &nbsp;'.admin_setting('crmname');
 
-$logo_mini = '<img src="'.$site_url.admin_setting('logo').'">';
+$logo_mini = '<img src="'.$site_url.'storage/'.admin_setting('logo').'">';
 
 config([
     'app.url' => admin_setting('crmurl'),
