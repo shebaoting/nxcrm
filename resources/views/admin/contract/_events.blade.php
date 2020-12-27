@@ -11,7 +11,7 @@
                 <span class="time_hi">{{date("H:i")}}</span>
             </div>
             <div class="col-md-2 col-sm-2 col-12"><img class="avatar"
-                    src="/uploads/{{Admin::user()->avatar}}" alt=""><span
+                    src="/{{Admin::user()->avatar}}" alt=""><span
                     class="users">{{Admin::user()->name}}</span></div>
             <div class="col-md-8 col-sm-8 col-12 content">
                 <div class="row">
@@ -43,7 +43,7 @@
             <span>{{$event['updated_at']->format('m-d')}}</span>
             <span class="time_hi">{{$event['updated_at']->format('H:i')}}</span></div>
         <div class="col-md-2 col-sm-2 col-12"><img class="avatar"
-                src="/uploads/{{$admin_user['avatar']}}" alt=""><span
+                src="/{{$admin_user['avatar']}}" alt=""><span
                 class="users">{{$admin_user['name']}}</span></div>
         <div class="col-md-8 col-sm-8 col-12 content">
             <div class="row">

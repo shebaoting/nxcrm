@@ -6,7 +6,7 @@
                     <li class="nav-item mr-auto">
                         <a href="{{ admin_url('/') }}" class="navbar-brand waves-effect waves-light">
                             <span class="logo-lg">
-                                <img src="/uploads/{{Admin::user()->avatar}}" width="42">
+                                <img src="/{{Admin::user()->avatar}}" width="42">
                                 <span class="leftbar-user-name">{{Admin::user()->name}}</span>
                             </span>
                         </a>
