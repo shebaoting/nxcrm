@@ -7,7 +7,7 @@
   min-height: 100vh;
   flex-direction: row;
   align-items: stretch;
-  background: url(/storage/{{admin_setting('logobg', '../static/img/bg-auth1.jpg')}}) center;
+  background: url(/uploads/{{admin_setting('logobg', '../static/img/bg-auth1.jpg')}}) center;
   background-size: cover;
   margin: 0;
 }
@@ -17,7 +17,7 @@
         <div class="login-page">
 
             <div class="auth-brand text-center text-lg-left">
-                <img src="/storage/{!! admin_setting('logo', public_path().'/static/img/logo.png') !!}" width="35"> &nbsp;{!! admin_setting('crmname', 'NXCRM客户管理系统') !!}
+                <img src="/uploads/{!! admin_setting('logo', public_path().'/static/img/logo.png') !!}" width="35"> &nbsp;{!! admin_setting('crmname', 'NXCRM客户管理系统') !!}
             </div>
 
             <div class="login-box">
