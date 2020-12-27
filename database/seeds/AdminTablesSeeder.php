@@ -303,9 +303,9 @@ class AdminTablesSeeder extends Seeder
             [
                 'id' => '8',
                 'name' => '客户',
-                'slug' => 'crmcustomers',
+                'slug' => 'customers',
                 'http_method' => '',
-                'http_path' => '/crmcustomers*',
+                'http_path' => '/customers*',
                 'order' => '3',
                 'parent_id' => '7',
             ],
