@@ -10,8 +10,8 @@
         @foreach (json_decode($attachment['files']) as $attachment_img)
 
         <div class="col-md-6 col-sm-6 col-12 img_list">
-            <div class="img-thumbnail"><a href="/uploads/{{$attachment_img}}"
-                    target="_blank"><img src="/uploads/{{$attachment_img}}" /></a></div>
+            <div class="img-thumbnail"><a href="/storage/{{$attachment_img}}"
+                    target="_blank"><img src="/storage/{{$attachment_img}}" /></a></div>
         </div>
         @endforeach
         @endif

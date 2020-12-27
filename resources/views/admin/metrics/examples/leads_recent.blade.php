@@ -1,7 +1,7 @@
 <div class="box-body">
 @foreach ($leads as $lead)
 <div class="row LeadsRecent">
-<div class="col-md-2 avatar" style="border: 0"><img src="uploads/{{$lead->Admin_user->avatar}}" alt=""></div>
+<div class="col-md-2 avatar" style="border: 0"><img src="storage/{{$lead->Admin_user->avatar}}" alt=""></div>
 <div class="col-md-6">{{$lead->name}}</div>
 <div class="col-md-2">
     @switch($lead->state)
