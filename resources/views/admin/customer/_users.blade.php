@@ -3,7 +3,7 @@
 <div class="card admin_users">
     <div class="box-body" style="text-align: center">
         <div class="row" style="padding: 20px 0 10px">
-            <div class="col-md-4 col-sm-4 col-12"><img src="/storage/{{$admin_user['avatar']}}" alt="">
+            <div class="col-md-4 col-sm-4 col-12"><img src="/{{$admin_user['avatar']}}" alt="">
             </div>
             <div class="col-md-8 col-sm-8 col-12">
                 <h5> {{$admin_user['name']}}</h5>
@@ -12,7 +12,7 @@
             <div class="col-md-12 share">
                 @foreach ($shares_user as $shares_item)
                 <span class="text-primary"><img alt="{{$shares_item->name}}"
-                        src="{{$shares_item->avatar ? '/storage/'.$shares_item->avatar : '/static/img/logo.png' }}"
+                        src="{{$shares_item->avatar ? '/'.$shares_item->avatar : '/static/img/logo.png' }}"
                         alt=""></span>
                 @endforeach
                 @if ($ifrole )

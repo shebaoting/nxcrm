@@ -10,7 +10,7 @@
         @foreach (json_decode($attachment['files']) as $attachment_img)
         <div class="col-md-2 col-sm-2 col-12 file_list">
             <div>
-                <a href="/storage/{{$attachment_img}}" target="_blank">
+                <a href="/{{$attachment_img}}" target="_blank">
                     <img
                         src="/static/filesicon/{{substr(strrchr($attachment_img, '.'), 1)}}.png" />
                     <p>{{basename($attachment_img)}}</p>
