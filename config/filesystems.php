@@ -44,14 +44,14 @@ return [
     'disks' => [
 
         'local' => [
-            'driver' => 'storage',
+            'driver' => 'local',
             'root' => storage_path('app'),
         ],
 
         'public' => [
             'driver' => 'local',
-            'root' => public_path('uploads'),
-            'url' => config('settings.crmname').'/uploads',
+            'root' => public_path('app/public'),
+            'url' => config('APP_URL').'/storage',
             'visibility' => 'public',
         ],
 

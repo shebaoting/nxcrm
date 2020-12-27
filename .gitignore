@@ -19,3 +19,11 @@ npm-debug.log
 yarn-error.log
 dcat_admin_ide_helper.php
 /config/admin.php
+/.idea/jsLinters/jshint.xml
+/.idea/modules.xml
+/.idea/Nxcrm_Professional.iml
+/.idea/php.xml
+/.idea/phpunit.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/vcs.xml
+/.idea/workspace.xml
