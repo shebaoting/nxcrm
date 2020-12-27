@@ -30,7 +30,7 @@ class ContractController extends AdminController
         // dd(date("Y-m-d", strtotime("-7 day")));
 
         if (!Admin::user()->isRole('administrator')) {
-            $contract = CrmContract::whereHas('crm_customers', function ($query) {
+            $contract = CrmContract::whereHas('CrmCustomer', function ($query) {
                 $query->where('admin_user_id', Admin::user()->id);
             })->with(['CrmReceipts']);
         } else {
