@@ -108,7 +108,7 @@
             <div class="media mbm">
                 <div class="pull-left">
                     <img class="img" src="
-                    {{$item_user->avatar ? '/uploads/'.$item_user->avatar : '/static/img/logo.png' }}" alt="">
+                    {{$item_user->avatar ? '/storage/'.$item_user->avatar : '/static/img/logo.png' }}" alt="">
                 </div>
                 <div class="media-body">
                     <div class="media-heading bncard-title">{{$item_user->name}}</div>
