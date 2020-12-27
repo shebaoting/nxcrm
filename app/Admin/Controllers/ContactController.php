@@ -29,7 +29,7 @@ class ContactController extends AdminController
     {
 
         if (!Admin::user()->isRole('administrator')) {
-            $contact = CrmContact::whereHas('crm_customers', function ($query) {
+            $contact = CrmContact::whereHas('CrmCustomer', function ($query) {
                 $query->where('admin_user_id', Admin::user()->id);
             });
         } else {

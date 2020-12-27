@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Customfield;
+use App\Models\CrmCustomfield;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -17,7 +17,7 @@ class CustomfieldController extends AdminController
      */
     protected function grid()
     {
-        return Grid::make(new Customfield(), function (Grid $grid) {
+        return Grid::make(new CrmCustomfield(), function (Grid $grid) {
             $grid->column('model')->using(['customer' => '客户模块', 'contact' => '联系人', 'contract' => '合同'])->label([
                 'customer' => 'success',
                 'contact' => 'red',
@@ -68,7 +68,7 @@ class CustomfieldController extends AdminController
      */
     protected function detail($id)
     {
-        return Show::make($id, new Customfield(), function (Show $show) {
+        return Show::make($id, new CrmCustomfield(), function (Show $show) {
             $show->field('id');
             $show->field('model');
             $show->field('name');
@@ -88,7 +88,7 @@ class CustomfieldController extends AdminController
      */
     protected function form()
     {
-        return Form::make(new Customfield(), function (Form $form) {
+        return Form::make(new CrmCustomfield(), function (Form $form) {
             $form->display('id');
             // $form->radio('model')->options(['customer' => '客户', 'contact'=> '联系人'])->required();
             $form->radio('model')->options(['customer' => '客户', 'contact'=> '联系人', 'contract'=> '合同'])->required();

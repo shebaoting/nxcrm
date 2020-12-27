@@ -31,7 +31,7 @@ class OpportunityController extends AdminController
 
 
         if (!Admin::user()->isRole('administrator')) {
-            $opportunity = Opportunity::whereHas('customer', function ($query) {
+            $opportunity = CrmOpportunity::whereHas('CrmCustomer', function ($query) {
                 $query->where('admin_user_id', Admin::user()->id);
             });
         }else{

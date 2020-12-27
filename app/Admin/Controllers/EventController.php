@@ -22,7 +22,7 @@ class EventController extends AdminController
     {
 
         if (!Admin::user()->isRole('administrator')) {
-            $event = CrmEvent::whereHas('customer', function ($query) {
+            $event = CrmEvent::whereHas('CrmCustomer', function ($query) {
                 $query->where('admin_user_id', Admin::user()->id);
             });
         } else {
@@ -67,7 +67,7 @@ class EventController extends AdminController
      */
     protected function detail($id)
     {
-        $detalling = Admin::user()->id != CrmCustomer::find(CrmEvent::find($id)->customer->id)->Admin_user->id;;
+        $detalling = Admin::user()->id != CrmCustomer::find(CrmEvent::find($id)->CrmCustomer->id)->Admin_user->id;;
         $Role = !Admin::user()->isRole('administrator');
         if ($Role && $detalling) {
             $customer = CrmCustomer::find($id);
