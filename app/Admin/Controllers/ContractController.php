@@ -302,7 +302,7 @@ class ContractController extends AdminController
                 $form->order = $order;
 
                 $form_field = array();
-                foreach ($class->custommodel('CrmContract') as $field) {
+                foreach ($class->custommodel('Contract') as $field) {
                     $field_field = $field['field'];
                     $form_field[$field_field] = $form->$field_field;
                     $form->deleteInput($field['field']);

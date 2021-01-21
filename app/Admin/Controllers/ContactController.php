@@ -121,7 +121,7 @@ class ContactController extends AdminController
             $class = $this;
             $form->saving(function (Form $form) use ($class) {
                 $form_field = array();
-                foreach ($class->custommodel('CrmContact') as $field) {
+                foreach ($class->custommodel('Contact') as $field) {
                     $field_field = $field['field'];
                     $form_field[$field_field] = $form->$field_field;
                     $form->deleteInput($field['field']);
