@@ -158,3 +158,8 @@ body.dark-mode .leftbar-user-name {
     color: #a8a9bb;
 }
 .grid__actions__ a {margin-left: 10px;}
+
+/* 选择图标的区域变大 */
+.iconpicker-popover.popover {
+    width:auto !important;
+}

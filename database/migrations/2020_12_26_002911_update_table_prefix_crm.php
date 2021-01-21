@@ -23,7 +23,6 @@ class UpdateTablePrefixCrm extends Migration
         Schema::rename('products', 'crm_products');
         Schema::rename('receipts', 'crm_receipts');
         Schema::rename('shares', 'crm_shares');
-        Schema::drop('settings');
     }
 
     /**

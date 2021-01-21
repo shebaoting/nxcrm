@@ -26,7 +26,7 @@
                 Powered by
                 <a target="_blank" href="https://www.nx.tt">NXCRM</a>
                 <span>&nbsp;·&nbsp;</span>
-                v{{ App\Admin\Controllers\SettingsController::VERSION }}
+                v{!! config('admin.nx_version') !!}
             </span>
 
             <button class="btn btn-primary btn-icon scroll-top pull-right" style="position: fixed;bottom: 2%; right: 10px;display: none">

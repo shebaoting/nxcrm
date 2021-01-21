@@ -10,7 +10,7 @@
                 <td scope="col">成交价</td>
                 <td scope="col">数量</td>
                 <td scope="col">单位</td>
-                <td scope="col">合计</td>
+                {{-- <td scope="col">合计</td> --}}
             </tr>
         </thead>
         <tbody>
@@ -24,7 +24,7 @@
                 <td>
                    {{App\Models\CrmProduct::find($order_content->prodname)->unit}}
                 </td>
-                <td>{{$order_content->quantity * $order_content->executionprice}} 元</td>
+                {{-- <td>{{$order_content->quantity * $order_content->executionprice}} 元</td> --}}
             </tr>
             @endforeach
         </tbody>
