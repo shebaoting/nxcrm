@@ -83,7 +83,7 @@ class AttachmentController extends AdminController
             } else {
                 $form->hidden('electronic')->value('0');
                 $form->multipleFile('files', '附件')
-                    ->accept('jpg,png,gif,jpeg,zip,doc,docx,pptx,xls,xlsx,txt,psd')
+                    ->accept('jpg,png,gif,jpeg,zip,doc,docx,pptx,xls,xlsx,txt,psd,pdf')
                     ->withFormData(['crm_customer_id' => request('crm_customer_id')])->move($this->customerid . '/' . date('Ymd') . '/')
 
                     ->saving(function ($files) {

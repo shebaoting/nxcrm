@@ -37,10 +37,7 @@ class ProductController extends AdminController
             );
             $grid->column('desc')->width('30%')->limit(10);
 
-            $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-
-            });
+            $grid->quickSearch('name');
         });
     }
 
