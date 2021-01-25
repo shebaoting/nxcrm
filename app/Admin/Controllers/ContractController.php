@@ -179,15 +179,13 @@ class ContractController extends AdminController
             $Contract = CrmContract::find($id);
             $this->authorize('update', $Contract);
         }
-
         Admin::css(static::$css);
-        $contract = CrmContract::query()->findorFail($id);
-        $customer = CrmContract::find($id)->CrmCustomer;
-        $receipts = CrmContract::find($id)->CrmReceipts;
-        $events = CrmContract::find($id)->CrmEvents;
-        $attachments = CrmContract::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
-        $admin_user = CrmContract::find($id)->CrmCustomer->Admin_user;
-        $accept = json_decode($receipts);
+
+        $contract = CrmContract::with(['CrmCustomer', 'CrmOrders','CrmReceipts','CrmReceipts', 'CrmEvents' => function ($q) {
+            $q->orderBy('updated_at', 'desc');
+        }, 'CrmEvents.CrmContact', 'CrmEvents.Admin_user', 'Attachments'])->findorFail($id);
+
+        $accept = json_decode($contract->CrmReceipts);
         $accepts = 0;
         foreach ($accept as $value) {
             $accepts += $value->receive;
@@ -195,12 +193,13 @@ class ContractController extends AdminController
 
         $data = [
             'contract' => $contract,
-            'customer' => $customer,
-            'receipts' => $receipts,
+            'customer' => $contract->CrmCustomer,
+            'receipts' => $contract->CrmReceipts,
             'accepts' => $accepts,
-            'events' => $events,
-            'admin_user' => $admin_user,
-            'attachments' => $attachments,
+            'events' => $contract->CrmEvents,
+            'admin_user' => $contract->CrmCustomer->Admin_user,
+            'attachments' => $contract->Attachments,
+            'orders' => $contract->CrmOrders,
             'contractfields' => $this->custommodel('contract'),
         ];
         return $content
@@ -222,7 +221,7 @@ class ContractController extends AdminController
      */
     protected function form()
     {
-        return Form::make(new CrmContract(), function (Form $form) {
+        return Form::make(CrmContract::with('CrmOrders'), function (Form $form) {
             // $Editing = $form->isEditing() && Admin::user()->id != CrmCustomer::find($form->model()->customer_id)->admin_user_id;
             // if ($Editing) {
             //     $customer = CrmCustomer::find($form->model()->id);
@@ -250,28 +249,14 @@ class ContractController extends AdminController
             });
 
 
-
             $form->column(12, function (Form $form) {
-                $form->table('order', '订单', function ($table) {
-                    $table->select('prodname', '产品')->options(CrmProduct::pluck('name', 'id'));
-                    // $table->currency('prodprice', '标准价')->symbol('￥');
-                    $table->currency('executionprice', '成交单价')->symbol('￥');
-                    $table->number('quantity', '数量')->attribute('min', 1)->default(1);
-                    // $table->text('unit', '单位')->disable();
-                })->saving(function ($v) {
-                    return json_encode($v);
-                });
+                $form->hasMany('crm_orders', '订单', function (Form\NestedForm $form) {
+                    $form->select('crm_product_id', '产品')->options(CrmProduct::pluck('name', 'id'));
+                    $form->currency('executionprice', '成交单价')->symbol('￥');
+                    $form->number('quantity', '数量')->attribute('min', 1)->default(1);
+                })->useTable();
             });
 
-            // $form->column(12, function (Form $form) {
-            //     $form->html('
-            //     <div class="fill">
-            //         <span class="xcm">合计成交价</span>
-            //         <span class="xco fsm">￥</span>
-            //         <em class="xco fsl" id="ctrt_prod_total">0</em>
-            //     </div>
-            //     ');
-            // });
 
             $form->column(6, function (Form $form) {
                 $form->currency('total', '合同金额')->symbol('￥')->attribute('min', 0)->default(0);
@@ -293,13 +278,6 @@ class ContractController extends AdminController
                     $form->salesexpenses = str_replace(',', '', $form->salesexpenses);
                     $form->total = str_replace(',', '', $form->total);
                 }
-                $order = $form->order;
-                foreach ($order as $key => $value) {
-                    $productid = $order[$key]['prodname'];
-                    $order[$key]['executionprice'] = str_replace(',', '', $order[$key]['executionprice']);
-                    $order[$key]['prodprice'] = CrmProduct::find($productid)->price;
-                }
-                $form->order = $order;
 
                 $form_field = array();
                 foreach ($class->custommodel('Contract') as $field) {

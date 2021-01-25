@@ -16,6 +16,11 @@ class CrmContract extends Model
         return $this->hasMany(CrmReceipt::class);
     }
 
+    public function CrmOrders()
+    {
+        return $this->hasMany(CrmOrder::class);
+    }
+
     public function CrmCustomer()
     {
         return $this->belongsTo(CrmCustomer::class);

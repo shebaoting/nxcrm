@@ -20,20 +20,18 @@ class CrmOrder extends EloquentRepository
         $data = [];
         foreach (Model::query()->cursor() as $item) {
             $item->order = json_decode($item->order, true);
-
-            $item_order = $item->order;
+            $item->order ? $item_order = $item->order : $item_order = [];
             foreach ($item_order as $key => $value){
-                $contract_id = ['contract_id' => $item->id];
-                $signdate = ['signdate' => $item->signdate];
-                $item_order[$key] = array_merge($value,$contract_id,$signdate);
+                $item_order[$key]['contract_id'] = $item->id;
+                $item_order[$key]['signdate'] = $item->signdate;
             }
             $item->order = $item_order;
             $data = array_merge($data , $item->order);
         }
         list($orderColumn, $orderType) = $model->getSort();
-        return $model -> makePaginator(
-            count($data),
-            $data
+        return $model->makePaginator(
+            count($data), // 传入总记录数
+            $data ?? [] // 传入数据二维数组
         );
     }
 }

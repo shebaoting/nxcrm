@@ -2,19 +2,14 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Repositories\CrmOrder;
-use App\Models\CrmProduct;
-use App\Models\CrmContract;
+use App\Models\CrmOrder;
+use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
-use Dcat\Admin\Admin;
+use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
-
 
 class OrderController extends AdminController
 {
-    public static $css = [
-        '/static/css/order_grid.css',
-    ];
     /**
      * Make a grid builder.
      *
@@ -22,42 +17,21 @@ class OrderController extends AdminController
      */
     protected function grid()
     {
-        Admin::css(static::$css);
-        return Grid::make(new CrmOrder(), function (Grid $grid) {
-            $grid->column('prodname')->display(function($id) {
-                return optional(CrmProduct::find($id))->name;
-            })->width('30%');
-            $grid->column('quantity')->display(function ($quantity) {
-                return $quantity."<span class='unit'>".optional(CrmProduct::find($this->prodname))->unit."<span>";
+        return Grid::make(CrmOrder::with(['CrmContract','CrmProduct']), function (Grid $grid) {
+            $grid->column('id')->sortable();
+            $grid->column('CrmContract.signdate', '销售日期');
+            $grid->column('CrmProduct.name', '产品名称');
+            $grid->column('executionprice');
+            $grid->column('quantity');
+            $grid->column('CrmContract.title', '所属合同')->link(function ($value) {
+                return admin_url('contracts/'.$this->crm_contract_id);
             });
-            $grid->column('executionprice')->display(function ($executionprice) {
-                return $executionprice."<span class='executionprice'><s>(原价".optional(CrmProduct::find($this->prodname))->price.")</s><span>";
-            });
-            $grid->column('contract_id')->display(function($id) {
-                return '<a href="contracts/'.CrmContract::find($id)->id.'">'.CrmContract::find($id)->title.'</a>';
-            });
-            $grid->column('signdate');
-
-            // $top_titles = [
-            //     'prodname' => '产品名称',
-            //     'quantity' => '数量',
-            //     'executionprice' => '销售单价',
-            //     'contract_id' => '所属合同',
-            //     'signdate' => '销售时间',
-            // ];
-            // $grid->export($top_titles)->rows(function (array $rows) {
-            //     foreach ($rows as $index => &$row) {
-            //         $row['prodname'] = $row['prodname'];
-            //     }
-            //     return $rows;
-            // });
-
-
-            $grid->disableCreateButton();
+            $grid->model()->orderBy('id', 'desc');
             $grid->disableActions();
-            $grid->disableBatchActions();
             $grid->disableRowSelector();
+            $grid->disableCreateButton();
+            $grid->disableRefreshButton();
+            $grid->quickSearch('CrmContract.title','CrmProduct.name')->placeholder('合同名称或者产品名称');
         });
     }
-
 }
