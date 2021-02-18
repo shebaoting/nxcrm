@@ -9,7 +9,7 @@
     <span class="badge badge-secondary">未开始</span>
     @break
     @case(1)
-    <span class="badge badge-success">执行中</span>
+    <span class="badge bg-primary">执行中</span>
     @break
     @default
     <span class="badge badge-danger">其他</span>
