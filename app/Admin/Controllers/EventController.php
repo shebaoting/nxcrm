@@ -51,6 +51,9 @@ class EventController extends AdminController
             $grid->disableEditButton();
             $grid->disableDeleteButton();
             $grid->disableViewButton();
+            $grid->disableRefreshButton();
+            $grid->toolsWithOutline(false);
+            $grid->disableFilterButton();
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
             });

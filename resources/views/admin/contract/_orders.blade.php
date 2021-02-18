@@ -1,6 +1,6 @@
 <div class="markdown-body editormd-html-preview">
     <div class="upload_go btn btn-primary"><i class="feather icon-plus"></i><a
-            href="{{ route('contracts.edit',$contract['id']) }}">修改订单</a>
+            href="{{ admin_route('contracts.edit',[$contract['id']]) }}">修改订单</a>
     </div>
     <table class="table table-striped">
         <thead>

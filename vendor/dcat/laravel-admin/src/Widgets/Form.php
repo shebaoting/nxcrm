@@ -312,9 +312,7 @@ class Form implements Renderable
     }
 
     /**
-     * @param array|Arrayable|Closure $data
-     *
-     * @return Fluent
+     * @return Fluent|\Illuminate\Database\Eloquent\Model
      */
     public function data()
     {
@@ -332,13 +330,21 @@ class Form implements Renderable
      */
     public function fill($data)
     {
-        $this->data = new Fluent(Helper::array($data));
+        if ($data instanceof \Closure) {
+            $data = $data($this);
+        }
+
+        if (is_array($data)) {
+            $this->data = new Fluent($data);
+        } elseif ($data instanceof Arrayable) {
+            $this->data = $data;
+        }
 
         return $this;
     }
 
     /**
-     * @return Fluent
+     * @return Fluent|\Illuminate\Database\Eloquent\Model
      */
     public function model()
     {
@@ -443,18 +449,6 @@ class Form implements Renderable
         return $messageBag;
     }
 
-    /**
-     * Disable Pjax.
-     *
-     * @return $this
-     */
-    public function disablePjax()
-    {
-        $this->forgetHtmlAttribute('pjax-container');
-
-        return $this;
-    }
-
     public function useFormTag(bool $tag = true)
     {
         $this->useFormTag = $tag;
@@ -492,14 +486,10 @@ class Form implements Renderable
      * @param bool $value
      *
      * @return $this
-     *
-     * @deprecated 即将废弃，请使用 resetButton 代替
      */
     public function disableResetButton(bool $value = true)
     {
-        $this->buttons['reset'] = ! $value;
-
-        return $this;
+        return $this->resetButton(! $value);
     }
 
     /**
@@ -508,14 +498,10 @@ class Form implements Renderable
      * @param bool $value
      *
      * @return $this
-     *
-     * @deprecated 即将废弃，请使用 submitButton 代替
      */
     public function disableSubmitButton(bool $value = true)
     {
-        $this->buttons['submit'] = ! $value;
-
-        return $this;
+        return $this->submitButton(! $value);
     }
 
     /**
@@ -588,8 +574,8 @@ class Form implements Renderable
         if ($field instanceof Field\File && method_exists($this, 'form')) {
             $formData = [static::REQUEST_NAME => get_called_class()];
 
-            $field->url(route(admin_api_route('form.upload')));
-            $field->deleteUrl(route(admin_api_route('form.destroy-file'), $formData));
+            $field->url(route(admin_api_route_name('form.upload')));
+            $field->deleteUrl(route(admin_api_route_name('form.destroy-file'), $formData));
             $field->withFormData($formData);
         }
     }
@@ -851,7 +837,7 @@ HTML;
         if (method_exists($this, 'handle')) {
             $addHiddenFields = function () {
                 $this->method('POST');
-                $this->action(route(admin_api_route('form')));
+                $this->action(route(admin_api_route_name('form')));
                 $this->hidden(static::REQUEST_NAME)->default(get_called_class());
                 $this->hidden(static::CURRENT_URL_NAME)->default($this->getCurrentUrl());
 

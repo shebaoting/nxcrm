@@ -1,7 +1,7 @@
 <div class="markdown-body editormd-html-preview">
 
     <div class="upload_go btn btn-primary"><i class="feather icon-plus"></i><a
-            href="{{ route('receipts.create',['contract_id'=>$contract['id']]) }}">增加收款</a>
+            href="{{ admin_route('receipts.create',['contract_id'=>$contract['id']]) }}">增加收款</a>
     </div>
 
 

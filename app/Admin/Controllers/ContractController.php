@@ -155,6 +155,9 @@ class ContractController extends AdminController
 
             $grid->model()->orderBy('id', 'desc');
             $grid->disableBatchActions();
+            $grid->disableRefreshButton();
+            $grid->toolsWithOutline(false);
+            $grid->disableFilterButton();
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
                 $filter->like('title', '合同名称');
@@ -230,9 +233,11 @@ class ContractController extends AdminController
 
             Admin::css(static::$css);
 
+            $form->column(12, function (Form $form) {
+                $form->text('title')->required();
+            });
 
             $form->column(6, function (Form $form) {
-                $form->text('title')->required();
                 $form->selectTable('crm_customer_id')
                     ->title('弹窗标题')
                     ->dialogWidth('50%') // 弹窗宽度，默认 800px
@@ -243,7 +248,7 @@ class ContractController extends AdminController
 
 
             $form->column(6, function (Form $form) {
-                $form->display('id');
+                $form->hidden('id');
                 $form->select('status', '合同状态')->options([1 => '未开始', 2 => '执行中', 3 => '正常结束', 4 => '意外终止']);
                 $form->date('expiretime', '到期时间')->required();
             });

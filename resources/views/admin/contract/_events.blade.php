@@ -1,6 +1,6 @@
 <div class="markdown-body editormd-html-preview">
 
-    <form id="#add-events" action="{{ route('events.store') }}" method="POST">
+    <form id="#add-events" action="{{ admin_route('events.store') }}" method="POST">
         {{ csrf_field() }}
         <div class="row events">
             <div class="col-md-1 col-sm-1 col-12 time_y">

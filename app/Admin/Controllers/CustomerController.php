@@ -114,6 +114,7 @@ CSS
                 $grid->disableDeleteButton();
                 $grid->disableEditButton();
                 $grid->disableViewButton();
+                $grid->disableRefreshButton();
                 $grid->actions(function (Grid\Displayers\Actions $actions) {
                     $actions->append(new ReceiveHighSeas(['领取客户', '您确定要领取此客户吗？']));
                 });
@@ -121,6 +122,9 @@ CSS
 
 
             $grid->disableBatchActions();
+            $grid->disableRefreshButton();
+            $grid->toolsWithOutline(false);
+            $grid->disableFilterButton();
             $grid->model()->orderBy('id', 'desc');
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');

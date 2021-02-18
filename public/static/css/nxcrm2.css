@@ -1,0 +1,278 @@
+html body {
+    background-color: #fbfbfb;
+    font-size: 1.1rem;
+}
+.main-menu .navbar-header .navbar-brand img {
+    max-width: 52px;
+    max-height: 52px;
+    vertical-align: top;
+}
+.main-menu .navbar-header .logo-lg,body.dark-mode .main-menu .navbar-header .logo-lg {
+    font-size: 2.6rem;
+    font-weight: 700;
+}
+.main-menu .navbar-header .navbar-brand,body.dark-mode .main-menu .navbar-header .navbar-brand {
+    margin: 35px 0;
+}
+.nav-treeview>.nav-item>.nav-link i {
+    display: none;
+}
+.main-sidebar .nav-treeview.nav .nav-item .nav-link,body.dark-mode [class*=sidebar-dark-] .nav-treeview.nav .nav-item .nav-link.active{
+    padding: 10px 10px 10px 80px!important;
+}
+
+.sidebar-collapse .main-sidebar .nav-treeview.nav .nav-item .nav-link {
+    padding: 10px 10px 19px 50px!important;
+}
+
+.main-sidebar .nav .nav-item .nav-link {
+    padding: 20px 50px !important;
+    font-size: 18px;
+}
+
+.sidebar-collapse .main-sidebar .nav .nav-item .nav-link {
+    padding: 20px 20px !important;
+}
+
+
+.nav-sidebar>.nav-item.menu-open>.nav-link {
+    background-color: #f4f6fd !important;
+}
+
+[class*=sidebar-dark-] .nav-sidebar>.nav-item.menu-open>.nav-link {
+    background-color: #1e1e2d !important;
+}
+
+.nav-sidebar>.nav-item.menu-open>.nav-link:before {
+    content: "";
+    height: 100%;
+    width: 8px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    -webkit-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    transition: all 0.5s;
+    border-radius: 0 0.375rem 0.375rem 0;
+}
+
+
+.nav.nav-pills .nav-item .nav-link {
+    margin-right: 0;
+}
+.nav-sidebar>.nav-item>.nav-link i {
+    font-size: 1.5rem !important;
+}
+
+.nav-sidebar .nav-link>.right, .nav-sidebar .nav-link>p>.right {
+    top: 30%;
+}
+
+
+.breadcrumb, .h1, .h2, .h3, .h4, .h5, .h6, .header-navbar, .navigation, body, h1, h2, h3, h4, h5, h6 {
+    font-family: "Nunito","PingFang SC", "Lantinghei SC", "Microsoft YaHei", "HanHei SC", "Helvetica Neue", "Open Sans", Arial, "Hiragino Sans GB", 微软雅黑, STHeiti, "WenQuanYi Micro Hei", SimSun, sans-serif;
+}
+.fa-fw {
+    width: auto;
+}
+
+.nav-sidebar>.nav-item>.nav-treeview .nav-link p {
+    font-size: 16px;
+}
+
+.body-bg, .content-wrapper {
+    background: #fbfbfb;
+}
+
+.card,.cta-box {
+    border-radius: 20px;
+}
+.card-title {
+    font-size: 20px;
+}
+.card .card-header {
+    padding: 1.5rem 1.875rem 1.25rem;
+}
+
+.header-navbar {
+    min-height: 8.6rem;
+}
+.navbar-fixed-top .content-wrapper {
+    padding-top: 11.8rem;
+}
+.content-header h1 {
+    font-weight: 600;
+    font-size: 26px;
+}
+.breadcrumbs-top {
+    margin-bottom: 2.5rem;
+}
+
+.font-md-2 {
+    font-size: 2.3rem !important;
+    font-weight: 400;
+}
+
+.nav-sidebar .nav-link>.right, .nav-sidebar .nav-link>p>.right {
+    right: 3rem;
+}
+
+.layout-fixed .control-sidebar, .layout-fixed .main-sidebar{
+    box-shadow: 18px 0px 35px 0px rgba(0,0,0,.02)!important;
+}
+.navbar-collapse .align-items-center ul.nav li>a.nav-link,body.dark-mode .navbar-collapse .align-items-center ul.nav li>a.nav-link {
+    background: #f4f6fd !important;
+    border-radius: 0.375rem;
+    padding: 15px;
+    line-height: 1;
+}
+
+body.dark-mode .navbar-collapse .align-items-center ul.nav li>a.nav-link {
+    background: #2c2c43 !important;
+}
+
+.dark-mode-switcher {
+    margin: 0;
+}
+.navbar-container {
+    padding-right: 1.875rem;
+}
+
+.header-navbar .navbar-container ul.nav li a.dropdown-user-link {
+    padding: 0 0 0 20px;
+    display: flex;
+    align-items: center;
+    border-radius: 0.375rem 28px 28px 0.375rem;
+}
+
+body.dark-mode .header-navbar .navbar-container ul.nav li a.dropdown-user-link {
+    background: #2c2c43 !important;
+}
+
+
+.navbar-collapse ul.navbar-nav {
+    padding-left: 1.25rem !important;
+}
+
+.header-navbar .navbar-container ul.nav li a.dropdown-user-link .user-status {
+    display: none;
+}
+
+.header-navbar .navbar-container ul.nav li a.dropdown-user-link .user-name {
+    color: #fff;
+    font-weight: 700;
+    margin-bottom:0;
+    font-size: 16px;
+}
+
+.header-navbar .navbar-container ul.nav li a.dropdown-user-link .user-name::before {
+    content: 'Hello, ';
+}
+
+.header-navbar .navbar-container ul.nav li a.dropdown-user-link img {
+    width: 55px !important;
+    height: 55px !important;
+    border-radius: 100px;
+    box-shadow: 0 0 0 4px #fff;
+}
+.sidebar-collapse .navbar-nav{
+    padding-left: 0;
+}
+.content-header .breadcrumb {
+    display: none;
+}
+.tool-main {
+    position: absolute;
+    right: 14px;
+    top: -70px;
+}
+.nav.nav-tabs .nav-item .nav-link, .grid-selector .wrap {
+    font-size: 1.1rem;
+}
+body:not(.dark-mode) .table-collapse .custom-data-table {
+    background-color: #fff;
+}
+table.custom-data-table.data-table thead th {
+    padding: 2rem .51rem;
+    font-size: 1.1rem!important;
+}
+table.custom-data-table.data-table tbody td {
+    padding: 2rem .55rem;
+}
+.btn {
+    padding: 1rem 1.2rem!important;
+    height:auto;
+}
+.input-group-prepend .input-group-text {
+    max-height:none
+}
+.form-control:not(textarea) {
+    padding: 1rem .7rem;
+}
+.box-header .h3, .box-header h3,.card-box-title {
+    font-size: 1.5rem;
+    padding: 1rem;
+    font-weight: 500;
+    color: #000;
+}
+
+.card-box-title {
+    padding: 0.5rem;
+}
+
+body.sidebar-separate .main-sidebar {
+    top: 10rem;
+}
+
+body.sidebar-separate .navbar-header .navbar-brand {
+    margin-top: 3rem!important;
+}
+
+.table-filter .form-control {
+    padding: 1.7rem 2.8rem !important;
+}
+.table-filter label:after {
+    top: 1rem;
+}
+.control-label {
+    padding-top: 22px;
+}
+.select2-container .select2-selection--single {
+    height: 48px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 43px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 7px !important;
+}
+
+
+[class*=sidebar-dark-] .navbar-header {
+    padding: .35rem 1rem 0;
+    height: auto;
+}
+
+body.dark-mode:not(.sidebar-separate) .main-sidebar .sidebar {
+    margin-top: 0;
+}
+
+body.dark-mode [class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link.active {
+    background: transparent;
+}
+.form-control {
+    height: 48px;
+}
+
+
+.nav-sidebar>.nav-item.menu-open>.nav-link,body.dark-mode .navbar-collapse .align-items-center ul.nav li>a.nav-link,.navbar-collapse .align-items-center ul.nav li>a.nav-link,body.dark-mode .navbar-collapse .align-items-center ul.nav li>a.nav-link,.font-md-2,[class*=sidebar-dark-] .nav-sidebar>.nav-item.menu-open>.nav-link {
+    color: #2f4cdd !important;
+}
+
+.nav-sidebar>.nav-item.menu-open>.nav-link:before,.header-navbar .navbar-container ul.nav li a.dropdown-user-link {
+    background: #2f4cdd !important;
+}
+
+.vs-radio-con {
+    margin: 0.9rem 0;
+}

@@ -23,25 +23,9 @@ use Dcat\Admin\Support\Helper;
  *
  */
 
-
-Dcat\Admin\Color::extend('wechat', [
-    'primary'        => '#07c160',
-    'primary-darker' => '#06ad56',
-    'link'           => '#07c160',
-]);
-
-Grid::resolving(function (Grid $grid) {
-    $grid->tableCollapse(false);
-});
-Admin::baseCss(['static/css/nxcrm.css'], true);
+Admin::baseCss(['static/css/nxcrm2.css'], true);
 Admin::asset()->alias('@nunito', null, '');
 Admin::asset()->alias('@montserrat', null, '');
-
-Dcat\Admin\Color::extend('douyin', [
-    'primary'        => '#fe2d54',
-    'primary-darker' => '#ff5770',
-    'link'           => '#fe2d54',
-]);
 
 
 
@@ -90,7 +74,7 @@ admin_inject_section(Admin::SECTION['NAVBAR_USER_PANEL'], function () {
 
 //  复写站点配置
 $site_url = admin_setting('crmurl');
-$logo = '<img src="'.$site_url.'storage/'.admin_setting('logo').'" width="35"> &nbsp;'.admin_setting('crmname');
+$logo = '<img src="'.$site_url.'storage/'.admin_setting('logo').'"> &nbsp;'.admin_setting('crmname');
 
 $logo_mini = '<img src="'.$site_url.'storage/'.admin_setting('logo').'">';
 
@@ -101,9 +85,9 @@ config([
     'admin.logo' => $logo,
     'admin.logo-mini' => $logo_mini,
     'admin.layout.body_class' => admin_setting('body_class'),
-    'admin.layout.sidebar_style' => admin_setting('sidebar_style'),
+    'admin.layout.sidebar_style' => 'light',
     'admin.layout.dark_mode_switch' => admin_setting('sidebar_style'),
-    'admin.layout.color' => admin_setting('color'),
+    'admin.layout.color' => 'blue',
 ]);
 
 

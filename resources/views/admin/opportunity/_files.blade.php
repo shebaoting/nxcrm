@@ -1,6 +1,6 @@
 <div class="markdown-body editormd-html-preview">
     <div class="upload_go btn btn-primary"><i class="feather icon-plus"></i><a
-            href="{{ route('attachments.create',['customer_id'=>$customer['id'],'opportunity_id'=>$opportunity['id']]) }}">上传附件</a>
+            href="{{ admin_route('attachments.create',['customer_id'=>$customer['id'],'opportunity_id'=>$opportunity['id']]) }}">上传附件</a>
     </div>
 
     <div class="row receipts">

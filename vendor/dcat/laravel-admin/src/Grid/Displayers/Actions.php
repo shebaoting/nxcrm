@@ -4,6 +4,10 @@ namespace Dcat\Admin\Grid\Displayers;
 
 use Dcat\Admin\Actions\Action;
 use Dcat\Admin\Form;
+use Dcat\Admin\Grid\Actions\Delete;
+use Dcat\Admin\Grid\Actions\Edit;
+use Dcat\Admin\Grid\Actions\QuickEdit;
+use Dcat\Admin\Grid\Actions\Show;
 use Dcat\Admin\Grid\RowAction;
 use Dcat\Admin\Support\Helper;
 use Illuminate\Contracts\Support\Htmlable;
@@ -176,10 +180,10 @@ class Actions extends AbstractDisplayer
      */
     protected function resetDefaultActions()
     {
-        $this->disableView(! $this->grid->option('show_view_button'));
-        $this->disableEdit(! $this->grid->option('show_edit_button'));
-        $this->disableQuickEdit(! $this->grid->option('show_quick_edit_button'));
-        $this->disableDelete(! $this->grid->option('show_delete_button'));
+        $this->disableView(! $this->grid->option('view_button'));
+        $this->disableEdit(! $this->grid->option('edit_button'));
+        $this->disableQuickEdit(! $this->grid->option('quick_edit_button'));
+        $this->disableDelete(! $this->grid->option('delete_button'));
     }
 
     /**
@@ -229,11 +233,12 @@ class Actions extends AbstractDisplayer
     {
         $label = trans('admin.show');
 
-        return <<<EOT
-<a href="{$this->resource()}/{$this->getKey()}" title="{$label}">
-    <i class="feather icon-eye grid-action-icon"></i>
-</a>&nbsp;
-EOT;
+        return Show::make(
+            "<i title='{$label}' class=\"feather icon-eye grid-action-icon\"></i> &nbsp;"
+        )
+            ->setGrid($this->grid)
+            ->setRow($this->row)
+            ->render();
     }
 
     /**
@@ -245,11 +250,12 @@ EOT;
     {
         $label = trans('admin.edit');
 
-        return <<<EOT
-<a href="{$this->resource()}/{$this->getKey()}/edit" title="{$label}">
-    <i class="feather icon-edit-1 grid-action-icon"></i>
-</a>&nbsp;
-EOT;
+        return Edit::make(
+            "<i title='{$label}' class=\"feather icon-edit-1 grid-action-icon\"></i> &nbsp;"
+        )
+            ->setGrid($this->grid)
+            ->setRow($this->row)
+            ->render();
     }
 
     /**
@@ -270,11 +276,12 @@ EOT;
 
         $label = trans('admin.quick_edit');
 
-        return <<<EOF
-<a title="{$label}" class="{$this->grid->getRowName()}-edit" data-url="{$this->resource()}/{$this->getKey()}/edit" href="javascript:void(0);">
-    <i class="feather icon-edit grid-action-icon"></i>
-</a>&nbsp;
-EOF;
+        return QuickEdit::make(
+            "<i title='{$label}' class=\"feather icon-edit grid-action-icon\"></i> &nbsp;"
+        )
+            ->setGrid($this->grid)
+            ->setRow($this->row)
+            ->render();
     }
 
     /**
@@ -286,10 +293,11 @@ EOF;
     {
         $label = trans('admin.delete');
 
-        return <<<EOT
-<a title="{$label}" href="javascript:void(0);" data-message="ID - {$this->getKey()}" data-url="{$this->resource()}/{$this->getKey()}" data-action="delete">
-    <i class="feather icon-trash grid-action-icon"></i>
-</a>&nbsp;
-EOT;
+        return Delete::make(
+            "<i class=\"feather icon-trash grid-action-icon\" title='{$label}'></i> &nbsp;"
+        )
+            ->setGrid($this->grid)
+            ->setRow($this->row)
+            ->render();
     }
 }

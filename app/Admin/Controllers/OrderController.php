@@ -31,6 +31,8 @@ class OrderController extends AdminController
             $grid->disableRowSelector();
             $grid->disableCreateButton();
             $grid->disableRefreshButton();
+            $grid->toolsWithOutline(false);
+            $grid->disableFilterButton();
             $grid->quickSearch('CrmContract.title','CrmProduct.name')->placeholder('合同名称或者产品名称');
         });
     }

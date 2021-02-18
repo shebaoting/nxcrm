@@ -36,7 +36,9 @@ class ProductController extends AdminController
                 'dark85' // 第二个参数为默认值
             );
             $grid->column('desc')->width('30%')->limit(10);
-
+            $grid->disableRefreshButton();
+            $grid->toolsWithOutline(false);
+            $grid->disableFilterButton();
             $grid->quickSearch('name');
         });
     }

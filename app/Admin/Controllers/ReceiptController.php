@@ -98,6 +98,9 @@ class ReceiptController extends AdminController
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
             });
+            $grid->disableRefreshButton();
+            $grid->toolsWithOutline(false);
+            $grid->disableFilterButton();
         });
     }
 
@@ -117,7 +120,7 @@ class ReceiptController extends AdminController
             $this->authorize('update', $customer);
         }
 
-        return Show::make($id, new Receipt(), function (Show $show) {
+        return Show::make($id, new CrmReceipt(), function (Show $show) {
             $show->id;
             $show->receive;
             $show->paymethod;

@@ -52,11 +52,11 @@ JS;
                         $row->column(3, new Examples\CrmOpportunitys());
                     });
                 });
-                $row->column(5, function (Column $column) {
+                $row->column(6, function (Column $column) {
                     $column->row(new Examples\CrmOpportunitysAll());
                 });
 
-                $row->column(7, function (Column $column) {
+                $row->column(6, function (Column $column) {
                     $column->row(new Examples\CrmReceipts());
                 });
 

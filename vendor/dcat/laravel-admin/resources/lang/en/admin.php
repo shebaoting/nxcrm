@@ -26,6 +26,7 @@ return [
         'nullable'          => 'nullable',
         'key'               => 'key',
         'translate_title'   => 'Translate Title',
+        'sync_translation_with_comment' => 'Sync translation and comment',
     ],
     'client' => [
         'delete_confirm'    => 'Are you sure to delete this item ?',
@@ -35,6 +36,7 @@ return [
         'close'             => 'Close',
         'selected_options'  => ':num options selected',
         'exceed_max_item'   => 'Maximum items exceeded.',
+        'no_preview'        => 'No preview available.',
 
         '500' => 'Internal server error !',
         '403' => 'Permission deny !',

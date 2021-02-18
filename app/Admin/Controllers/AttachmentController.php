@@ -35,6 +35,9 @@ class AttachmentController extends AdminController
             $grid->electronic;
             $grid->created_at;
             $grid->updated_at->sortable();
+            $grid->disableRefreshButton();
+            $grid->toolsWithOutline(false);
+            $grid->disableFilterButton();
 
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');

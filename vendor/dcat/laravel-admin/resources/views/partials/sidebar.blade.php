@@ -5,10 +5,8 @@
                 <ul class="nav navbar-nav flex-row">
                     <li class="nav-item mr-auto">
                         <a href="{{ admin_url('/') }}" class="navbar-brand waves-effect waves-light">
-                            <span class="logo-lg">
-                                <img src="/storage/{{Admin::user()->avatar}}" width="42">
-                                <span class="leftbar-user-name">{{Admin::user()->name}}</span>
-                            </span>
+                            <span class="logo-mini">{!! config('admin.logo-mini') !!}</span>
+                            <span class="logo-lg">{!! config('admin.logo') !!}</span>
                         </a>
                     </li>
                 </ul>

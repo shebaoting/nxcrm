@@ -129,7 +129,7 @@
 <div class="box-footer row" style="display: flex">
     <div class="col-md-12">
 
-        <form action="{{ route('shares.store') }}" method="post">
+        <form action="{{ admin_route('shares.store') }}" method="post">
             {{ csrf_field() }}
             <input name="customer" type="hidden" value="{{$id}}">
             <input name="user" class="userarray" type="hidden" value="">

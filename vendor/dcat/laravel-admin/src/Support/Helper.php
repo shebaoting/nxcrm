@@ -906,4 +906,40 @@ class Helper
 
         return $array;
     }
+
+    /**
+     * 把下划线风格字段名转化为驼峰风格.
+     *
+     * @param array $array
+     *
+     * @return array
+     */
+    public static function camelArray(array &$array)
+    {
+        foreach ($array as $k => $v) {
+            if (is_array($v)) {
+                Helper::camelArray($v);
+            }
+
+            $array[Str::camel($k)] = $v;
+        }
+
+        return $array;
+    }
+
+    /**
+     * 获取文件名称.
+     *
+     * @param string $name
+     *
+     * @return array|mixed
+     */
+    public static function basename($name)
+    {
+        if (! $name) {
+            return $name;
+        }
+
+        return last(explode('/', $name));
+    }
 }

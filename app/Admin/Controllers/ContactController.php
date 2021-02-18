@@ -67,11 +67,13 @@ class ContactController extends AdminController
                     return $rows;
                 });
             }
-
+            $grid->disableRefreshButton();
             $grid->disableCreateButton();
             $grid->disableBatchActions();
             $grid->disableDeleteButton();
             $grid->disableEditButton();
+            $grid->toolsWithOutline(false);
+            $grid->disableFilterButton();
         });
     }
 

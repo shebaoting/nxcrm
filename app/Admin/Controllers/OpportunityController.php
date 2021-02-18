@@ -137,6 +137,9 @@ class OpportunityController extends AdminController
             $grid->disableBatchActions();
             $grid->disableViewButton();
             $grid->disableEditButton();
+            $grid->disableRefreshButton();
+            $grid->toolsWithOutline(false);
+            $grid->disableFilterButton();
         });
     }
 

@@ -52,6 +52,9 @@ class CustomfieldController extends AdminController
             $grid->column('unique')->switch();
             $grid->model()->orderBy('sort', 'desc');
             $grid->disableViewButton();
+            $grid->disableRefreshButton();
+            $grid->toolsWithOutline(false);
+            $grid->disableFilterButton();
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
 

@@ -564,31 +564,19 @@ class Column
     /**
      * 把模型转化为数组.
      *
-     * @param $row
+     * @param array|Model $row
      *
      * @return mixed
      */
-    protected function convertModelToArray($row)
+    protected function convertModelToArray(&$row)
     {
         if (is_array($row)) {
             return $row;
         }
 
-        // 这里禁止把驼峰转化为下划线
-        if (! empty($row::$snakeAttributes)) {
-            $shouldSnakeAttributes = true;
-
-            $row::$snakeAttributes = false;
-        }
-
         $array = $row->toArray();
 
-        // 转为数组后还原
-        if (isset($shouldSnakeAttributes)) {
-            $row::$snakeAttributes = true;
-        }
-
-        return $array;
+        return Helper::camelArray($array);
     }
 
     /**

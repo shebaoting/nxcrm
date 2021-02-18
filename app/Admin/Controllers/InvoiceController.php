@@ -110,6 +110,9 @@ class InvoiceController extends AdminController
             }
             $grid->disableDeleteButton();
             $grid->disableQuickEditButton();
+            $grid->disableRefreshButton();
+            $grid->toolsWithOutline(false);
+            $grid->disableFilterButton();
             $grid->model()->orderBy('id', 'desc');
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');

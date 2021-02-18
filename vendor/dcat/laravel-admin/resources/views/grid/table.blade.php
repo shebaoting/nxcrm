@@ -1,7 +1,7 @@
 
 <div class="dcat-box">
 
-    <div class="d-block pb-0">
+    <div class="tool-main -d-block pb-0">
         @include('admin::grid.table-toolbar')
     </div>
 
@@ -53,7 +53,7 @@
 
     {!! $grid->renderFooter() !!}
 
-    @include('admin::grid.table-pagination')
+    {!! $grid->renderPagination() !!}
 
 </div>
 

@@ -10,7 +10,7 @@
     "require": {
         "php": "^7.2.5",
         "dcat/easy-excel": "^1.0",
-        "dcat/laravel-admin": "2.0.x-dev",
+        "dcat/laravel-admin": "2.0.17-beta",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",

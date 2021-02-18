@@ -19,7 +19,7 @@
         @endphp
 
         <li class="nav-item has-treeview {{ $active ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link has-arrow">
                 {!! str_repeat('&nbsp;', $depth) !!}<i class="fa {{ $item['icon'] ?: 'feather icon-circle' }}"></i>
                 <p>
                     {{ $builder->translate($item['title']) }}

@@ -1,6 +1,6 @@
 <div class="markdown-body editormd-html-preview">
     <div class="upload_go btn btn-primary"><i class="feather icon-plus"></i><a
-            href="{{ route('contracts.create',$customer['id']) }}">添加合同</a>
+            href="{{ admin_route('contracts.create',[$customer['id']]) }}">添加合同</a>
     </div>
     <table class="table table-striped">
         <thead>

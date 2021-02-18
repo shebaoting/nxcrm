@@ -320,5 +320,5 @@ return [
         // the extension files will be generated in this directory.
         'dir' => base_path('dcat-admin-extensions'),
     ],
-    'nx_version' => '1.13.25'
+    'nx_version' => '2.0'
 ];

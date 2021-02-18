@@ -142,6 +142,9 @@ CSS
             $grid->disableBatchActions();
             $grid->disableViewButton();
             $grid->disableEditButton();
+            $grid->disableRefreshButton();
+            $grid->toolsWithOutline(false);
+            $grid->disableFilterButton();
             $grid->model()->orderBy('id', 'desc');
             $grid->model()->where('state', '!=', '3');
             $grid->filter(function (Grid\Filter $filter) {

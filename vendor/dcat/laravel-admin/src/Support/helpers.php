@@ -5,6 +5,7 @@ use Dcat\Admin\Support\Helper;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\MessageBag;
+use Symfony\Component\HttpFoundation\Response;
 
 if (! function_exists('admin_setting')) {
     /**
@@ -436,16 +437,47 @@ if (! function_exists('admin_asset')) {
     }
 }
 
-if (! function_exists('admin_api_route')) {
-
+if (! function_exists('admin_route')) {
     /**
-     * @param string $path
+     * 根据路由别名获取url.
+     *
+     * @param string|null $route
+     * @param array $params
+     * @param bool $absolute
      *
      * @return string
      */
-    function admin_api_route(?string $path = '')
+    function admin_route(?string $route, array $params = [], $absolute = true)
     {
-        return Dcat\Admin\Admin::app()->getCurrentApiRoutePrefix().$path;
+        return Dcat\Admin\Admin::app()->getRoute($route, $params, $absolute);
+    }
+}
+
+if (! function_exists('admin_route_name')) {
+    /**
+     * 获取路由别名.
+     *
+     * @param string|null $route
+     *
+     * @return string
+     */
+    function admin_route_name(?string $route)
+    {
+        return Dcat\Admin\Admin::app()->getRoutePrefix().$route;
+    }
+}
+
+if (! function_exists('admin_api_route_name')) {
+    /**
+     * 获取api的路由别名.
+     *
+     * @param string $route
+     *
+     * @return string
+     */
+    function admin_api_route_name(?string $route = '')
+    {
+        return Dcat\Admin\Admin::app()->getCurrentApiRoutePrefix().$route;
     }
 }
 
@@ -566,5 +598,19 @@ if (! function_exists('admin_javascript_json')) {
     function admin_javascript_json($data)
     {
         return Dcat\Admin\Support\JavaScript::format($data);
+    }
+}
+
+if (! function_exists('admin_exit')) {
+    /**
+     * 响应并中断后续逻辑.
+     *
+     * @param Response|string|array $response
+     *
+     * @throws \Illuminate\Http\Exceptions\HttpResponseException
+     */
+    function admin_exit($response = '')
+    {
+        Admin::exit($response);
     }
 }
