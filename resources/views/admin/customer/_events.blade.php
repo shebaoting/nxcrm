@@ -69,7 +69,7 @@
 
                 @if ($ifrole )
                 <div class="col-md-1 col-sm-1 col-12 tools">
-                    <form id="del-events" action="{{ admin_route('events.destroy', $event->id) }}" method="post"
+                    <form id="del-events" action="{{ admin_route('events.destroy', [$event->id]) }}" method="post"
                         class="float-right">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
