@@ -42,6 +42,13 @@ class ReceiptController extends AdminController
                         2 => '其他',
                     ]
                 );
+            $grid->type
+                ->using(
+                    [
+                        1 => '收款',
+                        2 => '支出',
+                    ]
+                );
             $grid->crm_contract_id('所属合同')->display(function ($id) {
                 return optional(CrmContract::find($id))->title;
             })->link(function () {
@@ -245,6 +252,9 @@ class ReceiptController extends AdminController
                 return $form;
             });
 
+            $form->saved(function (Form $form) {
+                return $form->response()->success('保存成功')->redirect('/receipts/'.$form->getKey());
+            });
         });
     }
 }
