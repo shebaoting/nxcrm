@@ -125,7 +125,7 @@ class ReceiptController extends AdminController
             $show->receive;
             $show->paymethod;
             $show->billtype;
-            $show->contract_id;
+            $show->crm_contract_id;
             $show->remark;
             $show->created_at;
             $show->updated_at;
@@ -244,6 +244,7 @@ class ReceiptController extends AdminController
                 }
                 return $form;
             });
+
         });
     }
 }
