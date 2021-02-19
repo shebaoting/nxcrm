@@ -113,7 +113,7 @@ class ReceiptController extends AdminController
      */
     protected function detail($id)
     {
-        $detalling = Admin::user()->id != CrmCustomer::find(CrmReceipt::find($id)->contract->customer_id)->Admin_user->id;
+        $detalling = Admin::user()->id != CrmCustomer::find(CrmReceipt::find($id)->CrmContract->crm_customer_id)->Admin_user->id;
         $Role = !Admin::user()->isRole('administrator');
         if ($Role && $detalling) {
             $customer = CrmCustomer::find($id);
@@ -163,7 +163,8 @@ class ReceiptController extends AdminController
                 ->title('选择当前收款所属合同')
                 ->dialogWidth('50%') // 弹窗宽度，默认 800px
                 ->from(ContractTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
-                ->model(CrmContract::class, 'id', 'title'); // 设置编辑数据显示
+                ->model(CrmContract::class, 'id', 'title')
+                ->required(); // 设置编辑数据显示
 
             $form->text('remark')->required();
             $form->datetime('updated_at');
@@ -222,7 +223,7 @@ class ReceiptController extends AdminController
                 $invoice = $form->invoice;
                 $invoice['contract_id'] = $form->contract_id;
                 $form->invoice = $invoice;
-                if ($form->billtype == 0) {
+                if ($form->billtype === '0' || $form->billtype === '2' ) {
                     $form->deleteInput('invoice.money');
                     $form->deleteInput('invoice.contract_id');
                     $form->deleteInput('invoice.type');
