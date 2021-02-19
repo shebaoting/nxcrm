@@ -2,6 +2,13 @@ html body {
     background-color: #fbfbfb;
     font-size: 1.1rem;
 }
+.nav-sidebar>.nav-item.menu-open>.nav-link,body.dark-mode .navbar-collapse .align-items-center ul.nav li>a.nav-link,.navbar-collapse .align-items-center ul.nav li>a.nav-link,body.dark-mode .navbar-collapse .align-items-center ul.nav li>a.nav-link,.font-md-2,[class*=sidebar-dark-] .nav-sidebar>.nav-item.menu-open>.nav-link {
+    color: #2f4cdd !important;
+}
+
+.nav-sidebar>.nav-item.menu-open>.nav-link:before,.header-navbar .navbar-container ul.nav li a.dropdown-user-link {
+    background: #2f4cdd !important;
+}
 .main-menu .navbar-header .navbar-brand img {
     max-width: 52px;
     max-height: 52px;
@@ -264,15 +271,10 @@ body.dark-mode [class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link.active {
     height: 48px;
 }
 
-
-.nav-sidebar>.nav-item.menu-open>.nav-link,body.dark-mode .navbar-collapse .align-items-center ul.nav li>a.nav-link,.navbar-collapse .align-items-center ul.nav li>a.nav-link,body.dark-mode .navbar-collapse .align-items-center ul.nav li>a.nav-link,.font-md-2,[class*=sidebar-dark-] .nav-sidebar>.nav-item.menu-open>.nav-link {
-    color: #2f4cdd !important;
-}
-
-.nav-sidebar>.nav-item.menu-open>.nav-link:before,.header-navbar .navbar-container ul.nav li a.dropdown-user-link {
-    background: #2f4cdd !important;
-}
-
 .vs-radio-con {
     margin: 0.9rem 0;
+}
+
+.form-control-position {
+    top: 7px;
 }
