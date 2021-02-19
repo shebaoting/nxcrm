@@ -23,6 +23,9 @@
                                 <a href="#tab_receipts" class="nav-link active" data-toggle="tab">收款</a>
                             </li>
                             <li class="nav-item">
+                                <a href="#tab_deposits" class="nav-link" data-toggle="tab">支出</a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="#tab_events" class="nav-link" data-toggle="tab">跟进</a>
                             </li>
                             <li class="nav-item">
@@ -43,7 +46,10 @@
                                 {{-- 收款信息 --}}
                                 @include('admin.contract._receipts')
                             </div>
-
+                            <div class="tab-pane" id="tab_deposits">
+                                {{-- 收款信息 --}}
+                                @include('admin.contract._deposits')
+                            </div>
                             <div class="tab-pane" id="tab_events">
                                 {{-- 跟进信息 --}}
                                 @include('admin.contract._events')

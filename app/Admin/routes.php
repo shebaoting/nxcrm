@@ -27,6 +27,8 @@ Route::group([
     $router->resource('contracts', 'ContractController');
 
     //收款
+    $router->get('receipts/deposit','ReceiptController@deposit')
+        ->name('receipts.deposit');
     $router->resource('receipts', 'ReceiptController');
 
     //附件

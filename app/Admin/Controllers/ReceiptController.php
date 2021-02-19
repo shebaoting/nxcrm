@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\CrmReceipt;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
+use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Show;
 use App\Models\CrmContract;
 use Dcat\Admin\Admin;
@@ -106,8 +107,13 @@ class ReceiptController extends AdminController
                 $filter->equal('id');
             });
             $grid->disableRefreshButton();
+            $grid->disableCreateButton();
             $grid->toolsWithOutline(false);
             $grid->disableFilterButton();
+            $grid->tools([
+                '<a href="'.admin_url('/receipts/create').'" class="btn btn-primary"><i class="feather icon-plus"></i><span class="d-none d-sm-inline">&nbsp;&nbsp;新增收款</span></a>',
+                '<a href="'.admin_url('/receipts/deposit').'" class="btn btn-primary"><i class="feather icon-plus"></i><span class="d-none d-sm-inline">&nbsp;&nbsp;新增支出</span></a>'
+            ]);
         });
     }
 
@@ -139,22 +145,29 @@ class ReceiptController extends AdminController
         });
     }
 
+    protected function deposit(Content $content)
+    {
+        $receipt_type =2;# 支出类型
+        return $content
+            ->title('新增支出')
+            ->description('当前合同支出')
+            ->body($this->form($receipt_type));
+    }
+
     /**
      * Make a form builder.
      *
      * @return Form
      */
-    protected function form()
+    protected function form(int $type=1)
     {
-        return Form::make(CrmReceipt::with('CrmInvoice'), function (Form $form) {
-            // $Editing = $form->isEditing() && Admin::user()->id != CrmCustomer::find(Contract::find($form->model()->contract_id)->customer_id)->admin_user_id;
-            // if ($Editing) {
-            //     $customer = CrmCustomer::find($form->model()->id);
-            //     $this->authorize('update', $customer);
-            // }
+        return Form::make(CrmReceipt::with('CrmInvoice'), function (Form $form)use($type) {
+            $receipt_title = $type === 1?'收款':'支出';
+
+            $form->title('新增'.$receipt_title);
             $form->display('id');
             $form->currency('receive')->symbol('￥');
-
+            $form->hidden('type')->value($type);
             $form->select('paymethod', '收款方式')
                 ->options(
                     [
@@ -174,7 +187,7 @@ class ReceiptController extends AdminController
                 ->required(); // 设置编辑数据显示
 
             $form->text('remark')->required();
-            $form->datetime('updated_at');
+            $form->datetime('updated_at')->label($receipt_title.'时间');
             $form->radio('billtype', '是否开票')
                 ->when(1, function (Form $form) {
                     // 值为1和4时显示文本框
