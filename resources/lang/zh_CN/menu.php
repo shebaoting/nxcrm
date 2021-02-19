@@ -19,7 +19,7 @@ return [
         'events'        => '跟进',
         'contract'      => '合同',
         'contracts'     => '合同',
-        'receipt'       => '收款',
+        'receipt'       => '收支',
         'leads'         => '线索',
         'opportunitys'  => '商机',
         'settings'      => '系统',
