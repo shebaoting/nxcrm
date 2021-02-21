@@ -35,8 +35,8 @@ class ComposerStaticInit74449af1101ecd6f157052626e751738
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '4a1f389d6ce373bda9e57857d3b61c84' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/helpers.php',
-        'a3a61d13a0bfb8e36cb789c5fbfdf8cf' => __DIR__ . '/..' . '/summerblue/laravel-active/src/helpers.php',
         '044fc72df35e84c745ee0d4120dc15d2' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Support/helpers.php',
+        'a3a61d13a0bfb8e36cb789c5fbfdf8cf' => __DIR__ . '/..' . '/summerblue/laravel-active/src/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -551,6 +551,7 @@ class ComposerStaticInit74449af1101ecd6f157052626e751738
         'App\\Admin\\Controllers\\CustomfieldController' => __DIR__ . '/../..' . '/app/Admin/Controllers/CustomfieldController.php',
         'App\\Admin\\Controllers\\EventController' => __DIR__ . '/../..' . '/app/Admin/Controllers/EventController.php',
         'App\\Admin\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Admin/Controllers/HomeController.php',
+        'App\\Admin\\Controllers\\ImportController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ImportController.php',
         'App\\Admin\\Controllers\\InvoiceController' => __DIR__ . '/../..' . '/app/Admin/Controllers/InvoiceController.php',
         'App\\Admin\\Controllers\\LeadController' => __DIR__ . '/../..' . '/app/Admin/Controllers/LeadController.php',
         'App\\Admin\\Controllers\\OpportunityController' => __DIR__ . '/../..' . '/app/Admin/Controllers/OpportunityController.php',
@@ -559,6 +560,7 @@ class ComposerStaticInit74449af1101ecd6f157052626e751738
         'App\\Admin\\Controllers\\ReceiptController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ReceiptController.php',
         'App\\Admin\\Controllers\\SettingsController' => __DIR__ . '/../..' . '/app/Admin/Controllers/SettingsController.php',
         'App\\Admin\\Controllers\\ShareController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ShareController.php',
+        'App\\Admin\\Forms\\Import' => __DIR__ . '/../..' . '/app/Admin/Forms/Import.php',
         'App\\Admin\\Forms\\highseas' => __DIR__ . '/../..' . '/app/Admin/Forms/highseas.php',
         'App\\Admin\\Forms\\setting' => __DIR__ . '/../..' . '/app/Admin/Forms/setting.php',
         'App\\Admin\\Metrics\\Examples\\CrmAdver' => __DIR__ . '/../..' . '/app/Admin/Metrics/Examples/CrmAdver.php',

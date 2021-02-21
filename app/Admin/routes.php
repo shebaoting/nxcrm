@@ -57,4 +57,8 @@ Route::group([
 
     //网站配置
     Route::get('/settings/{classinfo}', 'SettingsController@index')->name('settings.index');
+
+    //导入
+    Route::get('/import/form', 'ImportController@index');
+    Route::post('/import/form', 'ImportController@store');
 });

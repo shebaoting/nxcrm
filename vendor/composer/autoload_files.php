@@ -34,6 +34,6 @@ return array(
     '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     'b6b991a57620e2fb6b2f66f03fe9ddc2' => $vendorDir . '/symfony/string/Resources/functions.php',
     '4a1f389d6ce373bda9e57857d3b61c84' => $vendorDir . '/barryvdh/laravel-debugbar/src/helpers.php',
-    'a3a61d13a0bfb8e36cb789c5fbfdf8cf' => $vendorDir . '/summerblue/laravel-active/src/helpers.php',
     '044fc72df35e84c745ee0d4120dc15d2' => $vendorDir . '/dcat/laravel-admin/src/Support/helpers.php',
+    'a3a61d13a0bfb8e36cb789c5fbfdf8cf' => $vendorDir . '/summerblue/laravel-active/src/helpers.php',
 );
