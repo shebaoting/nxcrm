@@ -51,6 +51,9 @@
                 </thead>
                 <tbody>
                     @foreach ($receipts as $receipt)
+                        @if($receipt->type !== 1)
+                            @continue
+                        @endif
                     <tr>
                         <td>{{$receipt['updated_at']}}</td>
                         <td>{{$receipt['receive']}} 元</td>

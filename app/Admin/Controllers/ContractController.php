@@ -184,25 +184,33 @@ class ContractController extends AdminController
         }
         Admin::css(static::$css);
 
-        $contract = CrmContract::with(['CrmCustomer', 'CrmOrders','CrmReceipts','CrmReceipts', 'CrmEvents' => function ($q) {
+        $contract = CrmContract::with(['CrmCustomer', 'CrmOrders','CrmReceipts', 'CrmEvents' => function ($q) {
             $q->orderBy('updated_at', 'desc');
         }, 'CrmEvents.CrmContact', 'CrmEvents.Admin_user', 'Attachments'])->findorFail($id);
 
-        $accept = json_decode($contract->CrmReceipts);
+        $receipts = json_decode($contract->CrmReceipts);
         $accepts = 0;
-        foreach ($accept as $value) {
-            $accepts += $value->receive;
+        # 商务支出
+        $salesexpenses=0;
+        foreach ($receipts as $receipt) {
+            if ($receipt->type === 1){
+                $accepts += $receipt->receive;
+            }else{
+                $salesexpenses +=$receipt->receive;
+            }
+
         }
 
         $data = [
-            'contract' => $contract,
-            'customer' => $contract->CrmCustomer,
-            'receipts' => $contract->CrmReceipts,
-            'accepts' => $accepts,
-            'events' => $contract->CrmEvents,
-            'admin_user' => $contract->CrmCustomer->Admin_user,
-            'attachments' => $contract->Attachments,
-            'orders' => $contract->CrmOrders,
+            'contract'       => $contract,
+            'customer'       => $contract->CrmCustomer,
+            'receipts'       => $contract->CrmReceipts,
+            'accepts'        => $accepts,# 已收款
+            'salesexpenses'  => $salesexpenses,# 已支出
+            'events'         => $contract->CrmEvents,
+            'admin_user'     => $contract->CrmCustomer->Admin_user,
+            'attachments'    => $contract->Attachments,
+            'orders'         => $contract->CrmOrders,
             'contractfields' => $this->custommodel('contract'),
         ];
         return $content

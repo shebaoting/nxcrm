@@ -178,11 +178,10 @@ class ReceiptController extends AdminController
                         5 => '卡券'
                     ]
                 );
-
             $form->selectTable('crm_contract_id')
                 ->title('选择当前收款所属合同')
                 ->dialogWidth('50%') // 弹窗宽度，默认 800px
-                ->from(ContractTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
+                ->from(ContractTable::make(['id' => request('contract_id')])) // 设置渲染类实例，并传递自定义参数
                 ->model(CrmContract::class, 'id', 'title')
                 ->required(); // 设置编辑数据显示
 

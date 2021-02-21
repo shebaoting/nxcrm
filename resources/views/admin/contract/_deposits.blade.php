@@ -8,7 +8,7 @@
     <div class="row receipts">
         <div class="col-md-4 col-sm-4 col-12 receipts-left">
             <p class="mbm">
-                <span class="xco ffmy text-primary">￥</span><span class="xco fsh text-primary">{{$accepts}}</span>
+                <span class="xco ffmy text-primary">￥</span><span class="xco fsh text-primary">{{$salesexpenses}}</span>
             </p>
             <span>已支出</span>
         </div>
@@ -26,6 +26,9 @@
                 </thead>
                 <tbody>
                     @foreach ($receipts as $receipt)
+                        @if($receipt->type !== 2)
+                            @continue
+                        @endif
                     <tr>
                         <td>{{$receipt['updated_at']}}</td>
                         <td>{{$receipt['receive']}} 元</td>
