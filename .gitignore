@@ -8,10 +8,6 @@
 .env
 .editorconfig
 .gitattributes
-package.json
-package-lock.json
-webpack.mix.js
-yarn.lock
 .env.backup
 .phpunit.result.cache
 Homestead.json

@@ -6,7 +6,7 @@ html body {
     color: #2f4cdd !important;
 }
 
-.nav-sidebar>.nav-item.menu-open>.nav-link:before,.header-navbar .navbar-container ul.nav li a.dropdown-user-link {
+.nav-sidebar>.nav-item.menu-open>.nav-link:before,.header-navbar .navbar-container ul.nav li a.dropdown-user-link,.alert-info {
     background: #2f4cdd !important;
 }
 .main-menu .navbar-header .navbar-brand img {
@@ -251,7 +251,7 @@ body.sidebar-separate .navbar-header .navbar-brand {
     line-height: 43px !important;
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow {
-    top: 7px !important;
+    top: 11px !important;
 }
 
 
@@ -290,4 +290,7 @@ body.dark-mode [class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link.active {
 }
 .select2-container .select2-selection--single {
     height: 48px !important;
+}
+.alert-info {
+    color: #fff;
 }
