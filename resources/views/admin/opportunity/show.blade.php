@@ -14,7 +14,7 @@
                                 </div>
 
                                 <div class="col-md-4 tools">
-                                    <span><a href="{{ route('opportunitys.edit',$opportunity['id']) }}"><i
+                                    <span><a href="{{ admin_route('opportunitys.edit',[$opportunity['id']]) }}"><i
                                                 class="feather icon-edit-2"></i></a></span>
                                     {{-- <span><a href="{{ route('opportunitys.destroy',$opportunity['id']) }}"><i
                                         class="feather icon-x"></i></a></span> --}}

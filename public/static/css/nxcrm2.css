@@ -6,7 +6,7 @@ html body {
     color: #2f4cdd !important;
 }
 
-.nav-sidebar>.nav-item.menu-open>.nav-link:before,.header-navbar .navbar-container ul.nav li a.dropdown-user-link {
+.nav-sidebar>.nav-item.menu-open>.nav-link:before,.header-navbar .navbar-container ul.nav li a.dropdown-user-link,.alert-info {
     background: #2f4cdd !important;
 }
 .main-menu .navbar-header .navbar-brand img {
@@ -207,7 +207,7 @@ table.custom-data-table.data-table tbody td {
     padding: 2rem .55rem;
 }
 .btn {
-    padding: 1rem 1.2rem!important;
+    padding: 1.08rem 1.2rem!important;
     height:auto;
 }
 .input-group-prepend .input-group-text {
@@ -251,7 +251,7 @@ body.sidebar-separate .navbar-header .navbar-brand {
     line-height: 43px !important;
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow {
-    top: 7px !important;
+    top: 11px !important;
 }
 
 
@@ -267,8 +267,8 @@ body.dark-mode:not(.sidebar-separate) .main-sidebar .sidebar {
 body.dark-mode [class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link.active {
     background: transparent;
 }
-.form-control {
-    height: 48px;
+.form-control,.select2-container .select2-selection--single {
+    height: 48px !important;
 }
 
 .vs-radio-con {
@@ -277,4 +277,20 @@ body.dark-mode [class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link.active {
 
 .form-control-position {
     top: 7px;
+}
+.input-group-sm>input.form-control {
+    max-height: 48px;
+    min-height: 48px;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 46px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__clear {
+    height: 43px !important;
+}
+.select2-container .select2-selection--single {
+    height: 48px !important;
+}
+.alert-info {
+    color: #fff;
 }
