@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\CrmContract;
 use App\Admin\Traits\Customfields;
+use App\Models\CrmOrder;
 use App\Models\CrmProduct;
 use App\Admin\Renderable\CrmCustomerTable;
 use Dcat\Admin\Form;
@@ -175,7 +176,10 @@ class ContractController extends AdminController
 
     public function show($id, Content $content)
     {
-
+        if (!is_numeric($id)){
+            return $content->title('错误')
+                ->body('信息错误,请返回');
+        }
         $detalling = Admin::user()->id != CrmContract::find($id)->CrmCustomer->Admin_user->id;
         $Role = !Admin::user()->isRole('administrator');
         if ($Role && $detalling) {
@@ -271,15 +275,18 @@ class ContractController extends AdminController
             });
 
 
-            $form->column(6, function (Form $form) {
-                $form->currency('total', '合同金额')->symbol('￥')->attribute('min', 0)->default(0);
-            });
+//            $form->column(6, function (Form $form) {
+//                $form->currency('total', '合同金额')->symbol('￥')->attribute('min', 0)->default(0);
+//            });
+//
+//            $form->column(6, function (Form $form) {
+//                $form->currency('salesexpenses', '商务费用')->symbol('￥')->attribute('min', 0)->default(0);
+//            });
+            # 商务费用 由支出动态添加所得
 
-            $form->column(6, function (Form $form) {
-                $form->currency('salesexpenses', '商务费用')->symbol('￥')->attribute('min', 0)->default(0);
-            });
 
             $form->column(12, function (Form $form) {
+                $form->hidden('salesexpenses')->default(0);
                 $form->textarea('remark', '备注');
                 $this->formfield($form,'contract');
                 $form->hidden('fields')->value(null);
@@ -287,10 +294,10 @@ class ContractController extends AdminController
 
             $class = $this;
             $form->saving(function (Form $form) use ($class) {
-                if ($form->salesexpenses || $form->total) {
-                    $form->salesexpenses = str_replace(',', '', $form->salesexpenses);
-                    $form->total = str_replace(',', '', $form->total);
-                }
+//                if ($form->salesexpenses || $form->total) {
+//                    $form->salesexpenses = str_replace(',', '', $form->salesexpenses);
+//                    $form->total = str_replace(',', '', $form->total);
+//                }
 
                 $form_field = array();
                 foreach ($class->custommodel('Contract') as $field) {
@@ -302,6 +309,24 @@ class ContractController extends AdminController
                 $form->fields = json_encode($form_field);
 
                 return $form;
+            });
+            $form->saved(function (Form $form,$result) {
+                 if ($form->isCreating()){
+                     $new_contract_id = $result;
+                     if (!$new_contract_id){
+                         return $form->error('合同新增失败');
+                     }
+                     $contract = CrmContract::find($new_contract_id);
+                     foreach($contract->CrmOrders as $order)
+                     {
+                         $contract->total+= abs($order->executionprice*$order->quantity);
+                         # 快照标准价
+                         $order->prod_price = $order->CrmProduct->price;
+                         $order->save();
+                     }
+                     $contract->save();
+
+                 }
             });
         });
     }

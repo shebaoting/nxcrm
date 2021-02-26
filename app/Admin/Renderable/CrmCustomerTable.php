@@ -15,7 +15,7 @@ class CrmCustomerTable extends LazyRenderable
             $grid->column('id');
             $grid->column('name','客户名称');
             $grid->rowSelector()->titleColumn('name');
-            $grid->quickSearch(['id', 'name',]);
+            $grid->quickSearch(['id', 'name']);
             $grid->paginate(5);
             $grid->disableActions();
             $grid->model()->orderBy('id','desc');

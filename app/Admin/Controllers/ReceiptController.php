@@ -15,6 +15,15 @@ use Dcat\Admin\Http\Controllers\AdminController;
 
 class ReceiptController extends AdminController
 {
+    protected function withCss()
+    {
+        return <<<CSS
+a.btn{
+ line-height: 1.22;
+}
+CSS;
+
+    }
     /**
      * Make a grid builder.
      *
@@ -22,7 +31,9 @@ class ReceiptController extends AdminController
      */
     protected function grid()
     {
+        Admin::style($this->withCss());
         return Grid::make(new CrmReceipt(), function (Grid $grid) {
+            $grid->model()->orderByDesc('id');
             $grid->updated_at->sortable();
             $grid->receive;
             $grid->paymethod
@@ -111,8 +122,8 @@ class ReceiptController extends AdminController
             $grid->toolsWithOutline(false);
             $grid->disableFilterButton();
             $grid->tools([
-                '<a href="'.admin_url('/receipts/create').'" class="btn btn-primary"><i class="feather icon-plus"></i><span class="d-none d-sm-inline">&nbsp;&nbsp;新增收款</span></a>',
-                '<a href="'.admin_url('/receipts/deposit').'" class="btn btn-primary"><i class="feather icon-plus"></i><span class="d-none d-sm-inline">&nbsp;&nbsp;新增支出</span></a>'
+                '<a href="'.admin_url('/receipts/create').'" class="btn btn-primary grid-btn"><i class="feather icon-plus"></i><span class="d-none d-sm-inline">&nbsp;&nbsp;新增收款</span></a>',
+                '<a href="'.admin_url('/receipts/deposit').'" class="btn btn-primary grid-btn"><i class="feather icon-plus"></i><span class="d-none d-sm-inline">&nbsp;&nbsp;新增支出</span></a>&nbsp;'
             ]);
         });
     }
@@ -157,6 +168,7 @@ class ReceiptController extends AdminController
     /**
      * Make a form builder.
      *
+     * @param int $type
      * @return Form
      */
     protected function form(int $type=1)
@@ -269,7 +281,13 @@ class ReceiptController extends AdminController
             });
 
             $form->saved(function (Form $form) {
-                return $form->response()->success('保存成功')->redirect('/receipts/'.$form->getKey());
+                # 重新统计所属合同的商务支出
+                $receipt = CrmReceipt::find($form->getKey());
+                $contract = $receipt->CrmContract;
+                unset($receipt);
+                $contract->salesexpenses = $contract->calc_sales_expenses;
+                $contract->save();
+                return $form->response()->success('保存成功')->redirect('/receipts/');
             });
         });
     }
