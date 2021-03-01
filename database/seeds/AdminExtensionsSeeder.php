@@ -22,7 +22,6 @@ class AdminExtensionsSeeder extends Seeder
                 'is_enabled' => 1,
                 'options' => '',
             ]
-
         ];//
         \DB::table('admin_extensions')->insert($admin_extensions);
     }
