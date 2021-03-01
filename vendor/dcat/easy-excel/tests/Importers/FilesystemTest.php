@@ -5,6 +5,7 @@ namespace Tests\Importers;
 use Dcat\EasyExcel\Excel;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 
 class FilesystemTest extends ImporterTest
 {
@@ -13,7 +14,11 @@ class FilesystemTest extends ImporterTest
      */
     public function test()
     {
-        $adapter = new Local(__DIR__.'/../resources');
+        if (class_exists(LocalFilesystemAdapter::class)) {
+            $adapter = new LocalFilesystemAdapter(__DIR__.'/../resources/');
+        } else {
+            $adapter = new Local(__DIR__.'/../resources');
+        }
 
         $filesystem = new Filesystem($adapter);
 

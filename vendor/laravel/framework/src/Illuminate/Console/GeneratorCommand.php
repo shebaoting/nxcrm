@@ -25,7 +25,7 @@ abstract class GeneratorCommand extends Command
     /**
      * Reserved names that cannot be used for generation.
      *
-     * @var array
+     * @var string[]
      */
     protected $reservedNames = [
         '__halt_compiler',
@@ -171,17 +171,40 @@ abstract class GeneratorCommand extends Command
     {
         $name = ltrim($name, '\\/');
 
+        $name = str_replace('/', '\\', $name);
+
         $rootNamespace = $this->rootNamespace();
 
         if (Str::startsWith($name, $rootNamespace)) {
             return $name;
         }
 
-        $name = str_replace('/', '\\', $name);
-
         return $this->qualifyClass(
             $this->getDefaultNamespace(trim($rootNamespace, '\\')).'\\'.$name
         );
+    }
+
+    /**
+     * Qualify the given model class base name.
+     *
+     * @param  string  $model
+     * @return string
+     */
+    protected function qualifyModel(string $model)
+    {
+        $model = ltrim($model, '\\/');
+
+        $model = str_replace('/', '\\', $model);
+
+        $rootNamespace = $this->rootNamespace();
+
+        if (Str::startsWith($model, $rootNamespace)) {
+            return $model;
+        }
+
+        return is_dir(app_path('Models'))
+                    ? $rootNamespace.'Models\\'.$model
+                    : $rootNamespace.$model;
     }
 
     /**
@@ -364,6 +387,19 @@ abstract class GeneratorCommand extends Command
         $name = strtolower($name);
 
         return in_array($name, $this->reservedNames);
+    }
+
+    /**
+     * Get the first view directory path from the application configuration.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    protected function viewPath($path = '')
+    {
+        $views = $this->laravel['config']['view.paths'][0] ?? resource_path('views');
+
+        return $views.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
     /**

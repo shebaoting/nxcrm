@@ -18,7 +18,13 @@ class QueryCollector extends PDOCollector
     protected $explainQuery = false;
     protected $explainTypes = ['SELECT']; // ['SELECT', 'INSERT', 'UPDATE', 'DELETE']; for MySQL 5.6.3+
     protected $showHints = false;
+    protected $showCopyButton = false;
     protected $reflection = [];
+    protected $backtraceExcludePaths = [
+        '/vendor/laravel/framework/src/Illuminate/Database',
+        '/vendor/laravel/framework/src/Illuminate/Events',
+        '/vendor/barryvdh/laravel-debugbar',
+    ];
 
     /**
      * @param TimeDataCollector $timeCollector
@@ -50,6 +56,16 @@ class QueryCollector extends PDOCollector
     }
 
     /**
+     * Show or hide copy button next to the queries
+     *
+     * @param boolean $enabled
+     */
+    public function setShowCopyButton($enabled = true)
+    {
+        $this->showCopyButton = $enabled;
+    }
+
+    /**
      * Enable/disable finding the source
      *
      * @param bool $value
@@ -59,6 +75,16 @@ class QueryCollector extends PDOCollector
     {
         $this->findSource = (bool) $value;
         $this->middleware = $middleware;
+    }
+
+    /**
+     * Set additional paths to exclude from the backtrace
+     *
+     * @param array $excludePaths Array of file paths to exclude from backtrace
+     */
+    public function mergeBacktraceExcludePaths(array $excludePaths)
+    {
+        $this->backtraceExcludePaths = array_merge($this->backtraceExcludePaths, $excludePaths);
     }
 
     /**
@@ -91,11 +117,16 @@ class QueryCollector extends PDOCollector
         $startTime = $endTime - $time;
         $hints = $this->performQueryAnalysis($query);
 
-        $pdo = $connection->getPdo();
+        $pdo = null;
+        try {
+            $pdo = $connection->getPdo();
+        } catch (\Exception $e) {
+            // ignore error for non-pdo laravel drivers
+        }
         $bindings = $connection->prepareBindings($bindings);
 
         // Run EXPLAIN on this query (if needed)
-        if ($this->explainQuery && preg_match('/^\s*('.implode('|', $this->explainTypes).') /i', $query)) {
+        if ($this->explainQuery && $pdo && preg_match('/^\s*(' . implode('|', $this->explainTypes) . ') /i', $query)) {
             $statement = $pdo->prepare('EXPLAIN ' . $query);
             $statement->execute($bindings);
             $explainResults = $statement->fetchAll(\PDO::FETCH_CLASS);
@@ -108,12 +139,16 @@ class QueryCollector extends PDOCollector
                 // nested in quotes, while we iterate through the bindings
                 // and substitute placeholders by suitable values.
                 $regex = is_numeric($key)
-                    ? "/\?(?=(?:[^'\\\']*'[^'\\\']*')*[^'\\\']*$)/"
+                    ? "/(?<!\?)\?(?=(?:[^'\\\']*'[^'\\']*')*[^'\\\']*$)(?!\?)/"
                     : "/:{$key}(?=(?:[^'\\\']*'[^'\\\']*')*[^'\\\']*$)/";
 
                 // Mimic bindValue and only quote non-integer and non-float data types
                 if (!is_int($binding) && !is_float($binding)) {
-                    $binding = $pdo->quote($binding);
+                    if ($pdo) {
+                        $binding = $pdo->quote($binding);
+                    } else {
+                        $binding = $this->emulateQuote($binding);
+                    }
                 }
 
                 $query = preg_replace($regex, $binding, $query, 1);
@@ -124,7 +159,7 @@ class QueryCollector extends PDOCollector
 
         if ($this->findSource) {
             try {
-                $source = $this->findSource();
+                $source = array_slice($this->findSource(), 0, 5);
             } catch (\Exception $e) {
             }
         }
@@ -138,11 +173,26 @@ class QueryCollector extends PDOCollector
             'explain' => $explainResults,
             'connection' => $connection->getDatabaseName(),
             'hints' => $this->showHints ? $hints : null,
+            'show_copy' => $this->showCopyButton,
         ];
 
         if ($this->timeCollector !== null) {
             $this->timeCollector->addMeasure($query, $startTime, $endTime);
         }
+    }
+
+    /**
+     * Mimic mysql_real_escape_string
+     *
+     * @param string $value
+     * @return string
+     */
+    protected function emulateQuote($value)
+    {
+        $search = ["\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a"];
+        $replace = ["\\\\","\\0","\\n", "\\r", "\'", '\"', "\\Z"];
+
+        return "'" . str_replace($search, $replace, $value) . "'";
     }
 
     /**
@@ -160,14 +210,15 @@ class QueryCollector extends PDOCollector
      */
     protected function performQueryAnalysis($query)
     {
+        // @codingStandardsIgnoreStart
         $hints = [];
         if (preg_match('/^\\s*SELECT\\s*`?[a-zA-Z0-9]*`?\\.?\\*/i', $query)) {
             $hints[] = 'Use <code>SELECT *</code> only if you need all columns from table';
         }
         if (preg_match('/ORDER BY RAND()/i', $query)) {
             $hints[] = '<code>ORDER BY RAND()</code> is slow, try to avoid if you can.
-				You can <a href="http://stackoverflow.com/questions/2663710/how-does-mysqls-order-by-rand-work" target="_blank">read this</a>
-				or <a href="http://stackoverflow.com/questions/1244555/how-can-i-optimize-mysqls-order-by-rand-function" target="_blank">this</a>';
+                You can <a href="http://stackoverflow.com/questions/2663710/how-does-mysqls-order-by-rand-work" target="_blank">read this</a>
+                or <a href="http://stackoverflow.com/questions/1244555/how-can-i-optimize-mysqls-order-by-rand-function" target="_blank">this</a>';
         }
         if (strpos($query, '!=') !== false) {
             $hints[] = 'The <code>!=</code> operator is not standard. Use the <code>&lt;&gt;</code> operator to test for inequality instead.';
@@ -179,10 +230,12 @@ class QueryCollector extends PDOCollector
             $hints[] = '<code>LIMIT</code> without <code>ORDER BY</code> causes non-deterministic results, depending on the query execution plan';
         }
         if (preg_match('/LIKE\\s[\'"](%.*?)[\'"]/i', $query, $matches)) {
-            $hints[] = 	'An argument has a leading wildcard character: <code>' . $matches[1]. '</code>.
-								The predicate with this argument is not sargable and cannot use an index if one exists.';
+            $hints[] = 'An argument has a leading wildcard character: <code>' . $matches[1] . '</code>.
+                The predicate with this argument is not sargable and cannot use an index if one exists.';
         }
         return $hints;
+
+        // @codingStandardsIgnoreEnd
     }
 
     /**
@@ -225,7 +278,8 @@ class QueryCollector extends PDOCollector
             return $frame;
         }
 
-        if (isset($trace['class']) &&
+        if (
+            isset($trace['class']) &&
             isset($trace['file']) &&
             !$this->fileIsInExcludedPath($trace['file'])
         ) {
@@ -272,15 +326,9 @@ class QueryCollector extends PDOCollector
      */
     protected function fileIsInExcludedPath($file)
     {
-        $excludedPaths = [
-            '/vendor/laravel/framework/src/Illuminate/Database',
-            '/vendor/laravel/framework/src/Illuminate/Events',
-            '/vendor/barryvdh/laravel-debugbar',
-        ];
-
         $normalizedPath = str_replace('\\', '/', $file);
 
-        foreach ($excludedPaths as $excludedPath) {
+        foreach ($this->backtraceExcludePaths as $excludedPath) {
             if (strpos($normalizedPath, $excludedPath) !== false) {
                 return true;
             }
@@ -325,7 +373,7 @@ class QueryCollector extends PDOCollector
             $this->reflection['viewfinderViews'] = $property;
         }
 
-        foreach ($property->getValue($finder) as $name => $path){
+        foreach ($property->getValue($finder) as $name => $path) {
             if (sha1($path) == $hash || md5($path) == $hash) {
                 return $name;
             }
@@ -393,6 +441,7 @@ class QueryCollector extends PDOCollector
             'explain' => [],
             'connection' => $connection->getDatabaseName(),
             'hints' => null,
+            'show_copy' => false,
         ];
     }
 
@@ -422,6 +471,7 @@ class QueryCollector extends PDOCollector
                 'params' => [],
                 'bindings' => $query['bindings'],
                 'hints' => $query['hints'],
+                'show_copy' => $query['show_copy'],
                 'backtrace' => array_values($query['source']),
                 'duration' => $query['time'],
                 'duration_str' => ($query['type'] == 'transaction') ? '' : $this->formatDuration($query['time']),
@@ -430,9 +480,9 @@ class QueryCollector extends PDOCollector
             ];
 
             //Add the results from the explain as new rows
-            foreach($query['explain'] as $explain){
+            foreach ($query['explain'] as $explain) {
                 $statements[] = [
-                    'sql' => ' - EXPLAIN #' . $explain->id . ': `' . $explain->table . '` (' . $explain->select_type . ')',
+                    'sql' => " - EXPLAIN # {$explain->id}: `{$explain->table}` ({$explain->select_type})",
                     'type' => 'explain',
                     'params' => $explain,
                     'row_count' => $explain->rows,

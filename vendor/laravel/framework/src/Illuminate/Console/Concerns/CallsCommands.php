@@ -29,7 +29,7 @@ trait CallsCommands
     }
 
     /**
-     * Call another console command silently.
+     * Call another console command without output.
      *
      * @param  \Symfony\Component\Console\Command\Command|string  $command
      * @param  array  $arguments
@@ -38,6 +38,18 @@ trait CallsCommands
     public function callSilent($command, array $arguments = [])
     {
         return $this->runCommand($command, $arguments, new NullOutput);
+    }
+
+    /**
+     * Call another console command without output.
+     *
+     * @param  \Symfony\Component\Console\Command\Command|string  $command
+     * @param  array  $arguments
+     * @return int
+     */
+    public function callSilently($command, array $arguments = [])
+    {
+        return $this->callSilent($command, $arguments);
     }
 
     /**
@@ -66,7 +78,7 @@ trait CallsCommands
     protected function createInputFromArguments(array $arguments)
     {
         return tap(new ArrayInput(array_merge($this->context(), $arguments)), function ($input) {
-            if ($input->hasParameterOption(['--no-interaction'], true)) {
+            if ($input->getParameterOption('--no-interaction')) {
                 $input->setInteractive(false);
             }
         });

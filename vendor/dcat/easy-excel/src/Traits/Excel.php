@@ -10,6 +10,7 @@ use Dcat\EasyExcel\Support\SheetCollection;
 use Illuminate\Contracts\Filesystem\Filesystem as LaravelFilesystem;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 trait Excel
@@ -165,7 +166,13 @@ trait Excel
      */
     protected function filesystem()
     {
-        if ($this->filesystem && $this->filesystem instanceof FilesystemInterface) {
+        if (
+            $this->filesystem
+            && (
+                $this->filesystem instanceof FilesystemInterface
+                || $this->filesystem instanceof FilesystemOperator
+            )
+        ) {
             return $this->filesystem;
         }
     }

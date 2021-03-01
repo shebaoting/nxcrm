@@ -222,7 +222,7 @@ class Store implements Session
      * Get the value of a given key and then forget it.
      *
      * @param  string  $key
-     * @param  string|null  $default
+     * @param  mixed  $default
      * @return mixed
      */
     public function pull($key, $default = null)
@@ -635,6 +635,16 @@ class Store implements Session
     public function setPreviousUrl($url)
     {
         $this->put('_previous.url', $url);
+    }
+
+    /**
+     * Specify that the user has confirmed their password.
+     *
+     * @return void
+     */
+    public function passwordConfirmed()
+    {
+        $this->put('auth.password_confirmed_at', time());
     }
 
     /**

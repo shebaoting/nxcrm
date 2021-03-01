@@ -125,7 +125,9 @@ class Sheet implements Contracts\Sheet
                 continue;
             }
 
-            call_user_func($callback, $row, $line, $originalHeaders);
+            if (call_user_func($callback, $row, $line, $originalHeaders) === false) {
+                break;
+            }
         }
     }
 

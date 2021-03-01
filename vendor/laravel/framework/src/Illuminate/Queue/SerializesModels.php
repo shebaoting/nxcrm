@@ -65,6 +65,12 @@ trait SerializesModels
                 continue;
             }
 
+            $property->setAccessible(true);
+
+            if (! $property->isInitialized($this)) {
+                continue;
+            }
+
             $name = $property->getName();
 
             if ($property->isPrivate()) {
@@ -85,7 +91,7 @@ trait SerializesModels
      * Restore the model after serialization.
      *
      * @param  array  $values
-     * @return array
+     * @return void
      */
     public function __unserialize(array $values)
     {
@@ -116,8 +122,6 @@ trait SerializesModels
                 $this, $this->getRestoredPropertyValue($values[$name])
             );
         }
-
-        return $values;
     }
 
     /**

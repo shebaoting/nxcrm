@@ -17,10 +17,11 @@ use App\Admin\RowAction\ChangeState;
 use App\Admin\RowAction\ReceiveHighSeas;
 use Dcat\Admin\Widgets\Tab;
 use Illuminate\Http\Request;
+use App\Admin\Traits\Exportfields;
 
 class LeadController extends AdminController
 {
-    use Customfields, Selector, ShareCustomers;
+    use Customfields, Selector, ShareCustomers, Exportfields;
 
     public function __construct(Request $request)
     {
@@ -151,6 +152,15 @@ CSS
                 $filter->equal('id');
                 $filter->like('name', '客户名称');
             });
+
+            if (Admin::user()->isRole('administrator')) {
+                // 导出
+                $this->Exportfield($grid, 'customer');
+
+                // 导入
+                $grid->tools('<a href="/admin/import/form" class="btn btn-primary pull-right"><i class="feather icon-arrow-down"></i>导入</a>');
+            }
+
         });
     }
 

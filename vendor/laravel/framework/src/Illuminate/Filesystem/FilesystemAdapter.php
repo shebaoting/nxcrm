@@ -20,6 +20,7 @@ use League\Flysystem\Cached\CachedAdapter;
 use League\Flysystem\FileExistsException;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\Sftp\SftpAdapter as Sftp;
 use PHPUnit\Framework\Assert as PHPUnit;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
@@ -52,9 +53,10 @@ class FilesystemAdapter implements CloudFilesystemContract
      * Assert that the given file exists.
      *
      * @param  string|array  $path
+     * @param  string|null  $content
      * @return $this
      */
-    public function assertExists($path)
+    public function assertExists($path, $content = null)
     {
         $paths = Arr::wrap($path);
 
@@ -62,6 +64,16 @@ class FilesystemAdapter implements CloudFilesystemContract
             PHPUnit::assertTrue(
                 $this->exists($path), "Unable to find a file at path [{$path}]."
             );
+
+            if (! is_null($content)) {
+                $actual = $this->get($path);
+
+                PHPUnit::assertSame(
+                    $content,
+                    $actual,
+                    "File [{$path}] was found, but content [{$actual}] does not match [{$content}]."
+                );
+            }
         }
 
         return $this;
@@ -116,7 +128,13 @@ class FilesystemAdapter implements CloudFilesystemContract
      */
     public function path($path)
     {
-        return $this->driver->getAdapter()->getPathPrefix().$path;
+        $adapter = $this->driver->getAdapter();
+
+        if ($adapter instanceof CachedAdapter) {
+            $adapter = $adapter->getAdapter();
+        }
+
+        return $adapter->getPathPrefix().$path;
     }
 
     /**
@@ -132,7 +150,7 @@ class FilesystemAdapter implements CloudFilesystemContract
         try {
             return $this->driver->read($path);
         } catch (FileNotFoundException $e) {
-            throw new ContractFileNotFoundException($path, $e->getCode(), $e);
+            throw new ContractFileNotFoundException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -230,7 +248,7 @@ class FilesystemAdapter implements CloudFilesystemContract
      *
      * @param  string  $path
      * @param  \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string  $file
-     * @param  array  $options
+     * @param  mixed  $options
      * @return string|false
      */
     public function putFile($path, $file, $options = [])
@@ -246,7 +264,7 @@ class FilesystemAdapter implements CloudFilesystemContract
      * @param  string  $path
      * @param  \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string  $file
      * @param  string  $name
-     * @param  array  $options
+     * @param  mixed  $options
      * @return string|false
      */
     public function putFileAs($path, $file, $name, $options = [])
@@ -432,7 +450,7 @@ class FilesystemAdapter implements CloudFilesystemContract
             return $this->driver->getUrl($path);
         } elseif ($adapter instanceof AwsS3Adapter) {
             return $this->getAwsUrl($adapter, $path);
-        } elseif ($adapter instanceof Ftp) {
+        } elseif ($adapter instanceof Ftp || $adapter instanceof Sftp) {
             return $this->getFtpUrl($path);
         } elseif ($adapter instanceof LocalAdapter) {
             return $this->getLocalUrl($path);
@@ -739,6 +757,6 @@ class FilesystemAdapter implements CloudFilesystemContract
      */
     public function __call($method, array $parameters)
     {
-        return call_user_func_array([$this->driver, $method], $parameters);
+        return $this->driver->{$method}(...array_values($parameters));
     }
 }

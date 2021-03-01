@@ -114,22 +114,9 @@ class PendingMail
      * Send a new mailable message instance.
      *
      * @param  \Illuminate\Contracts\Mail\Mailable  $mailable
-     *
      * @return mixed
      */
     public function send(MailableContract $mailable)
-    {
-        return $this->mailer->send($this->fill($mailable));
-    }
-
-    /**
-     * Send a mailable message immediately.
-     *
-     * @param  \Illuminate\Contracts\Mail\Mailable  $mailable
-     * @return mixed
-     * @deprecated Use send() instead.
-     */
-    public function sendNow(MailableContract $mailable)
     {
         return $this->mailer->send($this->fill($mailable));
     }

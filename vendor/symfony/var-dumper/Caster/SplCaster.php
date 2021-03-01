@@ -22,7 +22,7 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  */
 class SplCaster
 {
-    private static $splFileObjectFlags = [
+    private const SPL_FILE_OBJECT_FLAGS = [
         \SplFileObject::DROP_NEW_LINE => 'DROP_NEW_LINE',
         \SplFileObject::READ_AHEAD => 'READ_AHEAD',
         \SplFileObject::SKIP_EMPTY => 'SKIP_EMPTY',
@@ -94,10 +94,32 @@ class SplCaster
         unset($a["\0SplFileInfo\0fileName"]);
         unset($a["\0SplFileInfo\0pathName"]);
 
-        if (false === $c->getPathname()) {
-            $a[$prefix.'⚠'] = 'The parent constructor was not called: the object is in an invalid state';
+        if (\PHP_VERSION_ID < 80000) {
+            if (false === $c->getPathname()) {
+                $a[$prefix.'⚠'] = 'The parent constructor was not called: the object is in an invalid state';
 
-            return $a;
+                return $a;
+            }
+        } else {
+            try {
+                $c->isReadable();
+            } catch (\RuntimeException $e) {
+                if ('Object not initialized' !== $e->getMessage()) {
+                    throw $e;
+                }
+
+                $a[$prefix.'⚠'] = 'The parent constructor was not called: the object is in an invalid state';
+
+                return $a;
+            } catch (\Error $e) {
+                if ('Object not initialized' !== $e->getMessage()) {
+                    throw $e;
+                }
+
+                $a[$prefix.'⚠'] = 'The parent constructor was not called: the object is in an invalid state';
+
+                return $a;
+            }
         }
 
         foreach ($map as $key => $accessor) {
@@ -147,7 +169,7 @@ class SplCaster
 
         if (isset($a[$prefix.'flags'])) {
             $flagsArray = [];
-            foreach (self::$splFileObjectFlags as $value => $name) {
+            foreach (self::SPL_FILE_OBJECT_FLAGS as $value => $name) {
                 if ($a[$prefix.'flags'] & $value) {
                     $flagsArray[] = $name;
                 }

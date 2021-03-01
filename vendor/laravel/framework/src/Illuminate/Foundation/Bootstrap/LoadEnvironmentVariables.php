@@ -68,7 +68,7 @@ class LoadEnvironmentVariables
      */
     protected function setEnvironmentFilePath($app, $file)
     {
-        if (file_exists($app->environmentPath().'/'.$file)) {
+        if (is_file($app->environmentPath().'/'.$file)) {
             $app->loadEnvironmentFrom($file);
 
             return true;
@@ -105,6 +105,6 @@ class LoadEnvironmentVariables
         $output->writeln('The environment file is invalid!');
         $output->writeln($e->getMessage());
 
-        die(1);
+        exit(1);
     }
 }

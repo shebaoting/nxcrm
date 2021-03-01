@@ -9,6 +9,7 @@ use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
 use Dcat\Admin\Admin;
+use App\Models\Admin_user;
 use Dcat\Admin\Http\Controllers\AdminController;
 
 class EventController extends AdminController
@@ -31,7 +32,13 @@ class EventController extends AdminController
 
         return Grid::make($event, function (Grid $grid) {
             $grid->id->sortable();
-            $grid->content->width('50%');
+            $grid->content->width('30%');
+
+
+            $grid->admin_user_id('跟进人员')->display(function ($id) {
+                return optional(Admin_user::find($id))->name;
+            });
+
 
             $grid->crm_customer_id('所属客户')->display(function ($id) {
                 return optional(CrmCustomer::find($id))->name;
@@ -45,7 +52,7 @@ class EventController extends AdminController
                 return admin_url('contacts/' . $this->crm_contact_id);
             });
 
-            $grid->created_at->sortable();
+            $grid->created_at('跟进时间')->sortable();
             $grid->disableBatchActions();
             $grid->disableCreateButton();
             $grid->disableEditButton();

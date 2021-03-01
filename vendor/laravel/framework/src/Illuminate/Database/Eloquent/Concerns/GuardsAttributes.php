@@ -9,14 +9,14 @@ trait GuardsAttributes
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $fillable = [];
 
     /**
      * The attributes that aren't mass assignable.
      *
-     * @var array
+     * @var string[]|bool
      */
     protected $guarded = ['*'];
 
@@ -26,6 +26,13 @@ trait GuardsAttributes
      * @var bool
      */
     protected static $unguarded = false;
+
+    /**
+     * The actual columns that exist on the database and can be guarded.
+     *
+     * @var array
+     */
+    protected static $guardableColumns = [];
 
     /**
      * Get the fillable attributes for the model.
@@ -70,7 +77,9 @@ trait GuardsAttributes
      */
     public function getGuarded()
     {
-        return $this->guarded;
+        return $this->guarded === false
+                    ? []
+                    : $this->guarded;
     }
 
     /**
@@ -121,7 +130,7 @@ trait GuardsAttributes
     }
 
     /**
-     * Determine if current state is "unguarded".
+     * Determine if the current state is "unguarded".
      *
      * @return bool
      */
@@ -178,6 +187,7 @@ trait GuardsAttributes
         }
 
         return empty($this->getFillable()) &&
+            strpos($key, '.') === false &&
             ! Str::startsWith($key, '_');
     }
 
@@ -189,7 +199,30 @@ trait GuardsAttributes
      */
     public function isGuarded($key)
     {
-        return in_array($key, $this->getGuarded()) || $this->getGuarded() == ['*'];
+        if (empty($this->getGuarded())) {
+            return false;
+        }
+
+        return $this->getGuarded() == ['*'] ||
+               ! empty(preg_grep('/^'.preg_quote($key).'$/i', $this->getGuarded())) ||
+               ! $this->isGuardableColumn($key);
+    }
+
+    /**
+     * Determine if the given column is a valid, guardable column.
+     *
+     * @param  string  $key
+     * @return bool
+     */
+    protected function isGuardableColumn($key)
+    {
+        if (! isset(static::$guardableColumns[get_class($this)])) {
+            static::$guardableColumns[get_class($this)] = $this->getConnection()
+                        ->getSchemaBuilder()
+                        ->getColumnListing($this->getTable());
+        }
+
+        return in_array($key, static::$guardableColumns[get_class($this)]);
     }
 
     /**

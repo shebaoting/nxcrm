@@ -1,0 +1,199 @@
+.sidebar-separate .main-sidebar {
+    top: 6rem;
+    left: 2.5rem;
+    text-align: center;
+    background: url(../img/waves.png) no-repeat;
+    background-color: #fff;
+}
+.main-menu .navbar-header .navbar-brand img {
+    display: inline-block;
+    max-width: 60px;
+    max-height: 60px;
+    margin-top: -1px;
+}
+@media (min-width: 768px) {
+    body:not(.sidebar-mini-md) .content-wrapper {
+        margin-left: 280px;
+    }
+}
+
+.sidebar-separate .header-navbar.fixed-top {
+    left: 0px;
+}
+
+.sidebar-collapse .sidebar-separate .header-navbar.fixed-top {
+    left: 0rem;
+}
+
+@media (min-width: 992px) {
+    .sidebar-mini.sidebar-collapse .content-wrapper {
+        margin-left: 7rem !important;
+    }
+}
+
+.main-sidebar .nav-sidebar .nav-item>.nav-link {
+    text-align: left;
+
+}
+
+.main-sidebar.sidebar-primary .sidebar a {
+    background: none !important;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.main-sidebar.sidebar-primary .sidebar a p {
+
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.sidebar-primary .nav-sidebar>.nav-item.menu-open>.nav-link,
+.sidebar-primary .nav-sidebar>.nav-item:hover>.nav-link,
+.sidebar-primary .nav-sidebar>.nav-item:hover>.nav-link a p {
+    /* background-color: none !important;*/
+    font-weight: 700;
+    color: #fff !important;
+}
+.sidebar-primary .leftbar-user-name {
+    color: #fff;
+}
+
+.main-sidebar.sidebar-primary .nav-treeview>.nav-item>.nav-link.active,
+.main-sidebar.sidebar-primary .nav-treeview>.nav-item>.nav-link.active p,
+.main-sidebar.sidebar-primary .nav-treeview>.nav-item>.nav-link:hover,
+.main-sidebar.sidebar-primary .nav.nav-pills .nav-item .nav-link.active,
+.main-sidebar.sidebar-primary .nav.nav-pills .nav-item .nav-link.active p {
+    color: #fff !important;
+    border-bottom: 0px;
+}
+
+.main-sidebar.sidebar-primary .nav-pills .nav-link:not(.active):hover,
+.main-sidebar.sidebar-primary .nav-pills .nav-link:not(.active):hover p,
+.main-sidebar.sidebar-primary .nav-treeview>.nav-item>.nav-link,
+.main-sidebar.sidebar-primary .navbar-header .logo-lg,
+.main-sidebar.sidebar-primary .navbar-header .logo-mini,
+.main-sidebar.sidebar-primary .sidebar a {
+    color: #fff;
+}
+
+[class*=sidebar-light-] .nav-treeview>.nav-item>.nav-link.active,
+[class*=sidebar-light-] .nav-treeview>.nav-item>.nav-link.active:hover {
+    color: #fe2d54;
+    background: none;
+    box-shadow: 0px 0px
+}
+
+.sidebar-light-primary .nav-item>.nav-link.active {
+    background: none;
+    box-shadow: 0px 0px
+}
+
+.nav-treeview>.nav-item>.nav-link i {
+    display: none;
+}
+
+.nav-sidebar>.nav-item>.nav-treeview {
+    padding-left: 30px;
+}
+
+.sidebar .nav-link p {
+    font-size: 14px;
+}
+
+.main-menu .navbar-header .navbar-brand img {
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+    border-radius: 50% !important;
+    display: block;
+    margin: 30px auto 10px;
+    border: #fff;
+    background-color:#fff ;
+    width: 60px;
+}
+.sidebar-collapse .main-menu .navbar-header .navbar-brand img {
+    width: 40px;
+}
+
+.logo-lg {
+    font-weight: 700;
+    color: #323a46 !important;
+    margin-top: 3px;
+    display: block;
+    padding: 0px;
+    text-align: center;
+}
+
+body.dark-mode .logo-lg {
+    color: #a8a9bb !important;
+}
+
+.logo-lg img {
+    vertical-align: middle;
+}
+
+body.dark-mode [class*=sidebar-dark-] .navbar-header {
+    padding: .35rem 1rem 0;
+}
+
+[class*=sidebar-dark-] .navbar-header {
+    height: auto;
+}
+
+body.dark-mode .main-menu .navbar-header .logo-lg {
+    font-weight: 700;
+}
+
+body.dark-mode [class*=sidebar-dark-] .navbar-header {
+    background: unset;
+}
+
+.leftbar-user-name {
+    font-weight: 700;
+    color: #323a46;
+    margin-top: 8px;
+    display: block;
+    font-size: .9rem;
+    padding: 0px;
+}
+
+body.dark-mode .leftbar-user-name {
+    color: #a8a9bb;
+}
+.grid__actions__ a {margin-left: 10px;}
+
+/* 选择图标的区域变大 */
+.iconpicker-popover.popover {
+    width:auto !important;
+}
+
+
+
+
+
+
+.horizontal-menu .navbar-horizontal {z-index: 999;}
+.horizontal-navbar-brand .logo-lg img {max-height: 40px;}
+.horizontal-menu .main-horizontal-sidebar {
+    left: 300px;
+    width: auto;
+    top: 5px;
+}
+.horizontal-menu .left-navbar {display: none !important;}
+.horizontal-menu .main-horizontal-sidebar>div {box-shadow:none}
+.horizontal-menu #pjax-container {
+    padding-top: 1.8rem !important;
+}
+
+
+
+.content-header .breadcrumb {
+    display: none;
+}
+.tool-main {
+    position: absolute;
+    right: 14px;
+    top: -45px;
+}
+.layui-layer-content .tool-main {
+    position: inherit;
+}
+body.dark-mode .nav-tabs {background-color: #222233;}
+body.dark-mode .nav.nav-tabs {border-bottom: 1px solid #2c2c43;}

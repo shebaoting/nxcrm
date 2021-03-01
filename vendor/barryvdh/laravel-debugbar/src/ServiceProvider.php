@@ -1,4 +1,6 @@
-<?php namespace Barryvdh\Debugbar;
+<?php
+
+namespace Barryvdh\Debugbar;
 
 use Barryvdh\Debugbar\Middleware\DebugbarEnabled;
 use Barryvdh\Debugbar\Middleware\InjectDebugbar;
@@ -7,6 +9,7 @@ use DebugBar\DataFormatter\DataFormatterInterface;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Routing\Router;
 use Illuminate\Session\SessionManager;
+use Illuminate\Support\Collection;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -27,6 +30,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $configPath = __DIR__ . '/../config/debugbar.php';
         $this->mergeConfigFrom($configPath, 'debugbar');
 
+        $this->loadRoutesFrom(realpath(__DIR__ . '/debugbar-routes.php'));
+
         $this->app->alias(
             DataFormatter::class,
             DataFormatterInterface::class
@@ -35,25 +40,30 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->singleton(LaravelDebugbar::class, function () {
                 $debugbar = new LaravelDebugbar($this->app);
 
-                if ($this->app->bound(SessionManager::class)) {
-                    $sessionManager = $this->app->make(SessionManager::class);
-                    $httpDriver = new SymfonyHttpDriver($sessionManager);
-                    $debugbar->setHttpDriver($httpDriver);
-                }
+            if ($this->app->bound(SessionManager::class)) {
+                $sessionManager = $this->app->make(SessionManager::class);
+                $httpDriver = new SymfonyHttpDriver($sessionManager);
+                $debugbar->setHttpDriver($httpDriver);
+            }
 
                 return $debugbar;
-            }
-        );
+        });
 
         $this->app->alias(LaravelDebugbar::class, 'debugbar');
 
-        $this->app->singleton('command.debugbar.clear',
+        $this->app->singleton(
+            'command.debugbar.clear',
             function ($app) {
                 return new Console\ClearCommand($app['debugbar']);
             }
         );
 
         $this->commands(['command.debugbar.clear']);
+
+        Collection::macro('debug', function () {
+            debug($this);
+            return $this;
+        });
     }
 
     /**
@@ -65,45 +75,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $configPath = __DIR__ . '/../config/debugbar.php';
         $this->publishes([$configPath => $this->getConfigPath()], 'config');
-
-        $routeConfig = [
-            'namespace' => 'Barryvdh\Debugbar\Controllers',
-            'prefix' => $this->app['config']->get('debugbar.route_prefix'),
-            'domain' => $this->app['config']->get('debugbar.route_domain'),
-            'middleware' => [DebugbarEnabled::class],
-        ];
-
-        $this->getRouter()->group($routeConfig, function($router) {
-            $router->get('open', [
-                'uses' => 'OpenHandlerController@handle',
-                'as' => 'debugbar.openhandler',
-            ]);
-
-            $router->get('clockwork/{id}', [
-                'uses' => 'OpenHandlerController@clockwork',
-                'as' => 'debugbar.clockwork',
-            ]);
-
-            $router->get('telescope/{id}', [
-                'uses' => 'TelescopeController@show',
-                'as' => 'debugbar.telescope',
-            ]);
-            
-            $router->get('assets/stylesheets', [
-                'uses' => 'AssetController@css',
-                'as' => 'debugbar.assets.css',
-            ]);
-
-            $router->get('assets/javascript', [
-                'uses' => 'AssetController@js',
-                'as' => 'debugbar.assets.js',
-            ]);
-
-            $router->delete('cache/{key}/{tags?}', [
-                'uses' => 'CacheController@delete',
-                'as' => 'debugbar.cache.delete',
-            ]);
-        });
 
         $this->registerMiddleware(InjectDebugbar::class);
     }

@@ -2,10 +2,12 @@
 
 namespace Illuminate\View\Compilers\Concerns;
 
+use Illuminate\Support\Str;
+
 trait CompilesConditionals
 {
     /**
-     * Identifier for the first case in switch statement.
+     * Identifier for the first case in the switch statement.
      *
      * @var bool
      */
@@ -50,12 +52,12 @@ trait CompilesConditionals
     /**
      * Compile the env statements into valid PHP.
      *
-     * @param  string  $environment
+     * @param  string  $environments
      * @return string
      */
-    protected function compileEnv($environment)
+    protected function compileEnv($environments)
     {
-        return "<?php if(app()->environment{$environment}): ?>";
+        return "<?php if(app()->environment{$environments}): ?>";
     }
 
     /**
@@ -133,6 +135,17 @@ trait CompilesConditionals
     protected function compileHasSection($expression)
     {
         return "<?php if (! empty(trim(\$__env->yieldContent{$expression}))): ?>";
+    }
+
+    /**
+     * Compile the section-missing statements into valid PHP.
+     *
+     * @param  string  $expression
+     * @return string
+     */
+    protected function compileSectionMissing($expression)
+    {
+        return "<?php if (empty(trim(\$__env->yieldContent{$expression}))): ?>";
     }
 
     /**
@@ -267,5 +280,28 @@ trait CompilesConditionals
     protected function compileEndSwitch()
     {
         return '<?php endswitch; ?>';
+    }
+
+    /**
+     * Compile a once block into valid PHP.
+     *
+     * @param  string|null  $id
+     * @return string
+     */
+    protected function compileOnce($id = null)
+    {
+        $id = $id ? $this->stripParentheses($id) : "'".(string) Str::uuid()."'";
+
+        return '<?php if (! $__env->hasRenderedOnce('.$id.')): $__env->markAsRenderedOnce('.$id.'); ?>';
+    }
+
+    /**
+     * Compile an end-once block into valid PHP.
+     *
+     * @return string
+     */
+    public function compileEndOnce()
+    {
+        return '<?php endif; ?>';
     }
 }

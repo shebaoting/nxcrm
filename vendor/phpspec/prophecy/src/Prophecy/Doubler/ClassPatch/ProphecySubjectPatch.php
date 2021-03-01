@@ -11,9 +11,11 @@
 
 namespace Prophecy\Doubler\ClassPatch;
 
+use Prophecy\Doubler\Generator\Node\ArgumentTypeNode;
 use Prophecy\Doubler\Generator\Node\ClassNode;
 use Prophecy\Doubler\Generator\Node\MethodNode;
 use Prophecy\Doubler\Generator\Node\ArgumentNode;
+use Prophecy\Doubler\Generator\Node\ReturnTypeNode;
 
 /**
  * Add Prophecy functionality to the double.
@@ -50,7 +52,7 @@ class ProphecySubjectPatch implements ClassPatchInterface
                 continue;
             }
 
-            if ($method->getReturnType() === 'void') {
+            if ($method->getReturnTypeNode()->isVoid()) {
                 $method->setCode(
                     '$this->getProphecy()->makeProphecyMethodCall(__FUNCTION__, func_get_args());'
                 );
@@ -63,7 +65,7 @@ class ProphecySubjectPatch implements ClassPatchInterface
 
         $prophecySetter = new MethodNode('setProphecy');
         $prophecyArgument = new ArgumentNode('prophecy');
-        $prophecyArgument->setTypeHint('Prophecy\Prophecy\ProphecyInterface');
+        $prophecyArgument->setTypeNode(new ArgumentTypeNode('Prophecy\Prophecy\ProphecyInterface'));
         $prophecySetter->addArgument($prophecyArgument);
         $prophecySetter->setCode(<<<PHP
 if (null === \$this->objectProphecyClosure) {
@@ -90,7 +92,7 @@ PHP
         $__call->setCode(<<<PHP
 throw new \Prophecy\Exception\Doubler\MethodNotFoundException(
     sprintf('Method `%s::%s()` not found.', get_class(\$this), func_get_arg(0)),
-    \$this->getProphecy(), func_get_arg(0)
+    get_class(\$this), func_get_arg(0)
 );
 PHP
         );

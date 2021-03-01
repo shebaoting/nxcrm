@@ -23,7 +23,8 @@ use Dcat\Admin\Support\Helper;
  *
  */
 
-Admin::baseCss(['static/css/nxcrm2.css'], true);
+// dd(admin_setting('style_type', 1));
+Admin::baseCss(['static/css/nxcrm'.admin_setting('style_type', 2).'.css'], true);
 Admin::asset()->alias('@nunito', null, '');
 Admin::asset()->alias('@montserrat', null, '');
 
@@ -86,8 +87,9 @@ config([
     'admin.logo-mini' => $logo_mini,
     'admin.layout.body_class' => admin_setting('body_class'),
     'admin.layout.sidebar_style' => 'light',
-    'admin.layout.dark_mode_switch' => admin_setting('sidebar_style'),
+    'admin.layout.dark_mode_switch' => true,
     'admin.layout.color' => 'blue',
+    'admin.layout.horizontal_menu' => admin_setting('horizontal_menu'),
 ]);
 
 

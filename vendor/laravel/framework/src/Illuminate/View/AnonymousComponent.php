@@ -19,7 +19,7 @@ class AnonymousComponent extends Component
     protected $data = [];
 
     /**
-     * Create a new class-less component instance.
+     * Create a new anonymous component instance.
      *
      * @param  string  $view
      * @param  array  $data
@@ -48,8 +48,13 @@ class AnonymousComponent extends Component
      */
     public function data()
     {
-        $this->attributes = $this->attributes ?: new ComponentAttributeBag;
+        $this->attributes = $this->attributes ?: $this->newAttributeBag();
 
-        return $this->data + ['attributes' => $this->attributes];
+        return array_merge(
+            optional($this->data['attributes'] ?? null)->getAttributes() ?: [],
+            $this->attributes->getAttributes(),
+            $this->data,
+            ['attributes' => $this->attributes]
+        );
     }
 }

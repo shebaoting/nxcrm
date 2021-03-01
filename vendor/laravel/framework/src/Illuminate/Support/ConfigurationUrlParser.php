@@ -17,6 +17,8 @@ class ConfigurationUrlParser
         'postgres' => 'pgsql',
         'postgresql' => 'pgsql',
         'sqlite3' => 'sqlite',
+        'redis' => 'tcp',
+        'rediss' => 'tls',
     ];
 
     /**
@@ -168,7 +170,7 @@ class ConfigurationUrlParser
     }
 
     /**
-     * Get all of the current drivers aliases.
+     * Get all of the current drivers' aliases.
      *
      * @return array
      */

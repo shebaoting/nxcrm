@@ -21,10 +21,10 @@ use Symfony\Component\VarDumper\Cloner\DumperInterface;
  */
 abstract class AbstractDumper implements DataDumperInterface, DumperInterface
 {
-    const DUMP_LIGHT_ARRAY = 1;
-    const DUMP_STRING_LENGTH = 2;
-    const DUMP_COMMA_SEPARATOR = 4;
-    const DUMP_TRAILING_COMMA = 8;
+    public const DUMP_LIGHT_ARRAY = 1;
+    public const DUMP_STRING_LENGTH = 2;
+    public const DUMP_COMMA_SEPARATOR = 4;
+    public const DUMP_TRAILING_COMMA = 8;
 
     public static $defaultOutput = 'php://output';
 
@@ -70,7 +70,7 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
             $this->lineDumper = $output;
         } else {
             if (\is_string($output)) {
-                $output = fopen($output, 'wb');
+                $output = fopen($output, 'w');
             }
             $this->outputStream = $output;
             $this->lineDumper = [$this, 'echoLine'];
@@ -123,12 +123,12 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
         $this->decimalPoint = localeconv();
         $this->decimalPoint = $this->decimalPoint['decimal_point'];
 
-        if ($locale = $this->flags & (self::DUMP_COMMA_SEPARATOR | self::DUMP_TRAILING_COMMA) ? setlocale(LC_NUMERIC, 0) : null) {
-            setlocale(LC_NUMERIC, 'C');
+        if ($locale = $this->flags & (self::DUMP_COMMA_SEPARATOR | self::DUMP_TRAILING_COMMA) ? setlocale(\LC_NUMERIC, 0) : null) {
+            setlocale(\LC_NUMERIC, 'C');
         }
 
         if ($returnDump = true === $output) {
-            $output = fopen('php://memory', 'r+b');
+            $output = fopen('php://memory', 'r+');
         }
         if ($output) {
             $prevOutput = $this->setOutput($output);
@@ -148,7 +148,7 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
                 $this->setOutput($prevOutput);
             }
             if ($locale) {
-                setlocale(LC_NUMERIC, $locale);
+                setlocale(\LC_NUMERIC, $locale);
             }
         }
 

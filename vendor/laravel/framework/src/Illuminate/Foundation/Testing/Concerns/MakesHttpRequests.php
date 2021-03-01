@@ -3,6 +3,7 @@
 namespace Illuminate\Foundation\Testing\Concerns;
 
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
+use Illuminate\Cookie\CookieValuePrefix;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
@@ -507,11 +508,11 @@ trait MakesHttpRequests
             $request = Request::createFromBase($symfonyRequest)
         );
 
+        $kernel->terminate($request, $response);
+
         if ($this->followRedirects) {
             $response = $this->followRedirects($response);
         }
-
-        $kernel->terminate($request, $response);
 
         return $this->createTestResponse($response);
     }
@@ -599,8 +600,8 @@ trait MakesHttpRequests
             return array_merge($this->defaultCookies, $this->unencryptedCookies);
         }
 
-        return collect($this->defaultCookies)->map(function ($value) {
-            return encrypt($value, false);
+        return collect($this->defaultCookies)->map(function ($value, $key) {
+            return encrypt(CookieValuePrefix::create($key, app('encrypter')->getKey()).$value, false);
         })->merge($this->unencryptedCookies)->all();
     }
 
@@ -622,11 +623,11 @@ trait MakesHttpRequests
      */
     protected function followRedirects($response)
     {
+        $this->followRedirects = false;
+
         while ($response->isRedirect()) {
             $response = $this->get($response->headers->get('Location'));
         }
-
-        $this->followRedirects = false;
 
         return $response;
     }

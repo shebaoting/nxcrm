@@ -18,9 +18,9 @@ namespace Symfony\Component\HttpFoundation;
  */
 class Cookie
 {
-    const SAMESITE_NONE = 'none';
-    const SAMESITE_LAX = 'lax';
-    const SAMESITE_STRICT = 'strict';
+    public const SAMESITE_NONE = 'none';
+    public const SAMESITE_LAX = 'lax';
+    public const SAMESITE_STRICT = 'strict';
 
     protected $name;
     protected $value;
@@ -35,8 +35,8 @@ class Cookie
     private $secureDefault = false;
 
     private static $reservedCharsList = "=,; \t\r\n\v\f";
-    private static $reservedCharsFrom = ['=', ',', ';', ' ', "\t", "\r", "\n", "\v", "\f"];
-    private static $reservedCharsTo = ['%3D', '%2C', '%3B', '%20', '%09', '%0D', '%0A', '%0B', '%0C'];
+    private const RESERVED_CHARS_FROM = ['=', ',', ';', ' ', "\t", "\r", "\n", "\v", "\f"];
+    private const RESERVED_CHARS_TO = ['%3D', '%2C', '%3B', '%20', '%09', '%0D', '%0A', '%0B', '%0C'];
 
     /**
      * Creates cookie from raw header string.
@@ -62,8 +62,9 @@ class Cookie
         $value = isset($part[1]) ? ($decode ? urldecode($part[1]) : $part[1]) : null;
 
         $data = HeaderUtils::combine($parts) + $data;
+        $data['expires'] = self::expiresTimestamp($data['expires']);
 
-        if (isset($data['max-age'])) {
+        if (isset($data['max-age']) && ($data['max-age'] > 0 || $data['expires'] > time())) {
             $data['expires'] = time() + (int) $data['max-age'];
         }
 
@@ -102,7 +103,7 @@ class Cookie
         $this->name = $name;
         $this->value = $value;
         $this->domain = $domain;
-        $this->expire = $this->withExpires($expire)->expire;
+        $this->expire = self::expiresTimestamp($expire);
         $this->path = empty($path) ? '/' : $path;
         $this->secure = $secure;
         $this->httpOnly = $httpOnly;
@@ -145,6 +146,21 @@ class Cookie
      */
     public function withExpires($expire = 0): self
     {
+        $cookie = clone $this;
+        $cookie->expire = self::expiresTimestamp($expire);
+
+        return $cookie;
+    }
+
+    /**
+     * Converts expires formats to a unix timestamp.
+     *
+     * @param int|string|\DateTimeInterface $expire
+     *
+     * @return int
+     */
+    private static function expiresTimestamp($expire = 0)
+    {
         // convert expiration time to a Unix timestamp
         if ($expire instanceof \DateTimeInterface) {
             $expire = $expire->format('U');
@@ -156,10 +172,7 @@ class Cookie
             }
         }
 
-        $cookie = clone $this;
-        $cookie->expire = 0 < $expire ? (int) $expire : 0;
-
-        return $cookie;
+        return 0 < $expire ? (int) $expire : 0;
     }
 
     /**
@@ -251,7 +264,7 @@ class Cookie
         if ($this->isRaw()) {
             $str = $this->getName();
         } else {
-            $str = str_replace(self::$reservedCharsFrom, self::$reservedCharsTo, $this->getName());
+            $str = str_replace(self::RESERVED_CHARS_FROM, self::RESERVED_CHARS_TO, $this->getName());
         }
 
         $str .= '=';

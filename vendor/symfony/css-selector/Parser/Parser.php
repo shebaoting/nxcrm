@@ -84,7 +84,7 @@ class Parser implements ParserInterface
         }
 
         $split = explode('n', $joined);
-        $first = isset($split[0]) ? $split[0] : null;
+        $first = $split[0] ?? null;
 
         return [
             $first ? ('-' === $first || '+' === $first ? $int($first.'1') : $int($first)) : 1,
@@ -113,7 +113,7 @@ class Parser implements ParserInterface
 
     private function parserSelectorNode(TokenStream $stream): Node\SelectorNode
     {
-        list($result, $pseudoElement) = $this->parseSimpleSelector($stream);
+        [$result, $pseudoElement] = $this->parseSimpleSelector($stream);
 
         while (true) {
             $stream->skipWhitespace();
@@ -134,7 +134,7 @@ class Parser implements ParserInterface
                 $combinator = ' ';
             }
 
-            list($nextSelector, $pseudoElement) = $this->parseSimpleSelector($stream);
+            [$nextSelector, $pseudoElement] = $this->parseSimpleSelector($stream);
             $result = new Node\CombinedSelectorNode($result, $combinator, $nextSelector);
         }
 
@@ -209,7 +209,7 @@ class Parser implements ParserInterface
                         throw SyntaxErrorException::nestedNot();
                     }
 
-                    list($argument, $argumentPseudoElement) = $this->parseSimpleSelector($stream, true);
+                    [$argument, $argumentPseudoElement] = $this->parseSimpleSelector($stream, true);
                     $next = $stream->getNext();
 
                     if (null !== $argumentPseudoElement) {

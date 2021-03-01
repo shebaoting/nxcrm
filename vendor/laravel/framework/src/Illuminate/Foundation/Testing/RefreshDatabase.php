@@ -37,9 +37,21 @@ trait RefreshDatabase
      */
     protected function refreshInMemoryDatabase()
     {
-        $this->artisan('migrate');
+        $this->artisan('migrate', $this->migrateUsing());
 
         $this->app[Kernel::class]->setArtisan(null);
+    }
+
+    /**
+     * The parameters that should be used when running "migrate".
+     *
+     * @return array
+     */
+    protected function migrateUsing()
+    {
+        return [
+            '--seed' => $this->shouldSeed(),
+        ];
     }
 
     /**
@@ -50,10 +62,7 @@ trait RefreshDatabase
     protected function refreshTestDatabase()
     {
         if (! RefreshDatabaseState::$migrated) {
-            $this->artisan('migrate:fresh', [
-                '--drop-views' => $this->shouldDropViews(),
-                '--drop-types' => $this->shouldDropTypes(),
-            ]);
+            $this->artisan('migrate:fresh', $this->migrateFreshUsing());
 
             $this->app[Kernel::class]->setArtisan(null);
 
@@ -61,6 +70,24 @@ trait RefreshDatabase
         }
 
         $this->beginDatabaseTransaction();
+    }
+
+    /**
+     * The parameters that should be used when running "migrate:fresh".
+     *
+     * @return array
+     */
+    protected function migrateFreshUsing()
+    {
+        $seeder = $this->seeder();
+
+        return array_merge(
+            [
+                '--drop-views' => $this->shouldDropViews(),
+                '--drop-types' => $this->shouldDropTypes(),
+            ],
+            $seeder ? ['--seeder' => $seeder] : ['--seed' => $this->shouldSeed()]
+        );
     }
 
     /**
@@ -112,8 +139,7 @@ trait RefreshDatabase
      */
     protected function shouldDropViews()
     {
-        return property_exists($this, 'dropViews')
-                            ? $this->dropViews : false;
+        return property_exists($this, 'dropViews') ? $this->dropViews : false;
     }
 
     /**
@@ -123,7 +149,26 @@ trait RefreshDatabase
      */
     protected function shouldDropTypes()
     {
-        return property_exists($this, 'dropTypes')
-                            ? $this->dropTypes : false;
+        return property_exists($this, 'dropTypes') ? $this->dropTypes : false;
+    }
+
+    /**
+     * Determine if the seed task should be run when refreshing the database.
+     *
+     * @return bool
+     */
+    protected function shouldSeed()
+    {
+        return property_exists($this, 'seed') ? $this->seed : false;
+    }
+
+    /**
+     * Determine the specific seeder class that should be used when refreshing the database.
+     *
+     * @return mixed
+     */
+    protected function seeder()
+    {
+        return property_exists($this, 'seeder') ? $this->seeder : false;
     }
 }

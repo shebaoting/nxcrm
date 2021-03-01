@@ -12,6 +12,8 @@ use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Reflector;
+use Illuminate\Support\Stringable;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\ReflectsClosures;
 use Psr\Http\Client\ClientExceptionInterface;
@@ -85,7 +87,7 @@ class Event
     public $expiresAt = 1440;
 
     /**
-     * Indicates if the command should run in background.
+     * Indicates if the command should run in the background.
      *
      * @var bool
      */
@@ -474,7 +476,7 @@ class Event
      */
     protected function emailOutput(Mailer $mailer, $addresses, $onlyIfOutputExists = false)
     {
-        $text = file_exists($this->output) ? file_get_contents($this->output) : '';
+        $text = is_file($this->output) ? file_get_contents($this->output) : '';
 
         if ($onlyIfOutputExists && empty($text)) {
             return;
@@ -585,7 +587,7 @@ class Event
     }
 
     /**
-     * State that the command should run in background.
+     * State that the command should run in the background.
      *
      * @return $this
      */
@@ -673,7 +675,7 @@ class Event
      */
     public function when($callback)
     {
-        $this->filters[] = is_callable($callback) ? $callback : function () use ($callback) {
+        $this->filters[] = Reflector::isCallable($callback) ? $callback : function () use ($callback) {
             return $callback;
         };
 
@@ -688,7 +690,7 @@ class Event
      */
     public function skip($callback)
     {
-        $this->rejects[] = is_callable($callback) ? $callback : function () use ($callback) {
+        $this->rejects[] = Reflector::isCallable($callback) ? $callback : function () use ($callback) {
             return $callback;
         };
 
@@ -727,6 +729,12 @@ class Event
      */
     public function then(Closure $callback)
     {
+        $parameters = $this->closureParameterTypes($callback);
+
+        if (Arr::get($parameters, 'output') === Stringable::class) {
+            return $this->thenWithOutput($callback);
+        }
+
         $this->afterCallbacks[] = $callback;
 
         return $this;
@@ -754,6 +762,12 @@ class Event
      */
     public function onSuccess(Closure $callback)
     {
+        $parameters = $this->closureParameterTypes($callback);
+
+        if (Arr::get($parameters, 'output') === Stringable::class) {
+            return $this->onSuccessWithOutput($callback);
+        }
+
         return $this->then(function (Container $container) use ($callback) {
             if (0 === $this->exitCode) {
                 $container->call($callback);
@@ -783,6 +797,12 @@ class Event
      */
     public function onFailure(Closure $callback)
     {
+        $parameters = $this->closureParameterTypes($callback);
+
+        if (Arr::get($parameters, 'output') === Stringable::class) {
+            return $this->onFailureWithOutput($callback);
+        }
+
         return $this->then(function (Container $container) use ($callback) {
             if (0 !== $this->exitCode) {
                 $container->call($callback);
@@ -814,11 +834,11 @@ class Event
     protected function withOutputCallback(Closure $callback, $onlyIfOutputExists = false)
     {
         return function (Container $container) use ($callback, $onlyIfOutputExists) {
-            $output = $this->output && file_exists($this->output) ? file_get_contents($this->output) : '';
+            $output = $this->output && is_file($this->output) ? file_get_contents($this->output) : '';
 
             return $onlyIfOutputExists && empty($output)
                             ? null
-                            : $container->call($callback, ['output' => $output]);
+                            : $container->call($callback, ['output' => new Stringable($output)]);
         };
     }
 

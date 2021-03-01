@@ -1,72 +1,84 @@
-# ramsey/collection
+<h1 align="center">ramsey/collection</h1>
 
-[![Source Code][badge-source]][source]
-[![Latest Version][badge-release]][release]
-[![Software License][badge-license]][license]
-[![Build Status][badge-build]][build]
-[![Coverage Status][badge-coverage]][coverage]
-[![Total Downloads][badge-downloads]][downloads]
+<p align="center">
+    <strong>A PHP library for representing and manipulating collections.</strong>
+</p>
 
-ramsey/collection is a PHP 7.2+ library for representing and manipulating collections..
-
-This project adheres to a [Contributor Code of Conduct][conduct]. By participating in this project and its community, you are expected to uphold this code.
-
+<p align="center">
+    <a href="https://github.com/ramsey/collection"><img src="http://img.shields.io/badge/source-ramsey/collection-blue.svg?style=flat-square" alt="Source Code"></a>
+    <a href="https://packagist.org/packages/ramsey/collection"><img src="https://img.shields.io/packagist/v/ramsey/collection.svg?style=flat-square&label=release" alt="Download Package"></a>
+    <a href="https://php.net"><img src="https://img.shields.io/packagist/php-v/ramsey/collection.svg?style=flat-square&colorB=%238892BF" alt="PHP Programming Language"></a>
+    <a href="https://github.com/ramsey/collection/actions?query=workflow%3ACI"><img src="https://img.shields.io/github/workflow/status/ramsey/collection/CI?label=CI&logo=github&style=flat-square" alt="Build Status"></a>
+    <a href="https://codecov.io/gh/ramsey/collection"><img src="https://img.shields.io/codecov/c/gh/ramsey/collection?label=codecov&logo=codecov&style=flat-square" alt="Codecov Code Coverage"></a>
+    <a href="https://shepherd.dev/github/ramsey/collection"><img src="https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Framsey%2Fcollection%2Fcoverage" alt="Psalm Type Coverage"></a>
+    <a href="https://github.com/ramsey/collection/blob/master/LICENSE"><img src="https://img.shields.io/packagist/l/ramsey/collection.svg?style=flat-square&colorB=darkcyan" alt="Read License"></a>
+    <a href="https://packagist.org/packages/ramsey/collection/stats"><img src="https://img.shields.io/packagist/dt/ramsey/collection.svg?style=flat-square&colorB=darkmagenta" alt="Package downloads on Packagist"></a>
+    <a href="https://phpc.chat/channel/ramsey"><img src="https://img.shields.io/badge/phpc.chat-%23ramsey-darkslateblue?style=flat-square" alt="Chat with the maintainers"></a>
+</p>
 
 ## About
 
+ramsey/collection is a PHP 7.2+ library for representing and manipulating collections.
+
 Much inspiration for this library came from the [Java Collections Framework][java].
 
+This project adheres to a [code of conduct](CODE_OF_CONDUCT.md).
+By participating in this project and its community, you are expected to
+uphold this code.
 
 ## Installation
 
-The preferred method of installation is via [Packagist][] and [Composer][]. Run
-the following command to install the package and add it as a requirement to
-your project's `composer.json`:
+Install this package as a dependency using [Composer](https://getcomposer.org).
 
-```bash
+``` bash
 composer require ramsey/collection
 ```
 
+## Usage
 
-## API documentation
-
-The [latest class API documentation][apidocs] is available online.
-
-
-## Examples
-
-Examples of how to use this framework can be found in the [Wiki pages](https://github.com/ramsey/collection/wiki/Examples).
-
+Examples of how to use this framework can be found in the
+[Wiki pages](https://github.com/ramsey/collection/wiki/Examples).
 
 ## Contributing
 
-Contributions are welcome! Please read [CONTRIBUTING][] for details.
+Contributions are welcome! Before contributing to this project, familiarize
+yourself with [CONTRIBUTING.md](CONTRIBUTING.md).
 
+To develop this project, you will need [PHP](https://www.php.net) 7.2 or greater
+and [Composer](https://getcomposer.org).
+
+After cloning this repository locally, execute the following commands:
+
+``` bash
+cd /path/to/repository
+composer install
+```
+
+Now, you are ready to develop!
+
+## Coordinated Disclosure
+
+Keeping user information safe and secure is a top priority, and we welcome the
+contribution of external security researchers. If you believe you've found a
+security issue in software that is maintained in this repository, please read
+[SECURITY.md][] for instructions on submitting a vulnerability report.
+
+## ramsey/collection for Enterprise
+
+Available as part of the Tidelift Subscription.
+
+The maintainers of ramsey/collection and thousands of other packages are working
+with Tidelift to deliver commercial support and maintenance for the open source
+packages you use to build your applications. Save time, reduce risk, and improve
+code health, while paying the maintainers of the exact packages you use.
+[Learn more.](https://tidelift.com/subscription/pkg/packagist-ramsey-collection?utm_source=undefined&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
 
 ## Copyright and License
 
-The ramsey/collection library is copyright © [Ben Ramsey](https://benramsey.com/) and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
+The ramsey/collection library is copyright © [Ben Ramsey](https://benramsey.com)
+and licensed for use under the terms of the
+MIT License (MIT). Please see [LICENSE](LICENSE) for more information.
 
 
-
-[conduct]: https://github.com/ramsey/collection/blob/master/.github/CODE_OF_CONDUCT.md
 [java]: http://docs.oracle.com/javase/8/docs/technotes/guides/collections/index.html
-[packagist]: https://packagist.org/packages/ramsey/collection
-[composer]: http://getcomposer.org/
-[apidocs]: https://docs.benramsey.com/ramsey-collection/latest/
-[contributing]: https://github.com/ramsey/collection/blob/master/.github/CONTRIBUTING.md
-
-[badge-source]: http://img.shields.io/badge/source-ramsey/collection-blue.svg?style=flat-square
-[badge-release]: https://img.shields.io/github/release/ramsey/collection.svg?style=flat-square
-[badge-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[badge-build]: https://img.shields.io/travis/ramsey/collection/master.svg?style=flat-square
-[badge-coverage]: https://img.shields.io/coveralls/ramsey/collection/master.svg?style=flat-square
-[badge-downloads]: https://img.shields.io/packagist/dt/ramsey/collection.svg?style=flat-square
-
-[source]: https://github.com/ramsey/collection
-[release]: https://github.com/ramsey/collection/releases
-[license]: https://github.com/ramsey/collection/blob/master/LICENSE
-[build]: https://travis-ci.org/ramsey/collection
-[hhvm]: http://hhvm.h4cc.de/package/ramsey/collection
-[coverage]: https://coveralls.io/r/ramsey/collection?branch=master
-[downloads]: https://packagist.org/packages/ramsey/collection
+[security.md]: https://github.com/ramsey/collection/blob/master/SECURITY.md

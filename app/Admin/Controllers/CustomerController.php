@@ -17,10 +17,11 @@ use App\Admin\RowAction\ReceiveHighSeas;
 use App\Admin\Traits\ShareCustomers;
 use Dcat\Admin\Widgets\Tab;
 use Illuminate\Http\Request;
+use App\Admin\Traits\Exportfields;
 
 class CustomerController extends AdminController
 {
-    use Customfields, Selector, ShareCustomers;
+    use Customfields, Selector, ShareCustomers, Exportfields;
 
     public function __construct(Request $request)
     {
@@ -40,7 +41,7 @@ class CustomerController extends AdminController
      */
     protected function grid()
     {
-        return Grid::make(CrmCustomer::with(['Admin_user','CrmEvents']), function (Grid $grid) {
+        return Grid::make(CrmCustomer::with(['Admin_user', 'CrmEvents']), function (Grid $grid) {
 
             Admin::style(
                 <<<CSS
@@ -114,7 +115,6 @@ CSS
                 $grid->disableDeleteButton();
                 $grid->disableEditButton();
                 $grid->disableViewButton();
-                $grid->disableRefreshButton();
                 $grid->actions(function (Grid\Displayers\Actions $actions) {
                     $actions->append(new ReceiveHighSeas(['领取客户', '您确定要领取此客户吗？']));
                 });
@@ -130,16 +130,13 @@ CSS
                 $filter->equal('id');
                 $filter->like('name', '客户名称');
             });
-            $top_titles = ['id' => 'ID', 'name' => '名称', 'admin_user_id' => '所属销售', 'address' => '地址'];
-            $grid->export($top_titles)->rows(function (array $rows) {
-                foreach ($rows as $index => &$row) {
-                    $row['admin_user_id'] = CrmCustomer::find($row['admin_user_id'])->Admin_user->name;
-                }
-                return $rows;
-            });
+            if (Admin::user()->isRole('administrator')) {
+                // 导出
+                $this->Exportfield($grid, 'customer');
 
-            // $grid->tools('<a href="/admin/import/form" class="btn btn-primary pull-right"><i class="feather icon-arrow-down"></i>导入</a>');
-
+                // 导入
+                $grid->tools('<a href="/admin/import/form" class="btn btn-primary pull-right"><i class="feather icon-arrow-down"></i>导入</a>');
+            }
         });
     }
 

@@ -1,7 +1,7 @@
 {
     "name": "symfony/string",
     "type": "library",
-    "description": "Symfony String component",
+    "description": "Provides an object-oriented API to strings and deals with bytes, UTF-8 code points and grapheme clusters in a unified way",
     "keywords": ["string", "utf8", "utf-8", "grapheme", "i18n", "unicode"],
     "homepage": "https://symfony.com",
     "license": "MIT",
@@ -36,10 +36,5 @@
             "/Tests/"
         ]
     },
-    "minimum-stability": "dev",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "5.1-dev"
-        }
-    }
+    "minimum-stability": "dev"
 }

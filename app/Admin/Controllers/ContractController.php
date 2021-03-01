@@ -13,10 +13,11 @@ use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Admin;
 use App\Models\CrmCustomer;
+use App\Admin\Traits\Exportfields;
 
 class ContractController extends AdminController
 {
-    use Customfields;
+    use Customfields, Exportfields;
     public static $css = [
         '/static/css/contract_show.css',
     ];
@@ -123,34 +124,8 @@ class ContractController extends AdminController
             });
             $this->gridfield($grid,'contract');
             if (Admin::user()->isRole('administrator')) {
-                $top_titles = [
-                    'id' => 'ID',
-                    'title' => '合同名称',
-                    'crm_customer_id' => '所属客户',
-                    'signdate' => '签订日期',
-                    'expiretime' => '到期时间',
-                    'total' => '合同总额',
-                    'status' => '合同状态'
-                ];
-                $grid->export($top_titles)->rows(function (array $rows) {
-                    foreach ($rows as $index => &$row) {
-                        $row['crm_customer_id'] = CrmCustomer::find($row['crm_customer_id'])->name;
-                        switch ($row['status']) {
-                            case 1:
-                                $row['status'] = '未开始';
-                                break;
-                            case 2:
-                                $row['status'] = '执行中';
-                                break;
-                            case 3:
-                                $row['status'] = '正常结束';
-                                break;
-                            default:
-                                $row['status'] = '意外终止';
-                        }
-                    }
-                    return $rows;
-                });
+            // 导出
+            $this->Exportfield($grid,'contract');
             }
 
             $grid->model()->orderBy('id', 'desc');
@@ -239,10 +214,10 @@ class ContractController extends AdminController
 
             $form->column(6, function (Form $form) {
                 $form->selectTable('crm_customer_id')
-                    ->title('弹窗标题')
+                    ->title('选择所属客户')
                     ->dialogWidth('50%') // 弹窗宽度，默认 800px
                     ->from(CrmCustomerTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
-                    ->model(CrmCustomer::class, 'id', 'name'); // 设置编辑数据显示
+                    ->model(CrmCustomer::class, 'id', 'title'); // 设置编辑数据显示
                 $form->date('signdate', '签署时间')->required();
             });
 

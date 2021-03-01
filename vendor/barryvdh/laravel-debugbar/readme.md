@@ -1,4 +1,5 @@
 ## Laravel Debugbar
+![Unit Tests](https://github.com/barryvdh/laravel-debugbar/workflows/Unit%20Tests/badge.svg)
 [![Packagist License](https://poser.pugx.org/barryvdh/laravel-debugbar/license.png)](http://choosealicense.com/licenses/mit/)
 [![Latest Stable Version](https://poser.pugx.org/barryvdh/laravel-debugbar/version.png)](https://packagist.org/packages/barryvdh/laravel-debugbar)
 [![Total Downloads](https://poser.pugx.org/barryvdh/laravel-debugbar/d/total.png)](https://packagist.org/packages/barryvdh/laravel-debugbar)
@@ -130,6 +131,9 @@ There are also helper functions available for the most common calls:
 ```php
 // All arguments will be dumped as a debug message
 debug($var1, $someString, $intValue, $object);
+
+// `$collection->debug()` will return the collection and dump it as a debug message. Like `$collection->dump()`
+collect([$var1, $someString])->debug();
 
 start_measure('render','Time for rendering');
 stop_measure('render');

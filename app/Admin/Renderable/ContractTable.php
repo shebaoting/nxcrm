@@ -18,14 +18,14 @@ class ContractTable extends LazyRenderable
             // $grid->column('customer_id','所属客户');
 
             $grid->column('crm_customer_id','所属客户')->display(function($Id) {
-                return CrmCustomer::find($Id)->name;
+                return optional(CrmCustomer::find($Id))->name;
             });
             $grid->column('signdate','签订日期');
             $grid->rowSelector()->titleColumn('title');
 
             $grid->quickSearch(['id', 'title', 'crm_customer_id']);
-
-            $grid->paginate(5);
+            $grid->disableFilterButton();
+            $grid->paginate(7);
             $grid->disableActions();
             $grid->model()->orderBy('id', 'desc');
             $grid->filter(function (Grid\Filter $filter) {

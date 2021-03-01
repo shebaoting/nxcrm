@@ -68,6 +68,7 @@ class TinkerCommand extends Command
 
         if ($code = $this->option('execute')) {
             try {
+                $shell->setOutput($this->output);
                 $shell->execute($code);
             } finally {
                 $loader->unregister();
@@ -117,6 +118,7 @@ class TinkerCommand extends Command
         $casters = [
             'Illuminate\Support\Collection' => 'Laravel\Tinker\TinkerCaster::castCollection',
             'Illuminate\Support\HtmlString' => 'Laravel\Tinker\TinkerCaster::castHtmlString',
+            'Illuminate\Support\Stringable' => 'Laravel\Tinker\TinkerCaster::castStringable',
         ];
 
         if (class_exists('Illuminate\Database\Eloquent\Model')) {

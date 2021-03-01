@@ -128,7 +128,7 @@ html body {
     box-shadow: 18px 0px 35px 0px rgba(0,0,0,.02)!important;
 }
 .navbar-collapse .align-items-center ul.nav li>a.nav-link,body.dark-mode .navbar-collapse .align-items-center ul.nav li>a.nav-link {
-    background: #f4f6fd !important;
+    background: #f4f6fd;
     border-radius: 0.375rem;
     padding: 15px;
     line-height: 1;
@@ -146,7 +146,7 @@ body.dark-mode .navbar-collapse .align-items-center ul.nav li>a.nav-link {
 }
 
 .header-navbar .navbar-container ul.nav li a.dropdown-user-link {
-    padding: 0 0 0 20px;
+    padding: 0 0 0 20px !important;
     display: flex;
     align-items: center;
     border-radius: 0.375rem 28px 28px 0.375rem;
@@ -293,4 +293,56 @@ body.dark-mode [class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link.active {
 }
 .alert-info {
     color: #fff;
+}
+
+
+/* 顶部菜单布局下的适配 */
+.horizontal-menu .navbar-horizontal {z-index: 999;}
+.horizontal-navbar-brand .logo-lg img {max-height: 70px; margin-top: -4px;}
+.horizontal-menu .main-horizontal-sidebar {
+    left: 300px;
+    width: auto;
+    top: 30px;
+}
+.horizontal-menu .left-navbar {display: none !important;}
+.horizontal-menu .main-horizontal-sidebar>div {box-shadow:none}
+.horizontal-menu .nav-sidebar>.nav-item .nav-link {
+    font-size: 1.2rem;
+    padding: .45rem 1.2rem;
+}
+.horizontal-menu .nav-sidebar>.nav-item .dropdown-menu .nav-link {
+    padding: 1rem 1.2rem;
+}
+
+.horizontal-menu #pjax-container {
+    padding-top: 3.8rem !important;
+}
+
+.header-navbar .navbar-container ul.nav li.dropdown .dropdown-menu {
+    top: 77px;
+    width: 188px;
+}
+.horizontal-menu .horizontal-navbar-brand .logo-lg {
+    font-size: 2.45rem;
+    font-weight: 700;
+}
+
+
+/* 深色模式下LOGO颜色 */
+body.dark-mode .logo-lg {
+    color: #fff;
+}
+
+/* 深色模式下列表头部tab背景 */
+body.dark-mode .nav-tabs {background-color: #222233;}
+body.dark-mode .nav.nav-tabs {border-bottom: 1px solid #2c2c43;}
+
+body.dark-mode .nav-sidebar>.nav-item.menu-open>.nav-link {
+    background-color: #2c2c43 !important;
+}
+body.dark-mode.horizontal-menu a.nav-link.active p {
+    color: #a8a9bb !important;
+}
+.layui-layer-content .tool-main {
+    position: inherit;
 }

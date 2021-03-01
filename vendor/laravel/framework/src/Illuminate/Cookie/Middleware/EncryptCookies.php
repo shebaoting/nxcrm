@@ -5,6 +5,7 @@ namespace Illuminate\Cookie\Middleware;
 use Closure;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
+use Illuminate\Cookie\CookieValuePrefix;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,12 +76,18 @@ class EncryptCookies
     protected function decrypt(Request $request)
     {
         foreach ($request->cookies as $key => $cookie) {
-            if ($this->isDisabled($key)) {
+            if ($this->isDisabled($key) || is_array($cookie)) {
                 continue;
             }
 
             try {
-                $request->cookies->set($key, $this->decryptCookie($key, $cookie));
+                $value = $this->decryptCookie($key, $cookie);
+
+                $hasValidPrefix = strpos($value, CookieValuePrefix::create($key, $this->encrypter->getKey())) === 0;
+
+                $request->cookies->set(
+                    $key, $hasValidPrefix ? CookieValuePrefix::remove($value) : null
+                );
             } catch (DecryptException $e) {
                 $request->cookies->set($key, null);
             }
@@ -136,7 +143,11 @@ class EncryptCookies
             }
 
             $response->headers->setCookie($this->duplicate(
-                $cookie, $this->encrypter->encrypt($cookie->getValue(), static::serialized($cookie->getName()))
+                $cookie,
+                $this->encrypter->encrypt(
+                    CookieValuePrefix::create($cookie->getName(), $this->encrypter->getKey()).$cookie->getValue(),
+                    static::serialized($cookie->getName())
+                )
             ));
         }
 

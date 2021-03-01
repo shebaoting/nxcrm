@@ -172,6 +172,10 @@ class Exporter implements Contracts\Exporter
                 $this->type(pathinfo($filePath)['extension'] ?? null);
             }
 
+            if (method_exists($filesystem, 'write')) {
+                return $filesystem->write($filePath, $this->raw(), $diskConfig);
+            }
+
             return $filesystem->put($filePath, $this->raw(), $diskConfig);
         } catch (\Throwable $e) {
             $this->releaseResources();

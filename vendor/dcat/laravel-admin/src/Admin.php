@@ -23,7 +23,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class Admin
@@ -31,7 +30,7 @@ class Admin
     use HasAssets;
     use HasHtml;
 
-    const VERSION = '2.0.17-beta';
+    const VERSION = '2.0.19-beta';
 
     const SECTION = [
         // 往 <head> 标签内输入内容
@@ -48,6 +47,10 @@ class Admin
         // 顶部导航栏用户面板
         'NAVBAR_USER_PANEL' => 'ADMIN_NAVBAR_USER_PANEL',
         'NAVBAR_AFTER_USER_PANEL' => 'ADMIN_NAVBAR_AFTER_USER_PANEL',
+        // 顶部导航栏之前
+        'NAVBAR_BEFORE' => 'ADMIN_NAVBAR_BEFORE',
+        // 顶部导航栏底下
+        'NAVBAR_AFTER' => 'ADMIN_NAVBAR_AFTER',
 
         // 侧边栏顶部用户信息面板
         'LEFT_SIDEBAR_USER_PANEL' => 'ADMIN_LEFT_SIDEBAR_USER_PANEL',
@@ -458,11 +461,25 @@ class Admin
         $jsVariables['token'] = csrf_token();
         $jsVariables['lang'] = __('admin.client') ?: [];
         $jsVariables['colors'] = static::color()->all();
-        $jsVariables['dark_mode'] = Str::contains(config('admin.layout.body_class'), 'dark-mode');
+        $jsVariables['dark_mode'] = static::isDarkMode();
         $jsVariables['sidebar_dark'] = config('admin.layout.sidebar_dark') || ($sidebarStyle === 'dark');
         $jsVariables['sidebar_light_style'] = in_array($sidebarStyle, ['dark', 'light'], true) ? 'sidebar-light-primary' : 'sidebar-primary';
 
         return admin_javascript_json($jsVariables);
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isDarkMode()
+    {
+        $bodyClass = config('admin.layout.body_class');
+
+        return in_array(
+            'dark-mode',
+            is_array($bodyClass) ? $bodyClass : explode(' ', $bodyClass),
+            true
+        );
     }
 
     /**

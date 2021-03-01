@@ -11,10 +11,11 @@ use Dcat\Admin\Show;
 use Illuminate\Http\Request;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Admin;
+use App\Admin\Traits\Exportfields;
 
 class ContactController extends AdminController
 {
-    use Customfields;
+    use Customfields, Exportfields;
     public function __construct(Request $request)
     {
         $this->customerid = $request->id;
@@ -58,15 +59,11 @@ class ContactController extends AdminController
             });
             $grid->model()->orderBy('id', 'desc');
 
+            // 导出
             if (Admin::user()->isRole('administrator')) {
-                $top_titles = ['id' => 'ID', 'name' => '姓名', 'crm_customer_id' => '公司名称', 'phone' => '电话', 'wechat' => '微信'];
-                $grid->export($top_titles)->rows(function (array $rows) {
-                    foreach ($rows as $index => &$row) {
-                        $row['crm_customer_id'] = CrmCustomer::find($row['crm_customer_id'])->name;
-                    }
-                    return $rows;
-                });
+            $this->Exportfield($grid,'contact');
             }
+
             $grid->disableRefreshButton();
             $grid->disableCreateButton();
             $grid->disableBatchActions();

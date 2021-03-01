@@ -38,7 +38,7 @@ class ServerBag extends ParameterBag
 
         if (isset($this->parameters['PHP_AUTH_USER'])) {
             $headers['PHP_AUTH_USER'] = $this->parameters['PHP_AUTH_USER'];
-            $headers['PHP_AUTH_PW'] = isset($this->parameters['PHP_AUTH_PW']) ? $this->parameters['PHP_AUTH_PW'] : '';
+            $headers['PHP_AUTH_PW'] = $this->parameters['PHP_AUTH_PW'] ?? '';
         } else {
             /*
              * php-cgi under Apache does not pass HTTP Basic user/pass to PHP by default
@@ -66,7 +66,7 @@ class ServerBag extends ParameterBag
                     // Decode AUTHORIZATION header into PHP_AUTH_USER and PHP_AUTH_PW when authorization header is basic
                     $exploded = explode(':', base64_decode(substr($authorizationHeader, 6)), 2);
                     if (2 == \count($exploded)) {
-                        list($headers['PHP_AUTH_USER'], $headers['PHP_AUTH_PW']) = $exploded;
+                        [$headers['PHP_AUTH_USER'], $headers['PHP_AUTH_PW']] = $exploded;
                     }
                 } elseif (empty($this->parameters['PHP_AUTH_DIGEST']) && (0 === stripos($authorizationHeader, 'digest '))) {
                     // In some circumstances PHP_AUTH_DIGEST needs to be set

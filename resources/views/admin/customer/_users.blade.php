@@ -86,18 +86,24 @@
             @endphp
 
 
-            <div class="col-md-12 col-sm-12 col-12"><i class="fa {{$field['icon']}}"></i>
+            <div class="col-md-12 col-sm-12 col-12">
+                <i class="fa {{$field['icon']}}"></i>
                 {{-- {{$field['name']}}: --}}
                 @if (in_array($field['type'],['select','radio']))
-                {{$field_options[$contact_fields[$field['field']]]}}
-
+                {{$contact_fields[$field['field']] ? $field_options[$customer_fields[$field['field']]]:''}}
 
                 @elseif (in_array($field['type'],['checkbox','multipleSelect']))
+
+
+
+                @isset($contact_fields[$field['field']])
                 @foreach ($contact_fields[$field['field']] as $key => $value)
                 @if ($value)
                 {{$field_options[$value]}}
                 @endif
                 @endforeach
+                @endisset
+
                 @else
                 @isset($contact_fields[$field['field']])
                 {{$contact_fields[$field['field']]}}

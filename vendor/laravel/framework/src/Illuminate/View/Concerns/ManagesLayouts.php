@@ -175,7 +175,7 @@ trait ManagesLayouts
     }
 
     /**
-     * Check if section exists.
+     * Check if the section exists.
      *
      * @param  string  $name
      * @return bool
@@ -183,6 +183,17 @@ trait ManagesLayouts
     public function hasSection($name)
     {
         return array_key_exists($name, $this->sections);
+    }
+
+    /**
+     * Check if section does not exist.
+     *
+     * @param  string  $name
+     * @return bool
+     */
+    public function sectionMissing($name)
+    {
+        return ! $this->hasSection($name);
     }
 
     /**

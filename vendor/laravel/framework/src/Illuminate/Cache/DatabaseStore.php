@@ -4,6 +4,7 @@ namespace Illuminate\Cache;
 
 use Closure;
 use Exception;
+use Illuminate\Contracts\Cache\LockProvider;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\PostgresConnection;
@@ -11,7 +12,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\InteractsWithTime;
 use Illuminate\Support\Str;
 
-class DatabaseStore implements Store
+class DatabaseStore implements LockProvider, Store
 {
     use InteractsWithTime, RetrievesMultipleKeys;
 
@@ -21,6 +22,13 @@ class DatabaseStore implements Store
      * @var \Illuminate\Database\ConnectionInterface
      */
     protected $connection;
+
+    /**
+     * The database connection instance that should be used to manage locks.
+     *
+     * @var \Illuminate\Database\ConnectionInterface
+     */
+    protected $lockConnection;
 
     /**
      * The name of the cache table.
@@ -154,8 +162,6 @@ class DatabaseStore implements Store
                     'expiration' => $expiration,
                 ]) >= 1;
         }
-
-        return false;
     }
 
     /**
@@ -266,7 +272,7 @@ class DatabaseStore implements Store
     public function lock($name, $seconds = 0, $owner = null)
     {
         return new DatabaseLock(
-            $this->connection,
+            $this->lockConnection ?? $this->connection,
             $this->lockTable,
             $this->prefix.$name,
             $seconds,
@@ -330,6 +336,19 @@ class DatabaseStore implements Store
     public function getConnection()
     {
         return $this->connection;
+    }
+
+    /**
+     * Specify the name of the connection that should be used to manage locks.
+     *
+     * @param  \Illuminate\Database\ConnectionInterface  $connection
+     * @return $this
+     */
+    public function setLockConnection($connection)
+    {
+        $this->lockConnection = $connection;
+
+        return $this;
     }
 
     /**

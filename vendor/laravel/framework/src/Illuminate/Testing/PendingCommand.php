@@ -5,10 +5,12 @@ namespace Illuminate\Testing;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Mockery;
 use Mockery\Exception\NoMatchingExpectationException;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
@@ -50,7 +52,7 @@ class PendingCommand
     protected $expectedExitCode;
 
     /**
-     * Determine if command has executed.
+     * Determine if the command has executed.
      *
      * @var bool
      */
@@ -132,6 +134,52 @@ class PendingCommand
     }
 
     /**
+     * Specify output that should never be printed when the command runs.
+     *
+     * @param  string  $output
+     * @return $this
+     */
+    public function doesntExpectOutput($output)
+    {
+        $this->test->unexpectedOutput[$output] = false;
+
+        return $this;
+    }
+
+    /**
+     * Specify a table that should be printed when the command runs.
+     *
+     * @param  array  $headers
+     * @param  \Illuminate\Contracts\Support\Arrayable|array  $rows
+     * @param  string  $tableStyle
+     * @param  array  $columnStyles
+     * @return $this
+     */
+    public function expectsTable($headers, $rows, $tableStyle = 'default', array $columnStyles = [])
+    {
+        $table = (new Table($output = new BufferedOutput))
+            ->setHeaders((array) $headers)
+            ->setRows($rows instanceof Arrayable ? $rows->toArray() : $rows)
+            ->setStyle($tableStyle);
+
+        foreach ($columnStyles as $columnIndex => $columnStyle) {
+            $table->setColumnStyle($columnIndex, $columnStyle);
+        }
+
+        $table->render();
+
+        $lines = array_filter(
+            explode(PHP_EOL, $output->fetch())
+        );
+
+        foreach ($lines as $line) {
+            $this->expectsOutput($line);
+        }
+
+        return $this;
+    }
+
+    /**
      * Assert that the command has the given exit code.
      *
      * @param  int  $exitCode
@@ -185,6 +233,7 @@ class PendingCommand
         }
 
         $this->verifyExpectations();
+        $this->flushExpectations();
 
         return $exitCode;
     }
@@ -214,6 +263,10 @@ class PendingCommand
 
         if (count($this->test->expectedOutput)) {
             $this->test->fail('Output "'.Arr::first($this->test->expectedOutput).'" was not printed.');
+        }
+
+        if ($output = array_search(true, $this->test->unexpectedOutput)) {
+            $this->test->fail('Output "'.$output.'" was printed.');
         }
     }
 
@@ -274,7 +327,31 @@ class PendingCommand
                 });
         }
 
+        foreach ($this->test->unexpectedOutput as $output => $displayed) {
+            $mock->shouldReceive('doWrite')
+                ->once()
+                ->ordered()
+                ->with($output, Mockery::any())
+                ->andReturnUsing(function () use ($output) {
+                    $this->test->unexpectedOutput[$output] = true;
+                });
+        }
+
         return $mock;
+    }
+
+    /**
+     * Flush the expectations from the test case.
+     *
+     * @return void
+     */
+    protected function flushExpectations()
+    {
+        $this->test->expectedOutput = [];
+        $this->test->unexpectedOutput = [];
+        $this->test->expectedTables = [];
+        $this->test->expectedQuestions = [];
+        $this->test->expectedChoices = [];
     }
 
     /**

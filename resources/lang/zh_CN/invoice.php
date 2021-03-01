@@ -6,7 +6,7 @@ return [
     ],
     'fields' => [
         'receipt_id' => '所属收款',
-        'contract_id' => '所属合同',
+        'crm_contract_id' => '所属合同',
         'money' => '开票金额',
         'type' => '开票类型',
         'remark' => '备注',

@@ -1,3 +1,22 @@
+1.12.2 / 2020/12/19
+===================
+
+* [fixed] MethodNotFoundException sometimes thrown with wrong class attached [@ciaranmcnulty]
+
+1.12.1 / 2020/10/29
+===================
+
+* [fixed] Incorrect handling of inherited 'self' return types [@ciaranmcnulty]
+
+1.12.0 / 2020/10/28
+===================
+
+* [added] PHP 8 support [@ciaranmcnulty]
+* [added] Argument::in() and Argument::notIn() [@viniciusalonso]
+* [added] Support for union and mixed types [@ciaranmcnulty]
+* [fixed] Issues caused by introduction of named parameters [@ciaranmcnulty]
+* [fixed] Issues caused by stricter rounding [@ciaranmcnulty]
+
 1.11.1 / 2020/07/08
 ===================
 

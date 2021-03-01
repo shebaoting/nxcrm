@@ -17,7 +17,7 @@ trait TempFile
      * @return string
      * @throws FileNotFoundException
      */
-    public function moveFileToTemp(FilesystemInterface $filesystem, string $filePath)
+    public function moveFileToTemp($filesystem, string $filePath)
     {
         $this->tempFile = $this->generateTempPath($filePath);
 

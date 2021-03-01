@@ -97,7 +97,7 @@ $prophecy->willImplement('SessionHandlerInterface');
 ```
 
 There are 2 interesting calls - `willExtend` and `willImplement`. The first one tells
-object prophecy that our object should extend specific class, the second one says that
+object prophecy that our object should extend a specific class. The second one says that
 it should implement some interface. Obviously, objects in PHP can implement multiple
 interfaces, but extend only one parent class.
 
@@ -257,6 +257,8 @@ That's why Prophecy comes bundled with a bunch of other tokens:
 - `AnyValueToken` or `Argument::any()` - matches any argument
 - `AnyValuesToken` or `Argument::cetera()` - matches any arguments to the rest of the signature
 - `StringContainsToken` or `Argument::containingString($value)` - checks that the argument contains a specific string value
+- `InArrayToken` or `Argument::in($array)` - checks if value is in array
+- `NotInArrayToken` or `Argument::notIn($array)` - checks if value is not in array
 
 And you can add even more by implementing `TokenInterface` with your own custom classes.
 

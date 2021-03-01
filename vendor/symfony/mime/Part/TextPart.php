@@ -28,6 +28,9 @@ class TextPart extends AbstractPart
     private $body;
     private $charset;
     private $subtype;
+    /**
+     * @var ?string
+     */
     private $disposition;
     private $name;
     private $encoding;
@@ -36,7 +39,7 @@ class TextPart extends AbstractPart
     /**
      * @param resource|string $body
      */
-    public function __construct($body, ?string $charset = 'utf-8', $subtype = 'plain', string $encoding = null)
+    public function __construct($body, ?string $charset = 'utf-8', string $subtype = 'plain', string $encoding = null)
     {
         parent::__construct();
 
@@ -47,7 +50,7 @@ class TextPart extends AbstractPart
         $this->body = $body;
         $this->charset = $charset;
         $this->subtype = $subtype;
-        $this->seekable = \is_resource($body) ? stream_get_meta_data($body)['seekable'] && 0 === fseek($body, 0, SEEK_CUR) : null;
+        $this->seekable = \is_resource($body) ? stream_get_meta_data($body)['seekable'] && 0 === fseek($body, 0, \SEEK_CUR) : null;
 
         if (null === $encoding) {
             $this->encoding = $this->chooseEncoding();
@@ -131,7 +134,7 @@ class TextPart extends AbstractPart
         if ($this->charset) {
             $headers->setHeaderParameter('Content-Type', 'charset', $this->charset);
         }
-        if ($this->name) {
+        if ($this->name && 'form-data' !== $this->disposition) {
             $headers->setHeaderParameter('Content-Type', 'name', $this->name);
         }
         $headers->setHeaderBody('Text', 'Content-Transfer-Encoding', $this->encoding);

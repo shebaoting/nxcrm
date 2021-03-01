@@ -14,7 +14,7 @@
         @if (in_array($field['type'],['select','radio']))
 
 
-        {{$customer_fields[$field['field']] ? $field_options[$customer_fields[$field['field']]]:''}}
+        {{isset($customer_fields[$field['field']]) ? $field_options[$customer_fields[$field['field']]]:''}}
 
 
         @elseif (in_array($field['type'],['checkbox','multipleSelect']))
