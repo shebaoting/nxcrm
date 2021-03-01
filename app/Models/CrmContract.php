@@ -40,4 +40,20 @@ class CrmContract extends Model
     {
         return $this->hasMany(CrmInvoice::class);
     }
+
+    /**
+     * 获取实时支出
+     */
+    public function getCalcSalesExpensesAttribute()
+    {
+        $calcSalesExpenses= 0;
+        foreach($this->CrmReceipts as $receipt)
+        {
+            if ($receipt->type === 2){
+                $calcSalesExpenses+=$receipt->receive;
+            }
+        }
+        return $calcSalesExpenses;
+    }
+
 }

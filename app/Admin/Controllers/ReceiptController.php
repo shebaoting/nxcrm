@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\CrmReceipt;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
+use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Show;
 use App\Models\CrmContract;
 use Dcat\Admin\Admin;
@@ -14,6 +15,15 @@ use Dcat\Admin\Http\Controllers\AdminController;
 
 class ReceiptController extends AdminController
 {
+    protected function withCss()
+    {
+        return <<<CSS
+a.btn{
+ line-height: 1.22;
+}
+CSS;
+
+    }
     /**
      * Make a grid builder.
      *
@@ -21,7 +31,9 @@ class ReceiptController extends AdminController
      */
     protected function grid()
     {
+        Admin::style($this->withCss());
         return Grid::make(new CrmReceipt(), function (Grid $grid) {
+            $grid->model()->orderByDesc('id');
             $grid->updated_at->sortable();
             $grid->receive;
             $grid->paymethod
@@ -40,6 +52,13 @@ class ReceiptController extends AdminController
                         0 => '收据',
                         1 => '发票',
                         2 => '其他',
+                    ]
+                );
+            $grid->type
+                ->using(
+                    [
+                        1 => '收款',
+                        2 => '支出',
                     ]
                 );
             $grid->crm_contract_id('所属合同')->display(function ($id) {
@@ -99,8 +118,13 @@ class ReceiptController extends AdminController
                 $filter->equal('id');
             });
             $grid->disableRefreshButton();
+            $grid->disableCreateButton();
             $grid->toolsWithOutline(false);
             $grid->disableFilterButton();
+            $grid->tools([
+                '<a href="'.admin_url('/receipts/create').'" class="btn btn-primary grid-btn"><i class="feather icon-plus"></i><span class="d-none d-sm-inline">&nbsp;&nbsp;新增收款</span></a>',
+                '<a href="'.admin_url('/receipts/deposit').'" class="btn btn-primary grid-btn"><i class="feather icon-plus"></i><span class="d-none d-sm-inline">&nbsp;&nbsp;新增支出</span></a>&nbsp;'
+            ]);
         });
     }
 
@@ -113,7 +137,7 @@ class ReceiptController extends AdminController
      */
     protected function detail($id)
     {
-        $detalling = Admin::user()->id != CrmCustomer::find(CrmReceipt::find($id)->contract->customer_id)->Admin_user->id;
+        $detalling = Admin::user()->id != CrmCustomer::find(CrmReceipt::find($id)->CrmContract->crm_customer_id)->Admin_user->id;
         $Role = !Admin::user()->isRole('administrator');
         if ($Role && $detalling) {
             $customer = CrmCustomer::find($id);
@@ -125,29 +149,37 @@ class ReceiptController extends AdminController
             $show->receive;
             $show->paymethod;
             $show->billtype;
-            $show->contract_id;
+            $show->crm_contract_id;
             $show->remark;
             $show->created_at;
             $show->updated_at;
         });
     }
 
+    protected function deposit(Content $content)
+    {
+        $receipt_type =2;# 支出类型
+        return $content
+            ->title('新增支出')
+            ->description('当前合同支出')
+            ->body($this->form($receipt_type));
+    }
+
     /**
      * Make a form builder.
      *
+     * @param int $type
      * @return Form
      */
-    protected function form()
+    protected function form(int $type=1)
     {
-        return Form::make(CrmReceipt::with('CrmInvoice'), function (Form $form) {
-            // $Editing = $form->isEditing() && Admin::user()->id != CrmCustomer::find(Contract::find($form->model()->contract_id)->customer_id)->admin_user_id;
-            // if ($Editing) {
-            //     $customer = CrmCustomer::find($form->model()->id);
-            //     $this->authorize('update', $customer);
-            // }
+        return Form::make(CrmReceipt::with('CrmInvoice'), function (Form $form)use($type) {
+            $receipt_title = $type === 1?'收款':'支出';
+
+            $form->title('新增'.$receipt_title);
             $form->display('id');
             $form->currency('receive')->symbol('￥');
-
+            $form->hidden('type')->value($type);
             $form->select('paymethod', '收款方式')
                 ->options(
                     [
@@ -158,15 +190,19 @@ class ReceiptController extends AdminController
                         5 => '卡券'
                     ]
                 );
-
-            $form->selectTable('crm_contract_id')
+            $selectTable = $form->selectTable('crm_contract_id')
                 ->title('选择当前收款所属合同')
                 ->dialogWidth('50%') // 弹窗宽度，默认 800px
-                ->from(ContractTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
-                ->model(CrmContract::class, 'id', 'title'); // 设置编辑数据显示
+                ->from(ContractTable::make(['id' => request('crm_contract_id')])) // 设置渲染类实例，并传递自定义参数
+                ->model(CrmContract::class, 'id', 'title')
+                ->required();// 设置编辑数据显示
+            if ($form->isCreating()){
+                # 新建时，初始化对应合同
+                $selectTable->default(request('contract_id'));
+            }
 
             $form->text('remark')->required();
-            $form->datetime('updated_at');
+            $form->datetime('updated_at')->label($receipt_title.'时间');
             $form->radio('billtype', '是否开票')
                 ->when(1, function (Form $form) {
                     // 值为1和4时显示文本框
@@ -222,7 +258,7 @@ class ReceiptController extends AdminController
                 $invoice = $form->invoice;
                 $invoice['contract_id'] = $form->contract_id;
                 $form->invoice = $invoice;
-                if ($form->billtype == 0) {
+                if ($form->billtype === '0' || $form->billtype === '2' ) {
                     $form->deleteInput('invoice.money');
                     $form->deleteInput('invoice.contract_id');
                     $form->deleteInput('invoice.type');
@@ -242,6 +278,16 @@ class ReceiptController extends AdminController
                     $form->receive = str_replace(',', '', $form->receive);
                 }
                 return $form;
+            });
+
+            $form->saved(function (Form $form) {
+                # 重新统计所属合同的商务支出
+                $receipt = CrmReceipt::find($form->getKey());
+                $contract = $receipt->CrmContract;
+                unset($receipt);
+                $contract->salesexpenses = $contract->calc_sales_expenses;
+                $contract->save();
+                return $form->response()->success('保存成功')->redirect('/receipts/');
             });
         });
     }

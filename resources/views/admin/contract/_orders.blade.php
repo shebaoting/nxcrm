@@ -18,7 +18,7 @@
             <tr>
                 <td>{{App\Models\CrmProduct::find($order_content->crm_product_id)->name}}</td>
                 {{-- 标准价，在合同添加页面获取到标准价以后，这里的判断就可以删除了 --}}
-                <td>{{(!empty($order_content->prodprice))?($order_content->prodprice):0}}</td>
+                <td>{{($order_content->prod_price)}}</td>
                 <td>{{$order_content->executionprice}}</td>
                 <td>{{$order_content->quantity}}</td>
                 <td>

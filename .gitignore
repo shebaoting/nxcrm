@@ -15,6 +15,7 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 dcat_admin_ide_helper.php
+.idea
 /config/admin.php
 /.idea/jsLinters/jshint.xml
 /.idea/modules.xml
@@ -24,3 +25,4 @@ dcat_admin_ide_helper.php
 /.idea/inspectionProfiles/Project_Default.xml
 /.idea/vcs.xml
 /.idea/workspace.xml
+.idea/misc.xml

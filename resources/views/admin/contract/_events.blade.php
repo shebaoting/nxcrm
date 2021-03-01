@@ -1,6 +1,6 @@
 <div class="markdown-body editormd-html-preview">
 
-    <form id="#add-events" action="{{ admin_route('events.store') }}" method="POST">
+    <form id="add-events" action="{{ admin_route('events.store') }}" method="POST">
         {{ csrf_field() }}
         <div class="row events">
             <div class="col-md-1 col-sm-1 col-12 time_y">
@@ -18,11 +18,11 @@
                     <div class="col-md-10 col-sm-19 col-12">
                         <textarea class="form-control" rows="3" placeholder="发布跟进记录..."
                             name="content">{{ old('content') }}</textarea>
-                        <input type="hidden" name="customer_id"
-                            value="{{$customer['id']}}">
-                        <input type="hidden" name="contract_id"
-                            value="{{$contract['id']}}">
-                        <input type="hidden" name="contact_id"
+                        <input type="hidden" name="crm_customer_id"
+                            value="{{$customer->id}}">
+                        <input type="hidden" name="crm_contract_id"
+                            value="{{$contract->id}}">
+                        <input type="hidden" name="crm_contact_id"
                             value="{{Admin::user()->id}}"></div>
                     <div class="col-md-2 col-sm-2 col-12"><button type="submit"
                             class="btn btn-primary">发布</button></div>
@@ -35,7 +35,7 @@
     @foreach ($events as $event)
 
 
-    @if ($event['contract_id'])
+    @if ($event['crm_contract_id'])
     <div class="row events contentlist">
         <div class="col-md-1 col-sm-1 col-12 time_y">
             {{$event['updated_at']->format('Y')}}</div>

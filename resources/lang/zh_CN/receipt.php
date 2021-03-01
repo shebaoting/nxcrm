@@ -1,8 +1,8 @@
 <?php
 return [
     'labels' => [
-        'Receipt' => '收款',
-        'receipts' => '收款',
+        'Receipt' => '收支',
+        'receipts' => '收支',
     ],
     'fields' => [
         'receive' => '收款金额',
@@ -11,6 +11,7 @@ return [
         'crm_contract_id' => '所属合同',
         'remark' => '备注',
         'updated_at' => '收款时间',
+        'type'=> '类型'
     ],
     'options' => [
     ],

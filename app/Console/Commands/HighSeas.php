@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Customer;
+use App\Models\CrmCustomer;
 use Illuminate\Console\Command;
 
 class HighSeas extends Command
@@ -36,7 +36,7 @@ class HighSeas extends Command
      *
      * @return int
      */
-    public function handle(Customer $Customer)
+    public function handle(CrmCustomer $Customer)
     {
         // 在命令行打印一行信息
         $this->info("开始计算...");

@@ -11,8 +11,13 @@ class ContractTable extends LazyRenderable
     {
         // 获取外部传递的参数
         $id = $this->id;
+        if ($id){
+            $crmContract = (new CrmContract())->where(['id'=>$id]);
+        }else{
+            $crmContract = new CrmContract();
+        }
 
-        return Grid::make(new CrmContract(), function (Grid $grid) {
+        return Grid::make($crmContract, function (Grid $grid)use($id) {
             $grid->column('id');
             $grid->column('title','合同标题');
             // $grid->column('customer_id','所属客户');
@@ -28,8 +33,8 @@ class ContractTable extends LazyRenderable
             $grid->paginate(7);
             $grid->disableActions();
             $grid->model()->orderBy('id', 'desc');
-            $grid->filter(function (Grid\Filter $filter) {
-                $filter->like('id')->width(4);
+            $grid->filter(function (Grid\Filter $filter)use($id) {
+                $filter->like('id')->width(4)->default($id);
                 $filter->like('title')->width(20);
                 $filter->like('crm_customer_id')->width(4);
             });
