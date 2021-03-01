@@ -11,7 +11,7 @@ class AdminTablesSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('admin_menu')->truncate();
+        \DB::table('admin_menu')->truncate();
         $admin_menu = [
             [
                 'id' => '1',
@@ -234,8 +234,8 @@ class AdminTablesSeeder extends Seeder
                 'show' => '1',
             ]
         ];//
-        DB::table('admin_menu')->insert($admin_menu);
-        DB::table('admin_permissions')->truncate();
+        \DB::table('admin_menu')->insert($admin_menu);
+        \DB::table('admin_permissions')->truncate();
         $admin_permissions = [
             [
                 'id' => '1',
@@ -454,6 +454,6 @@ class AdminTablesSeeder extends Seeder
                 'parent_id' => '7',
             ]
         ];//
-        DB::table('admin_permissions')->insert($admin_permissions);
+        \DB::table('admin_permissions')->insert($admin_permissions);
     }
 }
