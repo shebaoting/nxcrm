@@ -41,6 +41,8 @@ class Update extends Command
         $this->info('数据库迁移完成！');
         $this->call('db:seed', ['--class' => 'AdminTablesSeeder']);
         $this->info('菜单数据重置完成！');
+        $this->call('db:seed', ['--class' => 'AdminExtensionsSeeder']);
+        $this->info('扩展数据重置完成！');
         $this->call('view:clear');
         $this->info('模版缓存清理完成！');
         $this->info('升级完成！');
