@@ -21,7 +21,7 @@ class CrmLeadsRecent extends Card
         $this->height(450);
         // 设置标题
         $this->title('最近的线索');
-        $leads = CrmCustomer::with('admin_user')->where([['state', '!=', 3], ['admin_user_id', '!=', 0]])->limit(6)->get();
+        $leads = CrmCustomer::with('adminUser')->where([['state', '!=', 3], ['admin_user_id', '!=', 0]])->limit(6)->get();
         $this->withContent(view('admin.metrics.examples.leads_recent',compact('leads')));
     }
 
