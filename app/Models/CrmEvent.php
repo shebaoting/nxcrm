@@ -15,7 +15,7 @@ class CrmEvent extends Model
         return $this->belongsTo(CrmCustomer::class);
     }
 
-    public function Admin_user()
+    public function adminUser()
     {
         return $this->belongsTo(Admin_user::class);
     }

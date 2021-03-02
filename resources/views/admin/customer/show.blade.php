@@ -1,5 +1,5 @@
 @php
-    $ifrole  =  Admin::user()->isRole('administrator') || (Admin::user()->id == $admin_user['id']);
+    $ifrole  =  Admin::user()->isRole('administrator') || (Admin::user()->id == $adminUser['id']);
 @endphp
 <div class="content-body" id="app">
     <div class="row customer_content">

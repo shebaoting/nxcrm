@@ -137,7 +137,7 @@ CSS;
      */
     protected function detail($id)
     {
-        $detalling = Admin::user()->id != CrmCustomer::find(CrmReceipt::find($id)->CrmContract->crm_customer_id)->Admin_user->id;
+        $detalling = Admin::user()->id != CrmCustomer::find(CrmReceipt::find($id)->CrmContract->crm_customer_id)->adminUser->id;
         $Role = !Admin::user()->isRole('administrator');
         if ($Role && $detalling) {
             $customer = CrmCustomer::find($id);

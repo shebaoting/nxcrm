@@ -1,12 +1,12 @@
-@if ($admin_user)
+@if ($adminUser)
    {{-- 客户归属开始 --}}
 <div class="card admin_users">
     <div class="box-body" style="text-align: center">
         <div class="row" style="padding: 20px 0 10px">
-            <div class="col-md-4 col-sm-4 col-12"><img src="/storage/{{$admin_user['avatar']}}" alt="">
+            <div class="col-md-4 col-sm-4 col-12"><img src="/storage/{{$adminUser['avatar']}}" alt="">
             </div>
             <div class="col-md-8 col-sm-8 col-12">
-                <h5> {{$admin_user['name']}}</h5>
+                <h5> {{$adminUser['name']}}</h5>
                 <span>添加于{{$customer['created_at']}}</span>
             </div>
             <div class="col-md-12 share">

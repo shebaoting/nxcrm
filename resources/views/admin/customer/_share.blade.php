@@ -102,8 +102,8 @@
           $shares = array_column($Customer->SharesUser()->get()->toArray(), 'id');
         @endphp
 
-        @if ($Customer->Admin_user)
-        @foreach (App\Models\Admin_user::with(['roles'])->where('id', '!=', $Customer->Admin_user->id)->get() as $item_user)
+        @if ($Customer->adminUser)
+        @foreach (App\Models\Admin_user::with(['roles'])->where('id', '!=', $Customer->adminUser->id)->get() as $item_user)
         <li userid="{{$item_user->id}}" class="{{in_array($item_user->id,$shares) ? 'active' : '' }}">
             <div class="media mbm">
                 <div class="pull-left">

@@ -77,7 +77,7 @@ class EventController extends AdminController
      */
     protected function detail($id)
     {
-        $detalling = Admin::user()->id != CrmCustomer::find(CrmEvent::find($id)->CrmCustomer->id)->Admin_user->id;;
+        $detalling = Admin::user()->id != CrmCustomer::find(CrmEvent::find($id)->CrmCustomer->id)->adminUser->id;;
         $Role = !Admin::user()->isRole('administrator');
         if ($Role && $detalling) {
             $customer = CrmCustomer::find($id);
@@ -100,7 +100,7 @@ class EventController extends AdminController
      */
     protected function form()
     {
-        return Form::make(CrmEvent::with(['CrmContact','Admin_user']), function (Form $form) {
+        return Form::make(CrmEvent::with(['CrmContact','adminUser']), function (Form $form) {
             $Editing = $form->isEditing() && Admin::user()->id != CrmCustomer::find($form->model()->crm_customer_id)->admin_user_id;
             if ($Editing) {
                 $customer = CrmCustomer::find($form->model()->id);
