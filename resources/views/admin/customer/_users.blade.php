@@ -90,7 +90,7 @@
                 <i class="fa {{$field['icon']}}"></i>
                 {{-- {{$field['name']}}: --}}
                 @if (in_array($field['type'],['select','radio']))
-                {{isset($contact_fields[$field['field']]) ? $field_options[$customer_fields[$field['field']]]:''}}
+                {{isset($contact_fields[$field['field']]) ? $field_options[$contact_fields[$field['field']]]:''}}
 
                 @elseif (in_array($field['type'],['checkbox','multipleSelect']))
 
