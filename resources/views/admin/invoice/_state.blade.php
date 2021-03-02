@@ -2,7 +2,7 @@
     <div class="row" style="padding: 20px 0">
         @if ($invoice['state']==1)
         <div class="col-md-6 col-sm-6 col-12" style="border-right: 1px solid #e1e4e9">
-            <form method="POST" action="{{ route('invoices.state',$invoice['id']) }}">
+            <form method="POST" action="{{ admin_route('invoices.state',[$invoice['id']]) }}">
                 {{ method_field('PATCH') }}
                 {{ csrf_field() }}
                 <input type="hidden" name="state" value="2">
@@ -12,7 +12,7 @@
             </form>
         </div>
         <div class="col-md-6 col-sm-6 col-12">
-            <form method="POST" action="{{ route('invoices.state',$invoice['id']) }}">
+            <form method="POST" action="{{ admin_route('invoices.state',[$invoice['id']]) }}">
                 {{ method_field('PATCH') }}
                 {{ csrf_field() }}
 
@@ -23,7 +23,7 @@
         </div>
         @elseif ($invoice['state']==2)
         <div class="col-md-12 col-sm-12 col-12">
-            <form method="POST" action="{{ route('invoices.state',$invoice['id']) }}">
+            <form method="POST" action="{{ admin_route('invoices.state',[$invoice['id']]) }}">
                 {{ method_field('PATCH') }}
                 {{ csrf_field() }}
 
@@ -34,7 +34,7 @@
         </div>
         @elseif ($invoice['state']==3)
         <div class="col-md-12 col-sm-12 col-12">
-            <form method="POST" action="{{ route('invoices.state',$invoice['id']) }}" style="width:100%">
+            <form method="POST" action="{{ admin_route('invoices.state',[$invoice['id']]) }}" style="width:100%">
                 {{ method_field('PATCH') }}
                 {{ csrf_field() }}
                 <input type="hidden" name="state" value="0">
@@ -44,7 +44,7 @@
         </div>
         @elseif ($invoice['state']==4)
         <div class="col-md-12 col-sm-12 col-12">
-            <form method="POST" action="{{ route('invoices.state',$invoice['id']) }}">
+            <form method="POST" action="{{ admin_route('invoices.state',[$invoice['id']]) }}">
                 {{ method_field('PATCH') }}
                 {{ csrf_field() }}
                 <input type="hidden" name="state" value="1">
@@ -55,7 +55,7 @@
         </div>
         @else
         <div class="col-md-6 col-sm-6 col-12" style="border-right: 1px solid #e1e4e9">
-            <form method="POST" action="{{ route('invoices.state',$invoice['id']) }}">
+            <form method="POST" action="{{ admin_route('invoices.state',[$invoice['id']]) }}">
                 {{ method_field('PATCH') }}
                 {{ csrf_field() }}
                 <input type="hidden" name="state" value="1">
@@ -65,7 +65,7 @@
             </form>
         </div>
         <div class="col-md-6 col-sm-6 col-12">
-            <form method="POST" action="{{ route('invoices.state',$invoice['id']) }}">
+            <form method="POST" action="{{ admin_route('invoices.state',[$invoice['id']]) }}">
                 {{ method_field('PATCH') }}
                 {{ csrf_field() }}
 
