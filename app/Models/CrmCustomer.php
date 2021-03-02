@@ -22,7 +22,7 @@ class CrmCustomer extends Model
         return $this->hasMany(CrmContract::class);
     }
 
-    public function Admin_user()
+    public function adminUser()
     {
         return $this->belongsTo(Admin_user::class);
     }

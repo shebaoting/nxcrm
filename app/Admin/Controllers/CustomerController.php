@@ -41,7 +41,7 @@ class CustomerController extends AdminController
      */
     protected function grid()
     {
-        return Grid::make(CrmCustomer::with(['Admin_user', 'CrmEvents']), function (Grid $grid) {
+        return Grid::make(CrmCustomer::with(['adminUser', 'CrmEvents']), function (Grid $grid) {
 
             Admin::style(
                 <<<CSS
@@ -107,7 +107,7 @@ CSS
                 }
             });
             $this->gridfield($grid, 'customer');
-            $grid->column('Admin_user.name', '所属销售');
+            $grid->column('adminUser.name', '所属销售');
             $grid->model()->where('state', '=', '3');
 
             if ($this->source_id == 3) {
@@ -159,14 +159,14 @@ CSS
 
 
         Admin::css(static::$css);
-        $customer = CrmCustomer::with(['CrmContacts', 'CrmContracts', 'Admin_user', 'CrmEvents' => function ($q) {
+        $customer = CrmCustomer::with(['CrmContacts', 'CrmContracts', 'adminUser', 'CrmEvents' => function ($q) {
             $q->orderBy('updated_at', 'desc');
-        }, 'CrmEvents.CrmContact', 'CrmEvents.Admin_user', 'Attachments', 'SharesUser'])->findorFail($id);
+        }, 'CrmEvents.CrmContact', 'CrmEvents.adminUser', 'Attachments', 'SharesUser'])->findorFail($id);
 
         $data = [
             'customer' => $customer,
             'contacts' => $customer->CrmContacts,
-            'admin_user' => $customer->Admin_user,
+            'adminUser' => $customer->adminUser,
             'events' => $customer->CrmEvents,
             'contracts' => $customer->CrmContracts,
             'attachments' => $customer->Attachments,

@@ -38,8 +38,8 @@
         <div class="col-md-1 col-sm-1 col-12 time_md" style="border-left: 1px solid {{Admin::color()->get('primary')}}"><i class="fa fa-circle"></i>
             <span>{{$event['updated_at']->format('m-d')}}</span>
             <span class="time_hi">{{$event['updated_at']->format('H:i')}}</span></div>
-        <div class="col-md-2 col-sm-2 col-12"><img class="avatar" src="/storage/{{$admin_user['avatar']}}" alt=""><span
-                class="users">{{$admin_user['name']}}</span></div>
+        <div class="col-md-2 col-sm-2 col-12"><img class="avatar" src="/storage/{{$adminUser['avatar']}}" alt=""><span
+                class="users">{{$adminUser['name']}}</span></div>
         <div class="col-md-8 col-sm-8 col-12 content">
             <div class="row">
                 <div class="col-md-11 col-sm-11 col-12">

@@ -155,7 +155,7 @@ class OpportunityController extends AdminController
     public function show($id, Content $content)
     {
         // 判断授权，无权限查看他人的信息,以后可以优化一下
-        $detalling = Admin::user()->id != CrmOpportunity::find($id)->CrmCustomer->Admin_user->id;
+        $detalling = Admin::user()->id != CrmOpportunity::find($id)->CrmCustomer->adminUser->id;
         $Role = !Admin::user()->isRole('administrator');
         if ($Role && $detalling) {
             $customer = CrmOpportunity::find($id);
@@ -169,14 +169,14 @@ class OpportunityController extends AdminController
         $contacts = CrmCustomer::find(CrmOpportunity::find($id)->crm_customer_id)->CrmContacts;
         $events = CrmEvent::where([['crm_customer_id', '=', $customer->id], ['crm_opportunity_id', '=', $id]])->orderBy('updated_at', 'desc')->get();
         $attachments = CrmOpportunity::find($id)->attachments()->orderBy('updated_at', 'desc')->get();
-        $admin_user = CrmOpportunity::find($id)->CrmCustomer->Admin_user;
+        $adminUser = CrmOpportunity::find($id)->CrmCustomer->adminUser;
         $data = [
             'opportunity' => $opportunity,
             'customer' => $customer,
             'contacts' => $contacts,
             'events' => $events,
             'attachments' => $attachments,
-            'admin_user' => $admin_user,
+            'adminUser' => $adminUser,
         ];
         return $content
             ->title('商机')

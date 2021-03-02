@@ -155,7 +155,7 @@ class ContractController extends AdminController
             return $content->title('错误')
                 ->body('信息错误,请返回');
         }
-        $detalling = Admin::user()->id != CrmContract::find($id)->CrmCustomer->Admin_user->id;
+        $detalling = Admin::user()->id != CrmContract::find($id)->CrmCustomer->adminUser->id;
         $Role = !Admin::user()->isRole('administrator');
         if ($Role && $detalling) {
             $Contract = CrmContract::find($id);
@@ -165,7 +165,7 @@ class ContractController extends AdminController
 
         $contract = CrmContract::with(['CrmCustomer', 'CrmOrders','CrmReceipts', 'CrmEvents' => function ($q) {
             $q->orderBy('updated_at', 'desc');
-        }, 'CrmEvents.CrmContact', 'CrmEvents.Admin_user', 'Attachments'])->findorFail($id);
+        }, 'CrmEvents.CrmContact', 'CrmEvents.adminUser', 'Attachments'])->findorFail($id);
 
         $receipts = json_decode($contract->CrmReceipts);
         $accepts = 0;
@@ -187,7 +187,7 @@ class ContractController extends AdminController
             'accepts'        => $accepts,# 已收款
             'salesexpenses'  => $salesexpenses,# 已支出
             'events'         => $contract->CrmEvents,
-            'admin_user'     => $contract->CrmCustomer->Admin_user,
+            'adminUser'     => $contract->CrmCustomer->adminUser,
             'attachments'    => $contract->Attachments,
             'orders'         => $contract->CrmOrders,
             'contractfields' => $this->custommodel('contract'),

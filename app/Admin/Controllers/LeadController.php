@@ -42,7 +42,7 @@ class LeadController extends AdminController
      */
     protected function grid()
     {
-        return Grid::make(CrmCustomer::with(['admin_user','CrmEvents']), function (Grid $grid) {
+        return Grid::make(CrmCustomer::with(['adminUser','CrmEvents']), function (Grid $grid) {
 
 
             Admin::style(
@@ -117,7 +117,7 @@ CSS
                 return admin_url('leads/' . $this->id);
             });
             if (!in_array($this->source_id,[1,3])) {
-                $grid->column('admin_user.name', '所属销售');
+                $grid->column('adminUser.name', '所属销售');
             }
 
 
@@ -176,12 +176,12 @@ CSS
     {
 
         Admin::css(static::$showcss);
-        $customer = CrmCustomer::with(['CrmContacts', 'CrmContracts', 'Admin_user', 'CrmEvents' => function ($q) {
+        $customer = CrmCustomer::with(['CrmContacts', 'CrmContracts', 'adminUser', 'CrmEvents' => function ($q) {
             $q->orderBy('updated_at', 'desc');
-        }, 'CrmEvents.CrmContact', 'CrmEvents.Admin_user', 'Attachments', 'SharesUser'])->findorFail($id);
+        }, 'CrmEvents.CrmContact', 'CrmEvents.adminUser', 'Attachments', 'SharesUser'])->findorFail($id);
         // $fields = Customfield::where([['model', '=', 'customer'], ['show', '=', '1'],])->get();
         // 判断授权，无权限查看他人的信息,以后可以优化一下
-        $detalling = ($customer->Admin_user) ? (Admin::user()->id != $customer->id) : true;
+        $detalling = ($customer->adminUser) ? (Admin::user()->id != $customer->id) : true;
         $Role = !Admin::user()->isRole('administrator');
         if ($Role && $detalling) {
             $this->authorize('update', $customer);
@@ -189,14 +189,14 @@ CSS
         $data = [
             'customer' => $customer,
             'contacts' => $customer->CrmContacts,
-            'admin_user' => ($customer->Admin_user) ?: '',
+            'adminUser' => ($customer->adminUser) ?: '',
             'events' => $customer->CrmEvents,
             'contracts' => $customer->CrmContracts,
             'attachments' => $customer->Attachments,
             'customerfields' => $this->custommodel('customer'),
             'contactfields' => $this->custommodel('contact'),
             // 'fields' => $fields,
-            'Share' => ($customer->Admin_user) ? ($this->Share($id)) : '',
+            'Share' => ($customer->adminUser) ? ($this->Share($id)) : '',
             'shares_user' => $customer->SharesUser()->select(['name', 'avatar'])->get(),
             'events_contacts' => CrmCustomer::find($id)->with('CrmEvents.CrmContact'),
         ];
