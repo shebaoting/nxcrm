@@ -62,7 +62,7 @@ CSS;
                     ]
                 );
             $grid->crm_contract_id('所属合同')->display(function ($id) {
-                return optional(CrmContract::find($id))->title;
+                return optional(CrmContract::find($id))->CrmCustomer->name . optional(CrmContract::find($id))->signdate;
             })->link(function () {
                 return admin_url('contracts/' . $this->crm_contract_id);
             });

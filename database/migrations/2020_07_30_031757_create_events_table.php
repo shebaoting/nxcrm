@@ -13,13 +13,13 @@ class CreateEventsTable extends Migration
      */
     public function up()
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('crm_events', function (Blueprint $table) {
             $table->id();
             $table->string('content');
-            $table->char('customer_id');
-            $table->char('contact_id')->nullable();
-            $table->string('contract_id')->nullable();
-            $table->integer('opportunity_id')->nullable();
+            $table->char('crm_customer_id');
+            $table->char('crm_contact_id')->nullable();
+            $table->string('crm_contract_id')->nullable();
+            $table->integer('crm_opportunity_id')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateEventsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('crm_events');
     }
 }

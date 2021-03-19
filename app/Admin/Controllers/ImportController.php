@@ -29,7 +29,7 @@ class ImportController extends Controller
             $form->title('导入数据');
             $form->action('import/form');
             $form->disableListButton();
-            $form->file('file', '数据文件');
+            $form->file('file', '数据文件')->disk('tmp');
             $form->multipleSteps()
                 ->remember()
                 ->width('950px')
@@ -42,7 +42,7 @@ class ImportController extends Controller
                         // 'contact' => '联系人'
                         ])->default('lead')->required()->help('选择数据类型');
                     // $step->radio('repeat', '重复数据')->options(['覆盖', '跳过', '增加'])->default(0)->help('对重复数据的处理');
-                    $step->file('file', '数据文件')->required()->rules('mimes:xlsx,csv,ods')->autoUpload();
+                    $step->file('file', '数据文件')->required()->rules('mimes:xlsx,csv,ods')->accept('xlsx,csv')->disk('tmp')->autoUpload();
                 })
                 ->add('对应关系', function (StepForm $step) {
 

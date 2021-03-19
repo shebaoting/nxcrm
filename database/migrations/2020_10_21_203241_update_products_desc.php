@@ -13,7 +13,7 @@ class UpdateProductsDesc extends Migration
      */
     public function up()
     {
-        Schema::table('products',function (Blueprint $table) {
+        Schema::table('crm_products',function (Blueprint $table) {
             $table->string('desc')->nullable()->change();
         });
     }
@@ -21,7 +21,7 @@ class UpdateProductsDesc extends Migration
     // 回滚迁移时会被调用
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('crm_products', function (Blueprint $table) {
 
         });
     }

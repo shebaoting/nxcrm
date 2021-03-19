@@ -13,12 +13,12 @@ class CreateContactsTable extends Migration
      */
     public function up()
     {
-        Schema::create('contacts', function (Blueprint $table) {
+        Schema::create('crm_contacts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->default('');
             $table->char('phone')->nullable();
             $table->json('fields')->nullable();
-            $table->string('customer_id')->nullable();
+            $table->string('crm_customer_id')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateContactsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contacts');
+        Schema::dropIfExists('crm_contacts');
     }
 }

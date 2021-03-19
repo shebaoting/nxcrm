@@ -13,10 +13,10 @@ class CreateContractsTable extends Migration
      */
     public function up()
     {
-        Schema::create('contracts', function (Blueprint $table) {
+        Schema::create('crm_contracts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title')->default('');
-            $table->integer('customer_id');
+            $table->integer('crm_customer_id');
             $table->json('fields')->nullable();
             $table->date('signdate');
             $table->date('expiretime');
@@ -35,6 +35,6 @@ class CreateContractsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contracts');
+        Schema::dropIfExists('crm_contracts');
     }
 }

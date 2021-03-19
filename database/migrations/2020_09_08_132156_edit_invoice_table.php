@@ -13,7 +13,7 @@ class EditInvoiceTable extends Migration
      */
     public function up()
     {
-        Schema::table('invoices', function (Blueprint $table) {
+        Schema::table('crm_invoices', function (Blueprint $table) {
             $table->string('tin')->default('')->nullable()->change();
             $table->string('bank_name')->default('')->nullable()->change();
             $table->string('bank_account')->default('')->nullable()->change();

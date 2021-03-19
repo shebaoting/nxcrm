@@ -10,22 +10,24 @@ class SettingsController extends Controller
 {
     public function index(Content $content, $classinfo)
     {
-        switch ($classinfo){
+        switch ($classinfo) {
             case 'setting':
-            $title = '网站设置';
-            break;
+                $title = '网站设置';
+                break;
             case 'highseas':
-            $title = '公海设置';
-            break;
+                $title = '公海设置';
+                break;
+            case 'company':
+                $title = '公司信息';
+                break;
             default:
-            $title = '运营设置';
-            }
+                $title = '运营设置';
+        }
 
-        $classinfo = '\App\Admin\Forms\\'.$classinfo;
+        $classinfo = '\App\Admin\Forms\\' . $classinfo;
         return $content
             ->title($title)
             ->description('详情')
             ->body(Card::make('设置', new $classinfo())->withHeaderBorder());
     }
-
 }

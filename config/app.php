@@ -15,6 +15,7 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'deny_update' => env('DENY_UPDATE', false),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

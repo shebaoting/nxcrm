@@ -13,12 +13,12 @@ class CreateReceiptsTable extends Migration
      */
     public function up()
     {
-        Schema::create('receipts', function (Blueprint $table) {
+        Schema::create('crm_receipts', function (Blueprint $table) {
             $table->increments('id');
             $table->decimal('receive',9,2)->nullable(false);
             $table->integer('paymethod');
             $table->integer('billtype');
-            $table->integer('contract_id');
+            $table->integer('crm_contract_id');
             $table->string('remark')->default('');
 
             $table->timestamps();
@@ -32,6 +32,6 @@ class CreateReceiptsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('receipts');
+        Schema::dropIfExists('crm_receipts');
     }
 }

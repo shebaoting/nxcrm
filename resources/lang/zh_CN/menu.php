@@ -29,5 +29,9 @@ return [
         'products'      => '产品',
         'order'         => '订单',
         'customfield'   => '字段',
+        'teams'   => '通讯录',
+        'contents'   => '资料',
+        'modelcontracts'   => '合同范本',
+        'companys'   => '公司信息',
     ],
 ];

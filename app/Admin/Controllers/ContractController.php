@@ -93,15 +93,15 @@ class ContractController extends AdminController
                     'dark85' // 第二个参数为默认值
                 );
 
-            $grid->title->link(function () {
+            // $grid->title->link(function () {
+            //     return admin_url('contracts/' . $this->id);
+            // });
+            $grid->crm_customer_id('合同标识')->display(function ($id) {
+                return optional(CrmCustomer::find($id))->name." ".$this->signdate;
+            })->link(function () {
                 return admin_url('contracts/' . $this->id);
             });
-            $grid->crm_customer_id('所属客户')->display(function ($id) {
-                return optional(CrmCustomer::find($id))->name;
-            })->link(function () {
-                return admin_url('customers/' . $this->crm_customer_id);
-            });
-            $grid->signdate->sortable();
+            // $grid->signdate->sortable();
             $grid->expiretime->sortable();
             $grid->total;
             $grid->CrmReceipts->display(function ($receipts) {
@@ -123,10 +123,10 @@ class ContractController extends AdminController
                 }
                 return $payback;
             });
-            $this->gridfield($grid,'contract');
+            $this->gridfield($grid, 'contract');
             if (Admin::user()->isRole('administrator')) {
-            // 导出
-            $this->Exportfield($grid,'contract');
+                // 导出
+                $this->Exportfield($grid, 'contract');
             }
 
             $grid->model()->orderBy('id', 'desc');
@@ -134,10 +134,12 @@ class ContractController extends AdminController
             $grid->disableRefreshButton();
             $grid->toolsWithOutline(false);
             $grid->disableFilterButton();
-            $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-                $filter->like('title', '合同名称');
+            $grid->quickSearch('id', 'title');
+            $grid->actions(function (Grid\Displayers\Actions $actions) {
+                // 生成合同
+                $actions->append('<a href="'.admin_route('buildContracts.index',['contract_id' => $this->id]).'"><i class="feather icon-file-text"></i> 生成合同</a>');
             });
+
         });
     }
 
@@ -151,7 +153,7 @@ class ContractController extends AdminController
 
     public function show($id, Content $content)
     {
-        if (!is_numeric($id)){
+        if (!is_numeric($id)) {
             return $content->title('错误')
                 ->body('信息错误,请返回');
         }
@@ -163,29 +165,28 @@ class ContractController extends AdminController
         }
         Admin::css(static::$css);
 
-        $contract = CrmContract::with(['CrmCustomer', 'CrmOrders','CrmReceipts', 'CrmEvents' => function ($q) {
+        $contract = CrmContract::with(['CrmCustomer', 'CrmOrders', 'CrmReceipts', 'CrmEvents' => function ($q) {
             $q->orderBy('updated_at', 'desc');
         }, 'CrmEvents.CrmContact', 'CrmEvents.adminUser', 'Attachments'])->findorFail($id);
 
         $receipts = json_decode($contract->CrmReceipts);
         $accepts = 0;
         # 商务支出
-        $salesexpenses=0;
+        $salesexpenses = 0;
         foreach ($receipts as $receipt) {
-            if ($receipt->type === 1){
+            if ($receipt->type === 1) {
                 $accepts += $receipt->receive;
-            }else{
-                $salesexpenses +=$receipt->receive;
+            } else {
+                $salesexpenses += $receipt->receive;
             }
-
         }
 
         $data = [
             'contract'       => $contract,
             'customer'       => $contract->CrmCustomer,
             'receipts'       => $contract->CrmReceipts,
-            'accepts'        => $accepts,# 已收款
-            'salesexpenses'  => $salesexpenses,# 已支出
+            'accepts'        => $accepts, # 已收款
+            'salesexpenses'  => $salesexpenses, # 已支出
             'events'         => $contract->CrmEvents,
             'adminUser'     => $contract->CrmCustomer->adminUser,
             'attachments'    => $contract->Attachments,
@@ -220,16 +221,12 @@ class ContractController extends AdminController
 
             Admin::css(static::$css);
 
-            $form->column(12, function (Form $form) {
-                $form->text('title')->required();
-            });
-
             $form->column(6, function (Form $form) {
                 $form->selectTable('crm_customer_id')
                     ->title('选择所属客户')
                     ->dialogWidth('50%') // 弹窗宽度，默认 800px
                     ->from(CrmCustomerTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
-                    ->model(CrmCustomer::class, 'id', 'title'); // 设置编辑数据显示
+                    ->model(CrmCustomer::class, 'id', 'name'); // 设置编辑数据显示
                 $form->date('signdate', '签署时间')->required();
             });
 
@@ -250,29 +247,29 @@ class ContractController extends AdminController
             });
 
 
-//            $form->column(6, function (Form $form) {
-//                $form->currency('total', '合同金额')->symbol('￥')->attribute('min', 0)->default(0);
-//            });
-//
-//            $form->column(6, function (Form $form) {
-//                $form->currency('salesexpenses', '商务费用')->symbol('￥')->attribute('min', 0)->default(0);
-//            });
+            //            $form->column(6, function (Form $form) {
+            //                $form->currency('total', '合同金额')->symbol('￥')->attribute('min', 0)->default(0);
+            //            });
+            //
+            //            $form->column(6, function (Form $form) {
+            //                $form->currency('salesexpenses', '商务费用')->symbol('￥')->attribute('min', 0)->default(0);
+            //            });
             # 商务费用 由支出动态添加所得
 
 
             $form->column(12, function (Form $form) {
                 $form->hidden('salesexpenses')->default(0);
                 $form->textarea('remark', '备注');
-                $this->formfield($form,'contract');
+                $this->formfield($form, 'contract');
                 $form->hidden('fields')->value(null);
             });
 
             $class = $this;
             $form->saving(function (Form $form) use ($class) {
-//                if ($form->salesexpenses || $form->total) {
-//                    $form->salesexpenses = str_replace(',', '', $form->salesexpenses);
-//                    $form->total = str_replace(',', '', $form->total);
-//                }
+                //                if ($form->salesexpenses || $form->total) {
+                //                    $form->salesexpenses = str_replace(',', '', $form->salesexpenses);
+                //                    $form->total = str_replace(',', '', $form->total);
+                //                }
 
                 $form_field = array();
                 foreach ($class->custommodel('Contract') as $field) {
@@ -285,23 +282,21 @@ class ContractController extends AdminController
 
                 return $form;
             });
-            $form->saved(function (Form $form,$result) {
-                 if ($form->isCreating()){
-                     $new_contract_id = $result;
-                     if (!$new_contract_id){
-                         return $form->error('合同新增失败');
-                     }
-                     $contract = CrmContract::find($new_contract_id);
-                     foreach($contract->CrmOrders as $order)
-                     {
-                         $contract->total+= abs($order->executionprice*$order->quantity);
-                         # 快照标准价
-                         $order->prod_price = $order->CrmProduct->price;
-                         $order->save();
-                     }
-                     $contract->save();
-
-                 }
+            $form->saved(function (Form $form, $result) {
+                if ($form->isCreating()) {
+                    $new_contract_id = $result;
+                    if (!$new_contract_id) {
+                        return $form->error('合同新增失败');
+                    }
+                    $contract = CrmContract::find($new_contract_id);
+                    foreach ($contract->CrmOrders as $order) {
+                        $contract->total += abs($order->executionprice * $order->quantity);
+                        # 快照标准价
+                        $order->prod_price = $order->CrmProduct->price;
+                        $order->save();
+                    }
+                    $contract->save();
+                }
             });
         });
     }

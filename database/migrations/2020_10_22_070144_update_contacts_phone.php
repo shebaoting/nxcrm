@@ -13,7 +13,7 @@ class UpdateContactsPhone extends Migration
      */
     public function up()
     {
-        DB::statement("ALTER TABLE contacts MODIFY phone char(11) null");
+        DB::statement("ALTER TABLE crm_contacts MODIFY phone char(11) null");
     }
 
     /**

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Dcat\EasyExcel\Excel;
 use App\Admin\Traits\Importfields;
+use Dcat\Admin\Admin;
 
 class ImportData implements ShouldQueue
 {
@@ -68,9 +69,12 @@ class ImportData implements ShouldQueue
                 $tmpdeta['fields'] = json_encode($tmp);
                 $tmpdeta['created_at'] = Carbon::now()->toDateTimeString();
                 $tmpdeta['updated_at'] = Carbon::now()->toDateTimeString();
-                if(in_array($this->form['modeltype'], ['lead','customer'])) {
-                    $tmpdeta['state'] = 0;
-                }
+                if($this->form['modeltype'] == 'lead') {
+                    $tmpdeta['state'] = 1;
+                }elseif ($this->form['modeltype'] == 'customer'){
+                    $tmpdeta['state'] = 3;
+                    $tmpdeta['admin_user_id'] = Admin::user()->id;
+                }else {}
 
                 array_push($tmptable,$tmpdeta);
             }

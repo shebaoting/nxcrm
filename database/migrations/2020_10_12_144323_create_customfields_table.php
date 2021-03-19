@@ -13,7 +13,7 @@ class CreateCustomfieldsTable extends Migration
      */
     public function up()
     {
-        Schema::create('customfields', function (Blueprint $table) {
+        Schema::create('crm_customfields', function (Blueprint $table) {
             $table->increments('id');
             $table->char('model')->default('');
             $table->char('name')->default('');
@@ -38,6 +38,6 @@ class CreateCustomfieldsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customfields');
+        Schema::dropIfExists('crm_customfields');
     }
 }

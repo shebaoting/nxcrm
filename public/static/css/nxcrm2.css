@@ -267,8 +267,13 @@ body.dark-mode:not(.sidebar-separate) .main-sidebar .sidebar {
 body.dark-mode [class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link.active {
     background: transparent;
 }
+
 .form-control,.select2-container .select2-selection--single {
     height: 48px !important;
+}
+
+textarea.form-control {
+    height: 88px !important;
 }
 
 .vs-radio-con {
@@ -346,3 +351,17 @@ body.dark-mode.horizontal-menu a.nav-link.active p {
 .layui-layer-content .tool-main {
     position: inherit;
 }
+
+.grid__actions__ a {margin-left: 10px;}
+
+/* 翻页按钮大小 */
+.pagination .page-item.active .page-link {
+    width: 46px;
+    text-align: center;
+}
+.pagination .page-item:not(.first) .page-link, .pagination .page-item:not(.last) .page-link, .pagination .page-item:not(.next-item) .page-link, .pagination .page-item:not(.prev-item) .page-link {
+    line-height: 2.5;
+}
+
+/* json表单新增按钮 */
+.kv-add {width: 100px;}

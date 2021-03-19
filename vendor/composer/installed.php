@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'a02e44ddf32e85120b2c6c1df28f6b557ee2fd08',
+    'reference' => '9acde8f25c12622299df0911be7db488e0e62b28',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -81,12 +81,12 @@
     ),
     'dcat/laravel-admin' => 
     array (
-      'pretty_version' => '2.0.19-beta',
-      'version' => '2.0.19.0-beta',
+      'pretty_version' => '2.0.20-beta',
+      'version' => '2.0.20.0-beta',
       'aliases' => 
       array (
       ),
-      'reference' => '7b58de449a577c8c68a30e1d2e61f09b8e2bff87',
+      'reference' => '1f2a7eb420527e38e133cbf7b3c5889e097a133b',
     ),
     'dnoegel/php-xdg-base-dir' => 
     array (
@@ -474,6 +474,24 @@
         0 => '*',
       ),
     ),
+    'laminas/laminas-escaper' => 
+    array (
+      'pretty_version' => '2.7.0',
+      'version' => '2.7.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5e04bc5ae5990b17159d79d331055e2c645e5cc5',
+    ),
+    'laminas/laminas-zendframework-bridge' => 
+    array (
+      'pretty_version' => '1.2.0',
+      'version' => '1.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '6cccbddfcfc742eb02158d6137ca5687d92cee32',
+    ),
     'laravel/framework' => 
     array (
       'pretty_version' => 'v8.29.0',
@@ -499,7 +517,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'a02e44ddf32e85120b2c6c1df28f6b557ee2fd08',
+      'reference' => '9acde8f25c12622299df0911be7db488e0e62b28',
     ),
     'laravel/tinker' => 
     array (
@@ -664,6 +682,15 @@
       array (
       ),
       'reference' => '6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0',
+    ),
+    'phpoffice/phpword' => 
+    array (
+      'pretty_version' => '0.18.1',
+      'version' => '0.18.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '06b90e39a36872c6ee73534e1a073f4b3132fc6a',
     ),
     'phpoption/phpoption' => 
     array (
@@ -1036,12 +1063,12 @@
     ),
     'symfony/dom-crawler' => 
     array (
-      'pretty_version' => 'v5.2.3',
-      'version' => '5.2.3.0',
+      'pretty_version' => 'v5.2.4',
+      'version' => '5.2.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '5d89ceb53ec65e1973a555072fac8ed5ecad3384',
+      'reference' => '400e265163f65aceee7e904ef532e15228de674b',
     ),
     'symfony/error-handler' => 
     array (
@@ -1317,6 +1344,13 @@
       array (
       ),
       'reference' => 'bafc69caeb4d49c39fd0779086c03a3738cbb389',
+    ),
+    'zendframework/zend-escaper' => 
+    array (
+      'replaced' => 
+      array (
+        0 => '^2.6.1',
+      ),
     ),
   ),
 );

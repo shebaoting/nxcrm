@@ -13,10 +13,10 @@ class CreateOpportunitysTable extends Migration
      */
     public function up()
     {
-        Schema::create('opportunitys', function (Blueprint $table) {
+        Schema::create('crm_opportunitys', function (Blueprint $table) {
             $table->increments('id');
             $table->string('subject')->default('');
-            $table->string('customer_id')->nullable();
+            $table->string('crm_customer_id')->nullable();
             $table->integer('expectincome')->default('0');
             $table->date('expectendtime');
             $table->integer('dealchance')->default('0');
@@ -34,6 +34,6 @@ class CreateOpportunitysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('opportunitys');
+        Schema::dropIfExists('crm_opportunitys');
     }
 }

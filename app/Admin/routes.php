@@ -63,4 +63,14 @@ Route::group([
     //导入
     Route::get('/import/form', 'ImportController@index');
     Route::post('/import/form', 'ImportController@store');
+
+    //通讯录
+    Route::get('/teams', 'TeamController@index')->name('Team.index');
+
+    //合同范本
+    $router->resource('modelcontracts', 'ModelcontractController');
+
+    //生成合同
+    Route::get('/buildContracts/form', 'BuildContractsController@index')->name('buildContracts.index');
+    Route::post('/buildContracts/form', 'BuildContractsController@store');
 });

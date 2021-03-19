@@ -13,11 +13,11 @@ class CreateInvoicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('invoices', function (Blueprint $table) {
+        Schema::create('crm_invoices', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('receipt_id');
+            $table->integer('crm_receipt_id');
             $table->integer('state')->nullable(false);
-            $table->integer('contract_id')->nullable(false);
+            $table->integer('crm_contract_id')->nullable(false);
             $table->decimal('money');
             $table->integer('type');
             $table->integer('title_type');
@@ -41,6 +41,6 @@ class CreateInvoicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invoices');
+        Schema::dropIfExists('crm_invoices');
     }
 }

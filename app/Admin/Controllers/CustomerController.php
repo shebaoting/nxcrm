@@ -126,10 +126,7 @@ CSS
             $grid->toolsWithOutline(false);
             $grid->disableFilterButton();
             $grid->model()->orderBy('id', 'desc');
-            $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-                $filter->like('name', '客户名称');
-            });
+            $grid->quickSearch('id', 'name');
             if (Admin::user()->isRole('administrator')) {
                 // 导出
                 $this->Exportfield($grid, 'customer');

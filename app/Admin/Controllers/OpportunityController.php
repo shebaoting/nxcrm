@@ -115,11 +115,8 @@ class OpportunityController extends AdminController
             ]);
 
             $grid->model()->orderBy('id', 'desc');
-            $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-                $filter->like('subject', '商机名称');
-            });
 
+            $grid->quickSearch('id', 'subject');
             $grid->actions(function (Grid\Displayers\Actions $actions) {
                 if ($actions->row->state == 1) {
                     $actions->append(new ChangeState(['Opportunity','标记成功', '您确定要将此商机标记为成功吗', 2]));

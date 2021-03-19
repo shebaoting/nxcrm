@@ -34,10 +34,12 @@ admin_inject_section('isadmin', function () {
     $setting_menu = [
         'admin/settings/setting',
         'admin/settings/highseas',
+        'admin/settings/companys',
         'admin/auth/users',
         'admin/auth/roles',
         'admin/products',
-        'admin/customfields'
+        'admin/customfields',
+        'admin/modelcontracts'
     ];
     $route = request()->path();
     $isadmin = in_array($route, $setting_menu);
@@ -55,11 +57,11 @@ admin_inject_section(Admin::SECTION['LEFT_SIDEBAR_MENU'], function () {
     foreach ($menu_date as $item) {
 
         if (admin_section('isadmin', false)) {
-            if (in_array($item['title'], ['Admin','operations'])) {
+            if (in_array($item['title'], ['Admin','operations','contents'])) {
                 $html .= view('admin.partials.menu', ['item' => $item, 'builder' => $builder])->render();
             }
         }else {
-            if (!in_array($item['title'], ['Admin','operations'])) {
+            if (!in_array($item['title'], ['Admin','operations','contents'])) {
                 $html .= view('admin.partials.menu', ['item' => $item, 'builder' => $builder])->render();
             }
         }

@@ -53,10 +53,7 @@ class ContactController extends AdminController
             })->link(function () {
                 return admin_url('customers/' . $this->customer_id);
             });
-            $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-                $filter->like('name', '联系人姓名');
-            });
+            $grid->quickSearch('id', 'name');
             $grid->model()->orderBy('id', 'desc');
 
             // 导出

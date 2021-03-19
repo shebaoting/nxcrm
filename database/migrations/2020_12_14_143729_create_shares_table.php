@@ -13,9 +13,9 @@ class CreateSharesTable extends Migration
      */
     public function up()
     {
-        Schema::create('shares', function (Blueprint $table) {
+        Schema::create('crm_shares', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('customer_id')->index();
+            $table->integer('crm_customer_id')->index();
             $table->integer('user_id')->index();
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ class CreateSharesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shares');
+        Schema::dropIfExists('crm_shares');
     }
 }
