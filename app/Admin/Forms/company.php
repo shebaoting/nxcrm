@@ -38,7 +38,9 @@ class company extends Form
         $this->text('company_phone', '联系电话')->default(admin_setting('company_phone', '18888888888'));
         $this->text('company_email', '公司邮箱')->default(admin_setting('company_email', 'mail@qq.com'));
         $this->text('company_address', '公司地址')->default(admin_setting('company_address', '北京XX区XX路'));
-        $this->keyValue('company_info', '其他信息')->default(admin_setting('company_info'));
+        $this->keyValue('company_info', '其他信息')->saving(function ($v) {
+            return json_encode($v);
+        });
     }
 
 

@@ -320,5 +320,6 @@ return [
         // the extension files will be generated in this directory.
         'dir' => base_path('dcat-admin-extensions'),
     ],
-    'nx_version' => '2.3.19'
+    'map_provider' => 'tencent',
+    'nx_version' => '2.3.19.2',
 ];

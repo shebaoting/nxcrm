@@ -61,6 +61,7 @@ class EventController extends AdminController
             $grid->disableRefreshButton();
             $grid->toolsWithOutline(false);
             $grid->disableFilterButton();
+            $grid->disableActions();
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
             });

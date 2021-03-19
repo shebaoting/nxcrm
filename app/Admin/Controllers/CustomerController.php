@@ -197,6 +197,7 @@ CSS
             // }
             $form->display('id');
             $form->text('name');
+            // $form->map('latitude', 'longitude', 'map');
             $this->formfield($form, 'customer');
             $form->hidden('admin_user_id')->value(Admin::user()->id);
             $form->hidden('state')->value(3);
