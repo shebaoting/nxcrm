@@ -26,6 +26,17 @@
 
     @foreach ($programs as $k => $v)
 
+@php
+if ($v) {
+   $value = intval(($dailydata[$k]/$v)*100);
+   $value1 = intval((intval($dailydata[$k])/intval($v))*100);
+}else {
+   $value = 0;
+   $value1 = 0;
+}
+@endphp
+
+
     @if ($k == 'add_contract')
     <div class="row mt-1">
         <div class="col-5">
@@ -33,13 +44,13 @@
         </div>
         <div class="col-4 my-auto">
             <div class="progress ht-6 my-auto">
-                <div class="progress-bar ht-6" role="progressbar" style="width: {{intval(($dailydata[$k]/$v)*100)}}%" aria-valuenow="15"
+                <div class="progress-bar ht-6" role="progressbar" style="width: {{$value}}%" aria-valuenow="15"
                     aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
         <div class="col-3">
             <div class="d-flex">
-                <span class="tx-13"><i class="text-success fe fe-arrow-up"></i><b>{{intval(($dailydata[$k]/$v)*100)}}%</b></span>
+                <span class="tx-13"><i class="text-success fe fe-arrow-up"></i><b>{{$value}}%</b></span>
             </div>
         </div>
     </div>
@@ -50,13 +61,13 @@
         </div>
         <div class="col-4 my-auto">
             <div class="progress ht-6 my-auto">
-                <div class="progress-bar ht-6" role="progressbar" style="width: {{intval(($dailydata[$k]/$v)*100)}}%" aria-valuenow="15"
+                <div class="progress-bar ht-6" role="progressbar" style="width: {{$value}}%" aria-valuenow="15"
                     aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
         <div class="col-3">
             <div class="d-flex">
-                <span class="tx-13"><i class="text-success fe fe-arrow-up"></i><b>{{intval(($dailydata[$k]/$v)*100)}}%</b></span>
+                <span class="tx-13"><i class="text-success fe fe-arrow-up"></i><b>{{$value}}%</b></span>
             </div>
         </div>
     </div>
@@ -67,13 +78,13 @@
         </div>
         <div class="col-4 my-auto">
             <div class="progress ht-6 my-auto">
-                <div class="progress-bar ht-6" role="progressbar" style="width: {{intval(($dailydata[$k]/$v)*100)}}%" aria-valuenow="15"
+                <div class="progress-bar ht-6" role="progressbar" style="width: {{$value}}%" aria-valuenow="15"
                     aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
         <div class="col-3">
             <div class="d-flex">
-                <span class="tx-13"><i class="text-success fe fe-arrow-up"></i><b>{{intval(($dailydata[$k]/$v)*100)}}%</b></span>
+                <span class="tx-13"><i class="text-success fe fe-arrow-up"></i><b>{{$value}}%</b></span>
             </div>
         </div>
     </div>
@@ -84,13 +95,13 @@
         </div>
         <div class="col-4 my-auto">
             <div class="progress ht-6 my-auto">
-                <div class="progress-bar ht-6" role="progressbar" style="width: {{intval((intval($dailydata[$k])/intval($v))*100)}}%" aria-valuenow="15"
+                <div class="progress-bar ht-6" role="progressbar" style="width: {{$value1}}%" aria-valuenow="15"
                     aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
         <div class="col-3">
             <div class="d-flex">
-                <span class="tx-13"><i class="text-success fe fe-arrow-up"></i><b>{{intval((intval($dailydata[$k])/intval($v))*100)}}%</b></span>
+                <span class="tx-13"><i class="text-success fe fe-arrow-up"></i><b>{{$value1}}%</b></span>
             </div>
         </div>
     </div>
@@ -101,13 +112,13 @@
         </div>
         <div class="col-4 my-auto">
             <div class="progress ht-6 my-auto">
-                <div class="progress-bar ht-6" role="progressbar" style="width: {{intval((intval($dailydata[$k])/intval($v))*100)}}%" aria-valuenow="15"
+                <div class="progress-bar ht-6" role="progressbar" style="width: {{$value1}}%" aria-valuenow="15"
                     aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
         <div class="col-3">
             <div class="d-flex">
-                <span class="tx-13"><i class="text-success fe fe-arrow-up"></i><b>{{intval((intval($dailydata[$k])/intval($v))*100)}}%</b></span>
+                <span class="tx-13"><i class="text-success fe fe-arrow-up"></i><b>{{$value1}}%</b></span>
             </div>
         </div>
     </div>
@@ -118,13 +129,13 @@
         </div>
         <div class="col-4 my-auto">
             <div class="progress ht-6 my-auto">
-                <div class="progress-bar ht-6" role="progressbar" style="width: {{intval((intval($dailydata[$k])/intval($v))*100)}}%" aria-valuenow="15"
+                <div class="progress-bar ht-6" role="progressbar" style="width: {{$value1}}%" aria-valuenow="15"
                     aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
         <div class="col-3">
             <div class="d-flex">
-                <span class="tx-13"><i class="text-success fe fe-arrow-up"></i><b>{{intval((intval($dailydata[$k])/intval($v))*100)}}%</b></span>
+                <span class="tx-13"><i class="text-success fe fe-arrow-up"></i><b>{{$value1}}%</b></span>
             </div>
         </div>
     </div>

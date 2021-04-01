@@ -38,37 +38,48 @@ class CrmPerformance extends Card
         // 设置标题
         $this->title('今日任务进度');
         $this->header('我的每日业绩目标完成进度...');
-        // 设置下拉菜单
-        $programs = json_decode((CrmProgram::where('admin_user_id', '=', Admin::user()->id)->first())['daily'], true);
 
-        // 每日新增合同数
-        $add_contract = CrmContract::whereHas('CrmCustomer', function ($query) {
-            $query->where('admin_user_id', Admin::user()->id);
-        })->whereDate('signdate', date('y-m-d'))->count();
 
-        // 每日新增客户
-        $add_customer = CrmCustomer::where('admin_user_id', Admin::user()->id)->whereDate('created_at', date('y-m-d'))->count();
+        if(CrmProgram::where('admin_user_id', '=', Admin::user()->id)->first()){
+            $programs = json_decode((CrmProgram::where('admin_user_id', '=', Admin::user()->id)->first())['daily'], true);
+        } else {
+            $programs = [
+            "add_contract" => "0",
+            "add_customer" => "0",
+            "add_opportunity" => "0",
+            "add_receipt_sum" => "0",
+            "add_contract_sum" => "0",
+            "add_opportunity_sum" => "0"
+          ];
+        }
 
-        // 每日新增商机
-        $add_opportunity = CrmOpportunity::whereHas('CrmCustomer', function ($query) {
-            $query->where('admin_user_id', Admin::user()->id);
-        })->whereDate('created_at', date('y-m-d'))->count();
+            // 每日新增合同数
+            $add_contract = CrmContract::whereHas('CrmCustomer', function ($query) {
+                $query->where('admin_user_id', Admin::user()->id);
+            })->whereDate('signdate', date('y-m-d'))->count();
 
-        // 每日新增收款
-        $add_receipt_sum = CrmReceipt::whereHas('CrmContract.CrmCustomer', function ($query) {
-            $query->where('admin_user_id', Admin::user()->id);
-        })->whereDate('created_at', date('y-m-d'))->sum('receive');
+            // 每日新增客户
+            $add_customer = CrmCustomer::where('admin_user_id', Admin::user()->id)->whereDate('created_at', date('y-m-d'))->count();
 
-        // 每月新增商机金额
-        $add_opportunity_sum =  CrmOpportunity::whereHas('CrmCustomer', function ($query) {
-            $query->where('admin_user_id', Admin::user()->id);
-        })->whereDate('created_at', date('y-m-d'))->sum('expectincome');
+            // 每日新增商机
+            $add_opportunity = CrmOpportunity::whereHas('CrmCustomer', function ($query) {
+                $query->where('admin_user_id', Admin::user()->id);
+            })->whereDate('created_at', date('y-m-d'))->count();
 
-        // 每日新增合同金额
-        $add_contract_sum  =  CrmContract::whereHas('CrmCustomer', function ($query) {
-            $query->where('admin_user_id', Admin::user()->id);
-        })->whereDate('signdate', date('y-m-d'))->sum('total');
-        // dd($add_receipt_sum);
+            // 每日新增收款
+            $add_receipt_sum = CrmReceipt::whereHas('CrmContract.CrmCustomer', function ($query) {
+                $query->where('admin_user_id', Admin::user()->id);
+            })->whereDate('created_at', date('y-m-d'))->sum('receive');
+
+            // 每月新增商机金额
+            $add_opportunity_sum =  CrmOpportunity::whereHas('CrmCustomer', function ($query) {
+                $query->where('admin_user_id', Admin::user()->id);
+            })->whereDate('created_at', date('y-m-d'))->sum('expectincome');
+
+            // 每日新增合同金额
+            $add_contract_sum  =  CrmContract::whereHas('CrmCustomer', function ($query) {
+                $query->where('admin_user_id', Admin::user()->id);
+            })->whereDate('signdate', date('y-m-d'))->sum('total');
 
         $dailydata = collect(['add_contract' => $add_contract, 'add_customer' => $add_customer, 'add_opportunity' => $add_opportunity, 'add_receipt_sum' => $add_receipt_sum, 'add_opportunity_sum' => $add_opportunity_sum, 'add_contract_sum' => $add_contract_sum]);
 
