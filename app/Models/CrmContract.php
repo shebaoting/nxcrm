@@ -10,7 +10,7 @@ class CrmContract extends Model
 {
 	use HasDateTimeFormatter;
     public $timestamps = false;
-
+    protected $fillable = ['nodes'];
     public function CrmReceipts()
     {
         return $this->hasMany(CrmReceipt::class);
@@ -54,6 +54,21 @@ class CrmContract extends Model
             }
         }
         return $calcSalesExpenses;
+    }
+
+        /**
+     * 获取实时收款
+     */
+    public function getCalcSalesRevenueAttribute()
+    {
+        $calcSalesRevenue= 0;
+        foreach($this->CrmReceipts as $receipt)
+        {
+            if ($receipt->type === 1){
+                $calcSalesRevenue+=$receipt->receive;
+            }
+        }
+        return $calcSalesRevenue;
     }
 
 }

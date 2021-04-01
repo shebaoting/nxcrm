@@ -15,6 +15,13 @@
                 </div>
             </div>
 
+            {{-- 履约节点开始 --}}
+            @if ($contract['compliance'] !== 'null')
+            @include('admin.contract._compliance')
+            @endif
+
+            {{-- 履约节点结束 --}}
+
             <div class="row">
                 <div class="col-md-12">
                     <div class=" card" style=";padding:.25rem .4rem .4rem">

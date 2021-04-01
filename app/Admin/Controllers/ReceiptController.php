@@ -32,7 +32,7 @@ CSS;
     protected function grid()
     {
         Admin::style($this->withCss());
-        return Grid::make(new CrmReceipt(), function (Grid $grid) {
+        return Grid::make(CrmReceipt::with(['CrmContract','CrmContract.CrmCustomer']), function (Grid $grid) {
             $grid->model()->orderByDesc('id');
             $grid->updated_at->sortable();
             $grid->receive;
@@ -61,8 +61,9 @@ CSS;
                         2 => '支出',
                     ]
                 );
-            $grid->crm_contract_id('所属合同')->display(function ($id) {
-                return optional(CrmContract::find($id))->CrmCustomer->name . optional(CrmContract::find($id))->signdate;
+            $grid->column('CrmContract.CrmCustomer.name','所属合同')->display(function ($id) {
+                return $id.'#'.$this->crm_contract_id;
+                // return optional(CrmContract::find($id))->CrmCustomer->name . optional(CrmContract::find($id))->signdate;
             })->link(function () {
                 return admin_url('contracts/' . $this->crm_contract_id);
             });
@@ -286,6 +287,7 @@ CSS;
                 $contract = $receipt->CrmContract;
                 unset($receipt);
                 $contract->salesexpenses = $contract->calc_sales_expenses;
+                $contract->receipt = $contract->calc_sales_revenue;
                 $contract->save();
                 return $form->response()->success('保存成功')->redirect('/receipts/');
             });

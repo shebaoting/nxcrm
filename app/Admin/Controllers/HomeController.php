@@ -36,42 +36,52 @@ JS;
     public function index(Content $content)
     {
         Admin::css(static::$css);
-        // if (Admin::user()->isAdministrator()){
-        //     Admin::script($this->script());
-        // }
+        Admin::style(
+            <<<CSS
+.content-header .breadcrumb {
+    display:block;
+}
+.content-header .breadcrumb li:first-child {
+    display:none
+}
+.breadcrumb-item+.breadcrumb-item:before {
+    display: none;
+}
+CSS
+        );
 
         return $content
             ->header('控制台')
             ->description('控制台...')
+            ->breadcrumb(Examples\CrmProgram::build())
             ->body(function (Row $row) {
-                $row->column(12, function (Column $column) {
+                $row->column(8, function (Column $column) {
+                    $column->row(Examples\CrmMyinfo::title());
+                    $column->row(Examples\CrmMyinfo::Shortcuts());
                     $column->row(function (Row $row) {
-                        $row->column(3, new Examples\CrmCustomers());
-                        $row->column(3, new Examples\CrmLeads());
-                        $row->column(3, new Examples\CrmContracts());
-                        $row->column(3, new Examples\CrmOpportunitys());
+                        $row->column(3, new Examples\CrmMyCustomers());
+                        $row->column(3, new Examples\CrmMyLeads());
+                        $row->column(3, new Examples\CrmMyContracts());
+                        $row->column(3, new Examples\CrmMyOpportunitys());
+                    });
+                    $column->row(new Examples\CrmMyReceipts());
+                    $column->row(function (Row $row) {
+                        // $row->column(4, new Examples\CrmLeadsRecent());
+                        $row->column(6, new Examples\CrmContractsReceipt());
+                        $row->column(6, new Examples\CrmContractsCompliance());
                     });
                 });
-                $row->column(6, function (Column $column) {
-                    $column->row(new Examples\CrmOpportunitysAll());
+
+                $row->column(4, function (Column $column) {
+                    $column->row(new Examples\CrmTopuser());
+                    $column->row(new Examples\CrmMyContractTotal());
+                    $column->row(new Examples\CrmPerformance());
+                    $column->row(Examples\CrmAdver::Adver());
                 });
 
-                $row->column(6, function (Column $column) {
-                    $column->row(new Examples\CrmReceipts());
-                });
 
-                $row->column(12, function (Column $column) {
-                    $column->row(function (Row $row) {
-                        $row->column(4, new Examples\CrmTopuser());
-                        $row->column(4, new Examples\CrmLeadsRecent());
-
-                        $row->column(4, function (Column $column) {
-                            $column->row(function (Row $row) {
-                                $row->column(12, new Examples\CrmAdver());
-                            });
-                        });
-                    });
-                });
             });
     }
 }
+
+// 发布收款时，需要同时增加合同的收款额

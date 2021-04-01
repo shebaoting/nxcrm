@@ -28,7 +28,11 @@ Admin::baseCss(['static/css/nxcrm'.admin_setting('style_type', 2).'.css'], true)
 Admin::asset()->alias('@nunito', null, '');
 Admin::asset()->alias('@montserrat', null, '');
 
-
+if(admin_setting('style_type') == 1){
+    Grid::resolving(function (Grid $grid) {
+        $grid->tableCollapse(false);
+    });
+}
 
 admin_inject_section('isadmin', function () {
     $setting_menu = [
@@ -87,8 +91,8 @@ config([
     'admin.name' => admin_setting('crmname'),
     'admin.logo' => $logo,
     'admin.logo-mini' => $logo_mini,
-    'admin.layout.body_class' => admin_setting('body_class'),
-    'admin.layout.sidebar_style' => 'light',
+    'admin.layout.body_class' => 'default',
+    'admin.layout.sidebar_style' => admin_setting('sidebar_style'),
     'admin.layout.dark_mode_switch' => true,
     'admin.layout.color' => 'blue',
     'admin.layout.horizontal_menu' => admin_setting('horizontal_menu'),

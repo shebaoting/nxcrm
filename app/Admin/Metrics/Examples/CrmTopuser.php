@@ -19,12 +19,14 @@ class CrmTopUser extends Card
         parent::init();
         $this->height(450);
         // 设置标题
-        $this->title('最佳表现');
-        $users = user::select(['id', 'name','avatar'])->withCount(['CrmCustomers' => function (Builder $query) {
-            $query->where('state', '=', '3');
-        },'CrmCustomers as Leads_count' => function (Builder $query) {
-            $query->where('state', '<>', '3');
-        },'CrmContracts'])->orderBy('crm_contracts_count', 'desc')->limit(4)->get();
+        $this->title('本月团队排行');
+        $this->header('本月的合同签署量排行...');
+        $users = user::with('CrmContracts')->select(['id', 'name','avatar'])
+        ->withSum('CrmContracts', 'total')->whereHas('CrmContracts', function ($query) {
+            $query->whereYear('signdate', date('Y'))->whereMonth('signdate', date('m'));
+        })->orderBy('crm_contracts_sum_total', 'desc')->limit(5)->get();
+// dd($users);
+
         $this->withContent(view('admin.metrics.examples.topuser',compact('users')));
     }
 

@@ -2,34 +2,10 @@
 
 namespace App\Admin\Metrics\Examples;
 
-use Dcat\Admin\Widgets\Metrics\Card;
-
-class CrmAdver extends Card
+class CrmAdver
 {
-    /**
-     * 卡片底部内容.
-     *
-     * @var string|Renderable|\Closure
-     */
-
-    protected function init()
+    public static function Adver()
     {
-        parent::init();
-        // 设置标题
-        $this->withContent(view('admin.metrics.examples.adver'));
-    }
-
-    /**
-     * 渲染卡片内容.
-     *
-     * @return string
-     */
-    public function withContent($content)
-    {
-        return $this->content(
-            <<<HTML
-            {$content}</h1>
-HTML
-        );
+        return view('admin.metrics.examples.adver');
     }
 }

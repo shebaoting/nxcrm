@@ -285,7 +285,7 @@ return [
         'sidebar_collapsed' => false,
 
         // light, primary, dark
-        'sidebar_style' => 'light',
+        'sidebar_style' => 'dark',
 
         'dark_mode_switch' => true,
 
@@ -321,5 +321,5 @@ return [
         'dir' => base_path('dcat-admin-extensions'),
     ],
     'map_provider' => 'tencent',
-    'nx_version' => '2.3.19.2',
+    'nx_version' => '2.4.1',
 ];

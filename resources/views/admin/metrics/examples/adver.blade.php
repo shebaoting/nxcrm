@@ -1,3 +1,8 @@
+<style>
+    .cta-box {
+        margin-bottom: 1.5rem;
+    }
+</style>
 <div class="cta-box bg-primary text-white">
     <div class="card-body">
         <div class="media align-items-center">

@@ -249,6 +249,6 @@ class InvoiceController extends AdminController
             'state' => $request->state,
         ]);
         admin_toastr('更新成功', 'success');
-        return redirect()->route('invoices.show', $invoice->id);
+        return redirect()->route('dcat.admin.invoices.show', $invoice->id);
     }
 }

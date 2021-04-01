@@ -15,6 +15,7 @@ use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Admin;
 use App\Models\CrmCustomer;
 use App\Admin\Traits\Exportfields;
+use Illuminate\Http\Request;
 
 class ContractController extends AdminController
 {
@@ -97,26 +98,16 @@ class ContractController extends AdminController
             //     return admin_url('contracts/' . $this->id);
             // });
             $grid->crm_customer_id('合同标识')->display(function ($id) {
-                return optional(CrmCustomer::find($id))->name." ".$this->signdate;
+                return optional(CrmCustomer::find($id))->name."#".$this->id;
             })->link(function () {
                 return admin_url('contracts/' . $this->id);
             });
             // $grid->signdate->sortable();
             $grid->expiretime->sortable();
             $grid->total;
-            $grid->CrmReceipts->display(function ($receipts) {
-                $count = count($receipts);
-                if ($count) {
-                    $accepts = 0;
-                    foreach ($receipts as $value) {
-                        $accepts += $value['receive'];
-                    }
-                } else {
-                    $accepts = 0;
-                }
-
-                if ($this->total - $accepts) {
-                    $payback = $this->total - $accepts;
+            $grid->receipt->display(function ($receipt) {
+                if ($this->total - $receipt) {
+                    $payback = $this->total - $receipt;
                     $payback = "<span style='font-weight: 700;' class='text-danger'>$payback</span>";
                 } else {
                     $payback = "<span style='font-weight: 700;' class='text-primary'>已结清</span>";
@@ -153,10 +144,10 @@ class ContractController extends AdminController
 
     public function show($id, Content $content)
     {
-        if (!is_numeric($id)) {
-            return $content->title('错误')
-                ->body('信息错误,请返回');
-        }
+        // if (!is_numeric($id)) {
+        //     return $content->title('错误')
+        //         ->body('信息错误,请返回');
+        // }
         $detalling = Admin::user()->id != CrmContract::find($id)->CrmCustomer->adminUser->id;
         $Role = !Admin::user()->isRole('administrator');
         if ($Role && $detalling) {
@@ -239,13 +230,12 @@ class ContractController extends AdminController
 
 
             $form->column(12, function (Form $form) {
-                $form->hasMany('crm_orders', '订单', function (Form\NestedForm $form) {
+                $form->hasMany('crm_orders', '合同订单', function (Form\NestedForm $form) {
                     $form->select('crm_product_id', '产品')->options(CrmProduct::pluck('name', 'id'));
                     $form->currency('executionprice', '成交单价')->symbol('￥');
                     $form->number('quantity', '数量')->attribute('min', 1)->default(1);
                 })->useTable();
             });
-
 
             //            $form->column(6, function (Form $form) {
             //                $form->currency('total', '合同金额')->symbol('￥')->attribute('min', 0)->default(0);
@@ -263,6 +253,18 @@ class ContractController extends AdminController
                 $this->formfield($form, 'contract');
                 $form->hidden('fields')->value(null);
             });
+
+            $form->column(12, function (Form $form) {
+                $form->table('compliance', '履约步骤', function ($table) {
+                    $table->date('date','时间节点');
+                    $table->text('content','履约内容');
+                    $table->currency('receipt','收款')->symbol('￥');
+                    // $table->switch('isend','是否完成');
+                })->saving(function ($v) {
+                    return json_encode($v);
+                });
+            });
+
 
             $class = $this;
             $form->saving(function (Form $form) use ($class) {
@@ -299,5 +301,18 @@ class ContractController extends AdminController
                 }
             });
         });
+    }
+
+
+    protected function nodes(CrmContract $id, Request $request)
+    {
+        $request->validate([
+            'nodes' => 'required|max:1)'
+        ]);
+        $id->update([
+            'nodes' => $request->nodes,
+        ]);
+        admin_toastr('履约进度更新成功', 'success');
+        return redirect()->back();
     }
 }

@@ -24,6 +24,7 @@ Route::group([
     $router->resource('events', 'EventController');
 
     //合同
+    $router->get('/contracts/{id}/nodes', 'ContractController@nodes')->name('contracts.nodes')->where(['article' => '[0-9]+']);
     $router->resource('contracts', 'ContractController');
 
     //收款
@@ -73,4 +74,7 @@ Route::group([
     //生成合同
     Route::get('/buildContracts/form', 'BuildContractsController@index')->name('buildContracts.index');
     Route::post('/buildContracts/form', 'BuildContractsController@store');
+
+    //业绩目标
+    $router->resource('programs', 'ProgramController');
 });

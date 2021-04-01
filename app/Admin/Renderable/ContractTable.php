@@ -19,7 +19,9 @@ class ContractTable extends LazyRenderable
 
         return Grid::make($crmContract, function (Grid $grid)use($id) {
             $grid->column('id');
-            $grid->column('title','合同标题');
+            $grid->column('title','合同标题')->display(function($title) {
+                return optional(CrmCustomer::find($this->crm_customer_id))->name.'#'.$this->id;
+            });
             // $grid->column('customer_id','所属客户');
 
             $grid->column('crm_customer_id','所属客户')->display(function($Id) {

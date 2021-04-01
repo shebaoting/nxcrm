@@ -1,20 +1,36 @@
-<div class="box-body">
-@foreach ($leads as $lead)
-<div class="row LeadsRecent">
-<div class="col-md-2 avatar" style="border: 0"><img src="storage/{{$lead->adminUser->avatar}}" alt=""></div>
-<div class="col-md-6">{{$lead->name}}</div>
-<div class="col-md-2">
-    @switch($lead->state)
-    @case(0)
-    <span class="badge badge-secondary">未开始</span>
-    @break
-    @case(1)
-    <span class="badge bg-primary">执行中</span>
-    @break
-    @default
-    <span class="badge badge-danger">其他</span>
-    @endswitch
-</div>
-</div>
-@endforeach
+<style>
+    .leads_recent .table td {
+        padding-top: 1rem !important;
+    }
+
+    .leads_recent .mb-1 {
+        margin-bottom: .25rem !important;
+    }
+
+    .leads_recent .font-size-14 {
+        font-size: 14px !important;
+    }
+
+    .leads_recent .font-size-12 {
+        font-size: 12px !important;
+    }
+
+    .leads_recent h5 {
+        font-weight: 700;
+    }
+
+</style>
+<div class="table-responsive leads_recent">
+    <table class="table table-nowrap align-middle table-hover mb-0">
+        <tbody>
+            @foreach ($leads as $lead)
+            <tr>
+                <td>
+                    <h5 class="text-truncate font-size-14 mb-1"><a href="#" class="text-dark">{{$lead->name}}</a></h5>
+                    <p class="font-size-12 text-muted mb-0">{{$lead->created_at}}</p>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>

@@ -63,7 +63,6 @@ class ModelcontractController extends AdminController
             $form->text('title');
             $form->text('description');
             $form->file('content')->accept('docx')->rules('mimes:docx')->autoUpload()->uniqueName()->removable();
-
             $form->display('created_at');
             $form->display('updated_at');
         });

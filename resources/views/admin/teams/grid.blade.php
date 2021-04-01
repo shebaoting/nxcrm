@@ -61,7 +61,7 @@
 
                     @foreach($grid->rows() as $row)
 
-                    <div class="col-xl-4 col-xxl-6 col-sm-6">
+                    <div class="col-xl-3 col-xxl-6 col-sm-6">
                         <div class="card contact-bx">
                             <div class="card-body">
                                 <div class="media">

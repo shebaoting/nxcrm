@@ -12,6 +12,7 @@ return [
         'expiretime' => '合同期限',
         'status' => '合同状态',
         'total' => '合同额',
+        'receipt' => '未收款',
         'CrmReceipts' => '待结款',
     ],
     'options' => [
