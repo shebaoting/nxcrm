@@ -11,6 +11,6 @@ class CrmMyinfo
 
     public static function Shortcuts()
     {
-        return view('admin.metrics.examples.Shortcuts');
+        return view('admin.metrics.examples.shortcuts');
     }
 }
