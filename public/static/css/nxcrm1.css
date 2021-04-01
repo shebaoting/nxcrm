@@ -270,3 +270,7 @@ body.dark-mode .nav.nav-tabs {border-bottom: 1px solid #2c2c43;}
 body.dark-mode .table tbody tr td {
     background-color: #222233;
 }
+body.dark-mode .table {
+    background-color: transparent;
+    padding: 0 1rem;
+}
