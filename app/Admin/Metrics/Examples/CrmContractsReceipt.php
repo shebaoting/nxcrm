@@ -23,7 +23,7 @@ class CrmContractsReceipt extends Card
         $this->title('待收款合同');
         $contracts = CrmContract::whereHas('CrmCustomer', function ($query) {
             $query->where('admin_user_id', Admin::user()->id);
-        })->with('CrmCustomer')->where([['compliance', 'like', '%null%']])->whereRaw('receipt<total')->limit(6)->get();
+        })->with('CrmCustomer')->whereRaw('receipt<total')->limit(6)->get();
         $this->withContent(view('admin.metrics.examples.contracts_receipt',compact('contracts')));
     }
 
