@@ -14,8 +14,8 @@ class AddAdminusersidReminderIntoEvents extends Migration
     public function up()
     {
         Schema::table('crm_events',function (Blueprint $table) {
-            $table->integer('admin_user_id')->after('opportunity_id')->nullable();
-            $table->date('reminder')->after('opportunity_id')->nullable();
+            $table->integer('admin_user_id')->after('crm_opportunity_id')->nullable();
+            $table->date('reminder')->after('crm_opportunity_id')->nullable();
         });
     }
 
