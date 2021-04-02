@@ -19,6 +19,7 @@ class AccessControl
             'admin/dcat-api/value',
             'admin/helpers/scaffold/table',
             'admin/dcat-api/form',
+            'admin/settings/setting',
         ],
     ];
 
