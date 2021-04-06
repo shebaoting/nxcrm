@@ -130,10 +130,11 @@ HTML;
         })->whereMonth('signdate', date('m',strtotime("-1 month")))
         ->get();
 
-
-       $grow = round(($origin->count() - $last_month->count()) / $last_month->count() * 100);
-
-
+        if($last_month){
+            $grow = round(($origin->count() - $last_month->count()) / $last_month->count() * 100);
+        }else {
+            $grow = round($origin->count() - $last_month->count());
+        }
         return $grow;
      }
 }

@@ -27,7 +27,7 @@
     @foreach ($programs as $k => $v)
 
 @php
-if ($v) {
+if ($v && $dailydata[$k]) {
    $value = intval(($dailydata[$k]/$v)*100);
    $value1 = intval((intval($dailydata[$k])/intval($v))*100);
 }else {
