@@ -321,5 +321,5 @@ return [
         'dir' => base_path('dcat-admin-extensions'),
     ],
     'map_provider' => 'tencent',
-    'nx_version' => '2.4.22',
+    'nx_version' => '2.4.23',
 ];
