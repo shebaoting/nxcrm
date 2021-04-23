@@ -17,15 +17,16 @@ class ImportData implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Importfields;
 
-    protected $form;
+    protected $form, $formUser;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($form)
+    public function __construct($formInput,$formUser)
     {
-        $this->form = $form;
+        $this->form = $formInput;
+        $this->formUser = $formUser;
     }
 
     /**
@@ -36,17 +37,28 @@ class ImportData implements ShouldQueue
     public function handle()
     {
             // 对表格数据进行转数组处理
-            $rows = Excel::import(public_path('storage/' . $this->form['file']))->headingRow($this->form['titlelist'])->first()->toArray();
+            $rows = Excel::import(storage_path('tmp/'.$this->form['file']))->headingRow($this->form['titlelist'])->first()->toArray();
+
+
+            // 根据选择获取数据为客户还是线索
+            if ($this->form['modeltype'] == 'lead') {
+                $detaState = 1;
+            } elseif ($this->form['modeltype'] == 'customer') {
+                $detaState = 3;
+            }
+
 
             // 根据选择获取模型
             if ($this->form['modeltype'] == 'contact') {
                 $detaname = 'crm_contacts';
+                $this->form['modeltype'] = 'contact';
             } elseif ($this->form['modeltype'] == 'contract') {
                 $detaname = 'crm_contracts';
+                $this->form['modeltype'] = 'contract';
             } else {
                 $detaname = 'crm_customers';
+                $this->form['modeltype'] = 'customer';
             }
-
             // 将表格的数据处理成符合导入条件的数组
             $tmptable = array();
             foreach ($rows as $row) {
@@ -69,12 +81,10 @@ class ImportData implements ShouldQueue
                 $tmpdeta['fields'] = json_encode($tmp);
                 $tmpdeta['created_at'] = Carbon::now()->toDateTimeString();
                 $tmpdeta['updated_at'] = Carbon::now()->toDateTimeString();
-                if($this->form['modeltype'] == 'lead') {
-                    $tmpdeta['state'] = 1;
-                }elseif ($this->form['modeltype'] == 'customer'){
-                    $tmpdeta['state'] = 3;
-                    $tmpdeta['admin_user_id'] = Admin::user()->id;
-                }else {}
+                if($this->form['modeltype'] == 'customer'){
+                    $tmpdeta['state'] = $detaState;
+                    $tmpdeta['admin_user_id'] = $this->formUser;
+                }
 
                 array_push($tmptable,$tmpdeta);
             }

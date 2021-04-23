@@ -10,6 +10,7 @@ use App\Admin\Traits\Importfields;
 use Dcat\Admin\Widgets\Alert;
 use Dcat\EasyExcel\Excel;
 use App\Jobs\ImportData;
+use Dcat\Admin\Admin;
 
 class ImportController extends Controller
 {
@@ -75,7 +76,6 @@ class ImportController extends Controller
                     } else {
                         $modelname = 'customer';
                     }
-
                     // 循环模型本身的字段,并且将模型字段对应表格列
                     foreach ($this->Importfield($modelname) as $k => $v) {
                         if ($k != 'fields') {
@@ -123,7 +123,8 @@ class ImportController extends Controller
             $form->multipleSteps()->flushStash();
             // 推送任务到队列
             $forminput = $form->input();
-            dispatch(new ImportData($forminput));
+            $formUser = Admin::user()->id;
+            dispatch(new ImportData($forminput,$formUser));
             // dd($tmptable);
             return response(
                 $form->multipleSteps()
