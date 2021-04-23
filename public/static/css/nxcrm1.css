@@ -274,3 +274,9 @@ body.dark-mode .table {
     background-color: transparent;
     padding: 0 1rem;
 }
+
+
+.horizontal-menu .nav-sidebar>.nav-item {
+    padding-bottom: 0rem;
+    margin-bottom: 0px;
+}
