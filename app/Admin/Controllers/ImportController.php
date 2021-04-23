@@ -54,7 +54,7 @@ class ImportController extends Controller
 
                     // 获取导入的文件并且转为数组
                     if (isset(session('step-form-input:import')['file'])) {
-                        $detatable = Excel::import(public_path('storage/' . session('step-form-input:import')['file']))->first()->toArray();
+                        $detatable = Excel::import(storage_path('tmp/' . session('step-form-input:import')['file']))->first()->toArray();
                     } else {
                         $detatable = [];
                     }
