@@ -211,8 +211,8 @@ class OpportunityController extends AdminController
             ->model(CrmCustomer::class, 'id', 'name'); // 设置编辑数据显示
 
 
-            $form->currency('expectincome')->symbol('￥');
-            $form->date('expectendtime');
+            $form->currency('expectincome')->symbol('￥')->required();
+            $form->date('expectendtime')->required();
             $form->slider('dealchance')->options(['max' => 100, 'min' => 1, 'step' => 10, 'postfix' => '%']);
             $form->select('tempo')->options([1 => '1-前期接触', 2 => '2-机会评估', 3 => '3-需求分析', 4 => '4-方案提供', 5 => '5-多方选择/评估']);
             $form->textarea('remark');

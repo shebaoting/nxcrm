@@ -60,9 +60,9 @@ class ModelcontractController extends AdminController
     {
         return Form::make(new CrmModelcontract(), function (Form $form) {
             $form->display('id');
-            $form->text('title');
-            $form->text('description');
-            $form->file('content')->accept('docx')->rules('mimes:docx')->autoUpload()->uniqueName()->removable();
+            $form->text('title')->required();
+            $form->text('description')->required();
+            $form->file('content')->required()->accept('docx')->rules('mimes:docx')->autoUpload()->uniqueName()->removable();
             $form->display('created_at');
             $form->display('updated_at');
         });
