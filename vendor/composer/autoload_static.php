@@ -584,6 +584,13 @@ class ComposerStaticInit74449af1101ecd6f157052626e751738
     );
 
     public static $prefixesPsr0 = array (
+        'O' => 
+        array (
+            'Orangehill\\Iseed' => 
+            array (
+                0 => __DIR__ . '/..' . '/orangehill/iseed/src',
+            ),
+        ),
         'M' => 
         array (
             'Mockery' => 
@@ -639,6 +646,7 @@ class ComposerStaticInit74449af1101ecd6f157052626e751738
         'App\\Admin\\Repositories\\CrmOrder' => __DIR__ . '/../..' . '/app/Admin/Repositories/CrmOrder.php',
         'App\\Admin\\RowAction\\ChangeState' => __DIR__ . '/../..' . '/app/Admin/RowAction/ChangeState.php',
         'App\\Admin\\RowAction\\ReceiveHighSeas' => __DIR__ . '/../..' . '/app/Admin/RowAction/ReceiveHighSeas.php',
+        'App\\Admin\\Traits\\ChangeUser' => __DIR__ . '/../..' . '/app/Admin/Traits/ChangeUser.php',
         'App\\Admin\\Traits\\Customfields' => __DIR__ . '/../..' . '/app/Admin/Traits/Customfields.php',
         'App\\Admin\\Traits\\Exportfields' => __DIR__ . '/../..' . '/app/Admin/Traits/Exportfields.php',
         'App\\Admin\\Traits\\HighSeas' => __DIR__ . '/../..' . '/app/Admin/Traits/HighSeas.php',
@@ -686,6 +694,7 @@ class ComposerStaticInit74449af1101ecd6f157052626e751738
         'App\\Providers\\HorizonServiceProvider' => __DIR__ . '/../..' . '/app/Providers/HorizonServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
+        'App\\View\\Components\\blank_tips' => __DIR__ . '/../..' . '/app/View/Components/blank_tips.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Asm89/Stack/Cors.php',
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/Asm89/Stack/CorsService.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
@@ -4314,6 +4323,11 @@ class ComposerStaticInit74449af1101ecd6f157052626e751738
         'Opis\\Closure\\SecurityProvider' => __DIR__ . '/..' . '/opis/closure/src/SecurityProvider.php',
         'Opis\\Closure\\SelfReference' => __DIR__ . '/..' . '/opis/closure/src/SelfReference.php',
         'Opis\\Closure\\SerializableClosure' => __DIR__ . '/..' . '/opis/closure/src/SerializableClosure.php',
+        'Orangehill\\Iseed\\Facades\\Iseed' => __DIR__ . '/..' . '/orangehill/iseed/src/Orangehill/Iseed/Facades/Iseed.php',
+        'Orangehill\\Iseed\\Iseed' => __DIR__ . '/..' . '/orangehill/iseed/src/Orangehill/Iseed/Iseed.php',
+        'Orangehill\\Iseed\\IseedCommand' => __DIR__ . '/..' . '/orangehill/iseed/src/Orangehill/Iseed/IseedCommand.php',
+        'Orangehill\\Iseed\\IseedServiceProvider' => __DIR__ . '/..' . '/orangehill/iseed/src/Orangehill/Iseed/IseedServiceProvider.php',
+        'Orangehill\\Iseed\\TableNotFoundException' => __DIR__ . '/..' . '/orangehill/iseed/src/Orangehill/Iseed/Exceptions.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Exception/AssertionFailedError.php',
