@@ -58,7 +58,7 @@
                     <span>{{$event['updated_at']->format('m-d')}}</span>
                     <span class="time_hi">{{$event['updated_at']->format('H:i')}}</span></div>
                 <div class="col-md-2 col-sm-2 col-12"><img class="avatar"
-                        src="{{$event->adminUser->avatar!=null ? '/storage/'.$event->adminUser->avatar : config('admin.default_avatar')}}"
+                        src="{{isset($event->adminUser->avatar) ? '/storage/'.$event->adminUser->avatar : config('admin.default_avatar')}}"
                         alt="{{$event['admin_user_id']}}"></div>
                 <div class="col-md-8 col-sm-8 col-12 content">
                     <div class="row">
