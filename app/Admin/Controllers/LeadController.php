@@ -174,7 +174,7 @@ CSS
     {
 
         Admin::css(static::$showcss);
-        $customer = CrmCustomer::with(['CrmContacts', 'CrmContracts', 'adminUser', 'CrmEvents' => function ($q) {
+        $customer = CrmCustomer::with(['CrmContacts','crmReceipts', 'CrmContracts', 'adminUser', 'CrmEvents' => function ($q) {
             $q->orderBy('updated_at', 'desc');
         }, 'CrmEvents.CrmContact', 'CrmEvents.adminUser', 'Attachments', 'SharesUser'])->findorFail($id);
         // $fields = Customfield::where([['model', '=', 'customer'], ['show', '=', '1'],])->get();
@@ -190,6 +190,7 @@ CSS
             'adminUser' => ($customer->adminUser) ?: '',
             'events' => $customer->CrmEvents,
             'contracts' => $customer->CrmContracts,
+            'receipts' => $customer->crmReceipts,
             'attachments' => $customer->Attachments,
             'customerfields' => $this->custommodel('customer'),
             'contactfields' => $this->custommodel('contact'),

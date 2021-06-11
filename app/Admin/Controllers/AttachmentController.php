@@ -93,17 +93,16 @@ class AttachmentController extends AdminController
                         return json_encode($files);
                     });
             }
-            if ($this->contractid) {
-                $form->hidden('crm_contract_id')->value($this->contractid);
-            }
-            $form->hidden('crm_customer_id')->value($this->customerid);
-            $form->hidden('crm_opportunity_id')->value($this->opportunityid);
-            $form->hidden('crm_invoice_id')->value($this->invoiceid);
+            // dd($this->contractid);
+
+            $form->hidden('crm_contract_id')->value(isset($this->contractid) ? $this->contractid : 0);
+            $form->hidden('crm_customer_id')->value(isset($this->customerid) ? $this->customerid : 0);
+            $form->hidden('crm_opportunity_id')->value(isset($this->opportunityid) ? $this->opportunityid : 0);
+            $form->hidden('crm_invoice_id')->value(isset($this->invoiceid) ? $this->invoiceid : 0);
             $form->display('created_at');
             $form->display('updated_at');
-            $form->saving(function (Form $form) {
-            // dd($form->files);
-            });
+
+
 
             $form->saved(function (Form $form) {
                 if ($form->crm_contract_id) {
