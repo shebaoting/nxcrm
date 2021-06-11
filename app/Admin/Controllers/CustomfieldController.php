@@ -115,6 +115,7 @@ class CustomfieldController extends AdminController
                 'mobile' => '手机',
                 'time' => '时间',
                 'date' => '日期',
+                'datetime' => '日期时间',
                 // 'datetime' => '时间日期',
                 // 'dateRange' => '日期范围',
                 // 'datetimeRange' => '时间日期范围',
