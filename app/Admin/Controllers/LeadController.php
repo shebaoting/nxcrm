@@ -174,9 +174,9 @@ CSS
     {
 
         Admin::css(static::$showcss);
-        $customer = CrmCustomer::with(['CrmContacts','crmReceipts', 'CrmContracts', 'adminUser', 'CrmEvents' => function ($q) {
+        $customer = CrmCustomer::with(['CrmContacts','crmReceipts','crmInvoice', 'CrmContracts', 'adminUser', 'CrmEvents' => function ($q) {
             $q->orderBy('updated_at', 'desc');
-        }, 'CrmEvents.CrmContact', 'CrmEvents.adminUser', 'Attachments', 'SharesUser'])->findorFail($id);
+        }, 'CrmEvents.CrmContact', 'CrmEvents.adminUser','crmOrders', 'Attachments', 'SharesUser'])->findorFail($id);
         // $fields = Customfield::where([['model', '=', 'customer'], ['show', '=', '1'],])->get();
         // 判断授权，无权限查看他人的信息,以后可以优化一下
         $detalling = ($customer->adminUser) ? (Admin::user()->id != $customer->id) : true;
@@ -191,6 +191,8 @@ CSS
             'events' => $customer->CrmEvents,
             'contracts' => $customer->CrmContracts,
             'receipts' => $customer->crmReceipts,
+            'invoices' => $customer->crmInvoice,
+            'orders' => $customer->crmOrders,
             'attachments' => $customer->Attachments,
             'customerfields' => $this->custommodel('customer'),
             'contactfields' => $this->custommodel('contact'),
