@@ -39,7 +39,7 @@ class Update extends Command
     {
         $this->call('migrate');
         $this->info('数据库迁移完成！');
-        $this->call('db:seeder', ['--class' => 'DatabaseSeeder']);
+        $this->call('db:seed', ['--class' => 'DatabaseSeeder']);
         $this->info('数据重置完成！');
         $this->call('view:clear');
         $this->info('模版缓存清理完成！');
