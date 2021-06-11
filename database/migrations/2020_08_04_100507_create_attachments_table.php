@@ -15,7 +15,7 @@ class CreateAttachmentsTable extends Migration
     {
         Schema::create('attachments', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('files')->default('');
+            $table->json('files');
             $table->integer('crm_customer_id');
             $table->integer('crm_contract_id')->nullable();
             $table->boolean('electronic')->default('0');
