@@ -33,7 +33,7 @@ class MinifyCommand extends Command
      */
     protected $colors = [
         self::DEFAULT => '',
-        'blue'        => '#2f4cdd',
+        'blue'        => '#6d8be6',
         'blue-light'  => '#62a8ea',
         'green'       => '#07c160',
     ];

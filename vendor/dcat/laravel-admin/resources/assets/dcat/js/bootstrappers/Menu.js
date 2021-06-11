@@ -54,6 +54,10 @@ export default class Menu {
             $this.parents('.dropdown-submenu').find('.nav-link').eq(0).addClass('active')
         });
 
+        // 自动计算高度
+        let $horizontalMenu = $('.horizontal-menu .main-horizontal-sidebar'),
+            defaultHorizontalMenuHeight = 0,
+            horizontalMenuTop = 0;
 
         // 重新计算高度
         let resize = function () {
@@ -61,16 +65,23 @@ export default class Menu {
                 return;
             }
 
-            let defaultHorizontalMenuHeight = 55,
-                height = $('.horizontal-menu .main-horizontal-sidebar').height(),
+            if (! defaultHorizontalMenuHeight) {
+                defaultHorizontalMenuHeight = $horizontalMenu.height()
+            }
+
+            if (! horizontalMenuTop) {
+                horizontalMenuTop = $horizontalMenu.offset().top + 15;
+            }
+
+            let height = $horizontalMenu.height(),
                 diff = height - defaultHorizontalMenuHeight,
                 $wrapper = $('.horizontal-menu.navbar-fixed-top .content-wrapper');
 
             if (height <= defaultHorizontalMenuHeight) {
-                return $wrapper.css({'padding-top': '80px'});
+                return $wrapper.css({'padding-top': horizontalMenuTop + 'px'});
             }
 
-            $wrapper.css({'padding-top': (80 + diff) + 'px'});
+            $wrapper.css({'padding-top': (horizontalMenuTop + diff) + 'px'});
         };
         window.onresize = resize;
 

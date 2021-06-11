@@ -19,12 +19,18 @@ class OrderController extends AdminController
     {
         return Grid::make(CrmOrder::with(['CrmContract','CrmProduct']), function (Grid $grid) {
             $grid->column('id')->sortable();
-            $grid->column('CrmContract.signdate', '销售日期');
-            $grid->column('CrmProduct.name', '产品名称');
+            $grid->column('CrmContract.signdate', '销售日期')->display(function ($aaaa) {
+                return $aaaa;
+            });
+            $grid->column('CrmProduct.name', '产品名称')->display(function ($aaaa) {
+                return $aaaa;
+            });
             $grid->column('executionprice');
             $grid->column('quantity');
-            $grid->column('CrmContract.title', '所属合同')->link(function ($value) {
-                return admin_url('contracts/'.$this->crm_contract_id);
+            $grid->column('CrmContract.id', '所属合同')->display(function ($aaaa) {
+                return $aaaa;
+            })->link(function ($value) {
+                return admin_url('contracts/'.$value);
             });
             $grid->model()->orderBy('id', 'desc');
             $grid->disableActions();

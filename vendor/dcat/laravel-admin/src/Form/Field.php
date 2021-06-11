@@ -12,6 +12,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
+use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 
 /**
@@ -335,13 +336,31 @@ class Field implements Renderable
             $value = [];
 
             foreach ($this->column as $key => $column) {
-                $value[$key] = Arr::get($data, $this->normalizeColumn($column));
+                $value[$key] = $this->getValueFromData($data, $this->normalizeColumn($column));
             }
 
             return $value;
         }
 
-        return Arr::get($data, $this->normalizeColumn(), $this->value);
+        return $this->getValueFromData($data, null, $this->value);
+    }
+
+    /**
+     * @param array $data
+     * @param string $column
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    protected function getValueFromData($data, $column = null, $default = null)
+    {
+        $column = $column ?: $this->normalizeColumn();
+
+        if (Arr::has($data, $column)) {
+            return Arr::get($data, $column, $default);
+        }
+
+        return Arr::get($data, Str::snake($column), $default);
     }
 
     protected function normalizeColumn(?string $column = null)
@@ -537,7 +556,7 @@ class Field implements Renderable
      *
      * @param null $value
      *
-     * @return mixed
+     * @return mixed|$this
      */
     public function value($value = null)
     {
@@ -821,12 +840,20 @@ class Field implements Renderable
     public function placeholder($placeholder = null)
     {
         if ($placeholder === null) {
-            return $this->placeholder ?: trans('admin.input').' '.$this->label;
+            return $this->placeholder ?: $this->defaultPlaceholder();
         }
 
         $this->placeholder = $placeholder;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    protected function defaultPlaceholder()
+    {
+        return trans('admin.input').' '.$this->label;
     }
 
     /**

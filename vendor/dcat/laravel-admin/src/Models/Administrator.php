@@ -24,7 +24,7 @@ class Administrator extends Model implements AuthenticatableContract
 
     const DEFAULT_ID = 1;
 
-    protected $fillable = ['username', 'password', 'name', 'avatar', 'mobile'];
+    protected $fillable = ['username', 'password', 'name', 'avatar'];
 
     /**
      * Create a new Eloquent model instance.
@@ -33,13 +33,18 @@ class Administrator extends Model implements AuthenticatableContract
      */
     public function __construct(array $attributes = [])
     {
+        $this->init();
+
+        parent::__construct($attributes);
+    }
+
+    protected function init()
+    {
         $connection = config('admin.database.connection') ?: config('database.default');
 
         $this->setConnection($connection);
 
         $this->setTable(config('admin.database.users_table'));
-
-        parent::__construct($attributes);
     }
 
     /**

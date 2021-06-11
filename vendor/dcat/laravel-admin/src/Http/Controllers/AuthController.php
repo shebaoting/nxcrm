@@ -175,13 +175,6 @@ class AuthController extends Controller
             $form->text('name', trans('admin.name'))->required();
             $form->image('avatar', trans('admin.avatar'))->autoUpload();
 
-
-            $form->mobile('mobile', trans('admin.mobile'))->required();
-            $form->text('qq', trans('admin.qq'));
-            $form->text('wechat', trans('admin.wechat'));
-            $form->date('birthday', trans('admin.birthday'));
-
-
             $form->password('old_password', trans('admin.old_password'));
 
             $form->password('password', trans('admin.password'))

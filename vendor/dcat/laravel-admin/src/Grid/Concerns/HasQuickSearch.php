@@ -2,6 +2,7 @@
 
 namespace Dcat\Admin\Grid\Concerns;
 
+use Dcat\Admin\Admin;
 use Dcat\Admin\Grid\Column;
 use Dcat\Admin\Grid\Events\ApplyQuickSearch;
 use Dcat\Admin\Grid\Model;
@@ -49,7 +50,17 @@ trait HasQuickSearch
             $this->quickSearch = $search;
 
             $search->setGrid($this);
+
+            $this->addQuickSearchScript();
         });
+    }
+
+    /**
+     * @return bool
+     */
+    public function allowQuickSearch()
+    {
+        return $this->quickSearch ? true : false;
     }
 
     /**
@@ -315,5 +326,14 @@ trait HasQuickSearch
         }
 
         Helper::withQueryCondition($query, $column, $method, [$operator, $value]);
+    }
+
+    protected function addQuickSearchScript()
+    {
+        if ($this->isAsyncRequest()) {
+            $url = Helper::fullUrlWithoutQuery(['_pjax']);
+
+            Admin::script("$('.quick-search-form').attr('action', '{$url}');", true);
+        }
     }
 }

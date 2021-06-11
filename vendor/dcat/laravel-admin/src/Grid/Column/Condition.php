@@ -70,6 +70,13 @@ class Condition
         }
     }
 
+    public function end()
+    {
+        return $this->if(function () {
+            return true;
+        });
+    }
+
     protected function callCallbacks(array $callbacks)
     {
         if (! $callbacks) {

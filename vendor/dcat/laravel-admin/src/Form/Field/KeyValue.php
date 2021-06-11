@@ -10,6 +10,33 @@ class KeyValue extends Field
 {
     const DEFAULT_FLAG_NAME = '_def_';
 
+    protected $keyLabel;
+    protected $valueLabel;
+
+    public function setKeyLabel(?string $label)
+    {
+        $this->keyLabel = $label;
+
+        return $this;
+    }
+
+    public function setValueLabel(?string $label)
+    {
+        $this->valueLabel = $label;
+
+        return $this;
+    }
+
+    public function getKeyLabel()
+    {
+        return $this->keyLabel ?: __('Key');
+    }
+
+    public function getValueLabel()
+    {
+        return $this->valueLabel ?: __('Value');
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -17,7 +44,11 @@ class KeyValue extends Field
     {
         $this->data = $data;
 
-        return Helper::array(Arr::get($data, $this->normalizeColumn(), $this->value));
+        $value = Helper::array($this->getValueFromData($data, null, $this->value));
+
+        unset($value[static::DEFAULT_FLAG_NAME]);
+
+        return $value;
     }
 
     /**
@@ -45,8 +76,8 @@ class KeyValue extends Field
 
         $rules["{$this->column}.keys.*"] = 'distinct';
         $rules["{$this->column}.values.*"] = $fieldRules;
-        $attributes["{$this->column}.keys.*"] = __('Key');
-        $attributes["{$this->column}.values.*"] = __('Value');
+        $attributes["{$this->column}.keys.*"] = $this->getKeyLabel();
+        $attributes["{$this->column}.values.*"] = $this->getValueLabel();
 
         $input = $this->prepareValidatorInput($input);
 
@@ -76,7 +107,9 @@ class KeyValue extends Field
         $value = $this->value();
 
         $this->addVariables([
-            'count' => $value ? count($value) : 0,
+            'count'      => $value ? count($value) : 0,
+            'keyLabel'   => $this->getKeyLabel(),
+            'valueLabel' => $this->getValueLabel(),
         ]);
 
         return parent::render();

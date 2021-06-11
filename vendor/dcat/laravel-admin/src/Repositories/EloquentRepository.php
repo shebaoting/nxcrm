@@ -8,6 +8,7 @@ use Dcat\Admin\Exception\RuntimeException;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
+use Dcat\Laravel\Database\SoftDeletes as DcatSoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\Relations;
@@ -80,8 +81,11 @@ class EloquentRepository extends Repository implements TreeRepository
 
         $this->setKeyName($this->model()->getKeyName());
 
+        $traits = class_uses($this->model());
+
         $this->setIsSoftDeletes(
-            in_array(SoftDeletes::class, class_uses($this->model()))
+            in_array(SoftDeletes::class, $traits, true)
+            || in_array(DcatSoftDeletes::class, $traits, true)
         );
     }
 
@@ -164,7 +168,7 @@ class EloquentRepository extends Repository implements TreeRepository
         }
 
         $model->getQueries()->unique()->each(function ($value) use (&$query) {
-            if ($value['method'] === 'paginate') {
+            if ($value['method'] === 'paginate' || $value['method'] === 'simplePaginate') {
                 $value['arguments'][1] = $this->getGridColumns();
             } elseif ($value['method'] === 'get') {
                 $value['arguments'] = [$this->getGridColumns()];
@@ -366,14 +370,16 @@ class EloquentRepository extends Repository implements TreeRepository
      */
     protected function setPaginate(Grid\Model $model)
     {
-        $paginate = $model->findQueryByMethod('paginate')->first();
+        $paginateMethod = $model->getPaginateMethod();
 
-        $model->rejectQuery(['paginate']);
+        $paginate = $model->findQueryByMethod($paginateMethod)->first();
+
+        $model->rejectQuery(['paginate', 'simplePaginate']);
 
         if (! $model->allowPagination()) {
             $model->addQuery('get', [$this->getGridColumns()]);
         } else {
-            $model->addQuery('paginate', $this->resolvePerPage($model, $paginate));
+            $model->addQuery($paginateMethod, $this->resolvePerPage($model, $paginate));
         }
     }
 

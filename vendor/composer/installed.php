@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '0fd0f4cdfb5f1d2d16dc1e375edd224741d53dac',
+    'reference' => 'cb4ac7c14cf44b97e67935e7edf5f43780cbcb72',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -90,12 +90,12 @@
     ),
     'dcat/laravel-admin' => 
     array (
-      'pretty_version' => '2.0.20-beta',
-      'version' => '2.0.20.0-beta',
+      'pretty_version' => '2.1.0-beta',
+      'version' => '2.1.0.0-beta',
       'aliases' => 
       array (
       ),
-      'reference' => '1f2a7eb420527e38e133cbf7b3c5889e097a133b',
+      'reference' => '7463a692a0397df4e38f877abb353fdc7545ee22',
     ),
     'dnoegel/php-xdg-base-dir' => 
     array (
@@ -553,7 +553,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '0fd0f4cdfb5f1d2d16dc1e375edd224741d53dac',
+      'reference' => 'cb4ac7c14cf44b97e67935e7edf5f43780cbcb72',
     ),
     'laravel/tinker' => 
     array (
@@ -1112,15 +1112,6 @@
       array (
       ),
       'reference' => '5fa56b4074d1ae755beb55617ddafe6f5d78f665',
-    ),
-    'symfony/dom-crawler' => 
-    array (
-      'pretty_version' => 'v5.2.4',
-      'version' => '5.2.4.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '400e265163f65aceee7e904ef532e15228de674b',
     ),
     'symfony/error-handler' => 
     array (
