@@ -14,6 +14,6 @@ trait ShareCustomers
             ->lg()
             ->title('选择您需要分享的同事')
             ->body(view('admin/customer/_share',['id' => $id]))
-            ->button('<span class="text-primary"><i class="feather icon-plus"></i></span>');
+            ->button('<span class="text-primary avatar addshare"><i class="feather icon-plus"></i></span>');
     }
 }

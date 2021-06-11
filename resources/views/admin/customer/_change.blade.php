@@ -1,11 +1,11 @@
 <style>
-    .user-list {
+    .bncard-list {
         min-height: 420px;
         margin-left: 0px;
         padding-left: 0px;
     }
 
-    .user-list li {
+    .bncard-list li {
         border-radius: 4px;
         float: left;
         position: relative;
@@ -16,8 +16,8 @@
         cursor: pointer;
     }
 
-    .user-list li:hover,
-    .user-list li.active .img {
+    .bncard-list li:hover,
+    .bncard-list li.active .img {
         border-color: {{Admin::color()->primary()}};
     }
 
@@ -37,7 +37,7 @@
         float: left;
     }
 
-    .user-list .img {
+    .bncard-list .img {
         width: 58px;
         height: 58px;
         border-radius: 50%;
@@ -53,7 +53,7 @@
         zoom: 1;
     }
 
-    .user-list li .bncard-title {
+    .bncard-list li .bncard-title {
         color: #58585C;
     }
 
@@ -72,20 +72,20 @@
         text-overflow: ellipsis;
     }
 
-    .user-list li .o-checked {
+    .bncard-list li .o-checked {
         display: none;
         position: absolute;
         top: -2px;
         right: -2px;
     }
-    .user-list li.active {
+    .bncard-list li.active {
     border-color: {{Admin::color()->primary()}};
     cursor: default;
     }
-    .user-list li.active .o-checked {
+    .bncard-list li.active .o-checked {
     display: block;
     }
-    .user-list li .o-checked {
+    .bncard-list li .o-checked {
     display: none;
     position: absolute;
     top: -3px;
@@ -96,15 +96,15 @@
     }
 </style>
 <div class="share_list">
-    <ul class="user-list clearfix">
+    <ul class="bncard-list clearfix">
         @php
-          $Customer = App\Models\CrmCustomer::find($id);
-          $shares = array_column($Customer->SharesUser()->get()->toArray(), 'id');
+          $CrmCustomer = App\Models\CrmCustomer::find($id);
+          $currentId = $CrmCustomer->admin_user_id;
         @endphp
 
-        @if ($Customer->adminUser)
-        @foreach (App\Models\Admin_user::with(['roles'])->where('id', '!=', $Customer->adminUser->id)->get() as $item_user)
-        <li userid="{{$item_user->id}}" class="{{in_array($item_user->id,$shares) ? 'active' : '' }}">
+        @if ($CrmCustomer->adminUser)
+        @foreach (App\Models\Admin_user::with(['roles'])->get() as $item_user)
+        <li userid="{{$item_user->id}}" class="{{$item_user->id == $currentId ? 'active' : '' }}">
             <div class="media mbm">
                 <div class="pull-left">
                     <img class="img" src="
@@ -129,10 +129,10 @@
 <div class="box-footer row" style="display: flex">
     <div class="col-md-12">
 
-        <form action="{{ admin_route('shares.store') }}" method="post">
+        <form action="{{ admin_route('customers.changeUser',[$id])}}" method="post">
+            {{ method_field('PATCH') }}
             {{ csrf_field() }}
-            <input name="customer" type="hidden" value="{{$id}}">
-            <input name="user" class="usergroups" type="hidden" value="">
+            <input name="userid" class="userarray" type="hidden" value="">
             <button type="submit" class="btn btn-primary pull-right"><i class="feather icon-save"></i> 提交</button>
           </form>
     </div>
@@ -141,18 +141,16 @@
 
 <script>
     Dcat.ready(function () {
-        var $liebiao = $(".user-list > li");
-        var $user = $(".usergroups");
+        var $liebiao = $(".bncard-list > li");
+        var $user = $(".userarray");
         for (var i = 0; i < $liebiao.length; i++) {
             $liebiao[i].onclick = function () {
+                $liebiao.removeClass("active");
                 $(this).toggleClass("active");
-                var $active = $(".user-list > .active");
-                var $usergroups = [];
-                $active.map(function (key, value) {
-                    $usergroups[key] = Number($(value).attr("userid"));
-                })
-                console.log($usergroups);
-                $user.attr("value", $usergroups);
+                var $active = $(".bncard-list > .active");
+                var $userid = Number($active.attr("userid"));
+                console.log($userid);
+                $user.attr("value", $userid);
             }
         }
     });

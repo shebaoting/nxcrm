@@ -11,7 +11,7 @@ class Update extends Command
      *
      * @var string
      */
-    protected $signature = 'nxcrm:update';
+    protected $signature = 'nxos:update';
 
     /**
      * The console command description.

@@ -12,7 +12,7 @@ class ResetAdminAuth extends Command
      *
      * @var string
      */
-    protected $signature = 'nxcrm:reset';
+    protected $signature = 'nxos:reset';
 
     /**
      * The console command description.

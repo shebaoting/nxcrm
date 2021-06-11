@@ -11,6 +11,7 @@ class CrmCustomer extends Model
 	use HasDateTimeFormatter,HighSeas;
 
     protected $table = 'crm_customers';
+    protected $fillable = ['admin_user_id'];
 
 	public function CrmContacts()
     {
@@ -44,5 +45,20 @@ class CrmCustomer extends Model
     public function SharesUser()
     {
         return $this->belongsToMany(Admin_user::class, 'crm_shares', 'crm_customer_id', 'user_id');
+    }
+
+    public function crmReceipts()
+    {
+        return $this->hasManyThrough(CrmReceipt::class, CrmContract::class);
+    }
+
+    public function crmInvoice()
+    {
+        return $this->hasManyThrough(CrmInvoice::class, CrmContract::class);
+    }
+
+    public function crmOrders()
+    {
+        return $this->hasManyThrough(CrmOrder::class, CrmContract::class);
     }
 }

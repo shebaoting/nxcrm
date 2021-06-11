@@ -38,7 +38,7 @@ if ($v && $dailydata[$k]) {
 
 
     @if ($k == 'add_contract')
-    <div class="row mt-1">
+    <div class="row mt-2">
         <div class="col-5">
             <span class="">新增合同数</span>
         </div>
@@ -55,7 +55,7 @@ if ($v && $dailydata[$k]) {
         </div>
     </div>
     @elseif ($k == 'add_customer')
-    <div class="row mt-1">
+    <div class="row mt-2">
         <div class="col-5">
             <span class="">新增客户</span>
         </div>
@@ -72,7 +72,7 @@ if ($v && $dailydata[$k]) {
         </div>
     </div>
     @elseif ($k == 'add_opportunity')
-    <div class="row mt-1">
+    <div class="row mt-2">
         <div class="col-5">
             <span class="">新增商机</span>
         </div>
@@ -89,7 +89,7 @@ if ($v && $dailydata[$k]) {
         </div>
     </div>
     @elseif ($k == 'add_receipt_sum')
-    <div class="row mt-1">
+    <div class="row mt-2">
         <div class="col-5">
             <span class="">新增收款金额</span>
         </div>
@@ -106,7 +106,7 @@ if ($v && $dailydata[$k]) {
         </div>
     </div>
     @elseif ($k == 'add_opportunity_sum')
-    <div class="row mt-1">
+    <div class="row mt-2">
         <div class="col-5">
             <span class="">新增商机金额</span>
         </div>
@@ -123,7 +123,7 @@ if ($v && $dailydata[$k]) {
         </div>
     </div>
     @elseif ($k == 'add_contract_sum')
-    <div class="row mt-1">
+    <div class="row mt-2">
         <div class="col-5">
             <span class="">新增合同金额</span>
         </div>
@@ -140,7 +140,7 @@ if ($v && $dailydata[$k]) {
         </div>
     </div>
     @else
-    <div class="row mt-1">
+    <div class="row mt-3">
         <div class="col-5">
             <span class="">新增客户</span>
         </div>

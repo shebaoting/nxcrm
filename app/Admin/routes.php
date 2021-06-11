@@ -16,7 +16,8 @@ Route::group([
 
     // 客户
     $router->resource('customers', 'CustomerController');
-
+    //更改客户所属销售
+    $router->patch('/customers/{customer}/changeUser', 'CustomerController@changeUser')->name('customers.changeUser')->where(['customers' => '[0-9]+']);
     //联系人
     $router->resource('contacts', 'ContactController');
 

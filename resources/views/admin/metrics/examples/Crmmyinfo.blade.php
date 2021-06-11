@@ -21,12 +21,12 @@
     margin-bottom: 1rem!important;
 }
 </style>
-<div class="card bg-primary custom-card card-box CrmPersoninfo">
+<div class="card custom-card card-box CrmPersoninfo">
     <div class="card-body p-4">
         <div class="row align-items-center">
             <div class="offset-xl-3 offset-sm-6 col-xl-8 col-sm-6 col-12 img-bg ">
                 <h4 class="d-flex  mb-3">
-                    <span class="font-weight-bold text-white ">
+                    <span class="font-weight-bold">
                         <font style="vertical-align: inherit;">
                             <font style="vertical-align: inherit;">嗨，{{Admin::user()->name}}</font>
                         </font>

@@ -62,7 +62,7 @@ class ModelcontractController extends AdminController
             $form->display('id');
             $form->text('title')->required();
             $form->text('description')->required();
-            $form->file('content')->required()->accept('docx')->rules('mimes:docx')->autoUpload()->uniqueName()->removable();
+            $form->file('content')->required()->accept('docx')->rules('mimes:docx')->autoUpload()->uniqueName()->removable()->help('仅支持docx格式');
             $form->display('created_at');
             $form->display('updated_at');
         });

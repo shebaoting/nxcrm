@@ -27,13 +27,13 @@
                     <div class=" card" style=";padding:.25rem .4rem .4rem">
                         <ul class="nav nav-tabs " role="tablist">
                             <li class="nav-item">
-                                <a href="#tab_receipts" class="nav-link active" data-toggle="tab">收款</a>
+                                <a href="#tab_events" class="nav-link active" data-toggle="tab">跟进</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#tab_receipts" class="nav-link" data-toggle="tab">收款</a>
                             </li>
                             <li class="nav-item">
                                 <a href="#tab_deposits" class="nav-link" data-toggle="tab">支出</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#tab_events" class="nav-link" data-toggle="tab">跟进</a>
                             </li>
                             <li class="nav-item">
                                 <a href="#tab_orders" class="nav-link" data-toggle="tab">订单</a>
@@ -49,17 +49,17 @@
                         </ul>
 
                         <div class="tab-content" style="">
-                            <div class="tab-pane active" id="tab_receipts">
+                            <div class="tab-pane active" id="tab_events">
+                                {{-- 跟进信息 --}}
+                                @include('admin.contract._events')
+                            </div>
+                            <div class="tab-pane" id="tab_receipts">
                                 {{-- 收款信息 --}}
                                 @include('admin.contract._receipts')
                             </div>
                             <div class="tab-pane" id="tab_deposits">
                                 {{-- 收款信息 --}}
                                 @include('admin.contract._deposits')
-                            </div>
-                            <div class="tab-pane" id="tab_events">
-                                {{-- 跟进信息 --}}
-                                @include('admin.contract._events')
                             </div>
 
                             <div class="tab-pane" id="tab_orders">

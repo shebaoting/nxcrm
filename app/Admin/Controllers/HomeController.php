@@ -59,10 +59,10 @@ CSS
                     $column->row(Examples\CrmMyinfo::title());
                     $column->row(Examples\CrmMyinfo::Shortcuts());
                     $column->row(function (Row $row) {
-                        $row->column(3, new Examples\CrmMyCustomers());
-                        $row->column(3, new Examples\CrmMyLeads());
-                        $row->column(3, new Examples\CrmMyContracts());
-                        $row->column(3, new Examples\CrmMyOpportunitys());
+                        $row->column(4, new Examples\CrmMyCustomers());
+                        $row->column(4, new Examples\CrmMyLeads());
+                        $row->column(4, new Examples\CrmMyContracts());
+                        // $row->column(3, new Examples\CrmMyOpportunitys());
                     });
                     $column->row(new Examples\CrmMyReceipts());
                     $column->row(function (Row $row) {

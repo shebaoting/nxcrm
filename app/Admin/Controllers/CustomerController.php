@@ -9,6 +9,7 @@ use Dcat\Admin\Show;
 use App\Admin\Traits\Customfields;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Http\Controllers\AdminController;
+use App\Admin\Traits\ChangeUser;
 use Dcat\Admin\Admin;
 use App\Models\CrmEvent;
 use App\Models\Admin_user;
@@ -21,7 +22,7 @@ use App\Admin\Traits\Exportfields;
 
 class CustomerController extends AdminController
 {
-    use Customfields, Selector, ShareCustomers, Exportfields;
+    use Customfields, Selector, ShareCustomers, Exportfields, ChangeUser;
 
     public function __construct(Request $request)
     {
@@ -156,9 +157,9 @@ CSS
 
 
         Admin::css(static::$css);
-        $customer = CrmCustomer::with(['CrmContacts', 'CrmContracts', 'adminUser', 'CrmEvents' => function ($q) {
+        $customer = CrmCustomer::with(['CrmContacts','crmReceipts','crmInvoice', 'CrmContracts', 'adminUser', 'CrmEvents' => function ($q) {
             $q->orderBy('updated_at', 'desc');
-        }, 'CrmEvents.CrmContact', 'CrmEvents.adminUser', 'Attachments', 'SharesUser'])->findorFail($id);
+        }, 'CrmEvents.CrmContact', 'CrmEvents.adminUser','crmOrders', 'Attachments', 'SharesUser'])->findorFail($id);
 
         $data = [
             'customer' => $customer,
@@ -166,10 +167,14 @@ CSS
             'adminUser' => $customer->adminUser,
             'events' => $customer->CrmEvents,
             'contracts' => $customer->CrmContracts,
+            'receipts' => $customer->crmReceipts,
+            'invoices' => $customer->crmInvoice,
+            'orders' => $customer->crmOrders,
             'attachments' => $customer->Attachments,
             'customerfields' => $this->custommodel('customer'),
             'contactfields' => $this->custommodel('contact'),
             'Share' => $this->Share($id),
+            'Change' => $this->Change($id,'customer'),
             'shares_user' => $customer->SharesUser()->select(['name', 'avatar'])->get(),
         ];
         return $content
@@ -214,5 +219,18 @@ CSS
                 $form->fields = json_encode($form_field);
             });
         });
+    }
+
+    protected function changeUser(CrmCustomer $customer,Request $request)
+    {
+        $request->validate([
+            'userid' => 'required|digits_between:1,3)'
+        ]);
+        $customer->update([
+            'admin_user_id' => $request->userid,
+        ]);
+        admin_toastr('更新成功', 'success');
+
+        return redirect()->route('dcat.admin.customers.show', $customer->id);
     }
 }

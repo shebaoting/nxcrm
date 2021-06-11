@@ -94,7 +94,7 @@ config([
     'admin.layout.body_class' => 'default',
     'admin.layout.sidebar_style' => admin_setting('sidebar_style'),
     'admin.layout.dark_mode_switch' => true,
-    'admin.layout.color' => 'blue',
+    'admin.layout.color' => 'green',
     'admin.layout.horizontal_menu' => admin_setting('horizontal_menu'),
 ]);
 

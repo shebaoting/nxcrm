@@ -70,7 +70,7 @@
             <td class="wd-5p">
                 <div class="main-img-user avatar-md">
                     <img alt="头像" class="rounded-circle mr-3"
-                        src="{{$user->avatar ? ('storage/'.$user->avatar) : ('vendor/dcat-admin/images/default-avatar.jpg')}}">
+                        src="{{$user->avatar ? ('storage/'.$user->avatar) : config('admin.default_avatar')}}">
                 </div>
             </td>
             <td>

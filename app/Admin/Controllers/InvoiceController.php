@@ -187,7 +187,7 @@ class InvoiceController extends AdminController
                 ->title('选择当前发票所属合同')
                 ->dialogWidth('50%') // 弹窗宽度，默认 800px
                 ->from(ContractTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
-                ->model(CrmContract::class, 'id', 'title'); // 设置编辑数据显示
+                ->model(CrmContract::class, 'id', 'id'); // 设置编辑数据显示
             $form->hidden('crm_receipt_id')->value(0);
             $form->hidden('state')->default(0);
             $form->currency('money')->symbol('￥');
@@ -199,7 +199,7 @@ class InvoiceController extends AdminController
                     // 4 => '地税通用机打发票',
                     5 => '收据'
                 ]);
-            $form->text('remark');
+            // $form->text('remark');
             $form->fieldset('发票信息', function (Form $form) {
                 $form->radio('title_type', '抬头类型')
                     ->when(1, function (Form $form) {
@@ -214,7 +214,7 @@ class InvoiceController extends AdminController
                     ])
                     ->default('1');
                 $form->text('title', '发票抬头');
-                $form->mobile('phone', '电话');
+                $form->text('phone', '电话');
             });
 
             $form->fieldset('邮寄信息', function (Form $form) {

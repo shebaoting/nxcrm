@@ -9,6 +9,7 @@ use Dcat\Admin\Grid;
 use App\Models\CrmEvent;
 use App\Admin\Traits\Customfields;
 use Dcat\Admin\Layout\Content;
+use App\Admin\Traits\ChangeUser;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Admin;
 use App\Admin\Traits\ShareCustomers;
@@ -21,7 +22,7 @@ use App\Admin\Traits\Exportfields;
 
 class LeadController extends AdminController
 {
-    use Customfields, Selector, ShareCustomers, Exportfields;
+    use Customfields, Selector, ShareCustomers, Exportfields, ChangeUser;
 
     public function __construct(Request $request)
     {
@@ -142,7 +143,7 @@ CSS
             $grid->enableDialogCreate();
             $grid->disableBatchActions();
             $grid->disableViewButton();
-            $grid->disableEditButton();
+            // $grid->disableEditButton();
             $grid->disableRefreshButton();
             $grid->toolsWithOutline(false);
             $grid->disableFilterButton();
@@ -194,6 +195,7 @@ CSS
             'contactfields' => $this->custommodel('contact'),
             // 'fields' => $fields,
             'Share' => ($customer->adminUser) ? ($this->Share($id)) : '',
+            'Change' => $this->Change($id,'customer'),
             'shares_user' => $customer->SharesUser()->select(['name', 'avatar'])->get(),
             'events_contacts' => CrmCustomer::find($id)->with('CrmEvents.CrmContact'),
         ];
@@ -217,7 +219,7 @@ CSS
     protected function form()
     {
         Admin::css(static::$editcss);
-        $builder = CrmCustomer::with('crm_contacts');
+        $builder = CrmCustomer::with('CrmContacts');
         return Form::make($builder, function (Form $form) {
             // 判断授权，无权限编辑他人的信息,以后可以优化一下
             // dd($form->model()->admin_user_id);

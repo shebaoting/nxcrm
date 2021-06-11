@@ -156,7 +156,7 @@ class ContractController extends AdminController
         }
         Admin::css(static::$css);
 
-        $contract = CrmContract::with(['CrmCustomer', 'CrmOrders', 'CrmReceipts', 'CrmEvents' => function ($q) {
+        $contract = CrmContract::with(['CrmCustomer','CrmCustomer.CrmContacts', 'CrmOrders', 'CrmReceipts', 'CrmEvents' => function ($q) {
             $q->orderBy('updated_at', 'desc');
         }, 'CrmEvents.CrmContact', 'CrmEvents.adminUser', 'Attachments'])->findorFail($id);
 
@@ -174,6 +174,7 @@ class ContractController extends AdminController
 
         $data = [
             'contract'       => $contract,
+            'contacts'       => $contract->CrmCustomer->CrmContacts,
             'customer'       => $contract->CrmCustomer,
             'receipts'       => $contract->CrmReceipts,
             'accepts'        => $accepts, # 已收款

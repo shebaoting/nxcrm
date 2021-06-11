@@ -29,7 +29,7 @@
     }
 
     .contact-bx ul li a {
-        color: #2953E8;
+        /* color: #2953E8; */
         font-size: 14px;
         padding-right: 20px;
     }
@@ -40,7 +40,7 @@
     }
 
     .contact-bx:hover {
-        border-color: #2953E8;
+        /* border-color: #2953E8; */
         box-shadow: 0px 0px 20px rgb(41 83 232 / 10%);
     }
 

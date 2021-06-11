@@ -12,7 +12,7 @@ class HighSeas extends Command
      *
      * @var string
      */
-    protected $signature = 'nxcrm:high-seas';
+    protected $signature = 'nxos:high-seas';
 
     /**
      * The console command description.

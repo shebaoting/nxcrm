@@ -11,7 +11,7 @@ class Install extends Command
      *
      * @var string
      */
-    protected $signature = 'nxcrm:install';
+    protected $signature = 'nxos:install';
 
     /**
      * The console command description.
@@ -49,7 +49,7 @@ class Install extends Command
         $this->call('migrate');
         $this->info('正在初始化数据！');
         $this->call('db:seed', ['--class' => 'AdminTablesSeeder']);
-        $this->call('nxcrm:reset');
+        $this->call('nxos:reset');
         $this->info('正在处理清理模版缓存！');
         $this->call('view:clear');
         $this->info('安装完成！');

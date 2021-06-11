@@ -44,7 +44,7 @@ return [
      | Set a default avatar for newly created users.
      |
      */
-    'default_avatar' => '@admin/images/default-avatar.jpg',
+    'default_avatar' => '/static/img/avatar.svg',
 
     /*
     |--------------------------------------------------------------------------
@@ -321,5 +321,5 @@ return [
         'dir' => base_path('dcat-admin-extensions'),
     ],
     'map_provider' => 'tencent',
-    'nx_version' => '2.4.23.2',
+    'nx_version' => '2.6.11',
 ];
