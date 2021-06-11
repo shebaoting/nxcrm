@@ -48,7 +48,7 @@ class Install extends Command
         $this->info('正在处理数据库迁移！');
         $this->call('migrate');
         $this->info('正在初始化数据！');
-        $this->call('db:seed', ['--class' => 'DatabaseSeeder']);
+        $this->call('db:seeder', ['--class' => 'DatabaseSeeder']);
         $this->call('nxos:reset');
         $this->info('正在处理清理模版缓存！');
         $this->call('view:clear');
