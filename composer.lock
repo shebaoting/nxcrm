@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9a251b194e49ae6342f1e3d3ed332484",
+    "content-hash": "a47c35c2610b6b478e12035455015998",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -355,16 +355,16 @@
         },
         {
             "name": "dcat/laravel-admin",
-            "version": "2.1.0-beta",
+            "version": "2.1.5-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jqhph/dcat-admin.git",
-                "reference": "7463a692a0397df4e38f877abb353fdc7545ee22"
+                "reference": "1bdf20e393ac9d098aba4fd1367aa4f736d7bc28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jqhph/dcat-admin/zipball/7463a692a0397df4e38f877abb353fdc7545ee22",
-                "reference": "7463a692a0397df4e38f877abb353fdc7545ee22",
+                "url": "https://api.github.com/repos/jqhph/dcat-admin/zipball/1bdf20e393ac9d098aba4fd1367aa4f736d7bc28",
+                "reference": "1bdf20e393ac9d098aba4fd1367aa4f736d7bc28",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -374,6 +374,7 @@
                 ]
             },
             "require": {
+                "doctrine/dbal": "^2.6|^3.0",
                 "laravel/framework": "~5.5|~6.0|~7.0|~8.0",
                 "php": ">=7.1.0",
                 "spatie/eloquent-sortable": "3.*|4.*"
@@ -423,9 +424,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jqhph/dcat-admin/issues",
-                "source": "https://github.com/jqhph/dcat-admin/tree/2.1.0-beta"
+                "source": "https://github.com/jqhph/dcat-admin/tree/2.1.5-beta"
             },
-            "time": "2021-05-23T02:41:58+00:00"
+            "time": "2021-09-17T06:04:27+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -9116,5 +9117,5 @@
         "ext-pcntl": "7.2",
         "ext-posix": "7.2"
     },
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

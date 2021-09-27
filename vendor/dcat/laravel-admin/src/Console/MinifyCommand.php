@@ -17,8 +17,8 @@ class MinifyCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'admin:minify {name}
-        {--color= : Theme color code}
+    protected $signature = 'admin:minify {name} 
+        {--color= : Theme color code} 
         {--publish : Publish assets files}';
 
     /**
@@ -35,7 +35,7 @@ class MinifyCommand extends Command
         self::DEFAULT => '',
         'blue'        => '#6d8be6',
         'blue-light'  => '#62a8ea',
-        'green'       => '#07c160',
+        'green'       => '#4e9876',
     ];
 
     /**
@@ -216,8 +216,7 @@ class MinifyCommand extends Command
     /**
      * 获取颜色.
      *
-     * @param string $name
-     *
+     * @param  string  $name
      * @return string
      */
     protected function getColor($name)
@@ -246,8 +245,7 @@ class MinifyCommand extends Command
     }
 
     /**
-     * @param string $color
-     *
+     * @param  string  $color
      * @return string
      */
     protected function formatColor($color)
@@ -262,8 +260,8 @@ class MinifyCommand extends Command
     /**
      * 执行命令.
      *
-     * @param string $command
-     * @param int    $timeout
+     * @param  string  $command
+     * @param  int  $timeout
      */
     protected function runProcess($command, $timeout = 1800)
     {
