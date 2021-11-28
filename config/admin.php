@@ -249,7 +249,7 @@ return [
 
         // Role table and model.
         'roles_table' => 'admin_roles',
-        'roles_model' => Dcat\Admin\Models\Role::class,
+        'roles_model' => App\Models\Role::class,
 
         // Permission table and model.
         'permissions_table' => 'admin_permissions',
@@ -321,5 +321,5 @@ return [
         'dir' => base_path('dcat-admin-extensions'),
     ],
     'map_provider' => 'tencent',
-    'nx_version' => '2.9.27',
+    'nx_version' => '2.11.28',
 ];

@@ -110,7 +110,7 @@ return [
     'more'                  => '更多',
     'deny'                  => '无权访问',
     'administrator'         => '管理员',
-    'roles'                 => '角色',
+    'roles'                 => '部门',
     'permissions'           => '权限',
     'slug'                  => '标识',
     'created_at'            => '创建时间',

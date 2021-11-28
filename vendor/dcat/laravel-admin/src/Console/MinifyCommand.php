@@ -17,8 +17,8 @@ class MinifyCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'admin:minify {name} 
-        {--color= : Theme color code} 
+    protected $signature = 'admin:minify {name}
+        {--color= : Theme color code}
         {--publish : Publish assets files}';
 
     /**
@@ -35,7 +35,7 @@ class MinifyCommand extends Command
         self::DEFAULT => '',
         'blue'        => '#6d8be6',
         'blue-light'  => '#62a8ea',
-        'green'       => '#4e9876',
+        'green'       => '#07c160',
     ];
 
     /**

@@ -37,8 +37,8 @@ class ComposerStaticInit74449af1101ecd6f157052626e751738
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '4a1f389d6ce373bda9e57857d3b61c84' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/helpers.php',
-        'a3a61d13a0bfb8e36cb789c5fbfdf8cf' => __DIR__ . '/..' . '/summerblue/laravel-active/src/helpers.php',
         '044fc72df35e84c745ee0d4120dc15d2' => __DIR__ . '/..' . '/dcat/laravel-admin/src/Support/helpers.php',
+        'a3a61d13a0bfb8e36cb789c5fbfdf8cf' => __DIR__ . '/..' . '/summerblue/laravel-active/src/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -614,6 +614,7 @@ class ComposerStaticInit74449af1101ecd6f157052626e751738
         'App\\Admin\\Controllers\\ProductController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ProductController.php',
         'App\\Admin\\Controllers\\ProgramController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ProgramController.php',
         'App\\Admin\\Controllers\\ReceiptController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ReceiptController.php',
+        'App\\Admin\\Controllers\\RoleController' => __DIR__ . '/../..' . '/app/Admin/Controllers/RoleController.php',
         'App\\Admin\\Controllers\\SettingsController' => __DIR__ . '/../..' . '/app/Admin/Controllers/SettingsController.php',
         'App\\Admin\\Controllers\\ShareController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ShareController.php',
         'App\\Admin\\Controllers\\TeamController' => __DIR__ . '/../..' . '/app/Admin/Controllers/TeamController.php',

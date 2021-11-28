@@ -24,6 +24,7 @@ return array(
     'App\\Admin\\Controllers\\ProductController' => $baseDir . '/app/Admin/Controllers/ProductController.php',
     'App\\Admin\\Controllers\\ProgramController' => $baseDir . '/app/Admin/Controllers/ProgramController.php',
     'App\\Admin\\Controllers\\ReceiptController' => $baseDir . '/app/Admin/Controllers/ReceiptController.php',
+    'App\\Admin\\Controllers\\RoleController' => $baseDir . '/app/Admin/Controllers/RoleController.php',
     'App\\Admin\\Controllers\\SettingsController' => $baseDir . '/app/Admin/Controllers/SettingsController.php',
     'App\\Admin\\Controllers\\ShareController' => $baseDir . '/app/Admin/Controllers/ShareController.php',
     'App\\Admin\\Controllers\\TeamController' => $baseDir . '/app/Admin/Controllers/TeamController.php',

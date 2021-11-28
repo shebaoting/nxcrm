@@ -4,6 +4,8 @@ namespace App\Admin\Controllers;
 
 use App\Models\CrmCustomer;
 use App\Models\Admin_user;
+use App\Models\Role;
+use App\Models\AdminRoleUsers;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use App\Models\CrmEvent;
@@ -57,8 +59,20 @@ class LeadController extends AdminController
 CSS
             );
 
-            if ((!$this->source_id || $this->source_id == 0) && Admin::user()->isRole('administrator')) {
-                $grid->model();
+            //取出当前用户为负责人的所有部门
+            $leader = Role::where('leader', '=', Admin::user()->id)->pluck('id')->toArray();
+
+            //取出当前用户为负责人的所有部门下的所有用户
+            $roleUsers = AdminRoleUsers::whereIn('role_id', $leader)->pluck('user_id')->toArray();
+
+            //判断当前用户是否为部门负责人
+            $isleader = count($leader);
+            if ((!$this->source_id || $this->source_id == 0)) {
+                if(Admin::user()->isRole('administrator')){
+                    $grid->model();
+                }elseif ($isleader){
+                    $grid->model()->whereIn('admin_user_id', $roleUsers);
+                }
             } elseif ($this->source_id == 2) {
                 $shares_Customer = array_column(Admin_user::find(Admin::user()->id)->SharesCustomer()->get()->toArray(), 'id');
                 $grid->model()->whereIn('id', $shares_Customer);
@@ -68,9 +82,9 @@ CSS
                 $grid->model()->where('admin_user_id', '=', Admin::user()->id);
             }
 
-            $grid->header(function () {
+            $grid->header(function () use ($isleader) {
                 $tab = Tab::make();
-                if (Admin::user()->isRole('administrator')) {
+                if (Admin::user()->isRole('administrator') || $isleader) {
                     $tab->addLink('所有线索', '?source_id=0', true);
                 }
                 $tab->addLink('我的线索', '?source_id=1', $this->source_id == 1 ? true : false);

@@ -78,4 +78,7 @@ Route::group([
 
     //业绩目标
     $router->resource('programs', 'ProgramController');
+
+    //重写部门角色
+    $router->resource('auth/roles', 'RoleController');
 });
