@@ -81,4 +81,7 @@ Route::group([
 
     //重写部门角色
     $router->resource('auth/roles', 'RoleController');
+
+    //公海池
+    $router->resource('customerpool', 'CustomerpoolController');
 });

@@ -5,6 +5,8 @@ namespace App\Admin\Controllers;
 use App\Models\CrmCustomer;
 use App\Models\Admin_user;
 use App\Models\Role;
+use App\Models\CrmCustomerpool;
+use Illuminate\Support\Facades\DB;
 use App\Models\AdminRoleUsers;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
@@ -94,10 +96,9 @@ CSS
             });
 
             $grid->selector(function (Grid\Tools\Selector $selector) {
-                $selector->selectOne('state', '状态', [
-                    0 => '废弃',
-                    1 => '正常',
-                ]);
+                $myrole = Admin::user()->roles->pluck('id')->take(1)->toArray()[0];
+                $customerpools = DB::table('crm_customerpools')->where('roles','like','%'.$myrole.'%')->pluck('title','id')->toArray();
+                $selector->selectOne('crm_customerpool_id', '公海池', $customerpools);
                 $selector->select('id', '未跟进', ['3天未跟进', '1周未跟进', '半月未跟进', '1月未跟进', '2月未跟进', '半年未跟进'], function ($query, $value) {
                     $between = [
                         $this->queryCustomer(3),
@@ -140,12 +141,8 @@ CSS
 
             $grid->actions(function (Grid\Displayers\Actions $actions) {
                 if ($actions->row->admin_user_id != 0){
-                    if ($actions->row->state == 1) {
                         $actions->append(new ChangeState(['Customer', '转为客户', '您确定要将此线索转化为正式客户吗', 3]));
-                        $actions->append(new ChangeState(['Customer', '废弃', '确定废弃此线索吗？', 0]));
-                    } else {
-                        $actions->append(new ChangeState(['Customer', '恢复', '您确定要恢复此线索吗？', 1]));
-                    }
+                        $actions->append(new ReceiveHighSeas(['放入公海', '您确定要将此线索放入公海吗？']));
                 }else{
                     $actions->append(new ReceiveHighSeas(['领取线索', '您确定要领取此线索吗？']));
                 }

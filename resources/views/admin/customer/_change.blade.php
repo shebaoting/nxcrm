@@ -101,8 +101,27 @@
           $CrmCustomer = App\Models\CrmCustomer::find($id);
           $currentId = $CrmCustomer->admin_user_id;
         @endphp
-
         @if ($CrmCustomer->adminUser)
+        @foreach (App\Models\Admin_user::with(['roles'])->get() as $item_user)
+        <li userid="{{$item_user->id}}" class="{{$item_user->id == $currentId ? 'active' : '' }}">
+            <div class="media mbm">
+                <div class="pull-left">
+                    <img class="img" src="
+                    {{$item_user->avatar ? '/storage/'.$item_user->avatar : config('admin.default_avatar')}}" alt="">
+                </div>
+                <div class="media-body">
+                    <div class="media-heading bncard-title">{{$item_user->name}}</div>
+                    <div class="fss">手机 · {{$item_user->mobile}}</div>
+                    <div class="fss ellipsis" title="{{$item_user->name}}">
+                        @foreach ($item_user->roles as $user_roles)
+                        {{$user_roles['name']}}
+                        @endforeach
+                    </div>
+                </div>
+            </div> <i class="o-checked fa fa-check-square"></i>
+        </li>
+        @endforeach
+        @else
         @foreach (App\Models\Admin_user::with(['roles'])->get() as $item_user)
         <li userid="{{$item_user->id}}" class="{{$item_user->id == $currentId ? 'active' : '' }}">
             <div class="media mbm">

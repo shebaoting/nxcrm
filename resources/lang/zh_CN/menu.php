@@ -25,7 +25,7 @@ return [
         'opportunitys'  => '商机',
         'settings'      => '系统',
         'operations'    => '运营',
-        'highseas'      => '公海',
+        'highseas'      => '公海规则',
         'invoices'      => '发票',
         'products'      => '产品',
         'order'         => '订单',
@@ -34,5 +34,6 @@ return [
         'contents'   => '资料',
         'modelcontracts'   => '合同范本',
         'companys'   => '公司信息',
+        'customerpool'   => '公海池',
     ],
 ];

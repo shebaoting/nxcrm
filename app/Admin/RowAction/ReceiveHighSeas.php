@@ -58,11 +58,10 @@ class ReceiveHighSeas extends RowAction
 
         // 改变状态
         $modelFind = CrmCustomer::find($id);
-        $modelFind->admin_user_id = Admin::user()->id;
+        $modelFind->admin_user_id = $modelFind->admin_user_id ? 0 : Admin::user()->id;
         $modelFind->save();
-        // dd($logistic->state);
 
         // 返回响应结果并刷新页面
-        return $this->response()->success("成功领取此信息，请积极跟进")->refresh();
+        return $this->response()->success("您的操作已成功")->refresh();
     }
 }

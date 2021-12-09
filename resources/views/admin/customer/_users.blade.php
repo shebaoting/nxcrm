@@ -3,7 +3,7 @@
     <div class="card-body d-flex flex-center flex-column p-5">
         <!--开始::头像-->
         <div class="symbol symbol-65px symbol-circle mb-1">
-            <img src="{{$adminUser->avatar!=null ? '/storage/'.$adminUser->avatar : config('admin.default_avatar')}}"
+            <img src="{{($adminUser && $adminUser->avatar!=null) ? '/storage/'.$adminUser->avatar : config('admin.default_avatar')}}"
                 alt="image">
             <div
                 class="bg-success position-absolute h-15px w-15px rounded-circle translate-middle start-100 top-100 ms-n3 mt-n3">
@@ -11,7 +11,7 @@
         </div>
         <!--结束::头像-->
         <!--开始::姓名-->
-        <a href="#" class="fs-1 text-gray-800 text-hover-primary fw-boldest mb-1">{{$adminUser->name}}</a>
+        <a href="#" class="fs-1 text-gray-800 text-hover-primary fw-boldest mb-1">{{$adminUser ? $adminUser->name : '无销售'}}</a>
         <!--结束::姓名-->
         <!--开始::律所-->
         <div class="fs-5 fw-bold text-gray-400 mb-5">所属销售</div>
