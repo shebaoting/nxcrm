@@ -114,13 +114,13 @@ CSS
             });
             $grid->setDialogFormDimensions('700px', '420px');
             $grid->id->sortable();
-            $grid->column('state', '状态')->using([
-                0 => '废弃',
-                1 => '正常',
-            ])->label([
-                '0' => 'gray',
-                '1' => 'success',
-            ]);
+            // $grid->column('state', '状态')->using([
+            //     0 => '废弃',
+            //     1 => '正常',
+            // ])->label([
+            //     '0' => 'gray',
+            //     '1' => 'success',
+            // ]);
             $grid->column('events', '跟进')->display(function () {
                 $Event = CrmEvent::where([['crm_customer_id', '=', $this->id]])->orderBy('updated_at', 'desc')->limit(1)->get();
                 if (count($Event)) {
