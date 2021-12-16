@@ -143,6 +143,11 @@ class RoleController extends Roles
             if ($id == $roleModel::ADMINISTRATOR_ID) {
                 $form->disableDeleteButton();
             }
+        })->saving(function (Form $form) {
+            if (!$form->leader) {
+                $form->leader = 0;
+            }
+            return $form;
         })->saved(function () {
             $model = config('admin.database.menu_model');
             (new $model())->flushCache();
