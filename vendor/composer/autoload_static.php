@@ -640,6 +640,7 @@ class ComposerStaticInit74449af1101ecd6f157052626e751738
         'App\\Admin\\Renderable\\ContractTable' => __DIR__ . '/../..' . '/app/Admin/Renderable/ContractTable.php',
         'App\\Admin\\Renderable\\CrmCustomerTable' => __DIR__ . '/../..' . '/app/Admin/Renderable/CrmCustomerTable.php',
         'App\\Admin\\Renderable\\ModelContract' => __DIR__ . '/../..' . '/app/Admin/Renderable/ModelContract.php',
+        'App\\Admin\\Renderable\\RoleTable' => __DIR__ . '/../..' . '/app/Admin/Renderable/RoleTable.php',
         'App\\Admin\\Renderable\\RoleUser' => __DIR__ . '/../..' . '/app/Admin/Renderable/RoleUser.php',
         'App\\Admin\\Renderable\\UserTable' => __DIR__ . '/../..' . '/app/Admin/Renderable/UserTable.php',
         'App\\Admin\\Repositories\\CrmOrder' => __DIR__ . '/../..' . '/app/Admin/Repositories/CrmOrder.php',

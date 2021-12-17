@@ -50,6 +50,7 @@ return array(
     'App\\Admin\\Renderable\\ContractTable' => $baseDir . '/app/Admin/Renderable/ContractTable.php',
     'App\\Admin\\Renderable\\CrmCustomerTable' => $baseDir . '/app/Admin/Renderable/CrmCustomerTable.php',
     'App\\Admin\\Renderable\\ModelContract' => $baseDir . '/app/Admin/Renderable/ModelContract.php',
+    'App\\Admin\\Renderable\\RoleTable' => $baseDir . '/app/Admin/Renderable/RoleTable.php',
     'App\\Admin\\Renderable\\RoleUser' => $baseDir . '/app/Admin/Renderable/RoleUser.php',
     'App\\Admin\\Renderable\\UserTable' => $baseDir . '/app/Admin/Renderable/UserTable.php',
     'App\\Admin\\Repositories\\CrmOrder' => $baseDir . '/app/Admin/Repositories/CrmOrder.php',
