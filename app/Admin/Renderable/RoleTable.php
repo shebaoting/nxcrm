@@ -13,9 +13,9 @@ class RoleTable extends LazyRenderable
     {
         // 获取外部传递的参数
         $id = $this->id;
-        return Grid::make(Role::where('pid','=',0), function (Grid $grid) {
+        return Grid::make(new Role(), function (Grid $grid) {
             $grid->column('id');
-            $grid->column('name', '部门名称');
+            $grid->column('name', '部门名称')->tree();
             $grid->paginate(10);
             $grid->disableActions();
         });

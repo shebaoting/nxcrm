@@ -6,7 +6,7 @@ use Dcat\Admin\Http\Controllers\RoleController as Roles;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Form;
 use App\Admin\Renderable\RoleUser;
-use App\Admin\Renderable\RoleTable;
+// use App\Admin\Renderable\RoleTable;
 use Dcat\Admin\Models\Administrator;
 use Dcat\Admin\Http\Auth\Permission;
 use Dcat\Admin\Http\Repositories\Role;
@@ -105,12 +105,7 @@ class RoleController extends Roles
             ->from(RoleUser::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
             ->model(Administrator::class, 'id', 'name');
 
-            $form->selectTable('pid','上级部门')
-            ->title('选择上级部门')
-            ->dialogWidth('30%') // 弹窗宽度，默认 800px
-            ->from(RoleTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
-            ->model(RoleModel::class, 'id', 'name')
-            ->default(0);
+            $form->select('pid','上级部门')->options(RoleModel::all()->pluck('name', 'id'))->default(0);
 
             $form->tree('permissions')
                 ->nodes(function () {
