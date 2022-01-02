@@ -5,10 +5,11 @@ namespace App\Models;
 use Dcat\Admin\Traits\HasDateTimeFormatter;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Admin\Traits\ContractTime;
 
 class CrmContract extends Model
 {
-	use HasDateTimeFormatter;
+	use HasDateTimeFormatter,ContractTime;
     public $timestamps = false;
     protected $fillable = ['nodes'];
     public function CrmReceipts()

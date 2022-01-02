@@ -84,4 +84,11 @@ Route::group([
 
     //公海池
     $router->resource('customerpool', 'CustomerpoolController');
+
+    //阅读消息
+    Route::get('/message/{id}', 'MessageController@show')->name('message.show');
+    Route::post('/message', 'MessageController@showAll')->name('message.showall');
+
+    //重写用户管理
+    $router->resource('auth/users', 'UserController');
 });

@@ -25,7 +25,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $day = admin_setting_array('reminder')['contract_day'];
         $schedule->command('nxos:high-seas')->daily();
+        $schedule->command('nxos:contract-exp-notice')->$day();
     }
 
     /**

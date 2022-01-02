@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a47c35c2610b6b478e12035455015998",
+    "content-hash": "d66d15c3d35d45d98b992791b6b15e9a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -355,16 +355,16 @@
         },
         {
             "name": "dcat/laravel-admin",
-            "version": "2.1.5-beta",
+            "version": "2.1.7-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jqhph/dcat-admin.git",
-                "reference": "1bdf20e393ac9d098aba4fd1367aa4f736d7bc28"
+                "reference": "e6f7de46d177f90eccd4835c2b23f5c8a29fe8d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jqhph/dcat-admin/zipball/1bdf20e393ac9d098aba4fd1367aa4f736d7bc28",
-                "reference": "1bdf20e393ac9d098aba4fd1367aa4f736d7bc28",
+                "url": "https://api.github.com/repos/jqhph/dcat-admin/zipball/e6f7de46d177f90eccd4835c2b23f5c8a29fe8d4",
+                "reference": "e6f7de46d177f90eccd4835c2b23f5c8a29fe8d4",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -424,9 +424,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jqhph/dcat-admin/issues",
-                "source": "https://github.com/jqhph/dcat-admin/tree/2.1.5-beta"
+                "source": "https://github.com/jqhph/dcat-admin/tree/2.1.7-beta"
             },
-            "time": "2021-09-17T06:04:27+00:00"
+            "time": "2021-12-25T15:39:17+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2300,6 +2300,64 @@
             "time": "2021-01-18T20:58:21+00:00"
         },
         {
+            "name": "leonis/easysms-notification-channel",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yl/easysms-notification-channel.git",
+                "reference": "8cd72db241f1546f400341cdc5eb5788230ac747"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yl/easysms-notification-channel/zipball/8cd72db241f1546f400341cdc5eb5788230ac747",
+                "reference": "8cd72db241f1546f400341cdc5eb5788230ac747",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "overtrue/easy-sms": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Leonis\\Notifications\\EasySms\\EasySmsChannelServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Leonis\\Notifications\\EasySms\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yangliu",
+                    "email": "yangliulnn@163.com"
+                }
+            ],
+            "description": "EasySms Notification Channel for Laravel.",
+            "keywords": [
+                "easysms",
+                "laravel",
+                "notifications"
+            ],
+            "support": {
+                "issues": "https://github.com/yl/easysms-notification-channel/issues",
+                "source": "https://github.com/yl/easysms-notification-channel/tree/2.0.0"
+            },
+            "time": "2021-12-24T09:12:09+00:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "2.2.0",
             "source": {
@@ -2701,6 +2759,81 @@
                 "source": "https://github.com/orangehill/iseed/tree/v3.0.1"
             },
             "time": "2021-01-14T15:34:12+00:00"
+        },
+        {
+            "name": "overtrue/easy-sms",
+            "version": "2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/easy-sms.git",
+                "reference": "8a9d45cdd090dc66b26faad127614a24c6c1b049"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/overtrue/easy-sms/zipball/8a9d45cdd090dc66b26faad127614a24c6c1b049",
+                "reference": "8a9d45cdd090dc66b26faad127614a24c6c1b049",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^6.2 || ^7.0",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "brainmaestro/composer-git-hooks": "^2.8",
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "jetbrains/phpstorm-attributes": "^1.0",
+                "mockery/mockery": "~1.3.3 || ^1.4.2",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": "^5.7 || ^7.5 || ^8.5.19 || ^9.5.8",
+                "vimeo/psalm": "^4.10"
+            },
+            "type": "library",
+            "extra": {
+                "hooks": {
+                    "pre-commit": [
+                        "composer check-style",
+                        "composer psalm",
+                        "composer test"
+                    ],
+                    "pre-push": [
+                        "composer check-style"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\EasySms\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "i@overtrue.me"
+                }
+            ],
+            "description": "The easiest way to send short message.",
+            "support": {
+                "issues": "https://github.com/overtrue/easy-sms/issues",
+                "source": "https://github.com/overtrue/easy-sms/tree/2.0.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/overtrue",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-11-19T03:46:38+00:00"
         },
         {
             "name": "phpoffice/phpword",
@@ -9110,7 +9243,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.2.5"
+        "php": "^7.2.5|^8.0"
     },
     "platform-dev": [],
     "platform-overrides": {

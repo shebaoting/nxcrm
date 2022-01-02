@@ -1,0 +1,33 @@
+{
+	"name": "leonis/easysms-notification-channel",
+	"description": "EasySms Notification Channel for Laravel.",
+	"keywords": ["laravel", "notifications", "easysms"],
+	"type": "library",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "yangliu",
+			"email": "yangliulnn@163.com"
+		}
+	],
+	"require": {
+		"overtrue/easy-sms": "^2.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Leonis\\Notifications\\EasySms\\": "src"
+		}
+	},
+	"config": {
+		"sort-packages": true
+	},
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Leonis\\Notifications\\EasySms\\EasySmsChannelServiceProvider"
+			]
+		}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true
+}

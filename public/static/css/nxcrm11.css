@@ -197,3 +197,19 @@ body.dark-mode .leftbar-user-name {
 }
 body.dark-mode .nav-tabs {background-color: #222233;}
 body.dark-mode .nav.nav-tabs {border-bottom: 1px solid #2c2c43;}
+
+/* 消息标记为已读 */
+#showall button {border-top: 1px solid #dae1e7; width:100%}
+
+.header-navbar .navbar-container ul.nav li .media-list {
+    max-height:none;
+}
+
+.header-navbar .navbar-container .dropdown-menu-media .dropdown-menu-header {
+    border-bottom: none;
+}
+.header-navbar .navbar-container .dropdown-menu-media .media-list .media {
+    border-top: 1px solid #dae1e7;
+    border-bottom: none;
+}
+.control-label,.vs-radio-con {line-height:30px}

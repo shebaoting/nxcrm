@@ -386,3 +386,20 @@ body.dark-mode [class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active, 
 body.dark-mode .table tbody tr td {
     background-color: #222233;
 }
+
+/* 消息标记为已读 */
+#showall button {border-top: 1px solid #dae1e7; width:100%}
+
+.header-navbar .navbar-container ul.nav li .media-list {
+    max-height:none;
+}
+
+.header-navbar .navbar-container .dropdown-menu-media .dropdown-menu-header {
+    border-bottom: none;
+}
+
+.header-navbar .navbar-container .dropdown-menu-media .media-list .media {
+    border-top: 1px solid #dae1e7;
+    border-bottom: none;
+}
+.control-label,.vs-radio-con {line-height:30px}

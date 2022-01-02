@@ -6,7 +6,7 @@ use Dcat\Admin\Widgets\Form;
 use Dcat\Admin\Admin;
 use Symfony\Component\HttpFoundation\Response;
 
-class company extends Form
+class Company extends Form
 {
     /**
      * Handle the form request.

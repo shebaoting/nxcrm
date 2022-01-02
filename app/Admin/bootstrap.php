@@ -1,8 +1,10 @@
 <?php
 
 use Dcat\Admin\Admin;
+use App\Models\Admin_user;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Support\Helper;
+use Dcat\Admin\Layout\Navbar;
 
 /**
  * Dcat-admin - admin builder based on Laravel.
@@ -84,7 +86,6 @@ $site_url = admin_setting('crmurl');
 $logo = '<img src="'.$site_url.'storage/'.admin_setting('logo').'"> &nbsp;'.admin_setting('crmname');
 
 $logo_mini = '<img src="'.$site_url.'storage/'.admin_setting('logo').'">';
-
 config([
     'app.url' => admin_setting('crmurl'),
     'admin.title' => admin_setting('crmname'),
@@ -98,5 +99,11 @@ config([
     'admin.layout.horizontal_menu' => admin_setting('horizontal_menu'),
 ]);
 
-
-// dd(config('app.APP_DEBUG'));
+if(Admin::user()){
+Admin::navbar(function (Navbar $navbar) {
+       // 下拉面板
+       $notifications = Admin_user::findOrFail(Admin::user()->id)->unreadNotifications;
+       $count = $notifications->count();
+       $navbar->right(view('admin.public.message',compact('notifications', 'count')));
+});
+}

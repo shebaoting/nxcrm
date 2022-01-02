@@ -97,8 +97,8 @@ class Color
         'green' => [
             'colors' => [
                 'primary'        => '#07c160',
-                'primary-darker' => '#458769',
-                'link'           => '#458769',
+                'primary-darker' => '#07c160',
+                'link'           => '#07c160',
             ],
         ],
     ];

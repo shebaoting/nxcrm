@@ -1,10 +1,19 @@
 <?php
 namespace App\Models;
 
+use Illuminate\Notifications\Notifiable;
 use Dcat\Admin\Models\Administrator;
+use Overtrue\EasySms\PhoneNumber;
 
 class Admin_user extends Administrator
 {
+    use Notifiable;
+
+    public function routeNotificationForEasySms($notification)
+    {
+        return new PhoneNumber($this->phone, 86);
+    }
+
     public function CrmCustomers()
     {
         return $this->hasMany(CrmCustomer::class,'admin_user_id');

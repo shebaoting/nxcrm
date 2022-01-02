@@ -38,7 +38,7 @@ final class Versions
   'brick/math' => '0.9.2@dff976c2f3487d42c1db75a3b180e2b9f0e72ce0',
   'composer/package-versions-deprecated' => '1.11.99.1@7413f0b55a051e89485c5cb9f765fe24bb02a7b6',
   'dcat/easy-excel' => '1.0.5@da0565ae0a31b306947222c4e014054a7172e4c4',
-  'dcat/laravel-admin' => '2.1.5-beta@1bdf20e393ac9d098aba4fd1367aa4f736d7bc28',
+  'dcat/laravel-admin' => '2.1.7-beta@e6f7de46d177f90eccd4835c2b23f5c8a29fe8d4',
   'dnoegel/php-xdg-base-dir' => 'v0.1.1@8f8a6e48c5ecb0f991c2fdcf5f154a47d85f9ffd',
   'doctrine/cache' => '1.10.2@13e3381b25847283a91948d04640543941309727',
   'doctrine/dbal' => '3.0.0@ee6d1260d5cc20ec506455a585945d7bdb98662c',
@@ -61,11 +61,13 @@ final class Versions
   'league/commonmark' => '1.5.7@11df9b36fd4f1d2b727a73bf14931d81373b9a54',
   'league/flysystem' => '1.1.3@9be3b16c877d477357c015cec057548cf9b2a14a',
   'league/mime-type-detection' => '1.7.0@3b9dff8aaf7323590c1d2e443db701eb1f9aa0d3',
+  'leonis/easysms-notification-channel' => '2.0.0@8cd72db241f1546f400341cdc5eb5788230ac747',
   'monolog/monolog' => '2.2.0@1cb1cde8e8dd0f70cc0fe51354a59acad9302084',
   'nesbot/carbon' => '2.45.1@528783b188bdb853eb21239b1722831e0f000a8d',
   'nikic/php-parser' => 'v4.10.4@c6d052fc58cb876152f89f532b95a8d7907e7f0e',
   'opis/closure' => '3.6.1@943b5d70cc5ae7483f6aff6ff43d7e34592ca0f5',
   'orangehill/iseed' => 'v3.0.1@874f77a20d49aa4c6c5fec2daf0daa070514e013',
+  'overtrue/easy-sms' => '2.0.4@8a9d45cdd090dc66b26faad127614a24c6c1b049',
   'phpoffice/phpword' => '0.18.1@06b90e39a36872c6ee73534e1a073f4b3132fc6a',
   'phpoption/phpoption' => '1.7.5@994ecccd8f3283ecf5ac33254543eb0ac946d525',
   'predis/predis' => 'v1.1.6@9930e933c67446962997b05201c69c2319bf26de',
@@ -151,7 +153,7 @@ final class Versions
   'sebastian/version' => '2.0.1@99732be0ddb3361e16ad77b68ba41efc8e979019',
   'symfony/debug' => 'v4.4.19@af4987aa4a5630e9615be9d9c3ed1b0f24ca449c',
   'theseer/tokenizer' => '1.2.0@75a63c33a8577608444246075ea0af0d052e452a',
-  'laravel/laravel' => 'dev-master@06e4e860f7aadba455f42b9bee98ec90b3780a5b',
+  'laravel/laravel' => 'dev-master@69a1d80afcf2df81b76387d14d269b5f1b45afaf',
 );
 
     private function __construct()

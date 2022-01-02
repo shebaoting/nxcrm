@@ -35,5 +35,6 @@ return [
         'modelcontracts'   => '合同范本',
         'companys'   => '公司信息',
         'customerpool'   => '公海池',
+        'reminder'   => '通知',
     ],
 ];

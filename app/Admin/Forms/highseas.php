@@ -5,7 +5,7 @@ namespace App\Admin\Forms;
 use Dcat\Admin\Widgets\Form;
 use Symfony\Component\HttpFoundation\Response;
 
-class highseas extends Form
+class Highseas extends Form
 {
     /**
      * Handle the form request.

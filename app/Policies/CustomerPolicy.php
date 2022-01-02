@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use Dcat\Admin\Models\Administrator;
-use App\models\Customer;
+use App\models\CrmCustomer;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -21,7 +21,7 @@ class CustomerPolicy
         //
     }
 
-    public function update(Administrator $currentUser, Customer $Customer)
+    public function update(Administrator $currentUser, CrmCustomer $Customer)
     {
         // return $currentUser->id === $Customer->admin_user_id
         //     ? Response::allow()
