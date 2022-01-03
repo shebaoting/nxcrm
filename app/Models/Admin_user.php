@@ -11,7 +11,7 @@ class Admin_user extends Administrator
 
     public function routeNotificationForEasySms($notification)
     {
-        return new PhoneNumber($this->phone, 86);
+        return new PhoneNumber($this->mobile, 86);
     }
 
     public function CrmCustomers()
