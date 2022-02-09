@@ -46,8 +46,9 @@ class Sms extends Form
 
     public function default()
     {
+        $aliyun = isset(admin_setting_array('sms')['aliyun']) ? admin_setting_array('sms')['aliyun'] : '';
         return [
-            'sms.aliyun' => admin_setting_array('sms')['aliyun'],
+            'sms.aliyun' => $aliyun,
         ];
     }
 }
