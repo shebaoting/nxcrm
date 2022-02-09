@@ -31,7 +31,7 @@ class MyConfigServiceProvider extends ServiceProvider
     protected function loadMyConfig()
     {
         // 获取配置
-        $aliyun = json_decode(admin_setting_array('sms')['aliyun'], true);
+        $aliyun = isset(admin_setting_array('sms')['aliyun']) ? json_decode(admin_setting_array('sms')['aliyun'], true) : [];
         config([
             'easysms.gateways.aliyun' => $aliyun,
         ]);
