@@ -4,7 +4,6 @@
 /public/storage
 /storage/*.key
 /tests
-/vendor
 .idea/
 .env
 .editorconfig
