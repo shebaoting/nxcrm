@@ -1,9 +1,0 @@
-<?php
-
-namespace DummyNamespace;
-
-use Dcat\Admin\Http\Controllers\AuthController as BaseAuthController;
-
-class AuthController extends BaseAuthController
-{
-}

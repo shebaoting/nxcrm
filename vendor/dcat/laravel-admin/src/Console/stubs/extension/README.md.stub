@@ -1,3 +1,0 @@
-# Dcat Admin Extension
-
-
