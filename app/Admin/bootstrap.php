@@ -30,7 +30,7 @@ Admin::baseCss(['static/css/nxcrm'.admin_setting('style_type', 2).'.css'], true)
 Admin::asset()->alias('@nunito', null, '');
 Admin::asset()->alias('@montserrat', null, '');
 
-Dcat\Admin\Color::extend('green', [
+Dcat\Admin\Color::extend('wechat', [
     'primary'        => '#17b95c',
     'primary-darker' => '#17b95c',
     'link'           => '#17b95c',
@@ -101,7 +101,7 @@ config([
     'admin.layout.body_class' => 'default',
     'admin.layout.sidebar_style' => admin_setting('sidebar_style'),
     'admin.layout.dark_mode_switch' => true,
-    'admin.layout.color' => 'green',
+    'admin.layout.color' => 'wechat',
     'admin.layout.horizontal_menu' => admin_setting('horizontal_menu'),
 ]);
 
