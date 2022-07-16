@@ -4,7 +4,7 @@
 <a href="http://www.nxime.com"><img src="https://img.shields.io/badge/version-3.2.9-green" alt="Build Status"></a>
 <a href="http://nx.tt"><img src="https://img.shields.io/badge/laravel-9.0-%23ef3b2d" alt="Total Downloads"></a>
 <a href="http://www.dcatadmin.com/"><img src="https://img.shields.io/badge/dcatadmin-1.6.7-%234c5ec2" alt="Latest Stable Version"></a>
-<a href="http://nx.tt"><img src="https://img.shields.io/badge/MYSQL-8.0-%2300758f" alt="License"></a>
+<a href="http://www.nxime.com"><img src="https://img.shields.io/badge/MYSQL-8.0-%2300758f" alt="License"></a>
 </p>
 
 ## 关于 Nxcrm
@@ -41,44 +41,19 @@ https://crm.demo.nxime.com
 ![](https://wyz.xyz/assets/files/2020-08-13/1597299703-630113-13.jpeg)
 
 
-## 功能特性
- ---
-- [x] 线索
-- [x] 商机
-- [x] 客户
-- [x] 合同
-- [x] 联系人
-- [x] 跟进
-- [x] 收款
-- [x] 附件
-- [x] 合同电子档备份
-- [x] 主题切换
-- [x] 数据统计
-- [ ] 小程序版本
-- [ ] 对接宝塔API
-- [ ] 对接微擎客户数据
   
 
-## 特别感谢
- ---
-+ [Dact Admin](http://www.dcatadmin.com/)
-Nxcrm基于laravel开发，得益于优秀的后台框架`Dact Admin`，使得Nxcrm可以很快的上线与大家见面。感谢`Dact Admin`的作者[jqhph](https://github.com/jqhph) ，很热心的解答了我的很多问题，也很感激`Dact Admin`QQ群内大量热心的朋友的帮助和指点。  
-  
-  
-+ [Learnku.com](https://learnku.com/laravel/)
-感谢`Summer `老师，的laravel的所有课程。
 
 ## 环境
  ---
- - PHP >= 7.1.0
- - Laravel 7.*
+ - PHP >= 8.0
  - MYSQL >= 5.7
  - Fileinfo PHP Extension  (一定安装这个扩展)
   
  ## 安装
  ---
 
-安装教程见 https://nx.tt
+安装教程见 https://gitee.com/shebaoting/nxcrm.wiki.git
 
 ## 鸣谢
  ---
