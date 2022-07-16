@@ -21,9 +21,9 @@ https://crm.demo.nxime.com
 ## 白色主题
  ---
  ![](https://wyz.xyz/assets/files/2022-07-16/1657953038-895614-image.png)
-![](https://wyz.xyz/assets/files/2020-08-13/1597299702-1812-1.jpeg)
-![](https://wyz.xyz/assets/files/2020-08-13/1597299702-275937-3.jpeg)
-![](https://wyz.xyz/assets/files/2020-08-13/1597299702-547261-5.jpeg)
+![](https://wyz.xyz/assets/files/2022-07-16/1657954906-335767-image.png)
+![](https://wyz.xyz/assets/files/2022-07-16/1657954964-978949-image.png)
+![](https://wyz.xyz/assets/files/2022-07-16/1657955021-140457-image.png)
 ![](https://wyz.xyz/assets/files/2020-08-13/1597299702-956460-8.jpeg)
 ![](https://wyz.xyz/assets/files/2020-08-13/1597299703-90334-9.jpeg)
 ![](https://wyz.xyz/assets/files/2020-08-13/1597299703-366323-11.jpeg)
