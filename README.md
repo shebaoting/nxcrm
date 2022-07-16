@@ -23,7 +23,7 @@ https://crm.demo.nxime.com
  ![](https://wyz.xyz/assets/files/2022-07-16/1657955894-153994-frame-1.png)
 ![](https://wyz.xyz/assets/files/2022-07-16/1657955779-55971-frame-2.png)
 ![](https://wyz.xyz/assets/files/2022-07-16/1657956032-996617-frame-2.png)
-![](https://wyz.xyz/assets/files/2022-07-16/1657956144-319286-frame-2.png)
+![](https://wyz.xyz/assets/files/2022-07-16/1657956865-534180-frame-2.png)
 ![](https://wyz.xyz/assets/files/2022-07-16/1657956285-614775-frame-2.png)
 ![](https://wyz.xyz/assets/files/2022-07-16/1657956583-634749-frame-2.png)
 ![](https://wyz.xyz/assets/files/2022-07-16/1657956708-49788-frame-2.png)
