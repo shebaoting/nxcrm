@@ -1,4 +1,4 @@
-<p align="center"><img src="https://wyz.xyz/assets/files/2020-08-13/1597295447-873997-nxcrm.png" width="400"></p>
+<p align="center"><img src="https://wyz.xyz/assets/files/2022-07-16/1657940551-778457-frame-1.jpg" width="100%"></p>
 
 <p align="center">
 <a href="http://www.nxime.com"><img src="https://img.shields.io/badge/version-3.2.9-green" alt="Build Status"></a>
