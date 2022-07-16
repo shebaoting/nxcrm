@@ -2,7 +2,7 @@
 
 <p align="center">
 <a href="http://www.nxime.com"><img src="https://img.shields.io/badge/version-3.2.9-green" alt="Build Status"></a>
-<a href="http://nx.tt"><img src="https://img.shields.io/badge/laravel-9.0-%23ef3b2d" alt="Total Downloads"></a>
+<a href="http://www.nxime.com"><img src="https://img.shields.io/badge/laravel-9.0-%23ef3b2d" alt="Total Downloads"></a>
 <a href="http://www.dcatadmin.com/"><img src="https://img.shields.io/badge/dcatadmin-1.6.7-%234c5ec2" alt="Latest Stable Version"></a>
 <a href="http://www.nxime.com"><img src="https://img.shields.io/badge/MYSQL-8.0-%2300758f" alt="License"></a>
 </p>
@@ -10,7 +10,7 @@
 ## 关于 Nxcrm
  ---
 
-Nxcrm 是宁夏南相开发的客户管理系统，包含了线索，商机，合同，收款，客户，附件，联系人，跟进动态等功能。囊括可客户管理所需的大多数功能。后期版本我们将增加小程序功能。敬请期待。  
+NXCRM 是一套基于 Laravel 的 CRM 应用程序。它包含了一个管理中心，可以管理用户、客户、产品、订单、商机，合同，收款，附件，联系人，跟进动态，发票，业绩目标，团队管理，消息通知等等。NXCRM设计简约但功能并不简单。在囊括了上百项管理功能的同时，我们始终让设计保持简约，而不是让它变得复杂。也因此理念，NXCRM在诸多CRM应用程序中保持着自己独具一格的设计特色，令人耳目一新。 
   
     
 ##### DEMO：
