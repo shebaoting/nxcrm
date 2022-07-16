@@ -53,7 +53,7 @@ https://crm.demo.nxime.com
  ## 安装
  ---
 
-安装教程见 https://gitee.com/shebaoting/nxcrm.wiki.git
+安装教程见 https://gitee.com/shebaoting/nxcrm/wikis/
 
 ## 鸣谢
  ---
