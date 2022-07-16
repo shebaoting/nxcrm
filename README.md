@@ -27,6 +27,7 @@ https://crm.demo.nxime.com
 ![](https://wyz.xyz/assets/files/2022-07-16/1657956285-614775-frame-2.png)
 ![](https://wyz.xyz/assets/files/2022-07-16/1657956583-634749-frame-2.png)
 ![](https://wyz.xyz/assets/files/2022-07-16/1657956708-49788-frame-2.png)
+![](https://wyz.xyz/assets/files/2022-07-16/1657957094-184481-frame-2.png)
 
 ## 深色主题
  ---
