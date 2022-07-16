@@ -20,7 +20,7 @@ https://crm.demo.nxime.com
 
 ## 白色主题
  ---
- ![](https://wyz.xyz/assets/files/2022-07-16/1657953038-895614-image.png)
+ ![](https://wyz.xyz/assets/files/2022-07-16/1657955534-684592-image.png)
 ![](https://wyz.xyz/assets/files/2022-07-16/1657954906-335767-image.png)
 ![](https://wyz.xyz/assets/files/2022-07-16/1657954964-978949-image.png)
 ![](https://wyz.xyz/assets/files/2022-07-16/1657955021-140457-image.png)
