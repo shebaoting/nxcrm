@@ -30,6 +30,12 @@ Admin::baseCss(['static/css/nxcrm'.admin_setting('style_type', 2).'.css'], true)
 Admin::asset()->alias('@nunito', null, '');
 Admin::asset()->alias('@montserrat', null, '');
 
+Dcat\Admin\Color::extend('green', [
+    'primary'        => '#17b95c',
+    'primary-darker' => '#17b95c',
+    'link'           => '#17b95c',
+]);
+
 if(admin_setting('style_type') == 1){
     Grid::resolving(function (Grid $grid) {
         $grid->tableCollapse(false);
