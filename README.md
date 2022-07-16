@@ -18,7 +18,7 @@ https://crm.demo.nxime.com
 
 
 
-## 白色主题
+## 系统截图
  ---
  ![](https://wyz.xyz/assets/files/2022-07-16/1657955894-153994-frame-1.png)
 ![](https://wyz.xyz/assets/files/2022-07-16/1657955779-55971-frame-2.png)
@@ -29,27 +29,7 @@ https://crm.demo.nxime.com
 ![](https://wyz.xyz/assets/files/2022-07-16/1657956708-49788-frame-2.png)
 ![](https://wyz.xyz/assets/files/2022-07-16/1657957094-184481-frame-2.png)
 
-## 深色主题
- ---
- ![](https://wyz.xyz/assets/files/2020-08-13/1597299704-84760-16.jpeg)
-![](https://wyz.xyz/assets/files/2020-08-13/1597299703-498686-12.jpeg)
-![](https://wyz.xyz/assets/files/2020-08-13/1597299702-144606-2.jpeg)
-![](https://wyz.xyz/assets/files/2020-08-13/1597299702-405472-4.jpeg)
-![](https://wyz.xyz/assets/files/2020-08-13/1597299702-686011-6.jpeg)
-![](https://wyz.xyz/assets/files/2020-08-13/1597299702-820414-7.jpeg)
-![](https://wyz.xyz/assets/files/2020-08-13/1597299703-227817-10.jpeg)
-![](https://wyz.xyz/assets/files/2020-08-13/1597299703-630113-13.jpeg)
 
-
-  
-
-
-## 环境
- ---
- - PHP >= 8.0
- - MYSQL >= 5.7
- - Fileinfo PHP Extension  (一定安装这个扩展)
-  
  ## 安装
  ---
 
@@ -84,9 +64,3 @@ https://crm.demo.nxime.com
 + [bootstrap-validator](https://github.com/1000hz/bootstrap-validator)
 + [Google map](https://www.google.com/maps)
 + [Tencent map](http://lbs.qq.com/)
-
-
-## 最后
- ---
- 登录页面的两张图是我老家，我奶奶住过的院子和窑洞。很想念她。作为一个五大三粗的码农不知道如何表达。谨以我的第一个编程作品纪念。
- 封面图可自行替换。
