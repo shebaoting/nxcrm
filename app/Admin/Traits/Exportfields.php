@@ -31,27 +31,26 @@ trait Exportfields
         foreach ($this->custommodel($modelname) as $field) {
             $top_titles[$field['field']] = $field['name'];
         }
-        $grid->export();
         
-        // $grid->export($top_titles)->rows(function (array $rows) use ($modelname) {
+        $grid->export($top_titles)->rows(function ($rows) use ($modelname) {
 
-        //     foreach ($rows as $index => &$row) {
-        //         $customer_fields = json_decode($row['fields'], true);
-        //         foreach ($this->custommodel($modelname) as $field) {
-        //             $field_options = json_decode($field['options'], true);
+            foreach ($rows as $index => &$row) {
+                $customer_fields = json_decode($row['fields'], true);
+                foreach ($this->custommodel($modelname) as $field) {
+                    $field_options = json_decode($field['options'], true);
 
-        //             if (in_array($field['type'], ['select', 'radio'])) {
-        //                 $row[$field['field']] = (isset($customer_fields[$field['field']])) ? $field_options[$customer_fields[$field['field']]] : '';
-        //             } elseif (in_array($field['type'], ['checkbox', 'multipleSelect'])) {
-        //                 foreach ($customer_fields[$field['field']] as $key => $value) {
-        //                     $row[$field['field']] = $value ? $field_options[$value] : '';
-        //                 }
-        //             } else {
-        //                 $row[$field['field']] = (isset($customer_fields[$field['field']])) ? $customer_fields[$field['field']] : '';
-        //             }
-        //         }
-        //     }
-        //     return $rows;
-        // });
+                    if (in_array($field['type'], ['select', 'radio'])) {
+                        $row[$field['field']] = (isset($customer_fields[$field['field']])) ? $field_options[$customer_fields[$field['field']]] : '';
+                    } elseif (in_array($field['type'], ['checkbox', 'multipleSelect'])) {
+                        foreach ($customer_fields[$field['field']] as $key => $value) {
+                            $row[$field['field']] = $value ? $field_options[$value] : '';
+                        }
+                    } else {
+                        $row[$field['field']] = (isset($customer_fields[$field['field']])) ? $customer_fields[$field['field']] : '';
+                    }
+                }
+            }
+            return $rows;
+        });
     }
 }
