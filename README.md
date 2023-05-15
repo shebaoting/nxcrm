@@ -48,7 +48,7 @@ https://crm.demo.nxime.com
 
  ## 联系客服
   ---
-![](https://wyz-xyz.oss-cn-huhehaote.aliyuncs.com/2022-07-16/1657959280-17427-frame-2.png)
+![](https://wyz-xyz.oss-cn-huhehaote.aliyuncs.com/2023-05-15/1684152088-514887-111.jpg)
 
 ## 鸣谢
  ---
