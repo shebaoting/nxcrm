@@ -550,3 +550,19 @@ Stack trace:
 [stacktrace]
 #0 {main}
 "} 
+[2023-05-15 18:43:49] local.ERROR: Uncaught ReflectionException: Class "App\Providers\App\Policies\CustomerPolicy" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct('App\\Providers\\A...')
+#1 [internal function]: {closure}('App\\Providers\\A...', 'App\\Providers\\A...')
+#2 Command line code(1): array_map(Object(Closure), Array, Array)
+#3 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Providers\\App\\Policies\\CustomerPolicy\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct('App\\\\Providers\\\\A...')
+#1 [internal function]: {closure}('App\\\\Providers\\\\A...', 'App\\\\Providers\\\\A...')
+#2 Command line code(1): array_map(Object(Closure), Array, Array)
+#3 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
