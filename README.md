@@ -2,8 +2,8 @@
 
 <p align="center">
 <a href="http://www.nxime.com"><img src="https://img.shields.io/badge/version-3.2.9-green" alt="Build Status"></a>
-<a href="http://www.nxime.com"><img src="https://img.shields.io/badge/laravel-9.0-%23ef3b2d" alt="Total Downloads"></a>
-<a href="http://www.dcatadmin.com/"><img src="https://img.shields.io/badge/dcatadmin-1.6.7-%234c5ec2" alt="Latest Stable Version"></a>
+<a href="http://www.nxime.com"><img src="https://img.shields.io/badge/laravel-10.0-%23ef3b2d" alt="Total Downloads"></a>
+<a href="http://www.dcatadmin.com/"><img src="https://img.shields.io/badge/dcatadmin-2.0.0-%234c5ec2" alt="Latest Stable Version"></a>
 <a href="http://www.nxime.com"><img src="https://img.shields.io/badge/MYSQL-8.0-%2300758f" alt="License"></a>
 </p>
 
