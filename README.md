@@ -1,4 +1,4 @@
-<p align="center"><img src="https://wyz.xyz/assets/files/2022-07-16/1657940551-778457-frame-1.jpg" width="100%"></p>
+<p align="center"><img src="https://wyz-xyz.oss-cn-huhehaote.aliyuncs.com/2022-07-16/1657940551-778457-frame-1.jpg" width="100%"></p>
 
 <p align="center">
 <a href="http://www.nxime.com"><img src="https://img.shields.io/badge/version-3.2.9-green" alt="Build Status"></a>
@@ -20,15 +20,15 @@ https://crm.demo.nxime.com
 
 ## 系统截图
  ---
- ![](https://wyz.xyz/assets/files/2022-07-16/1657955894-153994-frame-1.png)
-![](https://wyz.xyz/assets/files/2022-07-16/1657955779-55971-frame-2.png)
-![](https://wyz.xyz/assets/files/2022-07-16/1657956032-996617-frame-2.png)
-![](https://wyz.xyz/assets/files/2022-07-16/1657956865-534180-frame-2.png)
-![](https://wyz.xyz/assets/files/2022-07-16/1657956285-614775-frame-2.png)
-![](https://wyz.xyz/assets/files/2022-07-16/1657956583-634749-frame-2.png)
-![](https://wyz.xyz/assets/files/2022-07-16/1657956708-49788-frame-2.png)
-![](https://wyz.xyz/assets/files/2022-07-16/1657957094-184481-frame-2.png)
-![](https://wyz.xyz/assets/files/2022-07-16/1657957855-287145-frame-2.png)
+ ![](https://wyz-xyz.oss-cn-huhehaote.aliyuncs.com/2022-07-16/1657955894-153994-frame-1.png)
+![](https://wyz-xyz.oss-cn-huhehaote.aliyuncs.com/2022-07-16/1657955779-55971-frame-2.png)
+![](https://wyz-xyz.oss-cn-huhehaote.aliyuncs.com/2022-07-16/1657956032-996617-frame-2.png)
+![](https://wyz-xyz.oss-cn-huhehaote.aliyuncs.com/2022-07-16/1657956865-534180-frame-2.png)
+![](https://wyz-xyz.oss-cn-huhehaote.aliyuncs.com/2022-07-16/1657956285-614775-frame-2.png)
+![](https://wyz-xyz.oss-cn-huhehaote.aliyuncs.com/2022-07-16/1657956583-634749-frame-2.png)
+![](https://wyz-xyz.oss-cn-huhehaote.aliyuncs.com/2022-07-16/1657956708-49788-frame-2.png)
+![](https://wyz-xyz.oss-cn-huhehaote.aliyuncs.com/2022-07-16/1657957094-184481-frame-2.png)
+![](https://wyz-xyz.oss-cn-huhehaote.aliyuncs.com/2022-07-16/1657957855-287145-frame-2.png)
 
  ## 安装
  ---
@@ -48,7 +48,7 @@ https://crm.demo.nxime.com
 
  ## 联系客服
   ---
-![](https://wyz.xyz/assets/files/2022-07-16/1657959280-17427-frame-2.png)
+![](https://wyz-xyz.oss-cn-huhehaote.aliyuncs.com/2022-07-16/1657959280-17427-frame-2.png)
 
 ## 鸣谢
  ---
