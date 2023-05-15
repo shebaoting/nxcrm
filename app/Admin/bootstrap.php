@@ -26,7 +26,7 @@ use Dcat\Admin\Layout\Navbar;
  */
 
 // dd(admin_setting('style_type', 1));
-Admin::baseCss(['static/css/nxcrm'.admin_setting('style_type', 2).'.css'], true);
+Admin::baseCss(['static/css/nxcrm.css'], true);
 Admin::asset()->alias('@nunito', null, '');
 Admin::asset()->alias('@montserrat', null, '');
 

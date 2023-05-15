@@ -24,7 +24,7 @@
     <p class="clearfix blue-grey lighten-2 mb-0 text-center">
         <span class="text-center d-block d-md-inline-block mt-25">
             Powered by
-            <a target="_blank" href="https://www.nx.tt">NXCRM</a>
+            <a target="_blank" href="https://www.nxime.com">ZHONGJIN</a></a>
             <span>&nbsp;·&nbsp;</span>
             v{!! config('admin.nx_version') !!}
         </span>
@@ -40,7 +40,7 @@
 {!! Dcat\Admin\Admin::asset()->jsToHtml() !!}
 
 <script>Dcat.boot();</script>
-
+<livewire:scripts />
 </body>
 
 </html>
